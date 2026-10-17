@@ -1,5 +1,5 @@
 KORTEX — Public Teacher And Learner Edition
-The Codex Archive • Author: Venice D. Rodriguez • Version 2.4 • Build 202610171328
+The Codex Archive • Author: Venice D. Rodriguez • Version 2.6 • Build 202610180021
 The Launchpad for Engineered Brilliance.
 
 HOW TO OPEN
@@ -40,4 +40,4 @@ PRIVACY
 Generic class list (Learner 1, 2, and so on). Safe to share with colleagues.
 
 STORIES
-library: Aether, Fable and Fiora, the story library (15 stories: Lux Lit Compendium and HIRAYA). Open it from the Aether, Fable and Fiora tile in KORTEX.
+library: Aether, Fable and Fiora, the story library (Lux Lit Compendium and HIRAYA). Open it from the Lux Lit Compendium or HIRAYA cover under Aether, Fable and Fiora in KORTEX.
