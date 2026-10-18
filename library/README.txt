@@ -1,4 +1,4 @@
-AETHER, FABLE AND FIORA · Where thoughts unfurl.
+AETHER, FABLE AND FIORA · ... where thoughts unfurl.
 Stories by Venice D. Rodriguez · © 2026 All rights reserved
 
 COLLECTIONS
