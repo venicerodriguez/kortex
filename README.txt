@@ -1,5 +1,5 @@
 KORTEX — Public Teacher And Learner Edition
-The Codex Archive • Author: Venice D. Rodriguez • Version 2.6 • Build 202610180021
+The Codex Archive • Author: Venice D. Rodriguez • Version 3.1 • Build 202610181111
 The Launchpad for Engineered Brilliance.
 
 HOW TO OPEN
@@ -34,7 +34,7 @@ KORTEX TOOLS (Teacher only)
 💾 Qubit Registry: who used KORTEX, when, and which games they opened.
 🛠️ Vector State: School Year and School Calendar.   🔗 Entangled Pairs: the class masterlist every game uses.
 🔮 Spectrum Render: banner and clock.   🌊 Phase Shift: screen, sound and clock.   Teacher Greeting: your welcome and polo color.   🔐 Crypto Shield: Teacher PIN.   ❄️ Absolute Freeze: lock Tools.   🔬 Coherence Check: QA check.
-🚀 Teleport Drive: backup, restore, and 📥 Collect Scores from every game's 📤 Send Scores.   📜 Planck Ledger: Authorship Record.   🕳️ Zero State: reset game data.   ⓘ All About KORTEX: the MATATAG BOW and Data Privacy.   🧭 Lost?: issue guide.
+🚀 Teleport Drive: backup, restore, and 📥 Collect Scores from every game's 📤 Send Scores.   📜 Planck Ledger: Authorship Record.   🕳️ Zero State: reset game data.   ⓘ All About KORTEX: Data Privacy and Authorship.   🧭 Lost?: issue guide.
 
 PRIVACY
 Generic class list (Learner 1, 2, and so on). Safe to share with colleagues.
