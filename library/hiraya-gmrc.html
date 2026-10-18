@@ -108,12 +108,20 @@ function speak(t,done){try{speechSynthesis.cancel()}catch(e){}if(!t||VL==="off"|
  const u=new SpeechSynthesisUtterance(t.replace(/\n+/g,". "));const v=voice();if(v)u.voice=v;u.lang=v?v.lang:"en-US";u.rate=.88;u.pitch=1.05;let ok=false;
  u.onend=()=>{if(!ok){ok=true;done&&done(true)}};u.onerror=()=>{if(!ok){ok=true;done&&done(false)}};speechSynthesis.speak(u);
  setTimeout(()=>{if(!ok){ok=true;done&&done(true)}},Math.max(5000,t.length*95))}
+/* pictures fill the frame when their shape is close to it (no side bars); very different shapes are shown whole */
+function fitPic(t){const box=t.parentElement;if(!box||!t.naturalWidth||!box.clientHeight)return;const r=Math.log((t.naturalWidth/t.naturalHeight)/(box.clientWidth/box.clientHeight));t.style.objectFit=Math.abs(r)<.13?"cover":"contain"}
+document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG"&&t.matches(".art img:not(.bk),#mv .lay .p"))fitPic(t)},true);
+addEventListener("resize",()=>document.querySelectorAll(".art img:not(.bk),#mv .lay .p").forEach(fitPic));
+/* is a paragraph English? (count common English vs Filipino words) */
+function isEn(t){const w=String(t||"").toLowerCase().match(/[a-zñ']+/g)||[];let e=0,f=0;w.forEach(x=>{if(/^(the|and|of|to|is|a|her|his|she|he|with|for|in|on|was|are|from|that|this|it)$/.test(x))e++;else if(/^(ang|ng|sa|mga|na|si|ay|at|kung|niya|siya|nang|ni|ito|kaniyang|isang)$/.test(x))f++});return e>f}
+/* a two-language value "Filipino · English": the second language always in italics */
+function BI(t){t=String(t||"");const p=t.split(" · ");return p.length==2?E(p[0])+' <i>· '+E(p[1])+'</i>':E(t)}
 /* the words of a page: main language big, the other in italics, extra languages under them */
 function words(p){const a=EN()?p.e:p.f,b=EN()?p.f:p.e;return(a?'<p class="f">'+E(a)+'</p>':'')+(p.x||[]).filter(x=>x&&x[1]).map(x=>'<p class="x"><b>'+E(x[0])+'</b>'+E(x[1])+'</p>').join("")+(b?'<p class="e">'+E(b)+'</p>':'')}
 /* ---------- story home ---------- */
 function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}catch(e){}$("bar").hidden=true;$("pr").firstChild.style.width="0";scrollTo(0,0);
  const c0=W.books[0].pages[0].i;let h=topbar(W.collection)+'<div class="wrap">';
- h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+E(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+E(W.role||"")+'</small></p>'
+ h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
   +(W.award?'<span class="aw">🏅 '+E(W.award)+'</span>':'')
   +'<div class="cta"><button class="big" id="wm">▶ Panoorin<small>Watch like a movie</small></button><button class="big o" id="rd">📖 Basahin<small>Read</small></button><button class="big o" id="ab">ⓘ Tungkol<small>About this book</small></button></div></div></div>';
  if(W.books.length>1){let lastL=null;W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div>';h+='<div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin · Watch &nbsp; 📖 Basahin · Read</small></div></button>'});if(lastL!==null)h+='</div>'}
@@ -124,14 +132,14 @@ function pick(k){$("lb").innerHTML='<div class="info" style="max-width:440px;mar
  $("pw").onclick=e=>{e.stopPropagation();$("lb").hidden=true;movie(k,0)};$("pr2").onclick=e=>{e.stopPropagation();$("lb").hidden=true;B=k;I=0;show()}}
 /* ---------- about ---------- */
 function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=topbar("Tungkol sa Aklat · About This Book")+'<div class="wrap"><div class="kick">'+E(W.collection)+'</div><h1 style="font-size:clamp(1.6rem,5vw,2.5rem)">'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'');
- if(W.promo||W.promo_fil||(W.about||[]).length)h+='<div class="info">'+(W.promo?'<p><b>'+E(W.promo)+'</b></p>':'')+(W.promo_fil?'<p><i>'+E(W.promo_fil)+'</i></p>':'')+(W.about||[]).map(x=>'<p>'+E(x)+'</p>').join("")+'</div>';
+ if(W.promo||W.promo_fil||(W.about||[]).length)h+='<div class="info">'+(EN()?(W.promo?'<p><b>'+E(W.promo)+'</b></p>':'')+(W.promo_fil?'<p><i>'+E(W.promo_fil)+'</i></p>':''):(W.promo_fil?'<p><b>'+E(W.promo_fil)+'</b></p>':'')+(W.promo?'<p><i>'+E(W.promo)+'</i></p>':''))+(W.about||[]).map(x=>isEn(x)!==EN()?'<p><i>'+E(x)+'</i></p>':'<p>'+E(x)+'</p>').join("")+'</div>';
  const R=(fil,en,v)=>v?'<dt>'+fil+' <i>· '+en+'</i></dt><dd>'+v+'</dd>':'';
  h+='<div class="info"><dl>'+R(C.story&&C.story!=='Venice D. Rodriguez'?'Kuwento':'May-akda',C.story&&C.story!=='Venice D. Rodriguez'?'Story':'Author',E(C.story||'Venice D. Rodriguez'))+R('Salin','Translation',E(C.trans||''))+R('Guhit','Illustrations',E(C.ill||''))
   +R('Tagapaglathala','Publisher',(C.pub?E(C.pub):'')+(C.pubinfo?'<br><small>'+E(C.pubinfo).replace(/\n/g,'<br>')+'</small>':''))+R('Taon','Published',E(C.date||''))
-  +R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>"))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',E(C.langs||''))
-  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',E(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';
- if(C.get)h+='<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+E(C.get)+'</p></div>';
- h+='<button class="edl" id="edb">✏️ I-edit · Edit (Teacher PIN)</button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor)}
+  +R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>"))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',BI(C.langs||''))
+  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';
+ if(C.get)h+='<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>';
+ h+='<button class="edl" id="edb">✏️ I-edit <i>· Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor)}
 /* ---------- reader ---------- */
 function show(){SCR="read";const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"><button class="sa l" id="sl" aria-label="Previous"'+(I==0?' disabled':'')+'>‹</button><button class="sa r" id="sr" aria-label="Next"'+(I==L-1?' disabled':'')+'>›</button></div>'
