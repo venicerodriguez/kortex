@@ -551,7 +551,11 @@ function reveal(){if(Date.now()-RV.t>1800)return;var H=innerHeight,best=null,lis
 function revealInit(extra){if(RV.on||!document.body)return;RV.on=1;if(extra)RV.ign+=","+extra;
  document.addEventListener("click",function(e){var t=e.target&&e.target.closest?e.target.closest("button,a,[onclick],summary,[role=button],[role=tab],.tab,.chip,.tile,.pill,label,select"):null;if(!rvOk(t))return;RV.t=Date.now();RV.a=[];setTimeout(reveal,220);setTimeout(reveal,700);setTimeout(reveal,1500)},true);
  try{new MutationObserver(function(ms){if(Date.now()-RV.t>1800)return;ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(rvOk(n)&&RV.a.length<60)RV.a.push(n)})})}).observe(document.body,{childList:true,subtree:true})}catch(e){}}
-W.KXTH={list:L,map:MAP,names:NAMES,byId:byId,idFor:idFor,forGame:forGame,setFor:setFor,pref:pref,apply:apply,pattern:pattern,contrast:contrast,say:say,cheer:cheer,cheerSay:cheerSay,wrap:wrapCheers,reveal:revealInit,esc:esc};
+/* v3.5: the mascot greets in a young, cheerful voice (greetings only; stories and quiz questions keep the clear storyteller voice).
+   No phone has a real child voice, so a bright voice is raised a little: higher, a touch quicker. Mute (🔊) is respected. */
+function kidVoice(u){try{var vs=speechSynthesis.getVoices?speechSynthesis.getVoices():[],en=vs.filter(function(v){return/^en/i.test(v.lang)}),f=en.filter(function(v){return/female|samantha|zira|karen|moira|tessa|fiona|victoria|aria|jenny|ana\b|google us english|en-us-x-.*-local/i.test(v.name)&&!/male\b(?!.*female)/i.test(v.name)});var v=f[0]||en.find(function(v){return/^en-(US|PH|GB)/i.test(v.lang)})||en[0];if(v){u.voice=v;u.lang=v.lang}else u.lang="en-US";u.pitch=1.5;u.rate=1.02}catch(e){}return u}
+function kidSay(t){try{if(!t||!W.speechSynthesis)return;var m="";try{m=localStorage.getItem("KORTEX_MUTE")||""}catch(e){}if(m==="1")return;speechSynthesis.cancel();speechSynthesis.speak(kidVoice(new SpeechSynthesisUtterance(String(t).replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F]/gu,""))))}catch(e){}}
+W.KXTH={list:L,map:MAP,names:NAMES,byId:byId,idFor:idFor,forGame:forGame,setFor:setFor,pref:pref,apply:apply,pattern:pattern,contrast:contrast,say:say,cheer:cheer,cheerSay:cheerSay,wrap:wrapCheers,reveal:revealInit,esc:esc,kidVoice:kidVoice,kidSay:kidSay};
 if(typeof module!=="undefined"&&module.exports)module.exports=W.KXTH;
 })();
 
@@ -805,7 +809,8 @@ function leaveGuard(go){if(!(learnerNow()&&DK.dirty)){go();return}
 function mascotInit(b){var t=window.__KXT;if(!t)return;b.textContent=t.m;b.title=t.mn+": tap me";b.setAttribute("aria-label",t.mn);if(!b.__kx){b.__kx=1;b.onclick=function(e){e.stopPropagation();mascotTap()}}}
 function mascotSay(txt,ms){if(window.KXTH)KXTH.say(txt,ms)}
 function mascotTap(){var t=window.__KXT;if(!t)return;var ln=learnerNow();dockRefresh();
- mascotSay(t.mn+" says: "+(DK.dirty?"📤 May bago kang score. Tap Send para makita ni Teacher!":ln?"Hi! Tap 📤 Send kapag tapos ka na maglaro.":"Hi! 📥 Accept ang mga scores na ipinadala ng mga bata.")+" "+t.m,5200)}
+ mascotSay(t.mn+" says: "+(DK.dirty?"📤 May bago kang score. Tap Send para makita ni Teacher!":ln?"Hi! Tap 📤 Send kapag tapos ka na maglaro.":"Hi! 📥 Accept ang mga scores na ipinadala ng mga bata.")+" "+t.m,5200);
+ try{if(window.KXTH&&KXTH.kidSay)KXTH.kidSay("Hi! I'm "+t.mn+". "+(DK.dirty?"Great job! Tap Send so Teacher can see your score!":ln?"Let's play!":"Let's check the scores!"))}catch(e){}}
 
 /* ---------- this game's own picker (MONTAGE Spotlight, BALANGAY Sonar Call): everyone gets a turn ---------- */
 var BAG=[];
