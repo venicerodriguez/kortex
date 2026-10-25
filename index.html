@@ -1044,7 +1044,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2327a3ff%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235b2fd0%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cg%20transform%3D%22rotate(-22%2032%2032)%22%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%2232%22%20rx%3D%2223%22%20ry%3D%227.5%22%20stroke-width%3D%222%22%20stroke-opacity%3D%22.9%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2213.5%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.14%22%2F%3E%3Cpolygon%20points%3D%2232.0%2C24.0%2033.9%2C29.3%2039.6%2C29.5%2035.1%2C33.0%2036.7%2C38.5%2032.0%2C35.3%2027.3%2C38.5%2028.9%2C33.0%2024.4%2C29.5%2030.1%2C29.3%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M32%209v5M32%2050v5M9%2032h5M50%2032h5%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202610242025",
+ "build": "202610250808",
  "ver": "3.5",
  "icons": {
   "subj": [
@@ -1490,6 +1490,11 @@ function collect(){
  return{R:R,P:P};
 }
 /* Received scores files (Send Scores from any game or device) are read with the same adapters and kept as compact rows. */
+/* v3.5: one Send. The learner's check-in (attendance) rides inside the scores file; Accept puts it in Attendance. */
+function mergeCheckin(j){if(!j||!Array.isArray(j.entries))return 0;var A=getAtt(),RR=roster().slice(),added=0,newL=0;
+ j.entries.forEach(function(e){if(!e||!e.date||!e.id)return;if(!RR.some(function(x){return x.id===e.id})){if(e.lrn&&/^\d{12}$/.test(e.lrn)){RR.push({id:e.id,name:e.name||"Learner",emoji:"⭐",fn:"",lrn:e.lrn});newL++}else return}
+  A[e.date]=A[e.date]||{};if(!A[e.date][e.id]){A[e.date][e.id]={s:"P",d:e.date,t:e.time||"",iso:e.iso||"",by:"self",dev:j.device||""};added++}});
+ if(newL)ls("KORTEX_ROSTER",JSON.stringify(RR));if(added){putAtt(A);try{log("import-checkin","",added+" check-ins")}catch(e){}}return added}
 function importScores(obj){
  if(!obj||obj.kortex!==1||!obj.keys)return{ok:0};
  var rows=[];STORE={map:obj.keys};try{scan(function(g,n,s,t,w,i,ok,ts){if(s<0||!n||!(+t>0))return;rows.push([g,String(n),+s,+t,+w||0,i,ok?1:0,ts])},[])}finally{STORE=null}
@@ -1497,7 +1502,8 @@ function importScores(obj){
  IB.files.push({game:obj.game||"",from:obj.from||"",saved:obj.saved||"",rows:rows.length,got:new Date().toISOString()});if(IB.files.length>500)IB.files=IB.files.slice(-500);
  try{ls("KORTEX_INBOX",JSON.stringify(IB))}catch(e){return{ok:0,err:1}}
  var rdN=0;try{if(obj.keys.KORTEX_READ){var rr=JSON.parse(obj.keys.KORTEX_READ);if(Array.isArray(rr))rdN=mergeRead(rr)}}catch(e){}
- return{ok:1,rows:rows.length,added:added+rdN,read:rdN}}
+ var ciN=0;try{if(obj.checkin)ciN=mergeCheckin(obj.checkin)}catch(e){}
+ return{ok:1,rows:rows.length,added:added+rdN,read:rdN,checkin:ciN}}
 function scan(add,P){
  lsKeys(/^bb_codex_.*_v3$/).forEach(function(k){var S=jget(k)||{},ro={};(S.roster||[]).forEach(function(r){ro[r.id]=r.full||r.name});(S.res||[]).forEach(function(r){if(r.steal)return;(r.who||[]).forEach(function(id){add("abc",ro[id]||id,subjIdx(r.sub),r.term,r.wk,r.i,r.ok,tms(r.ts))})})});
  lsKeys(/^atn1_/).forEach(function(k){var S=jget(k)||{};(S.log||[]).forEach(function(r){if(r.t==="steal"||!r.k)return;var p=String(r.k).split("|");(r.w||[]).forEach(function(n){add("smarty",n,+p[1],+p[0],+p[2],r.i,r.ok,tms(r.ts))})})});
@@ -1967,7 +1973,7 @@ function lockToggle(){
  if(!tpinHash()){var a=prompt("Choose a Teacher PIN (4 to 8 numbers) to lock Tools:");if(a===null)return;if(!/^\d{4,8}$/.test(a)){alert("The PIN has 4 to 8 numbers.");return}if(prompt("Repeat the PIN:")!==a){alert("The PINs do not match.");return}ls("KORTEX_TPINH",hash(SALT+a))}
  ls("KORTEX_TLOCK","1");alert("Tools are locked. The PIN is needed to open them.");closeOv()}
 function changeTeacherPin(){var h=tpinHash();if(h){var o=prompt("Current Teacher PIN:");if(o===null)return;if(hash(SALT+o)!==h){alert("That PIN is not correct.");return}}var a=prompt("New Teacher PIN (4 to 8 numbers):");if(a===null)return;if(!/^\d{4,8}$/.test(a)){alert("The PIN has 4 to 8 numbers.");return}if(prompt("Repeat the new PIN:")!==a){alert("The PINs do not match.");return}ls("KORTEX_TPINH",hash(SALT+a));log("teacher-pin-set");alert("Teacher PIN saved.")}
-function parseScores(t){t=String(t).trim();var o=null;try{o=JSON.parse(t)}catch(e){try{o=JSON.parse(decodeURIComponent(escape(atob(t.replace(/\s+/g,"")))))}catch(e2){}}if(!o)return null;if(o.kortex===1&&o.keys)return o;
+function parseScores(t){t=String(t).trim();var o=null;try{o=JSON.parse(t)}catch(e){try{o=JSON.parse(decodeURIComponent(escape(atob(t.replace(/\s+/g,"")))))}catch(e2){}}if(!o)return null;if(o.kortex===1&&o.keys)return o;if(o.kortexCheckin===1&&Array.isArray(o.entries))return{kortex:1,kind:"checkin",game:"check-in",from:(o.learner&&o.learner.name)||"",saved:o.made||"",keys:{},checkin:{entries:o.entries,device:o.device||""}};
  var bp=String(o.build||"").slice(0,3),map={GGW:"gg1_rv",LGM:"lg1_rv",CNR:"cn1_rv",BDS:"atn1_rv",PBP:"pbp1_rv"};if((o.log||o.calls)&&map[bp]){var k={};k[map[bp]]=JSON.stringify({log:o.log||[],calls:o.calls||[]});return{kortex:1,kind:"results",game:bp,from:"",saved:o.when||"",keys:k}}return null}
 function openQA(){
  var out=[],ok=function(n,p,d){out.push([n,p,d||""])};
@@ -2003,7 +2009,7 @@ function openTools(tab){
  var h='<div class="card wide tl"><div class="axh"><div><h3>KORTEX Tools</h3><p class="axs">One console for every game on this device · '+n+' saved items · '+esc(syLabel())+'</p></div><div class="axa">'+tile("tHome","main_hub")+tb("tX","Close")+'</div></div>'
  +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress For Families")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","Evidence (MOVs) For Your Rating")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My Grade 1 Journey","A Keepsake For Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners And What To Practice")+xt("tPt","➕ Class Points","Participation And Behavior")+xt("tGx","📊 Grades For Excel","CSV For The E-Class Record")+xt("tWs","🖨️ Worksheets","Paper Practice For The Week")+xt("tRd","📖 Reading Log","Logs Itself · Edit Anytime")+xt("tIb","📚 Item Bank","Edit The Shared Questions")+'</div>'
   +pan("log",'<p>Every open, launch, print and reset on this device, newest first.</p><div class="tg3">'+tb("tLg","View Log")+tb("tCsv","Export CSV")+tb("tLc","Clear Log","w")+'</div>'):'')
- +'<h4>Class And Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+'</div>'
+ +'<h4>Class And Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+(T?xt("tCL","🔗 Class Link","Send The Class List To Phones"):"")+'</div>'
  +pan("settings",'<p>School year '+esc(syLabel())+'. The calendar sets when each term’s Review, Summatives and Term Exam open in every game.</p><div class="tg3">'+tb("tCal",'<i class="kxcal"></i> School Calendar')+tb("tNY","🎓 Start New School Year","w")+'</div>')
  +pan("class",'<p>The class masterlist. Import it once from a spreadsheet and every game takes its class list from it. Sign-in names come from it too.</p><div class="tg3">'+tb("tRI","Import Roster (CSV)")+tb("tRT","Roster Template")+tb("tLR","Reset All Logins &amp; Streaks","w")+'</div><input type="file" id="tRF" accept=".csv,text/csv" hidden>')
  +'<h4>Look And Sound</h4><div class="tg2">'+tile("tBn","edit_banner")+tile("tAv","av_settings","","av")+(T?xt("tTg",ico("teacher","t")+" Teacher Greeting","Welcome And Polo Color"):"")+xt("tTh","🎨 Theme Studio","Mascots, Words And Colors")+'</div>'
@@ -2038,7 +2044,7 @@ function openTools(tab){
  on("tLc",function(){if(confirm("Clear the log on this device? Export it first if you need it.")){ls("KORTEX_LOG","[]");m("Log cleared.",1)}});
  on("tPin",function(){var a=prompt("New PIN (4–8 digits):");if(a===null)return;if(!/^\d{4,8}$/.test(a)){m("PIN must be 4–8 digits.");return}if(prompt("Repeat new PIN:")!==a){m("PINs do not match.");return}ls("KORTEX_PINH",hash(SALT+a));CFG.pinEnabled=true;m("PIN changed on this device.",1);log("pin-change")});
  on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tWs",function(){openWorksheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPr",function(){openProfile()});on("tCq",function(){closeOv();cqOpen()});
- on("tCol",function(){hubAccept()});on("tSendH",function(){hubSend()});on("tTh",function(){openThemeStudio()});
+ on("tCol",function(){hubAccept()});on("tSendH",function(){hubSend()});on("tTh",function(){openThemeStudio()});on("tCL",function(){openClassLink()});
  $("tColF").onchange=function(){var fs=[].slice.call(this.files);this.value="";if(!fs.length)return;var n=0,a=0,b=0,left=fs.length;fs.forEach(function(f){var r=new FileReader();r.onload=function(){var o=parseScores(String(r.result)),res=o?importScores(o):{ok:0};if(res.ok){n++;a+=res.added}else b++;if(--left===0){log("collect-scores","",n+" files");m("Collected "+n+" file"+(n===1?"":"s")+": "+a+" new results"+(b?" · "+b+" not readable":"")+".",n>0)}};r.readAsText(f)})};
 
 }
@@ -2087,7 +2093,7 @@ function openTools(tab){
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();setTimeout(go,1500);
 })();
 
-/* KORTEX themes: 15 Grade 1 themes (mascot, Home / Back / Exit words, palette). Every game and KORTEX itself wears one;
+/* KORTEX themes: 15 Grade 1 themes for the games and the story library, plus KORTEX Launchpad for the hub (mascot, Home / Back / Exit words, palette). Every game and KORTEX itself wears one;
    Tools -> Theme Studio lets the teacher change any of them. Display only: no game data is ever touched.
    Shared by the hub and every game (one copy, loaded first). */
 (function(){
@@ -2108,15 +2114,16 @@ var L=[
  {id:12,k:"toybox",n:"Toy Box Arcade",m:"🤖",mn:"Blocks the Robot",home:["🧸","Toy Box"],back:["⬅️","Undo"],exit:["🚪","Close Box"],send:["🪙","Insert Coin"],acc:["👾","High Score"],bak:["💾","Save Level"],rst:["🔄","Start Over"],nxt:["🎮","Next Level"],hlp:["❓","Hint"],pal:["#d32f2f","#1565c0","#ffd600"],pn:"Primary Red · Primary Blue · Primary Yellow",nav:["#1565c0","#0d47a1"],ac:"#ffd600",xb:"#c62828",pat:["🧱","🧩","🪀"]},
  {id:13,k:"storybook",n:"Magic Storybook Kingdom",m:"🐉",mn:"Glimmer the Dragon",home:["📖","Cover"],back:["⬅️","Flip Page"],exit:["👋","The End"],send:["📜","Cast Spell"],acc:["🏆","Get Trophy"],bak:["🧰","Magic Chest"],rst:["🧹","Vanish"],nxt:["📖","Turn Page"],hlp:["🔮","Ask Wizard"],pal:["#4a2c8a","#d4a017","#8c1c3a"],pn:"Deep Royal Purple · Gold · Velvet Crimson",nav:["#4a2c8a","#321a66"],ac:"#f0c040",xb:"#8c1c3a",pat:["📖","✨","🏰"]},
  {id:14,k:"atlantis",n:"Under the Sea Atlantis",m:"🧜‍♀️",mn:"Pearl the Mermaid Cat",home:["🐚","Palace"],back:["⬅️","Drift"],exit:["⚓","Anchor"],send:["🐚","Send Conch"],acc:["👑","Royal Crown"],bak:["📦","Hide Vault"],rst:["🌪️","Clear Tide"],nxt:["🌊","Sail Next"],hlp:["🧜‍♂️","Ask King"],pal:["#1fb5a6","#b79ae0","#f6f3ee"],pn:"Aquamarine · Lilac · Soft Pearl White",nav:["#0d6f78","#5a4a9c"],ac:"#8ff0e0",xb:"#74479e",pat:["🐚","🫧","🐙"]},
- {id:15,k:"garden",n:"The Secret Digital Garden",m:"🦋",mn:"Bella the Butterfly",home:["🌸","Garden"],back:["⬅️","Fly Back"],exit:["🚪","Rest"],send:["🍯","Give Honey"],acc:["🌸","Grow Flower"],bak:["🪴","Plant Seed"],rst:["🪓","Dig Up"],nxt:["🚶","Walk Path"],hlp:["🧚","Ask Fairy"],pal:["#e0507a","#3f9a4a","#ffd23a"],pn:"Rose Pink · Meadow Green · Sunbeam Yellow",nav:["#b83265","#2c7a3a"],ac:"#ffd23a",xb:"#8c2450",pat:["🌸","🦋","🌼"]}
+ {id:15,k:"garden",n:"The Secret Digital Garden",m:"🦋",mn:"Bella the Butterfly",home:["🌸","Garden"],back:["⬅️","Fly Back"],exit:["🚪","Rest"],send:["🍯","Give Honey"],acc:["🌸","Grow Flower"],bak:["🪴","Plant Seed"],rst:["🪓","Dig Up"],nxt:["🚶","Walk Path"],hlp:["🧚","Ask Fairy"],pal:["#e0507a","#3f9a4a","#ffd23a"],pn:"Rose Pink · Meadow Green · Sunbeam Yellow",nav:["#b83265","#2c7a3a"],ac:"#ffd23a",xb:"#8c2450",pat:["🌸","🦋","🌼"]},
+{id:16,k:"launch",n:"KORTEX Launchpad",m:"☄️",mn:"Kip the Comet",home:["🛡️","Home Base"],back:["⬅️","Rewind"],exit:["🌙","Sign Off"],send:["📡","Beam Up"],acc:["🛰️","Dock In"],bak:["💾","Save Orbit"],rst:["🧹","Clear Pad"],nxt:["🚀","Lift Off"],hlp:["🧑‍🚀","Ask Crew"],pal:["#14284b","#2f5d3f","#d4a84b"],pn:"Night Navy · Shield Green · Launch Gold",nav:["#14284b","#2f5d3f"],ac:"#d4a84b",xb:"#0b1530",pat:["⭐","🚀","☄️"]}
 ];
-/* which theme each game wears (editable in Theme Studio); the KORTEX hub itself wears the Secret Digital Garden */
-var MAP={abc:1,gauntlet:2,smarty:3,cryptocore:4,blueprints:5,balangay:6,synapse:7,arena:8,whiz:9,gulong:10,psq:11,kue:12,pantas:13,montage:14,hub:15};
-var NAMES={abc:"ABC SPRINT",gauntlet:"GAUNTLET",smarty:"365 SMARTY",cryptocore:"CRYPTO CORE",blueprints:"PEDAGOGICAL BLUEPRINTS",balangay:"BALANGAY SIKHAY",synapse:"SYNAPSE SIMULATOR",arena:"ARENA",whiz:"WHIZ CUP",gulong:"HelixPDGM",psq:"TACTICAL HQ",kue:"KUE",pantas:"PANTAS",montage:"MONTAGE",hub:"KORTEX"};
+/* which theme each game wears (editable in Theme Studio); the KORTEX hub wears its own KORTEX Launchpad, the story library (Aether, Fable and Fiora) the Secret Digital Garden */
+var MAP={abc:1,gauntlet:2,smarty:3,cryptocore:4,blueprints:5,balangay:6,synapse:7,arena:8,whiz:9,gulong:10,psq:11,kue:12,pantas:13,montage:14,aff:15,hub:16};
+var NAMES={abc:"ABC SPRINT",gauntlet:"GAUNTLET",smarty:"365 SMARTY",cryptocore:"CRYPTO CORE",blueprints:"PEDAGOGICAL BLUEPRINTS",balangay:"BALANGAY SIKHAY",synapse:"SYNAPSE SIMULATOR",arena:"ARENA",whiz:"WHIZ CUP",gulong:"HelixPDGM",psq:"TACTICAL HQ",kue:"KUE",pantas:"PANTAS",montage:"MONTAGE",aff:"AETHER, FABLE AND FIORA",hub:"KORTEX"};
 var HIST={};
 function byId(i){i=+i;for(var j=0;j<L.length;j++)if(L[j].id===i)return L[j];return L[14]}
 function pref(){try{var o=JSON.parse(localStorage.getItem("KORTEX_THEMES")||"{}");return o&&typeof o==="object"?o:{}}catch(e){return{}}}
-function idFor(g){var p=pref(),v=+p[g];return(v>=1&&v<=15)?v:(MAP[g]||15)}
+function idFor(g){var p=pref(),v=+p[g];return(v>=1&&v<=L.length)?v:(MAP[g]||15)}
 function forGame(g){return byId(idFor(g))}
 function setFor(g,id){try{var p=pref();if(id==null||+id===MAP[g])delete p[g];else p[g]=+id;if(Object.keys(p).length)localStorage.setItem("KORTEX_THEMES",JSON.stringify(p));else localStorage.removeItem("KORTEX_THEMES")}catch(e){}}
 function hex(h){h=String(h).replace("#","");return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]}
@@ -2863,6 +2870,8 @@ function renderMission(){try{
  el.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){var g=msnGame(b.getAttribute("data-g"));if(g)launch(g,g.links[0])}})}catch(e){}}
 (function(){var r=renderFeat;renderFeat=function(){r.apply(this,arguments);renderMission()}})();
 
+/* class label from the profile (Grade · Section), never a fixed class */
+function kxClsLbl(){try{var p=profGet()||{};return [p.grade||"Grade 1",p.section].filter(Boolean).join(" · ")}catch(e){return"Grade 1"}}
 
 /* ================= KORTEX extras: Portfolio Pack, KORTEX Stars, My Grade 1 Journey, press-and-hold game cards ================= */
 
@@ -2903,7 +2912,7 @@ function portfolioPack(term){
  var glance='<div class="kp"><div><b>'+R.length+'</b><span>Learners</span></div><div><b>'+D.a.tot.att+'</b><span>Answers</span></div><div><b>'+D.a.mps+'%</b><span>Mean Percentage Score</span></div><div><b>'+games+'</b><span>Games In Use</span></div></div>'
   +'<div class="kp"><div><b>'+Object.keys(days).length+'</b><span>Days KORTEX Was Used</span></div><div><b>'+(att.days?att.pct+'%':'—')+'</b><span>Average Attendance ('+att.days+' days)</span></div><div><b>'+cnt(/^pd-(open|code)/)+'</b><span>Parent Views</span></div><div><b>'+cnt(/^print-report$/)+'</b><span>Reports Printed</span></div></div>';
  var parent='<table><tr><th>What</th><th class="num">How Many</th></tr><tr><td>Family Dashboard files made for all families</td><td class="num">'+cnt(/^pd-save$/)+'</td></tr><tr><td>Parent views on the class device</td><td class="num">'+cnt(/^pd-open$/)+'</td></tr><tr><td>Learner progress updates and family code slips printed</td><td class="num">'+lg.filter(function(r){return r.ev==="print-report"&&/family|parent|update/i.test(r.detail||r.note||"")}).length+'</td></tr><tr><td>Learners with a family code</td><td class="num">'+R.length+'</td></tr></table><p>Each family gets one private code and sees only its own child’s progress, view only, with nothing sent online.</p>';
- var body='<div class="pp-cv"><div class="brand">KORTEX · PORTFOLIO PACK</div><h1>Evidence Of Teaching (MOVs)</h1><table class="pp-t"><tr><td>Name</td><td><b>'+esc(nm)+'</b></td></tr><tr><td>Position</td><td>Class Adviser</td></tr><tr><td>Class</td><td>Grade 1 · Blueberry</td></tr><tr><td>Rating Period</td><td>'+esc(per)+'</td></tr><tr><td>School</td><td><span class="pp-bl"></span></td></tr><tr><td>Prepared</td><td>'+esc(ymd())+'</td></tr></table>'
+ var body='<div class="pp-cv"><div class="brand">KORTEX · PORTFOLIO PACK</div><h1>Evidence Of Teaching (MOVs)</h1><table class="pp-t"><tr><td>Name</td><td><b>'+esc(nm)+'</b></td></tr><tr><td>Position</td><td>Class Adviser</td></tr><tr><td>Class</td><td>'+esc(kxClsLbl())+'</td></tr><tr><td>Rating Period</td><td>'+esc(per)+'</td></tr><tr><td>School</td><td><span class="pp-bl"></span></td></tr><tr><td>Prepared</td><td>'+esc(ymd())+'</td></tr></table>'
   +'<h2>MOV Index</h2><table><tr><th>Section</th><th>Evidence</th><th>PPST Domain</th></tr>'+S.map(function(s,i){return'<tr><td>'+String.fromCharCode(65+i)+'</td><td>'+esc(s[1])+'</td><td>'+s[2].map(function(d){return esc(PPST[d].split(" · ")[0])}).join(", ")+'</td></tr>'}).join("")+'</table></div>'
   +sec(0)+glance+'</div>'
   +sec(1)+'<table class="authT"><tr><th>Game</th><th>Imprint</th><th>Tagline</th><th>Verification Code</th></tr>'+authRows()+'</table>'+authWorks()+'<p>'+AUTHCRED+'.</p><p>'+AUTHC+'</p></div>'
@@ -2943,7 +2952,7 @@ function journeyOne(r,D,M){
  var b=D.a.L.filter(function(x){return x.l===r.id})[0],m=M[r.id]||{stars:0,g:{},mast:0};if(!b)return"";
  var cs=compStats(D.rows.filter(function(x){return x.l===r.id})).filter(function(x){return x.att>=3&&x.p>=75}).sort(function(a,c){return c.p-a.p}).slice(0,5);
  var rows="";for(var s=0;s<5;s++){if(!b.sub[s].att)continue;rows+='<tr><td class="gn">'+subjH(s)+'</td>'+[0,1,2].map(function(t){var x=D.a.L.length?0:0;var st=D.rows.filter(function(q){return q.l===r.id&&q.s===s&&q.t===t+1}),ok=st.reduce(function(a,q){return a+q.ok},0);return'<td class="num">'+(st.length?Math.round(ok*100/st.length)+'%':'—')+'</td>'}).join("")+'</tr>'}
- return'<div class="jy pg"><div class="jy-h"><div class="brand">KORTEX · MY GRADE 1 JOURNEY</div><h1>'+esc(r.name)+'</h1><p>Grade 1 · Blueberry · '+esc(KXSY.label(D.f.sy))+'</p></div>'
+ return'<div class="jy pg"><div class="jy-h"><div class="brand">KORTEX · MY GRADE 1 JOURNEY</div><h1>'+esc(r.name)+'</h1><p>'+esc(kxClsLbl())+' · '+esc(KXSY.label(D.f.sy))+'</p></div>'
  +'<div class="kp"><div><b>⭐ '+m.stars+'</b><span>KORTEX Stars</span></div><div><b>'+Object.keys(m.g).length+'</b><span>Games Played</span></div><div><b>'+b.att+'</b><span>Answers</span></div><div><b>'+lvName(b.pct)+'</b><span>Level</span></div></div>'
  +'<h2>How I Grew</h2><table><tr><th>Subject</th><th class="num">Term 1</th><th class="num">Term 2</th><th class="num">Term 3</th></tr>'+rows+'</table>'
  +(cs.length?'<h2>Things I Can Do Now</h2><ul>'+cs.map(function(x){return'<li>'+esc(x.b.label)+' <small>('+esc(SUBJN[x.s])+')</small></li>'}).join("")+'</ul>':'')
@@ -3372,6 +3381,62 @@ ARC.push("blueprint");
 (function(){var o=REPORTS,order=["overview","usage","learners","blueprint","items","comp","spread","parent","cert","reading"],cp={};Object.keys(o).forEach(function(k){cp[k]=o[k]});Object.keys(o).forEach(function(k){delete o[k]});order.forEach(function(k){if(cp[k])o[k]=cp[k];delete cp[k]});Object.keys(cp).forEach(function(k){o[k]=cp[k]})})();
 (function(){var o=printReport;printReport=function(k){if(k==="blueprint"){printDoc(reportHtml(k,data()));return}return o.apply(this,arguments)}})();
 
+/* ---------- v3.5: 🔗 Class Link ----------
+   The teacher sends one link in the class group chat. The class list (first names and emoji only: no LRN, no full names,
+   no school details) rides inside the link after "#", which browsers never send to the website, so nothing about the
+   class is ever stored on GitHub. Opening the link puts the class list into KORTEX on that phone; sign-in and every game
+   then show the class. A new school year: send a new link. */
+function clB64(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function clUn64(b){b=String(b).replace(/-/g,"+").replace(/_/g,"/");while(b.length%4)b+="=";return decodeURIComponent(escape(atob(b)))}
+function clClean(x,n){return String(x==null?"":x).replace(/[<>&"`]/g,"").replace(/\s+/g," ").trim().slice(0,n)}
+function clDecode(h){try{var m=String(h||"").match(/[#&]class=([A-Za-z0-9_-]+)/);if(!m)return null;var o=JSON.parse(clUn64(m[1]));
+ if(!o||o.v!==1||!Array.isArray(o.r)||!o.r.length||o.r.length>80)return null;
+ var r=o.r.map(function(a,i){a=Array.isArray(a)?a:[];return{id:clClean(a[0]||("L"+(i+1)),12),name:clClean(a[1],40),emoji:clClean(a[2],8)}}).filter(function(x){return x.name});
+ return r.length?{r:r,s:clClean(o.s,60),y:clClean(o.y,30)}:null}catch(e){return null}}
+function clSite(){var v="";try{v=ls("KORTEX_SITE")||""}catch(e){}if(v)return v;
+ if(/^https?:$/.test(location.protocol))return location.origin+location.pathname.replace(/index\.html$/,"");
+ return(window.CFG&&CFG.site)||"https://venicerodriguez.github.io/kortex/"}
+function clClassName(){var p={};try{p=profGet()}catch(e){p=(window.CFG&&CFG.prof)||{}}return [p.grade,p.section].filter(Boolean).join(" · ")}
+function clRoster(){var ro=[];try{ro=signRoster()}catch(e){ro=(window.CFG&&CFG.roster)||[]}return ro.filter(function(x){return x&&x.name})}
+function clLink(){var ro=clRoster();return clSite().replace(/#.*$/,"")+"#class="+clB64(JSON.stringify({v:1,s:clClassName(),y:(function(){try{return syLabel()}catch(e){return""}})(),r:ro.map(function(x,i){return[x.id||("L"+(i+1)),x.name,x.emoji||""]})}))}
+function clGeneric(ro){return!ro.length||ro.every(function(x){return/^Learner \d+$/i.test(x.name)})}
+
+/* teacher: Tools -> 🔗 Class Link */
+function openClassLink(){var ro=clRoster(),gen=clGeneric(ro),url=gen?"":clLink(),cls=clClassName(),sy="";try{sy=syLabel()}catch(e){}
+ $("ov").innerHTML='<div class="sheet"><div class="card wide"><div class="axh"><div><h3>🔗 Class Link</h3><p class="axs">Ipadala ang link na ito sa group chat ng klase. Pagbukas sa phone ng bata o magulang, papasok ang class list sa KORTEX ng phone na iyon. <i>Send this link to the class group chat. When a child or parent opens it, the class list goes into KORTEX on that phone.</i></p></div><div class="axa"><button class="btn ghost" id="clX" type="button">Back</button></div></div>'
+ +(gen?'<p class="msg">Wala pang masterlist sa device na ito. Ilagay muna sa Tools → 🔗 Entangled Pairs. <i>Load the class masterlist first (Tools → Entangled Pairs).</i></p>'
+ :'<p><b>'+esc(cls||"Class")+'</b> · '+esc(sy)+' · '+ro.length+' learners</p><p class="axs">🔒 Pangalan at emoji lang ang laman. Walang LRN, buong pangalan, o detalye ng paaralan. Nasa link mismo ang listahan; hindi ito naka-upload sa GitHub. <i>First names and emoji only: no LRN, no full names, no school details. The list rides inside the link and is never uploaded.</i></p>'
+ +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">'+ro.map(function(x){return'<span style="display:inline-block;background:#eef2ff;color:#1c2433;border:1px solid #c7d2fe;border-radius:99px;padding:3px 10px;font:600 13px system-ui,sans-serif">'+esc((x.emoji?x.emoji+" ":"")+x.name)+'</span>'}).join("")+'</div>'
+ +'<label class="axs">Website ng KORTEX · KORTEX website<input id="clS" type="url" value="'+esc(clSite())+'" style="width:100%;margin:4px 0 10px;color:#1c2433;background:#fff"></label>'
+ +'<textarea id="clU" readonly rows="3" style="width:100%;font-size:12px;color:#1c2433;background:#fff" onclick="this.select()">'+esc(url)+'</textarea>'
+ +'<div style="display:flex;gap:8px;margin-top:8px"><button id="clC" type="button" style="flex:1;min-height:48px;border:0;border-radius:12px;color:#fff;font:700 15px system-ui,sans-serif;cursor:pointer;background:#14284b">📋 Copy Link</button><button id="clH" type="button" style="flex:1;min-height:48px;border:0;border-radius:12px;color:#fff;font:700 15px system-ui,sans-serif;cursor:pointer;background:#15803d">📤 Share</button></div><p class="msg" id="clM"></p>'
+ +'<p class="axs">Bagong school year o bagong bata? Ayusin ang masterlist, saka ipadala ulit ang bagong link. <i>New school year or a new learner? Update the masterlist, then send the new link.</i></p>')
+ +'</div></div>';
+ $("clX").onclick=function(){openTools()};if(gen)return;
+ var M=function(t){$("clM").textContent=t};
+ $("clS").onchange=function(){var v=this.value.trim();try{if(v)ls("KORTEX_SITE",v)}catch(e){}$("clU").value=clLink()};
+ $("clC").onclick=function(){var t=$("clU").value;try{navigator.clipboard.writeText(t).then(function(){M("✅ Na-copy. I-paste sa group chat. · Copied.")},function(){$("clU").select();document.execCommand("copy");M("✅ Na-copy. · Copied.")})}catch(e){$("clU").select();try{document.execCommand("copy")}catch(e2){}M("✅ Na-copy. · Copied.")}try{log("class-link","",ro.length+" learners")}catch(e){}};
+ $("clH").onclick=function(){var t=$("clU").value;if(navigator.share)navigator.share({title:"KORTEX · "+(cls||"Class"),text:"Buksan ang link na ito para mailagay ang class list sa KORTEX. Open this link to put the class list in KORTEX.",url:t}).catch(function(){});else $("clC").click()}}
+
+/* any phone: opening the link offers to put the class list in */
+(function(){var CL=clDecode(location.hash);if(!CL)return;
+ try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+ function show(){var old=null;try{old=getRosterOverride()}catch(e){}var full=old&&old.some(function(x){return x.lrn||x.fn});
+  var o=document.createElement("div");o.id="clIn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
+  o.style.cssText="position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;background:rgba(8,6,30,.78);padding:16px;font:15px system-ui,sans-serif";
+  o.innerHTML='<div style="background:#fff;color:#1c2433;border-radius:16px;max-width:440px;width:100%;padding:18px;border-top:6px solid #14284b;box-shadow:0 20px 60px #0008">'
+  +'<b style="font-size:19px">🔗 Class List · '+esc(CL.s||"Class")+'</b><p style="margin:6px 0">'+esc(CL.y)+' · '+CL.r.length+' learners</p>'
+  +'<p style="margin:6px 0">Ilagay ang class list sa device na ito? Pangalan at emoji lang ang laman. <i>Put this class list on this device? First names and emoji only.</i></p>'
+  +(full?'<p style="margin:6px 0;color:#b71c1c"><b>⚠️ May buong masterlist na rito (may LRN).</b> Papalitan ito ng listahang pangalan lang. Sa phone ng guro, piliin ang Hindi. <i>This device already has a full masterlist with LRNs. On the teacher’s device, choose No.</i></p>':'')
+  +'<div style="display:flex;flex-wrap:wrap;gap:5px;max-height:30vh;overflow:auto;margin:8px 0">'+CL.r.map(function(x){return'<span style="background:#eef2ff;border-radius:99px;padding:3px 9px;font-size:13px">'+esc((x.emoji?x.emoji+" ":"")+x.name)+'</span>'}).join("")+'</div>'
+  +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button type="button" data-a="y" style="flex:1;min-height:48px;border:0;border-radius:10px;background:#15803d;color:#fff;font:700 15px system-ui">✅ Oo, Ilagay · Yes</button><button type="button" data-a="n" style="flex:1;min-height:48px;border:0;border-radius:10px;background:#e5e7eb;color:#1c2433;font:700 15px system-ui">Hindi · No</button></div></div>';
+  document.body.appendChild(o);
+  o.querySelector('[data-a="n"]').onclick=function(){o.remove()};
+  o.querySelector('[data-a="y"]').onclick=function(){try{ls("KORTEX_ROSTER",JSON.stringify(CL.r));ls("KORTEX_CLASS",JSON.stringify({s:CL.s,y:CL.y,n:CL.r.length,ts:Date.now()}));log("class-link-in","",CL.r.length+" learners")}catch(e){}
+   o.querySelector("div").innerHTML='<b style="font-size:19px">✅ Nailagay na · Done</b><p>Bubuksan ulit ang KORTEX. <i>KORTEX opens again with the class list.</i></p>';setTimeout(function(){location.reload()},1200)};
+  try{o.querySelector('[data-a="'+(full?"n":"y")+'"]').focus()}catch(e){}}
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){setTimeout(show,300)});else setTimeout(show,300)})();
+
 /* ---------- v3.5: 📤 Send Scores · 📥 Accept Scores · reminders · themes (Theme Studio) · automatic Reading Log ----------
    Hub side of the pair that every game has in its top bar. Games hand accepted files straight to KXIN.accept (one-file edition)
    or leave them in KORTEX_INQ (separate files); the hub empties that queue whenever it opens. ---------- */
@@ -3384,7 +3449,8 @@ function syDirty(){return syIsL()&&sySig()!==syRec().sig}
 function syInq(){var q=plusGet(IQK,[]);return Array.isArray(q)?q:[]}
 function syWhen(ts){if(!ts)return"never";var d=new Date(ts);return MON[d.getMonth()].slice(0,3)+" "+d.getDate()+", "+fmtTime(d)}
 function syPayload(){var keys={};try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(HKEY.test(k))keys[k]=localStorage.getItem(k)}}catch(e){}var s=getSess();
- return{kortex:1,kind:"results",game:"all",name:"KORTEX",from:s?s.name:"",saved:new Date().toISOString(),keys:keys}}
+ var o={kortex:1,kind:"results",game:"all",name:"KORTEX",from:s?s.name:"",saved:new Date().toISOString(),keys:keys},ci=syCheckin();if(ci)o.checkin=ci;return o}
+function syCheckin(){try{var w=getWho();if(!w||!syIsL())return null;var a=getAtt(),e=[];Object.keys(a).sort().forEach(function(d){var m=a[d][w.id];if(m&&m.by!=="teacher")e.push({date:d,time:m.t,iso:m.iso,id:w.id,name:w.name,lrn:w.lrn||"",status:m.s})});return e.length?{entries:e,device:devId()}:null}catch(x){return null}}
 function syTwo(n){return(n<10?"0":"")+n}
 function syFile(){var d=new Date();return"KORTEX-SCORES-KORTEX-"+d.getFullYear()+syTwo(d.getMonth()+1)+syTwo(d.getDate())+"-"+syTwo(d.getHours())+syTwo(d.getMinutes())+".kxr.json"}
 
@@ -3393,7 +3459,7 @@ function tw(k){var T=window.__KXT;return T&&T[k]?' <small style="font-size:.62em
 function hubSend(){var t=JSON.stringify(syPayload()),nm=syFile();
  try{var f=new File([t],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:nm}).then(syMark,function(){hubSendMenu(t,nm)});return}}catch(e){}hubSendMenu(t,nm)}
 function hubSendMenu(t,nm){
- $("ov").innerHTML='<div class="sheet"><div class="card"><h3>📤 Send Scores'+tw('send')+'</h3><p>Your scores from every game, the quiz and your reading are saved on this device. Save the file or copy the code, then send it to your teacher. Your teacher taps <b>📥 Accept Scores</b> and it goes to Analytics.</p><div class="row"><button class="btn" id="hsS" type="button">⬇ Save Scores File</button><button class="btn" id="hsC" type="button">📋 Copy Code</button><button class="btn ghost" id="hsX" type="button">Close</button></div><p class="msg" id="hsM"></p></div></div>';
+ $("ov").innerHTML='<div class="sheet"><div class="card"><h3>📤 Send Scores'+tw('send')+'</h3><p>Your scores from every game, the quiz, your reading and your check-ins are saved on this device. Save the file or copy the code, then send it to your teacher. Your teacher taps <b>📥 Accept Scores</b> and it goes to Analytics.</p><div class="row"><button class="btn" id="hsS" type="button">⬇ Save Scores File</button><button class="btn" id="hsC" type="button">📋 Copy Code</button><button class="btn ghost" id="hsX" type="button">Close</button></div><p class="msg" id="hsM"></p></div></div>';
  var mm=function(x,ok){var e=$("hsM");e.className="msg"+(ok?" ok":"");e.textContent=x};
  $("hsS").onclick=function(){try{var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"application/json"}));a.download=nm;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500);mm("Saved: "+nm+". Now send it to your teacher.",1);syMark()}catch(e){mm("Saving is blocked here. Open KORTEX directly in the browser.")}};
  $("hsC").onclick=function(){var code=btoa(unescape(encodeURIComponent(t)));try{navigator.clipboard.writeText(code).then(function(){mm("Code copied. Paste it in a message to your teacher.",1);syMark()},function(){mm("Copy is blocked here. Use Save Scores File.")})}catch(e){mm("Copy is blocked here. Use Save Scores File.")}};
@@ -3412,9 +3478,9 @@ function hubAccept(){drainInq(true);var IB=inbox(),last=IB.files.slice(-6).rever
   +(rows?'<h4>Recently Accepted</h4><table><tr><th>Game</th><th>From</th><th class="num">Results</th><th>Accepted</th></tr>'+rows+'</table>':"")
   +'<input type="file" id="haI" accept=".json,.kxr,.txt,application/json,text/plain" multiple hidden></div></div>';
  var mm=function(x,ok){var e=$("haM");e.className="msg"+(ok?" ok":"");e.textContent=x};
- var take=function(texts){var n=0,bad=0,add=0,rd=0;texts.forEach(function(t){var o=parseScores(t),r=o?importScores(o):{ok:0};if(r.ok){n++;add+=r.added||0;rd+=r.read||0}else bad++});
+ var take=function(texts){var n=0,bad=0,add=0,rd=0,ci=0;texts.forEach(function(t){var o=parseScores(t),r=o?importScores(o):{ok:0};if(r.ok){n++;add+=r.added||0;rd+=r.read||0;ci+=r.checkin||0}else bad++});
   if(n){noteAccepted(n);try{log("collect-scores","",n+" files")}catch(e){}}
-  mm((n?"✅ Accepted "+n+" file"+(n===1?"":"s")+": "+add+" new results"+(rd?" and "+rd+" reading entries":"")+".":"")+(bad?(n?" · ":"")+bad+" not readable.":"")||"Nothing to accept.",n>0);syBadges();if(n)setTimeout(function(){var m0=$("haM").textContent;hubAccept();mm(m0,1)},900)};
+  mm((n?"✅ Accepted "+n+" file"+(n===1?"":"s")+": "+(add||!ci?add+" new results"+(rd?" and "+rd+" reading entries":""):"")+(ci?(add?" · ":"")+ci+" attendance check-in"+(ci===1?"":"s"):"")+".":"")+(bad?(n?" · ":"")+bad+" not readable.":"")||"Nothing to accept.",n>0);syBadges();if(n)setTimeout(function(){var m0=$("haM").textContent;hubAccept();mm(m0,1)},900)};
  $("haX").onclick=closeOv;$("haF").onclick=function(){$("haI").click()};
  $("haI").onchange=function(){var fs=[].slice.call(this.files||[]);this.value="";if(!fs.length)return;var out=[],left=fs.length;fs.forEach(function(f,i){var r=new FileReader();r.onload=function(){out[i]=String(r.result);if(--left===0)take(out)};r.onerror=function(){out[i]="";if(--left===0)take(out)};r.readAsText(f)})};
  $("haP").onclick=function(){$("haT").hidden=false;try{$("haA").focus()}catch(e){}};
@@ -3433,9 +3499,9 @@ function syLeave(go){if(!syDirty()){go();return}
  var o=document.createElement("div");o.id="kxlvh";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.innerHTML='<div class="kxm-c"><b>📤 Wait! Your score is not sent yet.</b><p>Tap <b>Send Scores</b> first so your teacher can see how well you did. <i>Ipadala muna ang score mo.</i></p><div class="kxm-r"><button type="button" data-a="s">📤 Send Scores</button><button type="button" class="g" data-a="l">Log Out Anyway</button><button type="button" class="g" data-a="x">Stay</button></div></div>';
  document.body.appendChild(o);o.querySelector('[data-a="s"]').onclick=function(){o.remove();hubSend()};o.querySelector('[data-a="l"]').onclick=function(){o.remove();go()};o.querySelector('[data-a="x"]').onclick=function(){o.remove()}}
 
-/* ---- theme: the hub wears the Secret Digital Garden (or any theme the teacher picks in Theme Studio) ---- */
+/* ---- theme: the hub wears KORTEX Launchpad (or any theme the teacher picks in Theme Studio) ---- */
 var SYCSS='header{background:linear-gradient(90deg,var(--kx-n1,#14284b),var(--kx-n2,#3b2a8f))!important;border-bottom:3px solid var(--kx-a,#d4a84b)!important}header::before{content:"";position:absolute;inset:0;background-image:var(--kx-pat);background-size:84px 56px;opacity:.14;pointer-events:none}header>*{position:relative}'
- +'.pill.kxp2{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.05;min-height:48px;padding-top:4px;padding-bottom:4px}.pill.kxp2 small{font-size:10px;font-weight:700;opacity:.9}#bSendS{background:#12804a!important;color:#fff!important;border-color:#fff!important}#bAccS{background:#ffb703!important;color:#1c2433!important;border-color:#fff!important}@media (pointer:coarse),(max-width:560px){.pill.kxp2{min-height:60px;min-width:72px}}body .pill.kxp2,body[data-device] .pill.kxp2,body[data-device] header .pill.kxp2{display:inline-flex!important;flex-direction:column!important;min-height:48px!important;height:auto!important}body[data-device="phone"] header .pill.kxp2{min-height:60px!important;min-width:72px}body[data-device] header .pill.kxp2 small,body header .pill.kxp2 small{display:block!important;font-size:10px!important;line-height:1.1!important}'
+ +'.pill.kxp2{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.05;min-height:48px;padding-top:4px;padding-bottom:4px}.pill.kxp2 small{font-size:10px;font-weight:700;opacity:.9}#bSend{display:none!important}#bSendS{background:#12804a!important;color:#fff!important;border-color:#fff!important}#bAccS{background:#ffb703!important;color:#1c2433!important;border-color:#fff!important}@media (pointer:coarse),(max-width:560px){.pill.kxp2{min-height:60px;min-width:72px}}body .pill.kxp2,body[data-device] .pill.kxp2,body[data-device] header .pill.kxp2{display:inline-flex!important;flex-direction:column!important;min-height:48px!important;height:auto!important}body[data-device="phone"] header .pill.kxp2{min-height:60px!important;min-width:72px}body[data-device] header .pill.kxp2 small,body header .pill.kxp2 small{display:block!important;font-size:10px!important;line-height:1.1!important}'
  +'.pill{position:relative}.pill:focus,.pill:hover{background:var(--kx-a,#d4a84b)!important;color:#1c2433!important}'
  +'.kxbd{position:absolute;top:-7px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:#e5383b;color:#fff;font:800 11px/18px system-ui;text-align:center;font-style:normal;padding:0 4px;box-sizing:border-box;box-shadow:0 0 0 2px #fff;animation:kxbeat 1.6s ease-in-out infinite}@keyframes kxbeat{50%{transform:scale(1.18)}}'
  +'#kxbub:not(.kxb-low){top:92px}#hubM{width:44px;height:44px;font-size:26px}.kxmc-q{width:40px;height:40px;font-size:24px;margin:0 6px;background:rgba(255,255,255,.2)}'
@@ -3478,7 +3544,7 @@ function hubBack(){var T=window.__KXT,ov=$("ov");if(!T||!ov)return;hubHomeBar();
 function openThemeStudio(){var T=KXTH.list,N=KXTH.names,ids=Object.keys(KXTH.map);
  var card=function(g){var t=KXTH.forGame(g);return'<div class="tsr"><div class="tsh" style="background:linear-gradient(90deg,'+t.nav[0]+','+t.nav[1]+')"><span class="tsm">'+t.m+'</span><span>'+esc(N[g]||g)+'</span></div><label>Theme<select data-g="'+g+'">'+T.map(function(x){return'<option value="'+x.id+'"'+(x.id===t.id?" selected":"")+'>'+x.m+" "+esc(x.n)+'</option>'}).join("")+'</select></label><div class="tsp">'+t.pal.map(function(c){return'<i style="background:'+c+'"></i>'}).join("")+'</div><small><b>'+esc(t.mn)+'</b> · '+esc(t.pn)+'<br>'+[["Home","home"],["Back","back"],["Exit","exit"],["Send","send"],["Accept","acc"],["Backup","bak"],["Reset","rst"],["Next","nxt"],["Help","hlp"]].map(function(x){return x[0]+": "+esc(t[x[1]].join(" "))}).join(" · ")+'</small></div>'};
  var sc=($("ov").querySelector(".sheet")||{}).scrollTop||0;
- $("ov").innerHTML='<div class="sheet"><div class="card wide"><div class="axh"><div><h3>🎨 Theme Studio</h3><p class="axs">KORTEX and every game wear one of 15 themes: a mascot, its own words for Home, Back and Exit, and three colors. Pick a different theme for any game. A game shows it the next time it opens.</p></div><div class="axa"><button class="btn ghost" id="tsR" type="button">↺ Original Themes</button><button class="btn ghost" id="tsX" type="button">Back</button></div></div><div class="tsg">'+["hub"].concat(ids.filter(function(g){return g!=="hub"})).map(card).join("")+'</div></div></div>';
+ $("ov").innerHTML='<div class="sheet"><div class="card wide"><div class="axh"><div><h3>🎨 Theme Studio</h3><p class="axs">KORTEX, the story library and every game each wear a theme: a mascot, its own words for Home, Back and Exit, and three colors. Pick a different theme for any of them. It shows the next time it opens.</p></div><div class="axa"><button class="btn ghost" id="tsR" type="button">↺ Original Themes</button><button class="btn ghost" id="tsX" type="button">Back</button></div></div><div class="tsg">'+["hub"].concat(ids.filter(function(g){return g!=="hub"})).map(card).join("")+'</div></div></div>';
  $("tsX").onclick=function(){openTools()};$("tsR").onclick=function(){if(!confirm("Use the original theme for every game and KORTEX?"))return;try{localStorage.removeItem("KORTEX_THEMES")}catch(e){}hubTheme();openThemeStudio()};
  [].forEach.call($("ov").querySelectorAll("select[data-g]"),function(s){s.onchange=function(){KXTH.setFor(s.getAttribute("data-g"),+s.value);try{log("theme","",s.getAttribute("data-g")+" "+s.value)}catch(e){}hubTheme();openThemeStudio()}});
  try{$("ov").querySelector(".sheet").scrollTop=sc}catch(e){}}
