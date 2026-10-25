@@ -207,7 +207,7 @@ function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}c
  h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
   +(W.award?'<span class="aw">🏅 '+E(W.award)+'</span>':'')
   +'<div class="cta"><button class="big" id="wm">▶ Panoorin<small>Watch like a movie</small></button><button class="big o" id="rd">📖 Basahin<small>Read</small></button><button class="big o" id="ab">ⓘ Tungkol<small>About this book</small></button></div></div></div>';
- if(W.books.length>1){let lastL=null;W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div>';h+='<div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin · Watch &nbsp; 📖 Basahin · Read</small></div></button>'});if(lastL!==null)h+='</div>'}
+ if(W.books.length>1){let lastL=null;W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div>';h+='<div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin <i>Watch</i> &nbsp; 📖 Basahin <i>Read</i></small></div></button>'});if(lastL!==null)h+='</div>'}
  h+='<footer>'+E(W.title)+' · © 2026 Venice D. Rodriguez · All rights reserved · '+E(W.code)+'</footer></div>';$("app").innerHTML=h;wireTop(goShelf);
  $("wm").onclick=()=>movie(0,0);$("rd").onclick=()=>{B=0;I=0;show()};$("ab").onclick=about;
  $("app").querySelectorAll(".dk").forEach(b=>b.onclick=()=>pick(+b.dataset.k))}
@@ -222,7 +222,7 @@ function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=to
   +R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>"))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',BI(C.langs||''))
   +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';
  if(C.get)h+='<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>';
- h+='<button class="edl" id="edb">✏️ I-edit <i>· Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor)}
+ h+='<button class="edl" id="edb">✏️ I-edit <i>Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor)}
 /* ---------- reader ---------- */
 function show(){SCR="read";const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"><button class="sa l" id="sl" aria-label="Previous"'+(I==0?' disabled':'')+'>‹</button><button class="sa r" id="sr" aria-label="Next"'+(I==L-1?' disabled':'')+'>›</button></div>'
