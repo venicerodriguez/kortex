@@ -1,5 +1,5 @@
-KORTEX — Public Teacher And Learner Edition
-The Codex Archive • Author: Venice D. Rodriguez • Version 3.5 • Build 202610251358
+KORTEX — Public Teacher and Learner Edition
+The Codex Archive • Author: Venice D. Rodriguez • Version 3.5 • Build 202610252144
 The Launchpad for Engineered Brilliance.
 
 HOW TO OPEN
@@ -17,7 +17,7 @@ Parents can view progress only; nothing can be changed. The Teacher side stays b
 
 ON THE KORTEX HOME
 🎯 Calibrated Quiz: ten questions at a time, and every answer moves the next question up or down to fit the learner.
-👪 Parent Dashboard: Tools → Parent Dashboard → 📦 One File For All Families saves one file for every family. Share it in the class group chat.
+👪 Parent Dashboard: Tools → Parent Dashboard → 📦 One File for All Families saves one file for every family. Share it in the class group chat.
    Each family types the code on its slip (🔑 Family Code Slips) and sees only its own child.
 
 EVERY SCHOOL YEAR
@@ -30,7 +30,7 @@ CLOCK
 12-hour time with AM/PM by default. Tools → 🌊 Phase Shift or 🔮 Spectrum Render switches to 24-hour (military) time in KORTEX and every game.
 
 KORTEX TOOLS (Teacher only)
-💎 Superposition Data: Analytics And Reports for all 14 games and the Calibrated Quiz, by Daily, Weekly, Monthly, End Of Term and End Of School Year, each with Print / Save PDF and an animated presentation.
+💎 Superposition Data: Analytics and Reports for all 14 games and the Calibrated Quiz, by Daily, Weekly, Monthly, End of Term and End of School Year, each with Print / Save PDF and an animated presentation.
 💾 Qubit Registry: who used KORTEX, when, and which games they opened.
 🛠️ Vector State: School Year and School Calendar.   🔗 Entangled Pairs: the class masterlist every game uses.
 🔮 Spectrum Render: banner and clock.   🌊 Phase Shift: screen, sound and clock.   Teacher Greeting: your welcome and polo color.   🔐 Crypto Shield: Teacher PIN.   ❄️ Absolute Freeze: lock Tools.   🔬 Coherence Check: QA check.

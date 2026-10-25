@@ -1,8 +1,8 @@
-AETHER, FABLE AND FIORA · ... where thoughts unfurl.
+AETHER, FABLE AND FIORA · ...where thoughts unfurl.
 Stories by Venice D. Rodriguez · © 2026 All rights reserved
 
 COLLECTIONS
-  Lux Lit Compendium: Si Pagsarayen, Ang Layag at Ang Mga Tala · Ang Bata sa Buwan · Ang Hugis Pulang Mundo ni Ompong · Kuwaw...Kuwaw... Ang Lagi Nitong Sigaw! · Ang Magiting · Si Eslaw at Ang Ilaw · Si Ali na Walang Dingas · Ali, The Fireless Firefly · Bahagharing Lahi · Breeds in Rainbow
+  Lux Lit Compendium: Si Pagsarayen, Ang Layag at Ang mga Tala · Ang Bata sa Buwan · Ang Hugis Pulang Mundo ni Ompong · Kuwaw...Kuwaw... Ang Lagi Nitong Sigaw! · Ang Magiting · Si Eslaw at Ang Ilaw · Si Ali na Walang Dingas · Ali, The Fireless Firefly · Bahagharing Lahi · Breeds in Rainbow
   HIRAYA: Mathematics · Reading and Literacy · GMRC · Makabansa · Language
 
 OFFLINE: unzip, then open index.html. Each story file also opens on its own.
