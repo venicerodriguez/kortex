@@ -1076,7 +1076,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2327a3ff%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235b2fd0%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cg%20transform%3D%22rotate(-22%2032%2032)%22%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%2232%22%20rx%3D%2223%22%20ry%3D%227.5%22%20stroke-width%3D%222%22%20stroke-opacity%3D%22.9%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2213.5%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.14%22%2F%3E%3Cpolygon%20points%3D%2232.0%2C24.0%2033.9%2C29.3%2039.6%2C29.5%2035.1%2C33.0%2036.7%2C38.5%2032.0%2C35.3%2027.3%2C38.5%2028.9%2C33.0%2024.4%2C29.5%2030.1%2C29.3%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M32%209v5M32%2050v5M9%2032h5M50%2032h5%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202610252144",
+ "build": "202610310603",
  "ver": "3.5",
  "icons": {
   "subj": [
@@ -2117,7 +2117,10 @@ function openTools(tab){
   +'.affs .affm{position:absolute;top:12px;right:12px;width:64px;height:64px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:34px;line-height:1;cursor:pointer;color:#1c2433;background:radial-gradient(circle at 50% 45%,#fff 0 58%,#fff4d6 100%);border:4px solid var(--an1,#b83265);box-shadow:0 0 0 3px var(--aac,#ffd23a),0 6px 16px rgba(0,0,0,.28);animation:affFl 3.2s ease-in-out infinite;padding:0}'
   +'.affs .affm small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;font:800 .68rem/1 "Segoe UI",system-ui,sans-serif;color:#fff;background:var(--an1,#b83265);border-radius:99px;padding:3px 8px;box-shadow:0 2px 6px rgba(0,0,0,.18)}'
   +'.affs .affm:focus-visible{outline:3px solid #1f4fe0;outline-offset:3px}@keyframes affFl{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}@media (prefers-reduced-motion:reduce){.affs .affm{animation:none}}'
-  +'@media (max-width:420px){.affs .ac{gap:10px;padding:4px 10px 16px}.affs .cvb{padding:10px}.affs .cvb b{font-size:1rem}.affs .affm{width:56px;height:56px;font-size:30px;top:10px;right:10px}}';
+  +'@media (max-width:420px){.affs .ac{gap:10px;padding:4px 10px 16px}.affs .cvb{padding:10px}.affs .cvb b{font-size:1rem}.affs .affm{width:56px;height:56px;font-size:30px;top:10px;right:10px}}'
+  /* a laptop or a tablet held sideways: the whole Aether section (title, both covers, both Open buttons) fits one screen */
+  +'@media (orientation:landscape) and (min-width:700px){.affs .ah{padding:12px 14px 8px}.affs .ah .alg{width:56px;height:56px;margin-bottom:4px}.affs .ah b{font-size:clamp(1.5rem,5vh,2.4rem)}'
+  +'.affs .ac{padding:4px 16px 14px}.affs .cvb{gap:6px;padding:10px}.affs .cvb img{width:auto;max-width:100%;height:min(calc(100vh - 330px),390px);min-height:150px}}';
  function add(){
   var host=document.getElementById("grid");if(!host||!host.children.length||host.querySelector('.affs'))return;
   if(!document.getElementById("affcss")){var st=document.createElement("style");st.id="affcss";st.textContent=CSS;document.head.appendChild(st)}
@@ -2207,11 +2210,13 @@ function wrapCheers(){if(WR>=2)return;var ok=0;
 /* ---------- no scrolling: after any tap, what just appeared is brought into view ---------- */
 var RV={t:0,a:[],on:0,ign:"#kxnav,#kxdock,#kxbub,#kxs-m,#kxacc,#kxatt,#kxrules,#kxpk,#kxll,#kxtoast,.kxrip,.kxsp"};
 function rvOk(n){return n&&n.nodeType===1&&!(n.closest&&n.closest(RV.ign))}
+/* in a game, a panel or editor that opens over the game opens at its top: nothing inside it is scrolled for you */
+function inFixed(n){for(var x=n.parentElement;x&&x!==document.body;x=x.parentElement){if(getComputedStyle(x).position==="fixed")return true}return false}
 function reveal(){if(Date.now()-RV.t>1800)return;var H=innerHeight,best=null,list=RV.a;
- for(var i=0;i<list.length;i++){var n=list[i];if(!n.isConnected)continue;var r=n.getBoundingClientRect();if(r.height<40||r.width<120)continue;var cs=getComputedStyle(n);if(cs.position==="fixed"||cs.display==="none"||cs.visibility==="hidden")continue;
+ for(var i=0;i<list.length;i++){var n=list[i];if(!n.isConnected)continue;var r=n.getBoundingClientRect();if(r.height<40||r.width<120)continue;var cs=getComputedStyle(n);if(cs.position==="fixed"||cs.display==="none"||cs.visibility==="hidden")continue;if(RV.nf&&inFixed(n))continue;
   var off=(r.top>=H-30)||(r.bottom<=50);if(off&&(!best||list.indexOf(n)<list.indexOf(best.n)))best={n:n,r:r}}
  if(best){RV.a=[];var rm=false;try{rm=matchMedia("(prefers-reduced-motion:reduce)").matches}catch(e){}try{best.n.style.scrollMarginTop=(document.getElementById("kxnav")?64:14)+"px";best.n.scrollIntoView({behavior:rm?"auto":"smooth",block:"start"})}catch(e){best.n.scrollIntoView()}}}
-function revealInit(extra){if(RV.on||!document.body)return;RV.on=1;if(extra)RV.ign+=","+extra;
+function revealInit(extra,nf){if(RV.on||!document.body)return;RV.on=1;if(nf)RV.nf=1;if(extra)RV.ign+=","+extra;
  document.addEventListener("click",function(e){var t=e.target&&e.target.closest?e.target.closest("button,a,[onclick],summary,[role=button],[role=tab],.tab,.chip,.tile,.pill,label,select"):null;if(!rvOk(t))return;RV.t=Date.now();RV.a=[];setTimeout(reveal,220);setTimeout(reveal,700);setTimeout(reveal,1500)},true);
  try{new MutationObserver(function(ms){if(Date.now()-RV.t>1800)return;ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(rvOk(n)&&RV.a.length<60)RV.a.push(n)})})}).observe(document.body,{childList:true,subtree:true})}catch(e){}}
 /* v3.5: the mascot greets in a young, cheerful voice (greetings only; stories and quiz questions keep the clear storyteller voice).

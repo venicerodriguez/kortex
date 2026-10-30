@@ -77,6 +77,14 @@ footer{text-align:center;color:#6b7499;font-size:.74rem;padding:26px 10px 6px}
 @media (max-width:760px){.hero{grid-template-columns:1fr}.cta .big{flex:1}.ed .row{grid-template-columns:1fr}.ed .row img{width:100%}.nb{min-width:74px;height:62px;padding:3px 8px}.nb i{font-size:1.2rem}}
 @media (prefers-reduced-motion:reduce){#mv .lay.on .p{animation:none}}
 [hidden]{display:none!important}
+/* every screen fits the laptop, tablet or phone screen: pictures and words size themselves, nothing is cut */
+body.rdx .wrap{padding-top:10px!important;padding-bottom:6px!important}body.rdx .rb{margin-top:10px}body.rdx .tx{margin-top:10px;padding:12px 16px}
+body.rdx.side .wrap{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,36%);column-gap:18px;align-items:center}
+body.rdx.side .rcol{display:flex;flex-direction:column;justify-content:center;min-width:0}body.rdx.side .rb{margin:0 auto 12px}body.rdx.side .tx{margin:0;max-width:none}
+body.pfit .wrap{padding-bottom:8px}body.pfit .info{padding:10px 16px;margin-top:10px;line-height:1.42}body.pfit .info p{margin:.3em 0}.info dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,185px),1fr));gap:0 18px}.kv dt{margin-top:8px!important}.kv.wide{grid-column:1/-1}body.pfit .edl{margin-top:10px}body.pfit footer{padding-top:14px}.hero .cov{max-height:var(--covh,none)}.dk img{max-height:var(--dkh,none)}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0 16px;align-items:start}.term .grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:10px}.term .tm{margin-top:16px}
+@media (min-width:900px){.abx{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start}.abx>.info{grid-column:1/-1}}
+@media (orientation:landscape) and (min-width:700px){.terms{display:flex;flex-wrap:wrap;gap:0 16px}.wrap{max-width:1320px}.term{flex:0 1 calc(var(--n,1) * 150px);max-width:100%;min-width:130px}.term .grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}.dk div{padding:8px 10px}.dk b{font-size:.92rem}.dk small{font-size:.8rem}}
 .tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 92px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}</style></head><body>
 <div class="pr" id="pr"><i></i></div>
 <div id="app"></div>
@@ -193,8 +201,28 @@ function speak(t,done){try{speechSynthesis.cancel()}catch(e){}if(!t||VL==="off"|
  setTimeout(()=>{if(!ok){ok=true;done&&done(true)}},Math.max(5000,t.length*95))}
 /* pictures fill the frame when their shape is close to it (no side bars); very different shapes are shown whole */
 function fitPic(t){const box=t.parentElement;if(!box||!t.naturalWidth||!box.clientHeight)return;const r=Math.log((t.naturalWidth/t.naturalHeight)/(box.clientWidth/box.clientHeight));t.style.objectFit=Math.abs(r)<.13?"cover":"contain"}
-document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG"&&t.matches(".art img:not(.bk),#mv .lay .p"))fitPic(t)},true);
+document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG"&&t.matches(".art img:not(.bk),#mv .lay .p")){if(t.closest(".art")&&typeof fitRead==="function")fitRead();fitPic(t)}},true);
 addEventListener("resize",()=>document.querySelectorAll(".art img:not(.bk),#mv .lay .p").forEach(fitPic));
+/* the whole screen shows at once on a laptop, tablet or phone: the picture takes the room that is left, the words get smaller only when needed */
+function fitMode(){const b=document.body;b.classList.toggle("rdx",SCR==="read");b.classList.toggle("pfit",SCR==="home"||SCR==="about");if(SCR!=="read")b.classList.remove("side")}
+function fitRead(){try{fitMode();if(SCR!=="read")return;const w=document.querySelector("#app .wrap"),a=$("art"),rb=document.querySelector("#app .rb"),rc=document.querySelector("#app .rcol"),tx=document.querySelector("#app .tx"),bd=document.body;if(!w||!a||!rb||!rc)return;
+ const ps=tx?[...tx.querySelectorAll("p")]:[];ps.forEach(p=>p.style.fontSize="");a.style.height="";w.style.gridTemplateColumns="";bd.classList.remove("side");
+ const W=innerWidth,H=innerHeight,top=w.getBoundingClientRect().top+(scrollY||0)+10,avail=Math.max(180,H-top-8),base=ps.map(p=>parseFloat(getComputedStyle(p).fontSize));
+ const shrink=(ok,lo)=>{let k=1;ps.forEach(p=>p.style.fontSize="");while(!ok()&&k>lo){k*=.94;ps.forEach((p,i)=>p.style.fontSize=(base[i]*k)+"px")}};
+ const im=a.querySelector("img:not(.bk)"),r=im&&im.naturalWidth?im.naturalHeight/im.naturalWidth:.5625,fitA=()=>{a.style.height=Math.round(Math.min(avail,Math.max(200,a.getBoundingClientRect().width*r)))+"px"};
+ if(W>=700&&W/avail>=1.75){bd.classList.add("side");fitA();const ok=()=>rc.getBoundingClientRect().height<=avail;shrink(ok,.8);
+  if(!ok()){w.style.gridTemplateColumns="minmax(0,1fr) minmax(280px,48%)";fitA();shrink(ok,.72)}}
+ else{const used=()=>rc.getBoundingClientRect().height+10;if(avail-used()<170)shrink(()=>avail-used()>=170,.75);a.style.height=Math.round(Math.max(150,Math.min(avail-used(),a.getBoundingClientRect().width*r)))+"px"}}catch(e){}}
+function fitHome(){try{fitMode();if(SCR!=="home"&&SCR!=="about")return;const de=document.documentElement,R=de.style,wr=document.querySelector("#app .wrap");if(wr)wr.style.zoom="";R.removeProperty("--covh");R.removeProperty("--dkh");const h1=document.querySelector("#app h1");if(h1)h1.style.fontSize="";
+ const over=()=>de.scrollHeight>innerHeight+1;if(!over())return;const cov=document.querySelector(".hero .cov"),tc=cov&&cov.nextElementSibling,dk=document.querySelector(".dk img");
+ const ax=document.querySelector("#app .abx");if(ax)ax.style.fontSize="";let a0=ax?parseFloat(getComputedStyle(ax).fontSize):0,af=a0,ch=cov?cov.getBoundingClientRect().height:0,dh=dk?dk.getBoundingClientRect().height:0,hf=h1?parseFloat(getComputedStyle(h1).fontSize):0,h0=hf;
+ for(let n=0;n<40&&over();n++){const side=cov&&tc&&Math.abs(cov.getBoundingClientRect().top-tc.getBoundingClientRect().top)<40;
+  if(cov&&ch>150&&!(side&&tc.getBoundingClientRect().height>=ch)){ch*=.93;R.setProperty("--covh",Math.round(ch)+"px")}
+  else if(h1&&hf>h0*.62){hf*=.93;h1.style.fontSize=hf+"px"}
+  else if(dk&&dh>46){dh*=.9;R.setProperty("--dkh",Math.round(dh)+"px")}
+  else if(ax&&af>a0*.74){af*=.95;ax.style.fontSize=af+"px"}else break}
+ if(over()&&wr&&innerWidth>innerHeight){const t=wr.getBoundingClientRect().top,hh=wr.getBoundingClientRect().height;if(hh>0)wr.style.zoom=Math.max(.6,Math.min(1,(innerHeight-t-2)/hh))}}catch(e){}}
+let FTT=0;addEventListener("resize",()=>{clearTimeout(FTT);FTT=setTimeout(()=>{if(SCR==="read")fitRead();else fitHome()},120)});try{document.fonts.ready.then(()=>{if(SCR==="read")fitRead();else fitHome()})}catch(e){}
 /* is a paragraph English? (count common English vs Filipino words) */
 function isEn(t){const w=String(t||"").toLowerCase().match(/[a-zñ']+/g)||[];let e=0,f=0;w.forEach(x=>{if(/^(the|and|of|to|is|a|her|his|she|he|with|for|in|on|was|are|from|that|this|it)$/.test(x))e++;else if(/^(ang|ng|sa|mga|na|si|ay|at|kung|niya|siya|nang|ni|ito|kaniyang|isang)$/.test(x))f++});return e>f}
 /* a two-language value "Filipino · English": the second language always in italics */
@@ -207,36 +235,36 @@ function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}c
  h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
   +(W.award?'<span class="aw">🏅 '+E(W.award)+'</span>':'')
   +'<div class="cta"><button class="big" id="wm">▶ Panoorin<small>Watch like a movie</small></button><button class="big o" id="rd">📖 Basahin<small>Read</small></button><button class="big o" id="ab">ⓘ Tungkol<small>About this book</small></button></div></div></div>';
- if(W.books.length>1){let lastL=null;W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div>';h+='<div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin <i>Watch</i> &nbsp; 📖 Basahin <i>Read</i></small></div></button>'});if(lastL!==null)h+='</div>'}
+ if(W.books.length>1){let lastL=null;const cnt={};W.books.forEach(b=>cnt[b.label]=(cnt[b.label]||0)+1);h+='<div class="terms">';W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div></div>';h+='<div class="term" style="--n:'+cnt[b.label]+'"><div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin <i>Watch</i> &nbsp; 📖 Basahin <i>Read</i></small></div></button>'});if(lastL!==null)h+='</div></div>';h+='</div>'}
  h+='<footer>'+E(W.title)+' · © 2026 Venice D. Rodriguez · All rights reserved · '+E(W.code)+'</footer></div>';$("app").innerHTML=h;wireTop(goShelf);
  $("wm").onclick=()=>movie(0,0);$("rd").onclick=()=>{B=0;I=0;show()};$("ab").onclick=about;
- $("app").querySelectorAll(".dk").forEach(b=>b.onclick=()=>pick(+b.dataset.k))}
+ $("app").querySelectorAll(".dk").forEach(b=>b.onclick=()=>pick(+b.dataset.k));fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 function pick(k){$("lb").innerHTML='<div class="info" style="max-width:440px;margin:16px;text-align:center"><p style="text-align:center;font-weight:800;font-size:1.15rem">'+E(W.books[k].title)+'</p><div class="cta" style="justify-content:center"><button class="big" id="pw">▶ Panoorin<small>Watch</small></button><button class="big o" id="pr2">📖 Basahin<small>Read</small></button></div></div>';$("lb").hidden=false;
  $("pw").onclick=e=>{e.stopPropagation();$("lb").hidden=true;movie(k,0)};$("pr2").onclick=e=>{e.stopPropagation();$("lb").hidden=true;B=k;I=0;show()}}
 /* ---------- about ---------- */
-function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=topbar("Tungkol sa Aklat · About This Book")+'<div class="wrap"><div class="kick">'+E(W.collection)+'</div><h1 style="font-size:clamp(1.6rem,5vw,2.5rem)">'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'');
+function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=topbar("Tungkol sa Aklat · About This Book")+'<div class="wrap"><div class="kick">'+E(W.collection)+'</div><h1 style="font-size:clamp(1.6rem,5vw,2.5rem)">'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<div class="abx"><div>';
  if(W.promo||W.promo_fil||(W.about||[]).length)h+='<div class="info">'+(EN()?(W.promo?'<p><b>'+E(W.promo)+'</b></p>':'')+(W.promo_fil?'<p><i>'+E(W.promo_fil)+'</i></p>':''):(W.promo_fil?'<p><b>'+E(W.promo_fil)+'</b></p>':'')+(W.promo?'<p><i>'+E(W.promo)+'</i></p>':''))+(W.about||[]).map(x=>isEn(x)!==EN()?'<p><i>'+E(x)+'</i></p>':'<p>'+E(x)+'</p>').join("")+'</div>';
- const R=(fil,en,v)=>v?'<dt>'+fil+' <i>· '+en+'</i></dt><dd>'+v+'</dd>':'';
- h+='<div class="info"><dl>'+R(C.story&&C.story!=='Venice D. Rodriguez'?'Kuwento':'May-akda',C.story&&C.story!=='Venice D. Rodriguez'?'Story':'Author',E(C.story||'Venice D. Rodriguez'))+R('Salin','Translation',E(C.trans||''))+R('Guhit','Illustrations',E(C.ill||''))
-  +R('Tagapaglathala','Publisher',(C.pub?E(C.pub):'')+(C.pubinfo?'<br><small>'+E(C.pubinfo).replace(/\n/g,'<br>')+'</small>':''))+R('Taon','Published',E(C.date||''))
+ const R=(fil,en,v,c)=>v?'<div class="kv'+(c?' '+c:'')+'"><dt>'+fil+' <i>· '+en+'</i></dt><dd>'+v+'</dd></div>':'';
+ let D='<div class="info"><dl>'+R(C.story&&C.story!=='Venice D. Rodriguez'?'Kuwento':'May-akda',C.story&&C.story!=='Venice D. Rodriguez'?'Story':'Author',E(C.story||'Venice D. Rodriguez'))+R('Salin','Translation',E(C.trans||''))+R('Guhit','Illustrations',E(C.ill||''))
+  +R('Tagapaglathala','Publisher',(C.pub?E(C.pub):'')+(C.pubinfo?'<br><small>'+E(C.pubinfo).replace(/\n/g,' · ')+'</small>':''),C.pubinfo?'wide':'')+R('Taon','Published',E(C.date||''))
   +R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>"))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',BI(C.langs||''))
-  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';
- if(C.get)h+='<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>';
- h+='<button class="edl" id="edb">✏️ I-edit <i>Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor)}
+  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';const Dd=D;
+ const G=C.get?'<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>':'';h+='</div><div>'+G+'</div>'+Dd+'</div>';
+ h+='<button class="edl" id="edb">✏️ I-edit <i>Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 /* ---------- reader ---------- */
 function show(){SCR="read";const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"><button class="sa l" id="sl" aria-label="Previous"'+(I==0?' disabled':'')+'>‹</button><button class="sa r" id="sr" aria-label="Next"'+(I==L-1?' disabled':'')+'>›</button></div>'
-  +'<div class="rb"><button class="ib" id="pv" aria-label="Previous">‹</button><span class="pg">'+(I+1)+' / '+L+'</span><button class="ib" id="sp" aria-label="Read aloud">🔊</button><button class="ib" id="wv" aria-label="Watch from here">▶</button><button class="ib" id="nx" aria-label="Next">›</button></div>'
-  +((p.f||p.e)?'<div class="tx">'+words(p)+'</div>':'')+'</div>';
+  +'<div class="rcol"><div class="rb"><button class="ib" id="pv" aria-label="Previous">‹</button><span class="pg">'+(I+1)+' / '+L+'</span><button class="ib" id="sp" aria-label="Read aloud">🔊</button><button class="ib" id="wv" aria-label="Watch from here">▶</button><button class="ib" id="nx" aria-label="Next">›</button></div>'
+  +((p.f||p.e)?'<div class="tx">'+words(p)+'</div>':'')+'</div></div>';
  wireTop(home);$("art").onclick=e=>{if(e.target.closest(".sa"))return;$("lb").innerHTML='<img alt="" src="'+src(p.i)+'">';$("lb").hidden=false};
  $("bar").hidden=true;$("sl").onclick=()=>go(-1);$("sr").onclick=()=>go(1);
  $("pv").disabled=I==0;$("nx").disabled=I==L-1;$("pv").onclick=()=>go(-1);$("nx").onclick=()=>go(1);$("sp").onclick=()=>{const v=VL;VL="en";speak(say(p));VL=v};$("wv").onclick=()=>movie(B,I);
- $("pr").firstChild.style.width=((I+1)/L*100)+"%";scrollTo(0,0)}
+ $("pr").firstChild.style.width=((I+1)/L*100)+"%";scrollTo(0,0);fitRead();setTimeout(fitRead,450);setTimeout(fitRead,1400)}
 function go(n){if(B===null)return;const m=I+n;if(m>=0&&m<W.books[B].pages.length){I=m;show()}}
 $("lb").onclick=()=>{$("lb").hidden=true};
 /* ---------- movie: full screen pictures that turn by themselves while the story is read aloud ---------- */
 const M={on:0,b:0,i:0,play:1,t:0,lay:0,music:0,ac:null,g:null,tx:0};
-function movie(b,i){M.on=1;M.b=b;M.i=i;M.play=1;SCR="movie";$("bar").hidden=true;try{speechSynthesis.cancel()}catch(e){}
+function movie(b,i){M.on=1;M.b=b;M.i=i;M.play=1;SCR="movie";fitMode();$("bar").hidden=true;try{speechSynthesis.cancel()}catch(e){}
  const mv=$("mv");mv.hidden=false;mv.innerHTML='<div class="lay" id="l0"></div><div class="lay" id="l1"></div><div class="cap off" id="cap"></div>'
   +'<div class="mt"><button class="nb home" id="mh"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(W.books[b].title)+'</span><button class="nb exit" id="mx"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'
   +'<div class="ctl"><button class="ib" id="mp" aria-label="Previous page">⏮</button><button class="ib" id="mpp" aria-label="Pause">⏸</button><button class="ib" id="mn" aria-label="Next page">⏭</button>'
@@ -292,7 +320,7 @@ async function dbSet(k,v){const d=await db();return new Promise((r,j)=>{const t=
 async function dbDel(k){const d=await db();return new Promise(r=>{const t=d.transaction("kv","readwrite");t.objectStore("kv").delete(k);t.oncomplete=()=>r(true);t.onerror=()=>r(false)})}
 let DRAFT=null;
 function clone(o){return JSON.parse(JSON.stringify(o))}
-function editor(){SCR="edit";stopMovie(true);$("bar").hidden=true;if(!DRAFT)DRAFT={W:clone(W),IMG:IMG.slice()};drawEd()}
+function editor(){SCR="edit";fitMode();stopMovie(true);$("bar").hidden=true;if(!DRAFT)DRAFT={W:clone(W),IMG:IMG.slice()};drawEd()}
 function F(lab,id,val,big){return'<label for="'+id+'">'+lab+'</label>'+(big?'<textarea id="'+id+'">'+E(val)+'</textarea>':'<input type="text" id="'+id+'" value="'+E(val)+'">')}
 function drawEd(){const w=DRAFT.W,C=w.credits=w.credits||{};let h=topbar("✏️ I-edit · Edit")+'<div class="wrap ed"><p class="kick">Mga Detalye · Details</p><div class="info">'
   +F('Pamagat · Title','d_title',w.title)+F('Kasunod na Pamagat · Subtitle','d_sub',w.sub||"")+F('Maikling Pangalan · Short name','d_short',w.short||"")+F('Itaas na Linya · Kicker','d_kick',w.kick||"")+F('Papel ng May-akda · Your role','d_role',w.role||"")
