@@ -85,7 +85,10 @@ body.pfit .wrap{padding-bottom:8px}body.pfit .info{padding:10px 16px;margin-top:
 .terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0 16px;align-items:start}.term .grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:10px}.term .tm{margin-top:16px}
 @media (min-width:900px){.abx{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start}.abx>.info{grid-column:1/-1}}
 @media (orientation:landscape) and (min-width:700px){.terms{display:flex;flex-wrap:wrap;gap:0 16px}.wrap{max-width:1320px}.term{flex:0 1 calc(var(--n,1) * 150px);max-width:100%;min-width:130px}.term .grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}.dk div{padding:8px 10px}.dk b{font-size:.92rem}.dk small{font-size:.8rem}}
-.tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 92px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}</style></head><body>
+.tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 92px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}
+/* a short screen (a phone held sideways, a small laptop): the top bar is slimmer so the page has more room */
+@media (max-height:520px){.tb{padding-top:calc(env(safe-area-inset-top,0px) + 4px)!important;padding-bottom:4px!important}.tb .nb,.tb button,.tb a.nb{height:48px!important;min-width:64px!important;padding:2px 8px!important}.tb .nb i,.tb button i{font-size:1rem!important}button>i:not([class]):not([aria-hidden]),.btn>i:not([class]):not([aria-hidden]){display:block;font-size:.82em;line-height:1.2;margin-top:1px}.tb .nb b,.tb button b{font-size:.84rem!important}.tb .nb small,.tb button small{font-size:.6rem!important}}
+</style></head><body>
 <div class="pr" id="pr"><i></i></div>
 <div id="app"></div>
 <div class="bar" id="bar" hidden></div>
@@ -141,7 +144,10 @@ const KXS=(()=>{
   +'#kxsm .r button{flex:1 1 140px;min-height:48px;border:0;border-radius:12px;font:700 15px system-ui,sans-serif;cursor:pointer;background:#14284b;color:#fff}#kxsm .r button.g{background:#e5e7eb;color:#1c2433}#kxsm .r button.s{background:#12804a}'
   +'#kxsm textarea{width:100%;box-sizing:border-box;min-height:84px;margin-top:8px;font:13px ui-monospace,Menlo,monospace}#kxsm .m{min-height:1.2em;font-weight:700;color:#12804a}#kxsm .m.bad{color:#b91c1c}';
  function css(){if(document.getElementById("kxscss"))return;const s=document.createElement("style");s.id="kxscss";s.textContent=CSS;document.head.appendChild(s)}
- function btns(inkx){if(!inkx)return"";return'<button class="nb kxs" id="tbS" aria-label="Send"><i aria-hidden="true">'+X(SW[0])+'</i><b>'+X(SW[1])+'</b><small>Send</small><em class="kxb" hidden>!</em></button>'
+ /* the signed-in learner's avatar from KORTEX (Venice, 31 Oct 2026: the library is part of everything) */
+ function avc(){try{var se=JSON.parse(localStorage.getItem("KORTEX_SESS")||"null");if(!se||se.role!=="learner")return"";var a=(JSON.parse(localStorage.getItem("KORTEX_AVATARS")||"{}")||{})[se.name]||{e:se.emoji||"⭐",b:"#ffd166",a:""};
+  return'<span class="kxav" title="'+X(se.name)+'" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;flex:none;font-size:21px;line-height:1;background:'+X(a.b||"#ffd166")+'">'+X(a.e||"⭐")+(a.a?'<span style="position:absolute;top:-9px;right:-5px;font-size:15px">'+X(a.a)+'</span>':'')+'</span>'}catch(e){return""}}
+ function btns(inkx){if(!inkx)return avc();return avc()+'<button class="nb kxs" id="tbS" aria-label="Send"><i aria-hidden="true">'+X(SW[0])+'</i><b>'+X(SW[1])+'</b><small>Send</small><em class="kxb" hidden>!</em></button>'
   +'<button class="nb kxa" id="tbA" aria-label="Accept"><i aria-hidden="true">'+X(AW[0])+'</i><b>'+X(AW[1])+'</b><small>Accept</small><em class="kxb" hidden></em></button>'}
  function badges(){const s=document.getElementById("tbS"),a=document.getElementById("tbA");if(s){const b=s.querySelector(".kxb");b.hidden=!dirty();s.title="Send Scores: your reading time and scores go to your teacher"+(b.hidden?"":". Not sent yet.")}
   if(a){const b=a.querySelector(".kxb"),n=inq().length;b.hidden=!n;b.textContent=n>9?"9+":String(n);a.title="Accept Scores: take in the files learners sent"+(n?" ("+n+" waiting for KORTEX)":"")}}
@@ -176,6 +182,14 @@ const KXS=(()=>{
  return{btns:btns,wire:wire,send:send,accept:accept,badges:badges,flush:flush,parse:parse}
 })();
 
+/* KORTEX storage safety in the story library too: the browser is asked to keep the data; a save that fails because the storage is full shows a red notice */
+(function(){if(window.__kxStore)return;window.__kxStore=1;
+ try{if(navigator.storage&&navigator.storage.persisted)navigator.storage.persisted().then(function(p){if(!p&&navigator.storage.persist)return navigator.storage.persist()}).catch(function(){})}catch(e){}
+ function full(e){return!!e&&(e.name==="QuotaExceededError"||e.name==="NS_ERROR_DOM_QUOTA_REACHED"||e.code===22||e.code===1014||/quota/i.test(String(e.message||"")))}
+ function show(){try{if(document.getElementById("kxfull"))return;var d=document.createElement("div");d.id="kxfull";d.setAttribute("role","alert");d.style.cssText="position:fixed;left:8px;right:8px;top:8px;z-index:2147483646;background:#b42318;color:#fff;border-radius:12px;padding:12px 14px;font:700 15px/1.4 system-ui,sans-serif;display:flex;gap:10px;align-items:flex-start";
+  d.innerHTML='<span style="flex:1">⚠️ Not saved: the storage for KORTEX on this device is full. Save a backup in KORTEX now.<br><i style="font-weight:400">Hindi na-save: puno na ang storage ng KORTEX sa device na ito.</i></span><button type="button" style="font:inherit;border:0;border-radius:10px;padding:8px 12px;background:#fff;color:#b42318">OK</button>';d.querySelector("button").onclick=function(){d.remove()};document.body.appendChild(d)}catch(e){}}
+ try{var P=Storage.prototype.setItem;Storage.prototype.setItem=function(){try{return P.apply(this,arguments)}catch(e){if(full(e)&&document.body)show();throw e}}}catch(e){}})();
+
 
 "use strict";
 const RAW="<!DOCTYPE html>\n"+document.documentElement.outerHTML;   /* the page as shipped: "Save As File" writes a copy of it with the edits inside */
@@ -206,13 +220,18 @@ addEventListener("resize",()=>document.querySelectorAll(".art img:not(.bk),#mv .
 /* the whole screen shows at once on a laptop, tablet or phone: the picture takes the room that is left, the words get smaller only when needed */
 function fitMode(){const b=document.body;b.classList.toggle("rdx",SCR==="read");b.classList.toggle("pfit",SCR==="home"||SCR==="about");if(SCR!=="read")b.classList.remove("side")}
 function fitRead(){try{fitMode();if(SCR!=="read")return;const w=document.querySelector("#app .wrap"),a=$("art"),rb=document.querySelector("#app .rb"),rc=document.querySelector("#app .rcol"),tx=document.querySelector("#app .tx"),bd=document.body;if(!w||!a||!rb||!rc)return;
- const ps=tx?[...tx.querySelectorAll("p")]:[];ps.forEach(p=>p.style.fontSize="");a.style.height="";w.style.gridTemplateColumns="";bd.classList.remove("side");
+ const ps=tx?[...tx.querySelectorAll("p")]:[];ps.forEach(p=>p.style.fontSize="");if(tx){tx.style.maxHeight="";tx.style.overflowY=""}a.style.height="";w.style.gridTemplateColumns="";bd.classList.remove("side");
  const W=innerWidth,H=innerHeight,top=w.getBoundingClientRect().top+(scrollY||0)+10,avail=Math.max(180,H-top-8),base=ps.map(p=>parseFloat(getComputedStyle(p).fontSize));
  const shrink=(ok,lo)=>{let k=1;ps.forEach(p=>p.style.fontSize="");while(!ok()&&k>lo){k*=.94;ps.forEach((p,i)=>p.style.fontSize=(base[i]*k)+"px")}};
  const im=a.querySelector("img:not(.bk)"),r=im&&im.naturalWidth?im.naturalHeight/im.naturalWidth:.5625,fitA=()=>{a.style.height=Math.round(Math.min(avail,Math.max(200,a.getBoundingClientRect().width*r)))+"px"};
  if(W>=700&&W/avail>=1.75){bd.classList.add("side");fitA();const ok=()=>rc.getBoundingClientRect().height<=avail;shrink(ok,.8);
-  if(!ok()){w.style.gridTemplateColumns="minmax(0,1fr) minmax(280px,48%)";fitA();shrink(ok,.72)}}
- else{const used=()=>rc.getBoundingClientRect().height+10;if(avail-used()<170)shrink(()=>avail-used()>=170,.75);a.style.height=Math.round(Math.max(150,Math.min(avail-used(),a.getBoundingClientRect().width*r)))+"px"}}catch(e){}}
+  if(!ok()){w.style.gridTemplateColumns="minmax(0,1fr) minmax(280px,48%)";fitA();shrink(ok,.72)}
+  if(!ok()){bd.classList.remove("side");w.style.gridTemplateColumns="";a.style.height="";const used=()=>rc.getBoundingClientRect().height+10;shrink(()=>avail-used()>=100,.72);
+   if(avail-used()>=100){a.style.height=Math.round(Math.min(avail-used(),a.getBoundingClientRect().width*r))+"px";return}
+   bd.classList.add("side");w.style.gridTemplateColumns="minmax(0,1fr) minmax(280px,56%)";fitA();shrink(ok,.62);
+   /* a very long page on a small screen: the words scroll inside their own box, the picture and the buttons stay */
+   if(!ok()&&tx){tx.style.maxHeight=Math.max(80,avail-rb.getBoundingClientRect().height-14)+"px";tx.style.overflowY="auto"}}}
+ else{const used=()=>rc.getBoundingClientRect().height+10;if(avail-used()<170)shrink(()=>avail-used()>=170,.75);if(avail-used()<150&&tx){tx.style.maxHeight=Math.max(80,avail-150-rb.getBoundingClientRect().height-24)+"px";tx.style.overflowY="auto"}a.style.height=Math.round(Math.max(150,Math.min(avail-used(),a.getBoundingClientRect().width*r)))+"px"}}catch(e){}}
 function fitHome(){try{fitMode();if(SCR!=="home"&&SCR!=="about")return;const de=document.documentElement,R=de.style,wr=document.querySelector("#app .wrap");if(wr)wr.style.zoom="";R.removeProperty("--covh");R.removeProperty("--dkh");const h1=document.querySelector("#app h1");if(h1)h1.style.fontSize="";
  const over=()=>de.scrollHeight>innerHeight+1;if(!over())return;const cov=document.querySelector(".hero .cov"),tc=cov&&cov.nextElementSibling,dk=document.querySelector(".dk img");
  const ax=document.querySelector("#app .abx");if(ax)ax.style.fontSize="";let a0=ax?parseFloat(getComputedStyle(ax).fontSize):0,af=a0,ch=cov?cov.getBoundingClientRect().height:0,dh=dk?dk.getBoundingClientRect().height:0,hf=h1?parseFloat(getComputedStyle(h1).fontSize):0,h0=hf;
@@ -221,7 +240,7 @@ function fitHome(){try{fitMode();if(SCR!=="home"&&SCR!=="about")return;const de=
   else if(h1&&hf>h0*.62){hf*=.93;h1.style.fontSize=hf+"px"}
   else if(dk&&dh>46){dh*=.9;R.setProperty("--dkh",Math.round(dh)+"px")}
   else if(ax&&af>a0*.74){af*=.95;ax.style.fontSize=af+"px"}else break}
- if(over()&&wr&&innerWidth>innerHeight){const t=wr.getBoundingClientRect().top,hh=wr.getBoundingClientRect().height;if(hh>0)wr.style.zoom=Math.max(.6,Math.min(1,(innerHeight-t-2)/hh))}}catch(e){}}
+ if(over()&&wr){const t=wr.getBoundingClientRect().top,hh=wr.getBoundingClientRect().height,fl=innerWidth>innerHeight?(innerHeight<450?.55:.6):.82,z=(innerHeight-t-6)/hh;if(hh>0&&z>=fl-.001)wr.style.zoom=Math.min(1,z);else if(hh>0&&innerWidth>innerHeight)wr.style.zoom=fl}}catch(e){}}
 let FTT=0;addEventListener("resize",()=>{clearTimeout(FTT);FTT=setTimeout(()=>{if(SCR==="read")fitRead();else fitHome()},120)});try{document.fonts.ready.then(()=>{if(SCR==="read")fitRead();else fitHome()})}catch(e){}
 /* is a paragraph English? (count common English vs Filipino words) */
 function isEn(t){const w=String(t||"").toLowerCase().match(/[a-zñ']+/g)||[];let e=0,f=0;w.forEach(x=>{if(/^(the|and|of|to|is|a|her|his|she|he|with|for|in|on|was|are|from|that|this|it)$/.test(x))e++;else if(/^(ang|ng|sa|mga|na|si|ay|at|kung|niya|siya|nang|ni|ito|kaniyang|isang)$/.test(x))f++});return e>f}
@@ -248,9 +267,9 @@ function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=to
  let D='<div class="info"><dl>'+R(C.story&&C.story!=='Venice D. Rodriguez'?'Kuwento':'May-akda',C.story&&C.story!=='Venice D. Rodriguez'?'Story':'Author',E(C.story||'Venice D. Rodriguez'))+R('Salin','Translation',E(C.trans||''))+R('Guhit','Illustrations',E(C.ill||''))
   +R('Tagapaglathala','Publisher',(C.pub?E(C.pub):'')+(C.pubinfo?'<br><small>'+E(C.pubinfo).replace(/\n/g,' · ')+'</small>':''),C.pubinfo?'wide':'')+R('Taon','Published',E(C.date||''))
   +R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>"))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',BI(C.langs||''))
-  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''))+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';const Dd=D;
+  +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''),(C.copy||'').length>90?'wide':'')+R('Digital na Code','Digital Code',E(W.code))+'</dl></div>';const Dd=D;
  const G=C.get?'<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>':'';h+='</div><div>'+G+'</div>'+Dd+'</div>';
- h+='<button class="edl" id="edb">✏️ I-edit <i>Edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
+ h+='<button class="edl" id="edb">✏️ Edit <i>I-edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 /* ---------- reader ---------- */
 function show(){SCR="read";const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"><button class="sa l" id="sl" aria-label="Previous"'+(I==0?' disabled':'')+'>‹</button><button class="sa r" id="sr" aria-label="Next"'+(I==L-1?' disabled':'')+'>›</button></div>'
