@@ -1,5 +1,5 @@
-KORTEX — Public Teacher and Learner Edition
-The Codex Archive • Author: Venice D. Rodriguez • Version 3.5 • Build 202610252144
+KORTEX
+The Codex Archive • Author: Venice D. Rodriguez
 The Launchpad for Engineered Brilliance.
 
 HOW TO OPEN
@@ -9,7 +9,7 @@ SIGN IN
 Learners tap their name, then Yes. The Teacher signs in with the Teacher PIN (starter PIN: 1234; choose your own in Tools → 🔐 Crypto Shield). Forgot it? Tap 🗝️ Forgot PIN? and type the Teacher Recovery Code from the private Teacher Guide. Log Out is in the top bar, and every sign-in and game opened is kept in the log.
 
 14 GAMES
-The Codex Archive: ABC SPRINT, MONTAGE. The Atheneum Space: 365 SMARTY, PEDAGOGICAL BLUEPRINTS. The Literati Nest: BALANGAY SIKHAY, PANTAS. The Apex Summit: WHIZ CUP, ARENA. The Decathlon Suite: GAUNTLET. The Cipher Node: HelixPDGM, KUE, SYNAPSE SIMULATOR, CRYPTO CORE. PlaySphere: TACTICAL HQ.
+The Codex Archive: ABC SPRINT, MONTAGE. The Atheneum Space: 365 SMARTY, PED. BLUEPRINTS. The Literati Nest: BALANGAY SIKHAY, PANTAS. The Apex Summit: WHIZ CUP, ARENA. The Decathlon Suite: GAUNTLET. The Cipher Node: HelixPDGM, KUE, SYNAPSE, CRYPTO CORE. PlaySphere: TACTICAL HQ.
 
 ONE KORTEX FOR EVERYONE
 The first screen has three doors: Learner (tap your name), Parent (choose your child, then type the family code) and Teacher (Teacher PIN).
@@ -17,8 +17,20 @@ Parents can view progress only; nothing can be changed. The Teacher side stays b
 
 ON THE KORTEX HOME
 🎯 Calibrated Quiz: ten questions at a time, and every answer moves the next question up or down to fit the learner.
-👪 Parent Dashboard: Tools → Parent Dashboard → 📦 One File for All Families saves one file for every family. Share it in the class group chat.
-   Each family types the code on its slip (🔑 Family Code Slips) and sees only its own child.
+👪 Parent Dashboard: Tools → Parent Dashboard → 📮 Family Update saves one small file for every family. Share it in the class group chat.
+   Each family opens KORTEX-LEARNER → 👪 Parent → 📥 Accept Teacher's Update, types the code on its slip (🔑 Family Code Slips) and sees only its own child:
+   progress summary, goals, recent results, Teacher notes and attendance alerts.
+
+KORTEX TOOLS (TEACHER)
+📋 Attendance: Present, Late, Absent, Excused; one record per learner per day, shared with every game's Attendance First. Reports with filters, trends, rates, charts, CSV and PDF; Class Attendance Goals.
+✍️ Add Results by Hand: paper tests and activities away from the screen; counted in Analytics, MPS, rewards and reports. (The games no longer keep their own copy.)
+🏆 Leaderboard and Rewards: XP (10 per correct first answer + 20 per win, × Easy 1 / Standard 1.5 / Expert 2), wins (a game of 5 or more answers at 75% or more), badges, seasons (term, monthly, quarterly, school year or manual; past seasons are archived, lifetime totals stay).
+🎯 Learner Goals: XP, wins, score, games completed or badges; milestone notifications at 25, 50, 75 and 100%; a completed goal earns one certificate.
+🎓 Goal Certificates: Classic, Modern, Celebration or your own template; search, filters, sort, select, single or bulk print, index CSV.
+🔔 Attendance Alerts: Late, Absent, optional Excused, Low Attendance Rate; history with filters and a learner drill-down.
+📈 Analytics Dashboard: From/To, game, difficulty, season and grouping; charts; Analytics CSV and PDF; Student PDF.
+Restore checks a backup first, shows what will change, saves a safety backup, restores and checks every item.
+The first time the Teacher signs in with the starter PIN, KORTEX asks for the Teacher's own PIN.
 
 EVERY SCHOOL YEAR
 Opening day changes every year with the DepEd order. When the order comes out, type the opening day and the term dates in 🛠️ Vector State → School Calendar.
