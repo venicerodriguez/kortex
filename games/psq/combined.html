@@ -39,6 +39,38 @@ window.KXATT={key:K,S:{P:"Present",L:"Late",A:"Absent",E:"Excused"},F:{P:"Narito
  idOf:idOf,roster:ros,migrate:migrate};
 try{migrate()}catch(e){}
 })();
+
+/* KORTEX text layout (Venice, 1 Nov 2026): paragraphs are justified, and a long paragraph shows at most two sentences per block,
+   with a small space between blocks, so text is never one heavy wall. Only how text is shown changes: the words stay exactly as written,
+   and a game that rewrites its text gets the same layout again. Buttons, labels, tables, lists and centered lines are left alone. */
+(function(){
+ if(window.KXPARA)return;window.KXPARA=1;
+ var SKIP="button,label,td,th,li,summary,select,option,textarea,input,svg,[contenteditable],#kxnav,#kxdock,#kxbub,.kxbub,.kxsen,.kxc,[data-kxpara=no]";
+ var INLINE=/^(B|I|EM|STRONG|SMALL|SPAN|A|U|MARK|SUP|SUB|Q|CITE|ABBR|TIME)$/;
+ var ABBR=/(?:^|[\s(“"])(?:Gng|Bb|Mrs|Mr|Ms|Dr|St|Sr|Jr|Sto|Sta|No|Blg|vs|etc|hal|Hal|Engr|Atty|Prof|[A-Z])\.$/;
+ var END=/([.!?…]+["”’)\]]*)(\s+)(?=["“‘(]?[A-ZÀ-ÖØ-ÞÑ0-9¿¡])/g;
+ function css(){if(document.getElementById("kxpara-css")||!document.head)return;var s=document.createElement("style");s.id="kxpara-css";
+  s.textContent=".kxpj{text-align:justify;-webkit-hyphens:auto;hyphens:auto;text-wrap:pretty}span.kxpb{display:block!important;height:.55em!important;width:auto!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;font-size:inherit!important;line-height:0!important;content:none}@media print{span.kxpb{height:.4em!important}}";document.head.appendChild(s)}
+ function texts(p){var out=[],ok=true;(function walk(n){for(var c=n.firstChild;c;c=c.nextSibling){if(c.nodeType===3)out.push(c);else if(c.nodeType===1){if(c.classList&&c.classList.contains("kxpb"))continue;if(!INLINE.test(c.tagName)){ok=false;return}walk(c)}}})(p);return ok?out:null}
+ function fix(p){
+  if(p.closest(SKIP))return;var t=p.textContent||"";if(t.length<90)return;
+  var key=t.length+":"+t.slice(0,24);if(p.getAttribute("data-kxpt")===key&&(p.querySelector(".kxpb")||p.classList.contains("kxpj")))return;
+  var cs=getComputedStyle(p),al=cs.textAlign;if(cs.display==="none"||cs.visibility==="hidden")return;
+  if((al==="start"||al==="left"||al==="justify")&&p.clientWidth>=200)p.classList.add("kxpj");
+  p.setAttribute("data-kxpt",key);
+  if(t.length<140||p.querySelector(".kxpb"))return;
+  var T=texts(p);if(!T)return;
+  var marks=[];T.forEach(function(n){var s=n.nodeValue,m;END.lastIndex=0;while((m=END.exec(s))){var before=s.slice(0,m.index+m[1].length);if(ABBR.test(before))continue;marks.push({n:n,at:m.index+m[1].length+m[2].length})}});
+  if(marks.length<2)return;
+  var cut=[];for(var i=1;i<marks.length;i+=2)cut.push(marks[i]);
+  cut.reverse().forEach(function(k){var rest=k.n.splitText(k.at);var b=document.createElement("span");b.className="kxpb";b.setAttribute("aria-hidden","true");rest.parentNode.insertBefore(b,rest)})}
+ var busy=0,tm=0;
+ function run(){if(busy)return;busy=1;try{css();[].forEach.call(document.querySelectorAll("p"),function(p){try{fix(p)}catch(e){}})}catch(e){}busy=0}
+ function later(){clearTimeout(tm);tm=setTimeout(run,250)}
+ window.KXPARA={run:run};
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
+ try{new MutationObserver(function(ms){if(busy)return;later()}).observe(document.documentElement,{childList:true,subtree:true,characterData:true})}catch(e){}
+})();
 </script><script>/* KORTEX subjects and terms in every game (Venice, 31 Oct 2026): set once in KORTEX → Tools → 📚 Subjects and Terms.
    A game's built-in lists (5 MATATAG subjects, 3 terms) grow with the KORTEX list; renamed subjects show their new names.
    New subjects and terms start empty: their questions are added in the game's own editor. Saved scores keep their place. */
@@ -1185,7 +1217,7 @@ window.kxPick.card=function(o){if(!o||!o.name)return;var st=document.getElementB
 })();
 </script><script>/* KORTEX learner notes (Venice, 31 Oct 2026): why a result is what it is (distracted, not ready, sick…), so Analytics can show it.
    Teacher side only. After a non-correct mark (Wrong, Refused, Time out, No answer, Decided not to answer) a small Note sheet asks,
-   with Skip; 📝 in the KORTEX bar adds a note any time. Notes are saved as KORTEX_NOTES (on this device, in KORTEX backups).
+   with Skip; the 📝 Note button (lower left, Teacher side) adds a note any time. Notes are saved as KORTEX_NOTES (on this device, in KORTEX backups).
    A note never changes a score. */
 (function(){
  if(window.KXNOTE)return;
@@ -1238,11 +1270,20 @@ window.kxPick.card=function(o){if(!o||!o.name)return;var st=document.getElementB
   var t=((b.innerText||b.textContent||"")+" "+(b.title||"")).replace(/\s+/g," ").trim();if(!t||t.length>60)return;var r=null;for(var i=0;i<CODE.length;i++){if(CODE[i][0].test(t)){r=CODE[i][1];break}}if(!r)return;
   if(/try again|reveal|show answer|ipakita|pass|ipasa|rescue|next|susunod|steal/i.test(t))return;
   var nm=curName(),q=qtext();setTimeout(function(){ask({n:nm,r:r,q:q,manual:1})},450)},true);
- /* 📝 in the KORTEX bar (Teacher side): a note any time */
- /* the bar lives in this page, or in the page around a game that opens inside a frame */
+ /* 📝 Note (Teacher side): a note any time. Its own button at the lower left, never squeezed into the KORTEX bar with Home, Send, Accept and Exit (Venice, 1 Nov 2026). */
+ /* it shows when the game runs inside KORTEX (the KORTEX bar is in this page, or in the page around a game that opens inside a frame) */
  function host(){var D0=document;if(D0.getElementById("kxnX"))return D0;try{if(window.frameElement&&parent.document.getElementById("kxnX"))return parent.document}catch(e){}return null}
- function bar(){if(learner())return;var D0=host();if(!D0||D0.getElementById("kxnote-b"))return;var x=D0.getElementById("kxnX");if(!x||!x.parentNode)return;var b=D0.createElement("button");b.type="button";b.id="kxnote-b";b.innerHTML="📝";b.title="Note · Tala";b.setAttribute("aria-label","Note · Tala");b.setAttribute("data-kxskip","1");
-  b.onclick=function(e){e.stopPropagation();var w=null;try{var fr=D0.querySelector("iframe#fr");w=fr&&fr.getClientRects().length&&fr.contentWindow}catch(x){}((w&&w.KXNOTE)||window.KXNOTE).ask({manual:1})};var f=D0.getElementById("kxmt-f");x.parentNode.insertBefore(b,f&&f.parentNode===x.parentNode?f:x)}
+ function bar(){if(learner())return;var D0=host();if(!D0||D0.getElementById("kxnote-b")||!D0.body)return;var b=D0.createElement("button");b.type="button";b.id="kxnote-b";b.innerHTML='📝 Note<i>Tala</i>';b.title="Note · Tala";b.setAttribute("aria-label","Note · Tala");b.setAttribute("data-kxskip","1");
+  if(!D0.getElementById("kxnote-css")){var st=D0.createElement("style");st.id="kxnote-css";st.textContent="#kxnote-b{position:fixed;left:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:2147482000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:64px;min-height:48px;padding:5px 12px;border-radius:16px;border:2px solid var(--kx-a,#d4a84b);background:linear-gradient(135deg,var(--kx-n1,#14284b),var(--kx-n2,#3b2a8f));color:#fff;font:800 14px/1.1 system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.28);cursor:pointer}#kxnote-b i{font-style:italic;font-weight:500;font-size:.78em;opacity:.92}#kxnote-b:active{transform:scale(.96)}@media print{#kxnote-b{display:none}}body.kxnote-pad{padding-bottom:70px!important}";D0.head.appendChild(st)}
+  b.onclick=function(e){e.stopPropagation();var w=null;try{var fr=D0.querySelector("iframe#fr");w=fr&&fr.getClientRects().length&&fr.contentWindow}catch(x){}((w&&w.KXNOTE)||window.KXNOTE).ask({manual:1})};D0.body.appendChild(b);D0.body.classList.add("kxnote-pad");place(D0);
+  var W=D0.defaultView||window,pt=0,lp=function(){clearTimeout(pt);pt=setTimeout(function(){place(D0)},200)};W.addEventListener("scroll",lp,{passive:true});W.addEventListener("resize",lp);setInterval(function(){place(D0)},1800)}
+ /* the Note button never sits on a game's own buttons: it takes the first free corner or side (lower left, lower right, right, left, top) */
+ function place(D0){var b=D0.getElementById("kxnote-b");if(!b)return;var W=D0.defaultView||window,nav=D0.getElementById("kxnav"),top=nav?Math.round(nav.getBoundingClientRect().bottom)+8:10,mid=Math.round(W.innerHeight/2-24);
+  var C=[{left:"10px",bottom:"calc(10px + env(safe-area-inset-bottom,0px))"},{right:"10px",bottom:"calc(10px + env(safe-area-inset-bottom,0px))"},{right:"6px",top:mid+"px"},{left:"6px",top:mid+"px"},{right:"10px",top:top+"px"},{left:"10px",top:top+"px"}];
+  var els=[].slice.call(D0.querySelectorAll("button,a[href],input,select,textarea,[role=button],canvas,.tile,.card button")).filter(function(e){if(e===b||b.contains(e))return false;var r=e.getBoundingClientRect();return r.width>2&&r.height>2&&r.bottom>0&&r.top<W.innerHeight&&getComputedStyle(e).visibility!=="hidden"});
+  var cost=function(){var r=b.getBoundingClientRect(),n=0;els.forEach(function(e){var q=e.getBoundingClientRect();if(q.left<r.right+4&&q.right>r.left-4&&q.top<r.bottom+4&&q.bottom>r.top-4)n++});return n};
+  var best=null,bc=1e9;for(var i=0;i<C.length;i++){var c=C[i];b.style.left=c.left||"auto";b.style.right=c.right||"auto";b.style.top=c.top||"auto";b.style.bottom=c.bottom||"auto";var k=cost();if(k<bc){bc=k;best=c}if(k===0)break}
+  if(best){b.style.left=best.left||"auto";b.style.right=best.right||"auto";b.style.top=best.top||"auto";b.style.bottom=best.bottom||"auto"}}
  function go(){hookPick();bar()}
  window.KXNOTE={ask:ask,read:rd,cur:function(){return N.cur}};
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();setTimeout(go,1200);setTimeout(go,3500);
@@ -1825,7 +1866,7 @@ function kxNav(){if(!isTopGame()||document.getElementById("kxnav"))return;
   +'#kxnav .kr{display:flex;align-items:center;gap:6px}#kxnav .kr button:not(.kn):not(.kd){height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font:700 13px system-ui,sans-serif;padding:0 10px;cursor:pointer}'
   +'#kxnav #kxdock{display:flex;gap:6px;align-items:center}#kxnav #kxdock .kd .ki{font-size:16px}'
   +'body.kxnav-on,html.kxnav-on>body{padding-top:var(--kxnh,52px)!important}'
-  +'@media (max-width:560px){#kxnav{gap:4px;padding:0 4px}#kxnav .kt{display:none}#kxnav .kr{margin-left:auto;gap:4px}#kxnav .kn,#kxnav #kxdock .kd{min-width:0;padding:2px 6px;font-size:12px;height:40px}#kxnav .kn small,#kxnav #kxdock .kd small{font-size:9px}#kxnav #kxdock{gap:4px}#kxnav .kxmasc{width:36px;height:36px;font-size:20px}#kxmt-f,#kxmt-c{display:none!important}}'
+  +'@media (max-width:560px){#kxnav{gap:4px;padding:0 4px}#kxnav .kt{display:none}#kxnav .kr{margin-left:auto;gap:4px}#kxnav .kn,#kxnav #kxdock .kd{min-width:0;padding:2px 5px;font-size:min(12px,2.75vw);height:40px;white-space:nowrap;word-break:keep-all;overflow-wrap:normal;letter-spacing:-.15px}#kxnav .kn .l1,#kxnav #kxdock .kd .l1{white-space:nowrap}#kxnav .kn small,#kxnav #kxdock .kd small{font-size:9px}#kxnav #kxdock{gap:4px}#kxnav .kxmasc{width:36px;height:36px;font-size:20px}#kxmt-f,#kxmt-c{display:none!important}}'
   +'@media (min-height:561px) and (pointer:coarse),(min-height:561px) and (max-width:560px){#kxnav{gap:4px;padding:0 4px}#kxnav .kn,#kxnav #kxdock .kd{height:68px;min-width:66px;padding:3px 4px;border-radius:16px}#kxnav .l1{flex-direction:column;gap:1px}#kxnav .ic,#kxnav #kxdock .ki{font-size:24px;line-height:1}#kxnav .wd,#kxnav #kxdock .kw{font-size:11.5px;white-space:normal;text-align:center;line-height:1.05}#kxnav .kn small,#kxnav #kxdock .kd small{font-size:9.5px}}'
   +'@media (min-height:561px) and (max-width:560px){#kxnav #kxnR,#kxnav #kxdock{display:contents}#kxnav .kn,#kxnav #kxdock .kd{flex:1 1 0;min-width:0;max-width:112px}#kxnav .kt,#kxnav #kxnM{display:none}}';
  document.head.appendChild(st);

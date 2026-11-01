@@ -195,6 +195,8 @@ function about(){document.title="About · "+D.title;let h=topbar(D.title)+'<div 
  $("app").innerHTML=h;wire(()=>{location.hash="";view()});scrollTo(0,0)}
 function view(){const k=location.hash.slice(1),c=D.cols.find(x=>x.key===k);if(c)col(c);else if(k==="about")about();else if(k!=="edit")home()}
 addEventListener("hashchange",()=>{if(SCR!=="edit")view()});
+/* in-page links (collection covers, About) stay inside the library, also when it runs inside one KORTEX file (whose address is the whole file) */
+addEventListener("click",e=>{const a=e.target&&e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();const h=a.getAttribute("href");if(location.hash===h)view();else location.hash=h},true);
 /* ---------- ✏️ editor (Teacher PIN): texts, covers, collections and story list ---------- */
 let SCR="view";const SALT="KORTEX-CODEX-ARCHIVE-";
 function hh(s){let a=0xdeadbeef,b=0x41c6ce57;for(let i=0,c;i<s.length;i++){c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^a>>>16,2246822507)^Math.imul(b^b>>>13,3266489909);b=Math.imul(b^b>>>16,2246822507)^Math.imul(a^a>>>13,3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)}
@@ -249,4 +251,35 @@ function act(a,k,j){rd();const c=DR.cols[k],S=c?c.stories:null;
 if("serviceWorker"in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js");
 
 (()=>{try{if(sessionStorage.getItem("AFFHI"))return;sessionStorage.setItem("AFFHI","1")}catch(e){}const b=document.createElement("div");b.id="kxbub";b.innerHTML="<b>"+KXT.m+"</b><span>Hi! Ako si "+E(KXT.mn)+". Pumili ng kuwento! "+KXT.m+"</span>";document.body.appendChild(b);setTimeout(()=>b.remove(),3800);try{if(localStorage.getItem("KORTEX_MUTE")!=="1"&&localStorage.getItem("vdr-voice")!=="off"&&window.speechSynthesis){const u=new SpeechSynthesisUtterance("Hi! I'm "+KXT.mn+". Pick a story!");u.lang="en-US";u.pitch=1.5;u.rate=1.02;const v=(speechSynthesis.getVoices()||[]).find(v=>/^en/i.test(v.lang)&&/female|samantha|zira|karen|google us english/i.test(v.name));if(v){u.voice=v;u.lang=v.lang}speechSynthesis.speak(u)}}catch(e){}})();
+</script><script>/* KORTEX text layout (Venice, 1 Nov 2026): paragraphs are justified, and a long paragraph shows at most two sentences per block,
+   with a small space between blocks, so text is never one heavy wall. Only how text is shown changes: the words stay exactly as written,
+   and a game that rewrites its text gets the same layout again. Buttons, labels, tables, lists and centered lines are left alone. */
+(function(){
+ if(window.KXPARA)return;window.KXPARA=1;
+ var SKIP="button,label,td,th,li,summary,select,option,textarea,input,svg,[contenteditable],#kxnav,#kxdock,#kxbub,.kxbub,.kxsen,.kxc,[data-kxpara=no]";
+ var INLINE=/^(B|I|EM|STRONG|SMALL|SPAN|A|U|MARK|SUP|SUB|Q|CITE|ABBR|TIME)$/;
+ var ABBR=/(?:^|[\s(“"])(?:Gng|Bb|Mrs|Mr|Ms|Dr|St|Sr|Jr|Sto|Sta|No|Blg|vs|etc|hal|Hal|Engr|Atty|Prof|[A-Z])\.$/;
+ var END=/([.!?…]+["”’)\]]*)(\s+)(?=["“‘(]?[A-ZÀ-ÖØ-ÞÑ0-9¿¡])/g;
+ function css(){if(document.getElementById("kxpara-css")||!document.head)return;var s=document.createElement("style");s.id="kxpara-css";
+  s.textContent=".kxpj{text-align:justify;-webkit-hyphens:auto;hyphens:auto;text-wrap:pretty}span.kxpb{display:block!important;height:.55em!important;width:auto!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;font-size:inherit!important;line-height:0!important;content:none}@media print{span.kxpb{height:.4em!important}}";document.head.appendChild(s)}
+ function texts(p){var out=[],ok=true;(function walk(n){for(var c=n.firstChild;c;c=c.nextSibling){if(c.nodeType===3)out.push(c);else if(c.nodeType===1){if(c.classList&&c.classList.contains("kxpb"))continue;if(!INLINE.test(c.tagName)){ok=false;return}walk(c)}}})(p);return ok?out:null}
+ function fix(p){
+  if(p.closest(SKIP))return;var t=p.textContent||"";if(t.length<90)return;
+  var key=t.length+":"+t.slice(0,24);if(p.getAttribute("data-kxpt")===key&&(p.querySelector(".kxpb")||p.classList.contains("kxpj")))return;
+  var cs=getComputedStyle(p),al=cs.textAlign;if(cs.display==="none"||cs.visibility==="hidden")return;
+  if((al==="start"||al==="left"||al==="justify")&&p.clientWidth>=200)p.classList.add("kxpj");
+  p.setAttribute("data-kxpt",key);
+  if(t.length<140||p.querySelector(".kxpb"))return;
+  var T=texts(p);if(!T)return;
+  var marks=[];T.forEach(function(n){var s=n.nodeValue,m;END.lastIndex=0;while((m=END.exec(s))){var before=s.slice(0,m.index+m[1].length);if(ABBR.test(before))continue;marks.push({n:n,at:m.index+m[1].length+m[2].length})}});
+  if(marks.length<2)return;
+  var cut=[];for(var i=1;i<marks.length;i+=2)cut.push(marks[i]);
+  cut.reverse().forEach(function(k){var rest=k.n.splitText(k.at);var b=document.createElement("span");b.className="kxpb";b.setAttribute("aria-hidden","true");rest.parentNode.insertBefore(b,rest)})}
+ var busy=0,tm=0;
+ function run(){if(busy)return;busy=1;try{css();[].forEach.call(document.querySelectorAll("p"),function(p){try{fix(p)}catch(e){}})}catch(e){}busy=0}
+ function later(){clearTimeout(tm);tm=setTimeout(run,250)}
+ window.KXPARA={run:run};
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
+ try{new MutationObserver(function(ms){if(busy)return;later()}).observe(document.documentElement,{childList:true,subtree:true,characterData:true})}catch(e){}
+})();
 </script></body></html>
