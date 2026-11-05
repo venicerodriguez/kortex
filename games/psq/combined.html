@@ -2019,7 +2019,29 @@ function relabel(){try{if(!SH.relabel)return;
   var t=(b.textContent||"").replace(/\s+/g," ").trim();
   if(/^(🔧|🧰)\s*Tools$/.test(t)){b.setAttribute("data-kxrel","1");
    b.innerHTML='🔧 Game Tools<br><i style="font-weight:400;font-size:11px">Mga Kagamitan ng Laro</i>'}})}catch(e){}}
-function tick(){relabel();nav();if(!learner())mission()}
+function abcFix(){try{if(!SH.abc)return;
+ /* 1) General first on the Rules page: Governance, Response codes, Standards — then each mode (checklist 19) */
+ var h3=[].slice.call(document.querySelectorAll("h3")).filter(function(x){return/Rules, Standards & Governance/i.test(x.textContent)})[0];
+ if(h3&&h3.parentElement){var host=h3.parentElement,segs=[],cur=null,n=h3.nextSibling;
+  while(n){if(n.nodeType===1&&n.tagName==="H4"){cur={h:n,parts:[n],t:n.textContent};segs.push(cur)}
+   else if(cur)cur.parts.push(n);
+   n=n.nextSibling}
+  if(segs.length>3){var pat=[/governance/i,/response code/i,/standards/i],gen=[],modes=[];
+   segs.forEach(function(sg){sg.g=-1;pat.forEach(function(p,i){if(p.test(sg.t))sg.g=i})});
+   gen=segs.filter(function(x){return x.g>=0}).sort(function(a,b){return a.g-b.g});
+   modes=segs.filter(function(x){return x.g<0});
+   var want=gen.concat(modes);
+   var same=true;for(var i=0;i<want.length;i++)if(want[i]!==segs[i]){same=false;break}
+   if(!same)want.forEach(function(sg){sg.parts.forEach(function(p){host.appendChild(p)})})}}
+ /* 2) a pressed mode's setup shows ITS rule before anything is timed (checklist 30) */
+ var MO=(0,eval)('typeof MODES!=="undefined"?MODES:null'),RL=(0,eval)('typeof RULES!=="undefined"?RULES:null'),vv=(0,eval)('typeof v!=="undefined"?v:null');
+ if(MO&&RL&&vv&&vv.mode&&RL[vv.mode]&&!document.querySelector(".kxmr")){
+  var m=MO[vv.mode],bs=[].slice.call(document.querySelectorAll(".card b")).filter(function(b){return b.textContent.indexOf(m.name)>=0&&b.getClientRects().length})[0];
+  if(bs){var d=document.createElement("details");d.open=true;d.className="kxmr";d.setAttribute("data-kxskip","1");d.style.cssText="text-align:left;margin:6px 0";
+   d.innerHTML="<summary>📜 "+esc(m.name)+" rule <i>Patakaran</i></summary><ul>"+RL[vv.mode].map(function(x){return"<li>"+x+"</li>"}).join("")+"</ul>";
+   var card=bs.closest(".card")||bs.parentElement;card.insertBefore(d,bs.nextSibling?bs.nextSibling.nextSibling:null)}}
+}catch(e){}}
+function tick(){relabel();nav();abcFix();if(!learner())mission()}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",tick);else tick();
 setInterval(tick,900);
 window.KXSHELLAPI={open:openGT};
