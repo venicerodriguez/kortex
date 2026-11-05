@@ -1527,6 +1527,7 @@ function relabel(){
   /* one theme word, one button: when two different buttons would wear the same word (Setup and Tools, two kinds of reset), the second keeps its own name */
   var U=window.__kxUsed||(window.__kxUsed={}),pk=plain.toLowerCase();if(U[key]&&U[key]!==pk)continue;U[key]=pk;
   var cap=tc(plain)||plain;if(plain.length<=2)cap=C.th[key].c||cap;
+  if(/^tools$/i.test(plain))cap="Game Tools"; /* Game Shell Standard: the themed opener's plain meaning is Game Tools */
   e.innerHTML='<span class="kxt-l">'+esc(C.th[key].l)+'</span><span class="kxt-c">'+esc(cap)+'</span>';
   e.classList.add("kxt");e.title=cap;e.setAttribute("data-kx",key);e.setAttribute("data-kxh",e.innerHTML)}}
 
@@ -2002,13 +2003,23 @@ function nav(){try{
 }catch(e){}}
 function today(){var d=new Date(),p=function(n){return(n<10?"0":"")+n};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())}
 function mission(){try{if(!SH.msn||learner()||document.getElementById("kxmsn2"))return;
- var host=document.querySelector(SH.msn);if(!host)return;
+ if(/Today\u2019s Mission|Today's Mission/.test((document.body&&document.body.innerText||"").slice(0,4000)))return; /* a game with its own missions (TACTICAL HQ) keeps its own */
+ var host=null,ref=null;
+ if(SH.msn==="auto"){var kb=document.querySelector(".kxb");if(kb&&kb.parentNode){host=kb.parentNode;ref=kb.nextSibling}else{host=document.body;ref=document.body.firstChild}}
+ else{host=document.querySelector(SH.msn);ref=host&&host.firstChild}
+ if(!host)return;
  var o=null;try{o=JSON.parse(localStorage.getItem("KORTEX_MISSION")||"null")}catch(e){}
  if(!o||o.d!==today()||!o.t)return;
  css();var el=document.createElement("div");el.id="kxmsn2";el.setAttribute("data-kxskip","1");
  el.innerHTML='<b>🎯 Today’s Mission <i>Misyon Ngayong Araw</i></b><span>'+esc(o.t)+(o.w?' · '+esc(o.w):'')+'</span>';
- host.insertBefore(el,host.firstChild)}catch(e){}}
-function tick(){if(learner()&&!(SH.learner))return nav();nav();mission()}
+ host.insertBefore(el,ref||null)}catch(e){}}
+function relabel(){try{if(!SH.relabel)return;
+ [].slice.call(document.querySelectorAll("button,[onclick]")).forEach(function(b){
+  if(b.getAttribute("data-kxrel")||b.closest("#kxgt"))return;
+  var t=(b.textContent||"").replace(/\s+/g," ").trim();
+  if(/^(🔧|🧰)\s*Tools$/.test(t)){b.setAttribute("data-kxrel","1");
+   b.innerHTML='🔧 Game Tools<br><i style="font-weight:400;font-size:11px">Mga Kagamitan ng Laro</i>'}})}catch(e){}}
+function tick(){relabel();nav();if(!learner())mission()}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",tick);else tick();
 setInterval(tick,900);
 window.KXSHELLAPI={open:openGT};
