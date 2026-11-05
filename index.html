@@ -1170,7 +1170,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611051847",
+ "build": "202611052023",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -4500,6 +4500,7 @@ function openPrintCenter(){if(!kxIsT())return kxDeny();
    ["📋","Attendance","Mark a day, reports and class goals",function(){openAttendance()}],
    ["📝","Parent Consent","Signed forms and blank paper forms",function(){openConsent()}],
    ["🔑","Family Code Slips","One private code slip per family",function(){famSlips()}],
+   ["🪪","Learner QR Cards","One scan card per learner; game pickers read it",function(){openQrCards()}],
    ["📖","Reading Log","Fills itself; edit anytime",function(){openReading()}],
    ["🏅","Technical Certification","School Heads review and signature",function(){openTechCert()}]]],
   ["Paper practice",[
@@ -4556,6 +4557,14 @@ function kxSnap(){
  var go=function(i,fn){var e=$(i);if(e)e.onclick=function(){guardTools(fn)}};
  go("ksAtt",function(){openAttendance()});go("ksMps",function(){openAnalytics("overview")});go("ksSub",function(){openAnalytics("overview")});go("ksHlp",function(){openHelp()})}
 (function(){var r=renderFeat;renderFeat=function(){r.apply(this,arguments);try{kxSnap()}catch(e){}}})();
+
+/* ---------- 🪪 Learner QR Cards: one scan card per learner; a game's picker scans the card and that learner is picked (checklist 33) ---------- */
+function openQrCards(){if(!kxIsT())return kxDeny();
+ var R=pdRoster();
+ var css='<style>.qc{display:flex;flex-wrap:wrap;gap:6mm}.qc .cd{width:62mm;border:1.2px solid #14284b;border-radius:4mm;padding:4mm;text-align:center;page-break-inside:avoid}.qc .cd b{display:block;font-size:13px;margin-top:2mm}.qc .cd small{color:#555;font-size:10px}.qc svg{width:34mm;height:34mm}</style>';
+ var h=css+'<p>Cut one card per learner and keep them in the classroom. In any game, the picker\u2019s \U0001F4F7 Scan QR reads a card and that learner is picked. <i>Gupitin ang isang card bawat mag-aaral; sa laro, i-scan ito para siya ang mapili.</i></p><div class="qc">'
+  +R.map(function(r){return '<div class="cd">'+kxQrSvg("KXL:"+r.id+":"+r.name,128)+'<b>'+((r.emoji?esc(r.emoji)+" ":""))+esc(r.name)+'</b><small>KORTEX \u00B7 '+esc(KXSY.label(KXSY.y()))+'</small></div>'}).join("")+'</div>';
+ printDoc(chrome("Learner QR Cards","KORTEX",h));try{log("qr-cards")}catch(e){}}
 
 /* ---------- v3.5: 📤 Send Scores · 📥 Accept Scores · reminders · themes (Theme Studio) · automatic Reading Log ----------
    Hub side of the pair that every game has in its top bar. Games hand accepted files straight to KXIN.accept (one-file edition)

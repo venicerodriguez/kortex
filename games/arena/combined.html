@@ -1137,6 +1137,8 @@ var css='body.kxpk-on #kx-bar,body.kxpk-on #kxs-pick{visibility:hidden!important
 +'@keyframes kxpp{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}'
 +'#kxpk .kxpk-k{font-weight:800;font-size:clamp(16px,3vmin,24px);opacity:.8}#kxpk .kxpk-n{font-weight:900;font-size:clamp(34px,9vmin,92px);line-height:1.08;margin:8px 0 16px;overflow-wrap:anywhere}'
 +'#kxpk .kxpk-c button{border:0;border-radius:6px;padding:12px 26px;font:800 clamp(16px,3vmin,24px) system-ui;background:#2a9d62;color:#fff;cursor:pointer}'
++'#kxpk .kxpk-s{position:absolute;top:10px;left:12px;border:0;border-radius:8px;padding:7px 11px;background:rgba(255,255,255,.16);color:#fff;font:700 12px system-ui;cursor:pointer;line-height:1.2}#kxpk .kxpk-s i{display:block;font-weight:400;font-size:10px;font-style:italic;opacity:.85}'
++'#kxpk .kxsc{position:absolute;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center}#kxpk .kxsc .c{background:#fff;color:#14142b;border-radius:12px;padding:14px;text-align:center;max-width:94vw}#kxpk .kxsc video{width:min(84vw,420px);border-radius:8px;background:#000}#kxpk .kxsc input{display:block;margin:8px auto;padding:8px;border:1.5px solid #9aa0ab;border-radius:8px;width:88%;font:14px system-ui}#kxpk .kxsc p{margin:6px 0;font:13px system-ui}#kxpk .kxsc button{border:0;border-radius:6px;padding:9px 18px;font:700 14px system-ui;background:#2a9d62;color:#fff;cursor:pointer;margin:2px}#kxpk .kxsc button.g{background:#777}'
 +'#kxpk .kxpk-x{position:absolute;top:10px;right:12px;border:0;border-radius:6px;padding:6px 10px;background:rgba(255,255,255,.15);color:#fff;font:700 13px system-ui;cursor:pointer}';
 var AC=null;function tick(f){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.type="triangle";o.frequency.value=f;g.gain.value=.035;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.07);o.stop(AC.currentTime+.08)}catch(e){}}
 function say(t){try{if(window.speechSynthesis){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.92;speechSynthesis.speak(u)}}catch(e){}}
@@ -1233,6 +1235,33 @@ var FL={
    if(p<1){for(var q=0;q<5;q++){var gy=Math.random()*H;c.drawImage(c.canvas,0,gy,W,8,(Math.random()-.5)*30,gy,W,8)}}
    c.font="700 13px ui-monospace,monospace";c.fillStyle="#22d3ee";c.fillText(p>=1?"› SELECTED":"› SCANNING SYNDICATE…",W/2,H*.78)}}
 };
+
+/* \ud83d\udcf7 Scan QR (Blueprint checklist 33): KORTEX prints one card per learner (KXL:<id>); scanning a card
+   picks that learner in ANY game's picker. Without a camera scanner the Teacher can type the card code. */
+function kxScan(host,items,cb){
+ if(host.querySelector(".kxsc"))return;
+ var w=document.createElement("div");w.className="kxsc";
+ w.innerHTML='<div class="c"><video playsinline muted></video><p><b>\ud83d\udcf7 Scan the learner\u2019s QR card</b><br><i>Itutok ang camera sa QR card ng mag-aaral.</i></p><input placeholder="or type the card code / o itype ang code"><div><button type="button" class="g">\u2b05\ufe0f Back</button></div></div>';
+ host.appendChild(w);
+ var vid=w.querySelector("video"),inp=w.querySelector("input"),stop=null,run=1;
+ function close(){run=0;try{if(stop)stop()}catch(e){}w.remove()}
+ w.querySelector("button.g").onclick=close;
+ function hit(payload){var t=String(payload||"").trim();if(!t)return false;var idx=-1;
+  var m=/^KXL:([^:]+)/i.exec(t);
+  if(m)for(var i=0;i<items.length;i++)if(String(items[i].id||"")===m[1]){idx=i;break}
+  if(idx<0){var u=t.replace(/^KXL:[^:]*:?/i,"").toUpperCase();if(u)for(var j=0;j<items.length;j++)if(String(items[j].name||"").toUpperCase()===u){idx=j;break}}
+  if(idx<0)return false;close();cb(idx);return true}
+ inp.onkeydown=function(e){if(e.key==="Enter"&&!hit(inp.value)){inp.style.borderColor="#d7263d";inp.value="";inp.placeholder="No match / walang tugma \u2014 try again"}};
+ var BD=window.BarcodeDetector;
+ if(BD&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+  navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then(function(st){
+   stop=function(){st.getTracks().forEach(function(t){t.stop()})};vid.srcObject=st;vid.play();
+   var det;try{det=new BD({formats:["qr_code"]})}catch(e){det=new BD()}
+   (function loop(){if(!run)return;det.detect(vid).then(function(codes){
+     if(run&&codes&&codes.length&&hit(codes[0].rawValue))return;setTimeout(loop,260)}).catch(function(){setTimeout(loop,500)})})()
+  }).catch(function(){vid.style.display="none"})}
+ else vid.style.display="none";
+ setTimeout(function(){try{inp.focus()}catch(e){}},80)}
 window.kxPick=function(o){
  var items=(o.items||[]).filter(function(x){return x&&x.name});if(!items.length){if(o.done)o.done();return}
  var k=Math.max(0,Math.min(items.length-1,o.pick|0)),F=FL[o.flavor]||FL.glitch,dur=RM?500:(o.dur||3200);
@@ -1240,7 +1269,8 @@ window.kxPick=function(o){
  var st=document.getElementById("kxpk-css");if(!st){st=document.createElement("style");st.id="kxpk-css";st.textContent=css;document.head.appendChild(st)}
  var ov=document.createElement("div");ov.id="kxpk";ov.style.background="radial-gradient(circle at 50% 30%,"+F.bg+"ee,#000000f2)";ov.style.setProperty("--kxa",F.acc);
  ov.innerHTML='<div class="kxpk-t">'+esc(o.title||"Random Learner")+'</div><canvas></canvas><div class="kxpk-r" hidden><div class="kxpk-c"><div class="kxpk-k">🎉 '+esc(o.lead||"Your Turn!")+'</div><div class="kxpk-n"></div><button type="button">▶ '+esc(o.go||"Continue")+'</button></div></div>';
- document.body.appendChild(ov);document.body.classList.add("kxpk-on");var cv=ov.querySelector("canvas"),r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);
+ document.body.appendChild(ov);document.body.classList.add("kxpk-on");
+ var sq=document.createElement("button");sq.type="button";sq.className="kxpk-s";sq.innerHTML='\uD83D\uDCF7 Scan QR<i>I-scan ang Card ng Learner</i>';ov.appendChild(sq);sq.onclick=function(){kxScan(ov,items,function(idx){o.chosen=null;k=idx;try{cancelAnimationFrame(raf)}catch(e){}finish()})};var cv=ov.querySelector("canvas"),r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);
  var c=cv.getContext("2d");c.scale(d,d);var W=r.width,H=r.height,S=F.init(c,W,H,items,k),t0=performance.now(),done=false,raf=0;
  function finish(){var res=ov.querySelector(".kxpk-r");res.hidden=false;var nm=o.chosen||label(items[k]);ov.querySelector(".kxpk-n").textContent=nm;say(String(o.sayName||items[k].name).replace(/[^A-Za-z0-9 .'-]/g," ").replace(/\s+/g," ").trim()+"!");
   var b=ov.querySelector(".kxpk-c button"),key=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();close()}};function close(){if(done)return;done=true;document.removeEventListener("keydown",key);cancelAnimationFrame(raf);ov.remove();document.body.classList.remove("kxpk-on");if(o.done)o.done()}
@@ -1251,7 +1281,8 @@ window.kxPick=function(o){
 window.kxPick.card=function(o){if(!o||!o.name)return;var st=document.getElementById("kxpk-css");if(!st){st=document.createElement("style");st.id="kxpk-css";st.textContent=css;document.head.appendChild(st)}
  var old=document.getElementById("kxpk");if(old)old.remove();var ov=document.createElement("div");ov.id="kxpk";ov.style.background="rgba(8,6,30,.35)";if(o.acc)ov.style.setProperty("--kxa",o.acc);
  ov.innerHTML='<div class="kxpk-r"><div class="kxpk-c"><div class="kxpk-k">🎉 '+esc(o.lead||"Your Turn!")+'</div><div class="kxpk-n"></div><button type="button">▶ '+esc(o.go||"Continue")+'</button></div></div>';
- document.body.appendChild(ov);document.body.classList.add("kxpk-on");ov.querySelector(".kxpk-n").textContent=o.name;say(String(o.sayName||o.name).replace(/[^A-Za-z0-9 .'-]/g," ").replace(/\s+/g," ").trim()+"!");
+ document.body.appendChild(ov);document.body.classList.add("kxpk-on");
+ var sq=document.createElement("button");sq.type="button";sq.className="kxpk-s";sq.innerHTML='\uD83D\uDCF7 Scan QR<i>I-scan ang Card ng Learner</i>';ov.appendChild(sq);sq.onclick=function(){kxScan(ov,items,function(idx){o.chosen=null;k=idx;try{cancelAnimationFrame(raf)}catch(e){}finish()})};ov.querySelector(".kxpk-n").textContent=o.name;say(String(o.sayName||o.name).replace(/[^A-Za-z0-9 .'-]/g," ").replace(/\s+/g," ").trim()+"!");
  var done=false,b=ov.querySelector("button"),key=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();close()}};function close(){if(done)return;done=true;document.removeEventListener("keydown",key);ov.remove();document.body.classList.remove("kxpk-on");if(o.done)o.done()}
  b.onclick=close;document.addEventListener("keydown",key);setTimeout(function(){b.focus()},50)};
 })();
