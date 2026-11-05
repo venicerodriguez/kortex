@@ -1559,6 +1559,7 @@ function relabel(){
   var U=window.__kxUsed||(window.__kxUsed={}),pk=plain.toLowerCase();if(U[key]&&U[key]!==pk)continue;U[key]=pk;
   var cap=tc(plain)||plain;if(plain.length<=2)cap=C.th[key].c||cap;
   if(/^tools$/i.test(plain))cap="Game Tools"; /* Game Shell Standard: the themed opener's plain meaning is Game Tools */
+  if(/^(all sessions and scores|clear responses|clear wheel records|clear scores & logs)$/i.test(plain))cap="Reset This Game's Scores"; /* R6: the theme name stays; only the plain line is renamed; SMARTY's settled "Clear Scores" caption stays */
   e.innerHTML='<span class="kxt-l">'+esc(C.th[key].l)+'</span><span class="kxt-c">'+esc(cap)+'</span>';
   e.classList.add("kxt");e.title=cap;e.setAttribute("data-kx",key);e.setAttribute("data-kxh",e.innerHTML)}}
 
@@ -2049,7 +2050,9 @@ function relabel(){try{if(!SH.relabel)return;
   if(b.getAttribute("data-kxrel")||b.closest("#kxgt"))return;
   var t=(b.textContent||"").replace(/\s+/g," ").trim();
   if(/^(🔧|🧰)\s*Tools$/.test(t)){b.setAttribute("data-kxrel","1");
-   b.innerHTML='🔧 Game Tools<br><i style="font-weight:400;font-size:11px">Mga Kagamitan ng Laro</i>'}})}catch(e){}}
+   b.innerHTML='🔧 Game Tools<br><i style="font-weight:400;font-size:11px">Mga Kagamitan ng Laro</i>'}
+  else if(/^(🗑 ?)?(all sessions and scores|clear responses|clear wheel records|clear scores & logs)$/i.test(t)&&!b.classList.contains("kxt")&&!b.querySelector(".kxt-l")){b.setAttribute("data-kxrel","1");
+   b.innerHTML='🗑 Reset This Game\u2019s Scores<br><i style="font-weight:400;font-size:11px">Burahin ang Puntos ng Larong Ito</i>'}})}catch(e){}}
 function abcFix(){try{if(!SH.abc)return;
  /* 1) General first on the Rules page: Governance, Response codes, Standards — then each mode (checklist 19) */
  var h3=[].slice.call(document.querySelectorAll("h3")).filter(function(x){return/Rules, Standards & Governance/i.test(x.textContent)})[0];
