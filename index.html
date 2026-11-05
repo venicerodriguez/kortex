@@ -1170,7 +1170,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611051826",
+ "build": "202611051847",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -3097,6 +3097,14 @@ function renderMission(){try{
  on("msnWs",function(){openWorksheets(I.t,I.gw,1)});on("msnAs",function(){openAnswerSheets(I.t)});on("msnP",function(){MSN.off--;renderMission()});on("msnF",function(){MSN.off++;renderMission()});on("msnT",function(){MSN.off=0;renderMission()});
  el.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){var g=msnGame(b.getAttribute("data-g"));if(g)launch(g,g.links[0])}})}catch(e){}}
 (function(){var r=renderFeat;renderFeat=function(){r.apply(this,arguments);renderMission()}})();
+
+/* ---------- Phase 3: KORTEX computes Today's Mission ONCE and the games read it (KORTEX_MISSION).
+   ENCODE ONCE: the games never recompute the calendar; they show this line, Teacher only. ---------- */
+(function(){var r=renderMission;renderMission=function(){r.apply(this,arguments);
+ try{var i=msnInfo(new Date()),o={d:ymd(new Date())};
+  if(i.brk){o.t="School break"+(i.next?" · next: Term "+i.next.t:"")}
+  else{o.t="Term "+i.t+" · School Week "+i.W+" of "+i.N;o.w="In the games: Term "+i.t+" · Week "+i.gw}
+  localStorage.setItem("KORTEX_MISSION",JSON.stringify(o))}catch(e){}}})();
 
 /* class label from the profile (Grade · Section), never a fixed class */
 function kxClsLbl(){try{var p=profGet()||{};return [p.grade||"Grade 1",p.section].filter(Boolean).join(" · ")}catch(e){return"Grade 1"}}

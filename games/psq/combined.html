@@ -1955,4 +1955,62 @@ function start(){try{fitCss()}catch(e){}try{fsFrame()}catch(e){}applyDev();apply
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 window.KXSKIN={run:run,tc:tc};
 })();
+
+/* ================= Game Shell Standard (Master Blueprint §5, Phase 3) =================
+   Screen 3 keeps TWO buttons: Game Tools and PLAY. The Game Tools sheet lists everything in Venice's
+   exact order — Banner, Footnote and Look · Game Settings · Standards · Team Themes, Names and Emoji ·
+   Rules · Q&A · Scores · (the game's own Print) · Reset This Game's Scores · Delete Blueprint Log ·
+   Delete Key. Today's Mission (computed once by KORTEX, KORTEX_MISSION) shows inside the game, Teacher only. */
+(function(){
+if(window.KXSHELL)return;var C=window.__KXS||{},SH=C.shell;if(!SH)return;window.KXSHELL=1;
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function learner(){try{var s=JSON.parse(localStorage.getItem("KORTEX_SESS")||"null");return!!(s&&s.role==="learner")}catch(e){return false}}
+function css(){if(document.getElementById("kxgt-css"))return;var st=document.createElement("style");st.id="kxgt-css";
+ st.textContent='#kxgt{position:fixed;inset:0;z-index:2147483500;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(8,6,30,.82);font:15px system-ui}'
+ +'#kxgt .c{background:#fffaf0;color:#1c2433;border-radius:14px;padding:16px;width:min(540px,96vw);max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}'
+ +'#kxgt h3{margin:0 0 4px;font-size:20px;color:#14284b}#kxgt h3 i{font-size:13px;font-weight:400;display:block}'
+ +'#kxgt .g{display:grid;grid-template-columns:1fr;gap:7px;margin-top:10px}'
+ +'#kxgt .g button{all:unset;box-sizing:border-box;cursor:pointer;border:2px solid #d8d2c2;border-radius:11px;padding:9px 12px;background:#fff;display:flex;align-items:center;gap:10px}'
+ +'#kxgt .g button:focus,#kxgt .g button:hover{border-color:#14284b}#kxgt .g span{font-size:21px}'
+ +'#kxgt .g b{font-size:14.5px}#kxgt .g i{display:block;font-size:11.5px;font-weight:400;color:#5a6172}'
+ +'#kxgt .g button.dg{border-color:#e4b6b6;background:#fff6f4}'
+ +'#kxgt .f{display:flex;justify-content:flex-end;margin-top:12px}#kxgt .f button{all:unset;cursor:pointer;border:2px solid #14284b;border-radius:999px;padding:8px 18px;font-weight:700;background:#14284b;color:#fff}'
+ +'#kxmsn2{display:block;margin:8px auto 10px;max-width:680px;background:linear-gradient(135deg,#14284b,#2e4a86);color:#fff;border-radius:12px;padding:9px 14px;text-align:left}'
+ +'#kxmsn2 b{display:block;font-size:14px}#kxmsn2 b i{font-weight:400;font-size:11px;opacity:.85}#kxmsn2 span{font-size:12.5px;opacity:.95}';
+ (document.head||document.documentElement).appendChild(st)}
+function btns(){return [].slice.call(document.querySelectorAll("button,[onclick]"))}
+function close(){var o=document.getElementById("kxgt");if(o)o.remove()}
+function act(a){close();try{
+ if(a.go&&typeof window[SH.goFn||"go"]==="function")window[SH.goFn||"go"](a.go);
+ if(a.h)setTimeout(function(){var t=[].slice.call(document.querySelectorAll("h3,h4")).filter(function(x){return x.getClientRects().length&&(x.textContent||"").indexOf(a.h)>=0})[0];
+  if(t){try{t.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){t.scrollIntoView()}}},380);
+ if(a.fn&&typeof window[a.fn]==="function")window[a.fn]();
+}catch(e){}}
+function openGT(){if(document.getElementById("kxgt"))return;css();
+ var o=document.createElement("div");o.id="kxgt";o.setAttribute("role","dialog");o.setAttribute("aria-label","Game Tools");o.setAttribute("data-kxskip","1");
+ o.innerHTML='<div class="c"><h3>🔧 Game Tools <i>Mga Kagamitan ng Laro</i></h3><div class="g">'
+  +(SH.tools||[]).map(function(x,i){return'<button type="button" data-i="'+i+'"'+(x.danger?' class="dg"':'')+'><span>'+esc(x.e||"🔧")+'</span><div><b>'+esc(x.t)+'</b><i>'+esc(x.f||"")+'</i></div></button>'}).join("")
+  +'</div><div class="f"><button type="button" id="kxgtX">⬅️ Back <i style="font-weight:400"></i></button></div></div>';
+ document.body.appendChild(o);
+ o.querySelector("#kxgtX").onclick=close;o.onclick=function(e){if(e.target===o)close()};
+ [].forEach.call(o.querySelectorAll("[data-i]"),function(b){b.onclick=function(){var x=(SH.tools||[])[+b.getAttribute("data-i")];if(x)act(x)}})}
+function nav(){try{
+ (SH.hide||[]).forEach(function(oc){btns().forEach(function(b){var o=b.getAttribute("onclick")||"";if(o.indexOf(oc)>=0&&!b.closest("#kxgt")&&b.style.display!=="none")b.style.display="none"})});
+ if(SH.gt){var tb=null;btns().forEach(function(b){if(tb)return;var o=b.getAttribute("onclick")||"";if(o.indexOf(SH.gt)>=0&&!b.closest("#kxgt"))tb=b});
+  if(tb&&tb.getAttribute("data-kxgt")!=="1"){tb.setAttribute("data-kxgt","1");tb.innerHTML=SH.gtL||'🔧 Game Tools';
+   tb.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}openGT();return false}}}
+}catch(e){}}
+function today(){var d=new Date(),p=function(n){return(n<10?"0":"")+n};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())}
+function mission(){try{if(!SH.msn||learner()||document.getElementById("kxmsn2"))return;
+ var host=document.querySelector(SH.msn);if(!host)return;
+ var o=null;try{o=JSON.parse(localStorage.getItem("KORTEX_MISSION")||"null")}catch(e){}
+ if(!o||o.d!==today()||!o.t)return;
+ css();var el=document.createElement("div");el.id="kxmsn2";el.setAttribute("data-kxskip","1");
+ el.innerHTML='<b>🎯 Today’s Mission <i>Misyon Ngayong Araw</i></b><span>'+esc(o.t)+(o.w?' · '+esc(o.w):'')+'</span>';
+ host.insertBefore(el,host.firstChild)}catch(e){}}
+function tick(){if(learner()&&!(SH.learner))return nav();nav();mission()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",tick);else tick();
+setInterval(tick,900);
+window.KXSHELLAPI={open:openGT};
+})();
 </script></body></html>
