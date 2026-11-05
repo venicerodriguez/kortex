@@ -1740,6 +1740,11 @@ function attApply(day){var T=null;try{if(typeof S!=="undefined"&&S&&Array.isArra
  if(ch){try{if(S&&S.pools)S.pools={}}catch(e){}try{if(typeof sv==="function")sv();else if(typeof save==="function")save()}catch(e){}try{if(typeof render==="function")render();else if(typeof show==="function")show()}catch(e){}}}
 var ATTDONE=0;var ATTS=["P","L","A","E"],ATTW={P:"Present",L:"Late",A:"Absent",E:"Excused"},ATTC={P:"",L:"lt",A:"ab",E:"ex"};
 function attFirst(){if(!C.att||ATTDONE||document.getElementById("kxatt")||sessL())return;if(C.attWhen){var w=document.querySelector(C.attWhen);if(!w||!w.getClientRects().length)return}ATTDONE=1;var N=attNames();if(!N.length)return;var all=attGet(),t=ymdT(),old=all[t]||{},cen=window.KXATT?KXATT.day(t):{};
+ /* ONE record (Master Blueprint §7): attendance is recorded once per learner per date in KORTEX_ATTENDANCE.
+    If today is already marked — in KORTEX or in the first game of the day — this game only READS it: no asking again. */
+ if(N.some(function(x){return!!(x.id&&cen[x.id])||(x.name in old)})){
+  var rd={};N.forEach(function(x){var e=x.id&&cen[x.id],s=e?e.s:((x.name in old)?(old[x.name]===0?"A":"P"):"P");rd[x.name]=(s==="A"||s==="E")?0:1});
+  attApply(rd);showRules();return}
  /* today's status for each learner: the central record first, then the older one; a learner not marked yet starts as Present */
  var st=N.map(function(x){var e=x.id&&cen[x.id];return e?e.s:(old[x.name]===0?"A":"P")});
  var o=document.createElement("div");o.id="kxatt";o.setAttribute("data-kxskip","1");o.setAttribute("role","dialog");o.setAttribute("aria-label","Attendance");
