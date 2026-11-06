@@ -1170,7 +1170,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611061218",
+ "build": "202611061313",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -1658,7 +1658,8 @@ function scan(add,P){
  var ol=jget("olympians");
  if(ol){var rg={};(ol.roster||[]).forEach(function(r){rg[r.id]=r.full||r.name});(ol.res||[]).forEach(function(r){if(r.f)return;add("gauntlet",rg[r.lid]||r.lid,subjIdx(r.sub),r.t,0,r.g+"#"+r.n+"#"+r.i,r.ok,tms(r.ts))})}
  lsKeys(/^KORTEX_CQ_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("cq",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});
- lsKeys(/^KORTEX_WS_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("ws",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});   /* Phase 4: worksheets answered in KORTEX join the same records */
+ lsKeys(/^KORTEX_WS_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("ws",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});
+ lsKeys(/^KORTEX_PAPER_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("paper",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});   /* R11: papers checked by Snap & Score */   /* Phase 4: worksheets answered in KORTEX join the same records */
  lsKeys(/^CDX_MONTAGE_V1_/).forEach(function(k){var S=jget(k)||{},ro={};(S.roster||[]).forEach(function(r){ro[r.id]=r.fn||r.name});var pl=S.progL||{};Object.keys(pl).forEach(function(id){var L=learnerOf(ro[id]||id);Object.keys(pl[id]||{}).forEach(function(ep){var p=ep.split("|"),tw=(p[1]||"").split("-"),v=pl[id][ep]||{},c=0;["s","d","w","a"].forEach(function(x){if(v[x])c++});if(c)P.push({g:"montage",l:L.id,n:L.name,s:subjIdx(p[0]),t:+tw[0],w:+tw[1],k:c})})})});
 }
 
@@ -1840,6 +1841,7 @@ function gamesTable(D){
    rows+='<tr><td class="gn">'+gEmb(g,"t")+'<b>'+esc(g.name)+'</b></td><td class="num" data-l="Opened">'+op+'</td><td class="num" data-l="Responses">'+(x.att||"—")+'</td><td class="num" data-l="Correct">'+(x.att?p+'%':'—')+'</td><td class="gb">'+(x.att?barH(p):'<span style="color:#9aa0ac;font-size:10px">'+(GAMEN[g.id]?'No scored results yet':'Not a scored game')+'</span>')+'</td></tr>'})});
  if(G.cq){var q=G.cq,qp=pc(q.ok,q.att);rows+='<tr class="gi"><td colspan="5">'+ico("cq","t")+'<span>On the KORTEX Home</span></td></tr><tr><td class="gn">'+ico("cq","t")+'<b>Calibrated Quiz</b></td><td class="num" data-l="Opened">—</td><td class="num" data-l="Responses">'+q.att+'</td><td class="num" data-l="Correct">'+qp+'%</td><td class="gb">'+barH(qp)+'</td></tr>'}
  if(G.ws){var q2=G.ws,qp2=pc(q2.ok,q2.att);rows+=(G.cq?'':'<tr class="gi"><td colspan="5">'+ico("cq","t")+'<span>On the KORTEX Home</span></td></tr>')+'<tr><td class="gn">📝 <b>Worksheets</b></td><td class="num" data-l="Opened">—</td><td class="num" data-l="Responses">'+q2.att+'</td><td class="num" data-l="Correct">'+qp2+'%</td><td class="gb">'+barH(qp2)+'</td></tr>'}
+ if(G.paper){var q3=G.paper,qp3=pc(q3.ok,q3.att);rows+=(G.cq||G.ws?'':'<tr class="gi"><td colspan="5">'+ico("cq","t")+'<span>On the KORTEX Home</span></td></tr>')+'<tr><td class="gn">📸 <b>Paper Tests</b></td><td class="num" data-l="Opened">—</td><td class="num" data-l="Responses">'+q3.att+'</td><td class="num" data-l="Correct">'+qp3+'%</td><td class="gb">'+barH(qp3)+'</td></tr>'}
  return'<h2>All '+CFG.games.filter(live).length+' Games, by Imprint</h2><table class="gt"><tr><th>Game</th><th class="num">Opened</th><th class="num">Responses</th><th class="num">Correct</th><th style="width:34%">Share Correct</th></tr>'+rows+'</table>'}
 var EVN={"cq-start":"Started Calibrated Quiz","cq-end":"Finished Calibrated Quiz","pd-save":"Saved Parent Dashboard","pd-open":"Opened Parent Dashboard","collect-scores":"Accepted Scores",login:"Signed In",logout:"Signed Out",resume:"Returned",launch:"Opened Game",open:"Opened KORTEX","print-report":"Printed Report","print-attendance":"Printed Attendance",backup:"Exported Backup",restore:"Imported Backup",reset:"Reset Game Data","reset-logins":"Reset Logins","pin-change":"Changed Class PIN","teacher-pin-set":"Set Teacher PIN","login-fail":"Sign-In Failed","pin-ok":"PIN Accepted","pin-fail":"PIN Failed"};
 function bodyUsage(D){
@@ -1985,7 +1987,7 @@ function slides(D){
  for(var s=0;s<NSUBJ;s++){th+='<span>'+ico(s,"t")+esc(SUBJN[s])+'</span>';for(var t=0;t<NTERM;t++){var x=a.st[s][t];th+=x.att?'<i class="hc" style="background:'+MLV[levelOf2(x.pct)][2]+'" data-d="'+(s*3+t)+'">'+x.pct+'%</i>':'<i class="hc none">—</i>'}}
  if(a.tot.att)S.push({k:"heat",h:K+th+'</div>'});
  var GR={};D.rows.forEach(function(r){var y=GR[r.g]||(GR[r.g]={att:0,ok:0});y.att++;y.ok+=r.ok});
- var gres=[];grp.forEach(function(x){x.games.forEach(function(g){if(GR[g.id])gres.push({lab:gEmb(g,"t")+esc(g.name),x:GR[g.id]})})});if(GR.cq)gres.push({lab:ico("cq","t")+"Calibrated Quiz",x:GR.cq});if(GR.ws)gres.push({lab:"📝 Worksheets",x:GR.ws});
+ var gres=[];grp.forEach(function(x){x.games.forEach(function(g){if(GR[g.id])gres.push({lab:gEmb(g,"t")+esc(g.name),x:GR[g.id]})})});if(GR.cq)gres.push({lab:ico("cq","t")+"Calibrated Quiz",x:GR.cq});if(GR.ws)gres.push({lab:"📝 Worksheets",x:GR.ws});if(GR.paper)gres.push({lab:"📸 Paper Tests",x:GR.paper});
  if(gres.length)S.push({k:"gres",h:K+'<h2>Results by Game</h2><div class="dst gr">'+gres.map(function(o){var p=pc(o.x.ok,o.x.att);return'<div class="dr"><span>'+o.lab+'</span><div class="dt"><i data-w="'+p+'" style="background:'+lvColor(p)+'"></i></div><b data-count="'+p+'">0</b><em>% · '+o.x.att+'</em></div>'}).join("")+'</div><p class="pe">Share of answers correct in each game, with the number of responses</p>'});
  if(cs.length){var top=cs.slice(0,3),low=cs.slice(-3).reverse();
   S.push({k:"comp",h:K+'<h2>Competencies</h2><div class="two"><div><h3>Strongest</h3>'+top.map(function(x){return'<p>'+ico(x.s,"t")+'<b>'+x.p+'%</b> '+esc(SUBJN[x.s])+' · '+esc(x.b.label)+'</p>'}).join("")+'</div><div><h3>Needs Reteaching</h3>'+low.map(function(x){return'<p>'+ico(x.s,"t")+'<b>'+x.p+'%</b> '+esc(SUBJN[x.s])+' · '+esc(x.b.label)+'</p>'}).join("")+'</div></div>'})}
@@ -2165,7 +2167,7 @@ function openTools(tab){
  var pan=function(k,inner){return'<div class="tp" id="tp-'+k+'"'+(TPOPEN===k?'':' hidden')+'>'+inner+'</div>'};
  var lk=toolsLocked();
  var h='<div class="card wide tl"><div class="axh"><div><h3>KORTEX Tools</h3><p class="axs">One console for every game on this device · '+n+' saved items · '+esc(syLabel())+'</p></div><div class="axa">'+tile("tHome","main_hub")+tb("tX","Close")+'</div></div>'
- +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 E-Class Record","Excel | CSV Files")+(window.KXOBS_TILE?KXOBS_TILE():"")+(window.KXPRP_TILE?KXPRP_TILE():"")+(window.KXFRM_TILE?KXFRM_TILE():"")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
+ +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 E-Class Record","Excel | CSV Files")+(window.KXOBS_TILE?KXOBS_TILE():"")+(window.KXPRP_TILE?KXPRP_TILE():"")+(window.KXFRM_TILE?KXFRM_TILE():"")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tPx","📸 Snap & Score","Paper Checker · Item Analysis")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
   +pan("log",'<p>Every open, launch, print and reset on this device, newest first.</p><div class="tg3">'+tb("tLg","View Log")+tb("tCsv","Export CSV")+tb("tLc","Clear Log","w")+'</div>'):'')
  +'<h4>Class and Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+(T?xt("tCL","🔗 Class Link","Send the Class List to Phones"):"")+(T?xt("tQR","📱 Share KORTEX","QR Code of the Website"):"")+(T?xt("tAvt","🎨 Avatars","Each Learner’s Own Look"):"")+(T?xt("tCur","📚 Subjects and Terms","Kindergarten to Grade Six"):"")+'</div>'
  +pan("settings",'<p>Current school year: <b>'+esc(syLabel())+'</b>. The School Calendar sets when each term’s Review, Summatives and Term Exam open in every game.</p><div class="tg3">'+tb("tCal",'<i class="kxcal"></i> School Calendar')+tb("tNY","🎓 Start New School Year","w")+'</div>')
@@ -2201,7 +2203,7 @@ function openTools(tab){
  on("tCsv",function(){download("KORTEX-log-"+CFG.pack+"-"+stampName()+".csv","﻿"+csv(getLog()),"text/csv");m("Log exported as CSV.",1)});
  on("tLc",function(){if(confirm("Clear the log on this device? Export it first if you need it.")){ls("KORTEX_LOG","[]");m("Log cleared.",1)}});
  on("tPin",function(){var a=prompt("New PIN (4–8 digits):");if(a===null)return;if(!/^\d{4,8}$/.test(a)){m("PIN must be 4–8 digits.");return}if(prompt("Repeat new PIN:")!==a){m("PINs do not match.");return}ls("KORTEX_PINH",hash(SALT+a));CFG.pinEnabled=true;m("PIN changed on this device.",1);log("pin-change")});
- on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tOb",function(){window.openObsDeck&&openObsDeck()});on("tPp",function(){window.openProposal&&openProposal()});on("tFm",function(){window.openForms&&openForms()});on("tWs",function(){openWorksheets()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
+ on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tOb",function(){window.openObsDeck&&openObsDeck()});on("tPp",function(){window.openProposal&&openProposal()});on("tFm",function(){window.openForms&&openForms()});on("tWs",function(){openWorksheets()});on("tPx",function(){window.openPaper&&openPaper()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
  on("tCol",function(){hubAccept()});on("tSendH",function(){hubSend()});on("tTh",function(){openThemeStudio()});on("tCL",function(){openClassLink()});on("tAvt",function(){openAvatars()});on("tCur",function(){openCurriculum()});
  $("tColF").onchange=function(){var fs=[].slice.call(this.files);this.value="";if(!fs.length)return;var n=0,a=0,b=0,left=fs.length;fs.forEach(function(f){var r=new FileReader();r.onload=function(){var o=parseScores(String(r.result)),res=o?importScores(o):{ok:0};if(res.ok){n++;a+=res.added}else b++;if(--left===0){log("collect-scores","",n+" files");m("Collected "+n+" file"+(n===1?"":"s")+": "+a+" new results"+(b?" · "+b+" not readable":"")+".",n>0)}};r.readAsText(f)})};
 
@@ -4742,6 +4744,168 @@ function wsmOpen(){
 }
 window.KXWS_CSS=WSPCSS;
 (function(){try{var st=document.createElement("style");st.textContent=WSPCSS;(document.head||document.documentElement).appendChild(st)}catch(e){}})();
+})();
+
+/* ================= 📸 Snap & Score — the KORTEX Paper Checker (Blueprint R11, 6 Nov 2026) =================
+   KORTEX prints scan-ready answer sheets (four corner marks, an orientation dot, a code for the test and the learner,
+   the learner's name already on it). A photo of a shaded sheet — phone camera or a saved picture, tilted or dim —
+   is read on this device: right or wrong per item, the score, and the item analysis (percent correct, how many chose
+   A, B, C or D, difficulty, MPS). Results join the KORTEX records ("Paper Tests" in Analytics). Offline; no library. */
+(function(){
+var PK="KORTEX_PAPER",PL="KORTEX_PAPER_LOG";
+function pj(){var o=kxJ(PK,null);if(!o||typeof o!=="object")o={};o.tests=o.tests||[];o.res=o.res||{};o.seq=o.seq||0;return o}
+function pw(o){kxW(PK,o)}
+function plog(){return kxJ(PL,[])||[]}
+/* ---------- the sheet geometry, in millimetres; (u,v) are measured between the corner-mark centres ---------- */
+var FW=186,FH=270,C0=4.5;                       /* corner marks 9 mm, centres 186 x 270 mm apart */
+var IDX=30,IDY=31,IDS=5,IDP=7,NBIT=18;          /* code: 10 bits test, 7 bits learner slot, 1 parity */
+var GY=50,GP=8.6,BR=3.2,BP=10,COLX=[24,112];    /* answer grid */
+function uv(x,y){return[(x-C0)/FW,(y-C0)/FH]}
+function cols(n){return n<=25?[[0,n]]:[[0,Math.ceil(n/2)],[Math.ceil(n/2),n]]}
+function bubXY(i,k,n){var cs=cols(n),c=0;for(var j=0;j<cs.length;j++)if(i>=cs[j][0]&&i<cs[j][1])c=j;var r=i-cs[c][0],x0=(cs.length===1?68:COLX[c]);return[x0+12+k*BP,GY+r*GP]}
+function bits(test,slot){var b=[],v=(test&1023)|((slot&127)<<10),p=0;for(var i=0;i<17;i++){var x=(v>>i)&1;b.push(x);p^=x}b.push(p);return b}
+function unbits(b){var p=0,v=0;for(var i=0;i<17;i++){v|=(b[i]?1:0)<<i;p^=b[i]?1:0}if(p!==(b[17]?1:0))return null;return{test:v&1023,slot:(v>>10)&127}}
+/* ---------- printing ---------- */
+var SHCSS='#prt .pcin{position:absolute;left:6mm;top:6mm;width:195mm;height:279mm;transform:scale(.9);transform-origin:0 0}#prt .pcpg{position:relative;width:187.5mm;height:263mm;background:#fff;margin:0 auto;page-break-after:always;break-after:page;font-family:system-ui,"Segoe UI",sans-serif;color:#111}'
+ +'#prt .pcpg:last-child{page-break-after:auto;break-after:auto}#prt .pcf{position:absolute;width:9mm;height:9mm;background:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'#prt .pco{position:absolute;width:3.6mm;height:3.6mm;background:#000;border-radius:50%;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'#prt .pcb{position:absolute;width:5mm;height:5mm;box-sizing:border-box;border:.3mm solid #b5b5b5}#prt .pcb.on{background:#000;border-color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'#prt .pcc{position:absolute;width:6.4mm;height:6.4mm;box-sizing:border-box;border:.35mm solid #444;border-radius:50%;font:700 3.2mm/5.7mm system-ui,sans-serif;color:#cfcfcf;text-align:center}'
+ +'#prt .pcn{position:absolute;font:800 3.6mm/6.4mm system-ui,sans-serif;text-align:right;width:9mm}'
+ +'#prt .pct{position:absolute;left:16mm;right:16mm;top:9mm;font:800 5mm/1.2 system-ui,sans-serif;text-align:center}'
+ +'#prt .pcs{position:absolute;left:16mm;right:16mm;top:16mm;font:500 3.3mm/1.3 system-ui,sans-serif;text-align:center;color:#333}'
+ +'#prt .pcl{position:absolute;left:16mm;top:22mm;font:700 3.6mm system-ui,sans-serif}#prt .pcl span{display:inline-block;min-width:110mm;border-bottom:.3mm solid #111;padding:0 2mm;font-size:4.2mm}'
+ +'#prt .pci{position:absolute;left:16mm;right:16mm;top:'+(IDY+IDS+3.5)+'mm;font:500 3mm/1.35 system-ui,sans-serif;color:#333;text-align:center}';
+function sheet(T,slot,name){var h='<div class="pcpg"><div class="pcin">',c=[[0,0],[FW,0],[0,FH],[FW,FH]];
+ c.forEach(function(p){h+='<div class="pcf" style="left:'+p[0]+'mm;top:'+p[1]+'mm"></div>'});
+ h+='<div class="pco" style="left:'+(C0+11-1.8)+'mm;top:'+(C0-1.8)+'mm"></div>';
+ h+='<div class="pct">'+esc(T.title)+'</div><div class="pcs">'+esc(T.subn)+' · Term '+T.t+' · Week '+T.w+' · '+T.n+' items · '+esc(kxGrade())+'</div>';
+ h+='<div class="pcl">Pangalan · Name: <span>'+esc(name||"")+'</span></div>';
+ bits(T.no,slot).forEach(function(b,i){h+='<div class="pcb'+(b?' on':'')+'" style="left:'+(IDX+i*IDP)+'mm;top:'+IDY+'mm"></div>'});
+ h+='<div class="pci">Kulayan nang buo ang bilog ng tamang sagot. Isang sagot lamang. <i>Shade the whole circle of the right answer. One answer only.</i></div>';
+ for(var i=0;i<T.n;i++){var p=bubXY(i,0,T.n);h+='<div class="pcn" style="left:'+(p[0]-23)+'mm;top:'+(p[1]-3.2)+'mm">'+(i+1)+'.</div>';
+  for(var k=0;k<4;k++){var q=bubXY(i,k,T.n);h+='<div class="pcc" style="left:'+(q[0]-BR)+'mm;top:'+(q[1]-BR)+'mm">'+"ABCD".charAt(k)+'</div>'}}
+ return h+'</div></div>'}
+function printSheets(T,blank){var ids=T.learners||[],h='<style>'+SHCSS+'</style>';
+ if(blank)for(var i=0;i<blank;i++)h+=sheet(T,127,"");
+ else ids.forEach(function(lid,i){var r=kxRosOf(lid);h+=sheet(T,i,r?r.name:"")});
+ try{log("paper-print","",T.title)}catch(e){}printDoc(h)}
+/* ---------- reading a photo ---------- */
+function loadImg(file,cb){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){cb(im);setTimeout(function(){URL.revokeObjectURL(u)},4000)};im.onerror=function(){cb(null)};im.src=u}
+function analyze(im,T){var M=1500,sc=Math.min(1,M/Math.max(im.naturalWidth,im.naturalHeight)),w=Math.round(im.naturalWidth*sc),h=Math.round(im.naturalHeight*sc);
+ var cv=document.createElement("canvas");cv.width=w;cv.height=h;var x=cv.getContext("2d");x.drawImage(im,0,0,w,h);var D=x.getImageData(0,0,w,h).data,N=w*h,G=new Float32Array(N),i;
+ for(i=0;i<N;i++)G[i]=.299*D[i*4]+.587*D[i*4+1]+.114*D[i*4+2];
+ /* light-even: each pixel against its neighborhood (integral image), so shadows and dim corners do not fool it */
+ var I=new Float64Array((w+1)*(h+1));for(var yy=0;yy<h;yy++){var rs=0;for(var xx=0;xx<w;xx++){rs+=G[yy*w+xx];I[(yy+1)*(w+1)+xx+1]=I[yy*(w+1)+xx+1]+rs}}
+ var K=Math.max(15,Math.round(Math.max(w,h)/7));function mean(px,py){var x0=Math.max(0,px-K),x1=Math.min(w,px+K),y0=Math.max(0,py-K),y1=Math.min(h,py+K);return(I[y1*(w+1)+x1]-I[y0*(w+1)+x1]-I[y1*(w+1)+x0]+I[y0*(w+1)+x0])/((x1-x0)*(y1-y0))}
+ var R=new Float32Array(N);for(yy=0;yy<h;yy+=1)for(xx=0;xx<w;xx++){R[yy*w+xx]=G[yy*w+xx]/(mean(xx,yy)+1)}
+ /* the corner marks: solid dark squares */
+ var seen=new Uint8Array(N),cand=[],st=new Int32Array(N),mn=Math.max(w,h)*.012,mx=Math.max(w,h)*.09;
+ for(i=0;i<N;i++){if(seen[i]||!(R[i]<.6))continue;var sp=0,a=0,x0=1e9,y0=1e9,x1=-1,y1=-1,sx=0,sy=0;st[sp++]=i;seen[i]=1;
+  while(sp){var p=st[--sp],px=p%w,py=(p-px)/w;a++;sx+=px;sy+=py;if(px<x0)x0=px;if(px>x1)x1=px;if(py<y0)y0=py;if(py>y1)y1=py;
+   var nb=[p-1,p+1,p-w,p+w];for(var q=0;q<4;q++){var n2=nb[q];if(n2<0||n2>=N)continue;if((q===0&&px===0)||(q===1&&px===w-1))continue;if(!seen[n2]&&R[n2]<.6){seen[n2]=1;st[sp++]=n2}}}
+  var bw=x1-x0+1,bh=y1-y0+1;if(bw>=mn&&bh>=mn&&bw<=mx&&bh<=mx&&bw/bh>.6&&bw/bh<1.65&&a/(bw*bh)>.62)cand.push({x:sx/a,y:sy/a,s:Math.sqrt(a)})}
+ if(cand.length<4)return{err:"Hindi makita ang apat na itim na kanto. Kunan ang buong papel. · The four black corner marks are not all in the photo."};
+ var sz=cand.map(function(c){return c.s}).sort(function(a,b){return b-a}),big=sz[Math.min(3,sz.length-1)]*.62;cand=cand.filter(function(c){return c.s>=big});
+ if(cand.length<4)return{err:"Hindi makita ang apat na itim na kanto. · The four corner marks are not clear."};
+ var pk=function(f){var b=null,bv=-1e18;cand.forEach(function(c){var v=f(c);if(v>bv){bv=v;b=c}});return b};
+ var Q=[pk(function(c){return-(c.x+c.y)}),pk(function(c){return c.x-c.y}),pk(function(c){return-(c.x-c.y)}),pk(function(c){return c.x+c.y})]; /* TL TR BL BR as seen */
+ function hom(P){/* unit square -> P[0..3] = (0,0),(1,0),(0,1),(1,1) */var x0=P[0].x,y0=P[0].y,x1=P[1].x,y1=P[1].y,x2=P[3].x,y2=P[3].y,x3=P[2].x,y3=P[2].y;
+  var dx1=x1-x2,dx2=x3-x2,dy1=y1-y2,dy2=y3-y2,sx=x0-x1+x2-x3,sy=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1,g=(sx*dy2-dx2*sy)/den,hh=(dx1*sy-sx*dy1)/den;
+  var a=x1-x0+g*x1,b=x3-x0+hh*x3,c=x0,d=y1-y0+g*y1,e=y3-y0+hh*y3,f=y0;return function(u,v){var z=g*u+hh*v+1;return[(a*u+b*v+c)/z,(d*u+e*v+f)/z]}}
+ var ppm=Math.hypot(Q[1].x-Q[0].x,Q[1].y-Q[0].y)/FW;
+ function frac(H,mmx,mmy,rmm,thr){var c=uv(mmx,mmy),p=H(c[0],c[1]),r=Math.max(2,rmm*ppm),n=0,d=0;for(var yy2=Math.floor(p[1]-r);yy2<=p[1]+r;yy2++)for(var xx2=Math.floor(p[0]-r);xx2<=p[0]+r;xx2++){if(xx2<0||yy2<0||xx2>=w||yy2>=h)continue;if((xx2-p[0])*(xx2-p[0])+(yy2-p[1])*(yy2-p[1])>r*r)continue;n++;if(R[yy2*w+xx2]<(thr||.72))d++}return n?d/n:0}
+ /* which way up: the orientation dot sits right of the top-left mark; try the four turns */
+ var turns=[[0,1,2,3],[2,0,3,1],[3,2,1,0],[1,3,0,2]],H=null,best=-1;
+ turns.forEach(function(o){var h2=hom([Q[o[0]],Q[o[1]],Q[o[2]],Q[o[3]]]),f=frac(h2,C0+11,C0,1.2,.6);if(f>best){best=f;H=h2}});
+ (function(){var a=H(0,0),b=H(1,0);ppm=Math.hypot(b[0]-a[0],b[1]-a[1])/FW})();
+ if(best<.45)return{err:"Hindi mabasa ang papel. Ilapit at iliwanag. · The sheet could not be read: move closer, more light."};
+ var id=unbits(bits(0,0).map(function(_,k){return frac(H,IDX+k*IDP+IDS/2,IDY+IDS/2,1.5,.6)>.5?1:0}));
+ var TT=T;if(id){var o=pj();var f=o.tests.filter(function(t){return t.no===id.test})[0];if(f)TT=f}
+ if(!TT)return{err:"Hindi kilala ang test ng papel na ito. · This paper's test is not on this device."};
+ var ans=[],fl=[];for(var it=0;it<TT.n;it++){var fs=[0,1,2,3].map(function(k){var q=bubXY(it,k,TT.n);return frac(H,q[0],q[1],BR*.5,.78)});fl.push(fs);
+  /* each item judged against its own four circles: a shaded circle stands out from the empty ones beside it */
+  var o2=fs.map(function(v,k){return[v,k]}).sort(function(a,b){return b[0]-a[0]}),m=o2[0][0],s2=o2[1][0],base=(o2[2][0]+o2[3][0])/2+.02;
+  var on=function(v){return v>=.2&&v>=base*2.2};ans.push(!on(m)?"-":(on(s2)&&s2>=m*.6?"*":"ABCD".charAt(o2[0][1])))}
+ /* the marked picture */
+ x.lineWidth=Math.max(2,ppm*.7);for(it=0;it<TT.n;it++){var ky=TT.key.charAt(it),a2=ans[it],kq=bubXY(it,"ABCD".indexOf(ky),TT.n),kp=H.apply(null,uv(kq[0],kq[1]));
+  if(a2===ky){x.strokeStyle="#12a150";x.beginPath();x.arc(kp[0],kp[1],BR*ppm*1.25,0,7);x.stroke()}
+  else{x.strokeStyle="#f08c00";x.beginPath();x.arc(kp[0],kp[1],BR*ppm*1.25,0,7);x.stroke();
+   if(a2&&a2!=="*"&&a2!=="-"){var wq=bubXY(it,"ABCD".indexOf(a2),TT.n),wp=H.apply(null,uv(wq[0],wq[1]));x.strokeStyle="#e03131";x.beginPath();x.moveTo(wp[0]-BR*ppm,wp[1]-BR*ppm);x.lineTo(wp[0]+BR*ppm,wp[1]+BR*ppm);x.moveTo(wp[0]+BR*ppm,wp[1]-BR*ppm);x.lineTo(wp[0]-BR*ppm,wp[1]+BR*ppm);x.stroke()}}}
+ return{T:TT,slot:id?id.slot:127,ans:ans,fill:fl,img:cv.toDataURL("image/jpeg",.7)}}
+/* ---------- saving a paper ---------- */
+function saveRes(T,lid,ans){var o=pj(),r=kxRosOf(lid),nm=r?r.name:lid;o.res[T.id]=o.res[T.id]||{};o.res[T.id][lid]={ans:ans,ts:Date.now()};pw(o);
+ var L=plog().filter(function(x){return!(x.tid===T.id&&x.lid===lid)}),ts=Date.now();
+ for(var i=0;i<T.n;i++)L.push({tid:T.id,lid:lid,n:nm,s:T.s,t:T.t,w:T.w,i:"p"+T.no+"-"+(i+1),ok:ans.charAt(i)===T.key.charAt(i)?1:0,ts:ts});
+ kxW(PL,L.slice(-20000));try{log("paper-score",SUBJN[T.s],nm+" "+score(T,ans)+"/"+T.n)}catch(e){}}
+function score(T,ans){var c=0;for(var i=0;i<T.n;i++)if(ans.charAt(i)===T.key.charAt(i))c++;return c}
+/* ---------- screens ---------- */
+function home(){var o=pj(),h='<div class="card wide kxw"><div class="axh"><div><h3>📸 Snap &amp; Score <i>Paper Checker</i></h3><p class="axs">Print the sheets. The learners shade. Snap a photo: right or wrong, the score and the item analysis, at once.</p></div><div class="axa"><button class="btn" id="ppN" type="button">➕ New Test <i>Bagong Test</i></button><button class="btn ghost" id="ppX" type="button">⬅️ Back</button></div></div>';
+ if(!o.tests.length)h+='<p class="axe">Wala pang test. · No test yet. Tap ➕ New Test.</p>';
+ o.tests.slice().reverse().forEach(function(T){var R=o.res[T.id]||{},k=Object.keys(R).length;
+  h+='<div class="card"><h3>'+esc(T.title)+' <i>'+esc(T.subn)+' · Term '+T.t+' · Week '+T.w+' · '+T.n+' items</i></h3><p>'+k+' of '+(T.learners||[]).length+' papers checked'+(k?' · MPS '+mps(T,R)+'%':'')+'</p>'
+  +'<div class="row"><button class="btn" data-sn="'+T.id+'" type="button">📸 Snap Papers <i>Kunan ng Larawan</i></button><button class="btn" data-ia="'+T.id+'" type="button">📊 Item Analysis</button>'
+  +'<button class="btn ghost" data-pr="'+T.id+'" type="button">🖨️ Print Sheets</button><button class="btn ghost" data-pb="'+T.id+'" type="button">🖨️ Blank Sheets</button><button class="btn ghost" data-ek="'+T.id+'" type="button">✏️ Answer Key</button><button class="btn ghost" data-dl="'+T.id+'" type="button">🗑 Delete</button></div></div>'});
+ $("ov").innerHTML='<div class="sheet">'+h+'</div></div>';
+ $("ppX").onclick=function(){openTools()};$("ppN").onclick=function(){edit(null)};
+ var by=function(id){return pj().tests.filter(function(t){return t.id===id})[0]};
+ [].forEach.call(document.querySelectorAll("[data-sn]"),function(b){b.onclick=function(){snap(by(b.getAttribute("data-sn")))}});
+ [].forEach.call(document.querySelectorAll("[data-ia]"),function(b){b.onclick=function(){ia(by(b.getAttribute("data-ia")))}});
+ [].forEach.call(document.querySelectorAll("[data-pr]"),function(b){b.onclick=function(){printSheets(by(b.getAttribute("data-pr")),0)}});
+ [].forEach.call(document.querySelectorAll("[data-pb]"),function(b){b.onclick=function(){var n=+prompt("Ilang blankong sheet? · How many blank sheets?","5")||0;if(n>0)printSheets(by(b.getAttribute("data-pb")),Math.min(n,60))}});
+ [].forEach.call(document.querySelectorAll("[data-ek]"),function(b){b.onclick=function(){edit(by(b.getAttribute("data-ek")))}});
+ [].forEach.call(document.querySelectorAll("[data-dl]"),function(b){b.onclick=function(){if(!confirm("Delete this test and its checked papers?"))return;var o2=pj(),id=b.getAttribute("data-dl");o2.tests=o2.tests.filter(function(t){return t.id!==id});delete o2.res[id];pw(o2);kxW(PL,plog().filter(function(x){return x.tid!==id}));home()}})}
+function mps(T,R){var ks=Object.keys(R);if(!ks.length)return 0;var s=0;ks.forEach(function(k){s+=score(T,R[k].ans)});return Math.round(s/(ks.length*T.n)*1000)/10}
+function edit(T0){var cw=curTW(),T=T0||{t:cw.t,w:cw.gw||1,s:1,n:20,title:"",key:""},S=[0,1,2,3,4];
+ var h='<div class="card wide kxw"><div class="axh"><div><h3>'+(T0?'✏️ Answer Key':'➕ New Test')+' <i>'+(T0?'Susi sa Pagwawasto':'Bagong Test')+'</i></h3><p class="axs">The key is checked against every photo. The week’s worksheet can fill it for you.</p></div><div class="axa"><button class="btn ghost" id="peX" type="button">⬅️ Back</button></div></div>'
+  +'<div class="kxf"><label>Title <i>Pamagat</i><input id="peT" maxlength="80" value="'+esc(T.title||"")+'" placeholder="Summative Test 1"></label>'
+  +'<label>Subject <i>Asignatura</i><select id="peS">'+S.map(function(s){return'<option value="'+s+'"'+(s===T.s?' selected':'')+'>'+esc(SUBJN[s])+'</option>'}).join("")+'</select></label>'
+  +'<label>Term<select id="peTm">'+[1,2,3].map(function(t){return'<option'+(t===T.t?' selected':'')+'>'+t+'</option>'}).join("")+'</select></label>'
+  +'<label>Week<input id="peW" type="number" min="1" max="12" value="'+T.w+'"></label>'
+  +'<label>Items <i>Bilang ng Tanong</i><input id="peN" type="number" min="1" max="50" value="'+T.n+'"'+(T0?' disabled':'')+'></label></div>'
+  +'<div class="row">'+(T0?'':'<button class="btn ghost" id="peWs" type="button">📄 Use This Week’s Worksheet Key</button>')+'</div>'
+  +'<p><b>Key</b> <i>Susi</i> — tap each item’s answer:</p><div id="peK"></div><p class="msg" id="peM"></p>'
+  +'<div class="row"><button class="btn" id="peGo" type="button">💾 Save <i>I-save</i></button></div></div>';
+ $("ov").innerHTML='<div class="sheet">'+h+'</div>';
+ var key=(T.key||"").split("");function drawK(){var n=Math.max(1,Math.min(50,+$("peN").value||1)),g="";for(var i=0;i<n;i++){g+='<div style="display:inline-flex;gap:3px;align-items:center;margin:3px 10px 3px 0"><b style="min-width:26px;text-align:right">'+(i+1)+'.</b>'+"ABCD".split("").map(function(L){return'<button type="button" class="btn sm'+(key[i]===L?'':' ghost')+'" data-k="'+i+'" data-l="'+L+'" style="min-width:34px;padding:4px 8px">'+L+'</button>'}).join("")+'</div>'}$("peK").innerHTML=g;
+  [].forEach.call($("peK").querySelectorAll("[data-k]"),function(b){b.onclick=function(){key[+b.getAttribute("data-k")]=b.getAttribute("data-l");drawK()}})}
+ drawK();$("peN").oninput=drawK;$("peX").onclick=home;
+ if($("peWs"))$("peWs").onclick=function(){var it=wsItems(+$("peTm").value,+$("peS").value,+$("peW").value||1);if(!it.length){$("peM").className="msg bad";$("peM").textContent="Walang worksheet sa linggong ito. · No worksheet for that week.";return}
+  $("peN").value=it.length;key=it.map(function(q){return q.key});if(!$("peT").value)$("peT").value="Worksheet · "+SUBJN[+$("peS").value]+" · Week "+($("peW").value||1);drawK()};
+ $("peGo").onclick=function(){var n=Math.max(1,Math.min(50,+$("peN").value||1)),k=key.slice(0,n).join("");if(k.length<n||/[^ABCD]/.test(k)){$("peM").className="msg bad";$("peM").textContent="Kulang ang susi. · Every item needs its answer.";return}
+  var o=pj(),s=+$("peS").value;if(T0){T0.title=$("peT").value.trim()||T0.title;T0.key=k;T0.s=s;T0.subn=SUBJN[s];T0.t=+$("peTm").value;T0.w=+$("peW").value||1;o.tests=o.tests.map(function(t){return t.id===T0.id?T0:t})}
+  else{o.seq=(o.seq%1023)+1;o.tests.push({id:"pt"+Date.now(),no:o.seq,title:$("peT").value.trim()||("Test "+o.seq),s:s,subn:SUBJN[s],t:+$("peTm").value,w:+$("peW").value||1,n:n,key:k,learners:kxRos().slice(0,126).map(function(r){return r.id}),ts:Date.now()})}
+  pw(o);home()}}
+function snap(T){var h='<div class="card wide kxw"><div class="axh"><div><h3>📸 '+esc(T.title)+' <i>Kunan ng Larawan</i></h3><p class="axs">Lay the paper flat. All four black corners in the photo. One photo or many.</p></div><div class="axa"><button class="btn ghost" id="psX" type="button">⬅️ Back</button></div></div>'
+  +'<input id="psF" type="file" accept="image/*" capture="environment" multiple hidden><div class="row"><button class="btn" id="psGo" type="button" style="font-size:1.15rem">📸 Snap a Paper <i>Kunan</i></button><button class="btn ghost" id="psFi" type="button">🖼️ From Photos <i>Mula sa Gallery</i></button></div><div id="psR"></div></div>';
+ $("ov").innerHTML='<div class="sheet">'+h+'</div>';$("psX").onclick=home;
+ var F=$("psF");$("psGo").onclick=function(){F.setAttribute("capture","environment");F.click()};$("psFi").onclick=function(){F.removeAttribute("capture");F.click()};
+ F.onchange=function(){[].forEach.call(F.files,function(file){loadImg(file,function(im){var box=document.createElement("div");box.className="card";$("psR").insertBefore(box,$("psR").firstChild);
+  if(!im){box.innerHTML='<p class="msg bad">Hindi mabuksan ang larawan. · The photo could not be opened.</p>';return}
+  var A;try{A=analyze(im,T)}catch(e){A={err:"Hindi mabasa. · Could not read: "+e.message}}
+  if(A.err){box.innerHTML='<p class="msg bad">'+esc(A.err)+'</p>';return}
+  var TT=A.T,ids=TT.learners||[],lid=A.slot<127?ids[A.slot]:"",sc=score(TT,A.ans.join(""));
+  var chips=A.ans.map(function(a,i){var k=TT.key.charAt(i),ok=a===k;return'<span title="'+(i+1)+'" style="display:inline-block;min-width:44px;margin:2px;padding:3px 6px;border-radius:8px;font-weight:800;background:'+(ok?'#e6f7ec':a!=='-'?'#ffe8e8':'#fff4e0')+';color:'+(ok?'#12733b':a!=='-'?'#c92a2a':'#a35b00')+'">'+(i+1)+'. '+(ok?'✔':(a==="*"?'2×':a==='-'?'—':a)+'→'+k)+'</span>'}).join("");
+  box.innerHTML='<div style="display:grid;grid-template-columns:minmax(0,150px) 1fr;gap:12px;align-items:start"><img src="'+A.img+'" alt="" style="width:100%;border-radius:8px;border:1px solid #ccd">'
+   +'<div><h3 style="margin:0">'+sc+' / '+TT.n+' <i>'+esc(TT.title)+'</i></h3><label>Learner <i>Mag-aaral</i><select class="psL"><option value="">— Piliin · Choose —</option>'+kxRos().map(function(r){return'<option value="'+esc(r.id)+'"'+(r.id===lid?' selected':'')+'>'+esc(r.name)+'</option>'}).join("")+'</select></label><p class="psS"></p></div></div><div>'+chips+'</div>';
+  var sel=box.querySelector(".psL"),st=box.querySelector(".psS");
+  var put=function(){if(!sel.value){st.className="psS msg bad";st.textContent="Piliin ang pangalan para ma-save. · Choose the name to save.";return}saveRes(TT,sel.value,A.ans.join(""));st.className="psS msg ok";st.textContent="✔ Saved · Naitala"};
+  sel.onchange=put;put()})});F.value=""}}
+function ia(T){var o=pj(),R=o.res[T.id]||{},ks=Object.keys(R),n=ks.length;
+ var rows="",hard=[];for(var i=0;i<T.n;i++){var c={A:0,B:0,C:0,D:0,"":0,"*":0},ok=0;ks.forEach(function(k){var a=R[k].ans.charAt(i)||"-";a=(a===" "||a==="-")?"":a;c[a]=(c[a]||0)+1;if(a===T.key.charAt(i))ok++});
+  var p=n?Math.round(ok/n*100):0,lv=p>=75?"Easy · Madali":p>=50?"Average · Katamtaman":"Difficult · Mahirap";if(n&&p<50)hard.push(i+1);
+  rows+='<tr><td><b>'+(i+1)+'</b></td><td>'+T.key.charAt(i)+'</td><td style="min-width:120px"><div style="background:#e9ecf3;border-radius:6px;overflow:hidden"><div style="width:'+p+'%;background:'+(p>=75?'#2f9e44':p>=50?'#f59f00':'#e03131')+';color:#fff;font-weight:800;padding:2px 6px;white-space:nowrap">'+p+'%</div></div></td>'
+   +"ABCD".split("").map(function(L){return'<td'+(L===T.key.charAt(i)?' style="font-weight:800;color:#12733b"':'')+'>'+c[L]+'</td>'}).join("")+'<td>'+((c[""]||0)+(c["*"]||0))+'</td><td>'+lv+'</td></tr>'}
+ var lr=ks.map(function(k){var r=kxRosOf(k);return[r?r.name:k,score(T,R[k].ans)]}).sort(function(a,b){return b[1]-a[1]});
+ var body='<p><b>'+n+'</b> papers · MPS <b>'+mps(T,R)+'%</b> · '+T.n+' items'+(hard.length?' · Re-teach items: <b>'+hard.join(", ")+'</b>':'')+'</p>'
+  +'<div style="overflow-x:auto"><table class="kxt"><tr><th>Item</th><th>Key</th><th>% Correct</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Blank / 2×</th><th>Level</th></tr>'+rows+'</table></div>'
+  +'<h4>Scores <i>Iskor</i></h4><table class="kxt"><tr><th>Learner</th><th>Score</th><th>%</th></tr>'+lr.map(function(x){return'<tr><td>'+esc(x[0])+'</td><td>'+x[1]+' / '+T.n+'</td><td>'+Math.round(x[1]/T.n*100)+'%</td></tr>'}).join("")+'</table>';
+ $("ov").innerHTML='<div class="sheet"><div class="card wide kxw"><div class="axh"><div><h3>📊 Item Analysis <i>'+esc(T.title)+'</i></h3><p class="axs">'+esc(T.subn)+' · Term '+T.t+' · Week '+T.w+'. The bars show how many answered each item right; the letters show what the class chose.</p></div>'
+  +'<div class="axa"><button class="btn" id="iaP" type="button">🖨️ Print / Save PDF</button><button class="btn ghost" id="iaC" type="button">⬇️ CSV</button><button class="btn ghost" id="iaX" type="button">⬅️ Back</button></div></div>'+body+'</div></div>';
+ $("iaX").onclick=home;$("iaP").onclick=function(){printDoc(chrome("Item Analysis · "+T.title,T.subn+" · Term "+T.t+" · Week "+T.w,body,{sig:true}))};
+ $("iaC").onclick=function(){var L=[["Learner"].concat(Array.from({length:T.n},function(_,i){return"Item "+(i+1)})).concat(["Score"])];ks.forEach(function(k){var r=kxRosOf(k),a=R[k].ans;L.push([r?r.name:k].concat(a.split("").slice(0,T.n).map(function(x,i){return x===T.key.charAt(i)?1:0})).concat([score(T,a)]))});
+  var csv=L.map(function(r){return r.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");var a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"}));a.download="KORTEX-Item-Analysis-"+T.title.replace(/[^A-Za-z0-9]+/g,"-")+".csv";a.click()}}
+window.openPaper=home;window.KXPAPER={analyze:analyze,bits:bits,unbits:unbits,sheet:sheet};
 })();
 
 
