@@ -681,6 +681,17 @@ button>i:not([class]):not([aria-hidden]),.btn>i:not([class]):not([aria-hidden]){
 
 /* 🖨️ Print Center and 🧩 Q&A of All Games wear the Tools look (Phase 2) */
 .kxpc{padding:20px}.kxpc h4{margin:14px 0 6px;color:#efe6cc}.kxpc .axs{color:#cfc6a9}.kxpc .gt th,.kxpc .gt td{border-bottom:1px solid rgba(239,230,204,.2);color:#efe6cc}.kxpc .gt .gi td{color:#d4a84b}.kxpc .kcb{text-align:right}.kxpc .btn.sm{background:var(--gold);color:#14284b}.kxpc .btn.sm i{opacity:.85}
+
+/* (R12) sign-in: small English line ABOVE the Filipino; compact learner grid (up to 50) so KORTEX stays the highlight */
+.si-q .si-en.si-up{display:block;font-size:.6em;font-style:normal;font-weight:600;letter-spacing:.06em;opacity:.78;margin:0 0 2px}
+.si-g{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))!important;gap:8px!important;max-height:46vh;overflow-y:auto;padding:4px}
+.si-n{padding:8px 4px 7px!important;border-radius:12px!important;gap:3px!important;box-shadow:0 0 0 2px #d4a84b,0 4px 10px rgba(0,0,0,.3)!important}
+.si-n span{font-size:1.5rem!important}.si-n b{font-size:.82rem!important}
+body[data-device=tv] .si-n span{font-size:2rem!important}body[data-device=tv] .si-n b{font-size:1rem!important}
+
+/* (R14) sign-in labels: left-aligned, the same small size, English on top, Filipino in italics below */
+.si-q.si-pair{text-align:left!important;font-size:.95rem!important;font-weight:700;letter-spacing:.02em;margin:10px 4px 6px!important;line-height:1.25}
+.si-q.si-pair i{display:block;font-size:1em;font-weight:500;font-style:italic;opacity:.85}
 .kxcal{display:inline-block;width:1.2em;height:1.2em;vertical-align:-.24em;background:url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%223.5%22%20y%3D%225.5%22%20width%3D%2225%22%20height%3D%2223.5%22%20rx%3D%225%22%20fill%3D%22%23fff%22%20stroke%3D%22%232b3245%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M3.5%2011.5v-1a5%205%200%200%201%205-5h15a5%205%200%200%201%205%205v1z%22%20fill%3D%22%23e5484d%22%20stroke%3D%22%232b3245%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Crect%20x%3D%229%22%20y%3D%222.5%22%20width%3D%222.8%22%20height%3D%226.5%22%20rx%3D%221.4%22%20fill%3D%22%232b3245%22%2F%3E%3Crect%20x%3D%2220.2%22%20y%3D%222.5%22%20width%3D%222.8%22%20height%3D%226.5%22%20rx%3D%221.4%22%20fill%3D%22%232b3245%22%2F%3E%3Cg%20fill%3D%22%238d97a8%22%3E%3Crect%20x%3D%228%22%20y%3D%2215%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%2F%3E%3Crect%20x%3D%2214%22%20y%3D%2215%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%2F%3E%3Crect%20x%3D%2220%22%20y%3D%2215%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%2F%3E%3Crect%20x%3D%228%22%20y%3D%2220.6%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%2F%3E%3Crect%20x%3D%2214%22%20y%3D%2220.6%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%20fill%3D%22%23e5484d%22%2F%3E%3Crect%20x%3D%2220%22%20y%3D%2220.6%22%20width%3D%224%22%20height%3D%223.4%22%20rx%3D%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/contain no-repeat;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head>
 <body>
 <canvas id="sky"></canvas><canvas id="fx"></canvas>
@@ -912,13 +923,13 @@ var CFG={
    "c2": "#4b3f8f"
   },
   "psq": {
-   "name": "PlaySphere",
+   "name": "TACTICAL HQ",
    "abbr": "PSQ",
    "icon": "🎮",
    "tag": "",
    "c1": "#ff2e88",
    "c2": "#3b0fb8",
-   "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22spsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22url(%23spsq)%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2226%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.55%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%222%202.6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M33.5%209.5l-7%2011.5h5.6l-3.2%208.6%209.2-13h-5.8l3.6-7.1z%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M19%2029c-5%200-8.5%205.6-8.5%2012.4%200%204.6%201.9%207.4%204.8%207.4%203.2%200%205.3-3.8%208.3-5.8h16.8c3%202%205.1%205.8%208.3%205.8%202.9%200%204.8-2.8%204.8-7.4%200-6.8-3.5-12.4-8.5-12.4z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M21.4%2032.6h3.4v3h3v3.4h-3v3h-3.4v-3h-3v-3.4h3z%22%20fill%3D%22%233b0fb8%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2241%22%20cy%3D%2235%22%20r%3D%222.5%22%20fill%3D%22%23ff2e88%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2238.6%22%20r%3D%222.5%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%233b0fb8%22%20stroke-width%3D%22.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+   "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22spsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22url(%23spsq)%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2226%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.55%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%222%202.6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  },
  "sy": "SY 2026–2027",
@@ -1155,7 +1166,7 @@ var CFG={
   },
   {
    "id": "psq",
-   "name": "TACTICAL HQ",
+   "name": "PlaySphere",
    "full": "",
    "tag": "Outsmart. Outplay. Outlast.",
    "emoji": "🛰️",
@@ -1167,10 +1178,10 @@ var CFG={
      "group": ""
     }
    ],
-   "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+   "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M33.5%209.5l-7%2011.5h5.6l-3.2%208.6%209.2-13h-5.8l3.6-7.1z%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M19%2029c-5%200-8.5%205.6-8.5%2012.4%200%204.6%201.9%207.4%204.8%207.4%203.2%200%205.3-3.8%208.3-5.8h16.8c3%202%205.1%205.8%208.3%205.8%202.9%200%204.8-2.8%204.8-7.4%200-6.8-3.5-12.4-8.5-12.4z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M21.4%2032.6h3.4v3h3v3.4h-3v3h-3.4v-3h-3v-3.4h3z%22%20fill%3D%22%233b0fb8%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2241%22%20cy%3D%2235%22%20r%3D%222.5%22%20fill%3D%22%23ff2e88%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2238.6%22%20r%3D%222.5%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%233b0fb8%22%20stroke-width%3D%22.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611061313",
+ "build": "202611061508",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -1584,7 +1595,7 @@ function kxCur(){var c=null;try{c=JSON.parse(localStorage.getItem("KORTEX_CUR")|
  if(Array.isArray(c.subj))c.subj.slice(SUBJ_DEF.length).forEach(function(o){if(o&&o.en)sj.push({en:o.en,fil:o.fil||o.en,e:o.e||"📘"})});return{terms:+c.terms===4?4:3,subj:sj}}
 function kxTerms(){var a=[];for(var i=1;i<=kxCur().terms;i++)a.push(i);return a}
 var SUBJN=kxCur().subj.map(function(s){return s.en}),NSUBJ=SUBJN.length,NTERM=kxCur().terms;
-var GAMEN={abc:"ABC SPRINT",montage:"MONTAGE",smarty:"365 SMARTY",blueprints:"PED. BLUEPRINTS",balangay:"BALANGAY SIKHAY",gulong:"HelixPDGM",pantas:"PANTAS",whiz:"WHIZ CUP",arena:"ARENA",gauntlet:"GAUNTLET",kue:"KUE",synapse:"SYNAPSE",cryptocore:"CRYPTO CORE",psq:"TACTICAL HQ",cq:"Calibrated Quiz"};
+var GAMEN={abc:"ABC SPRINT",montage:"MONTAGE",smarty:"365 SMARTY",blueprints:"PED. BLUEPRINTS",balangay:"BALANGAY SIKHAY",gulong:"HelixPDGM",pantas:"PANTAS",whiz:"WHIZ CUP",arena:"ARENA",gauntlet:"GAUNTLET",kue:"KUE",synapse:"SYNAPSE",cryptocore:"CRYPTO CORE",psq:"PlaySphere",cq:"Calibrated Quiz"};
 /* Subject and role logos (one owner: tools/logos.py). k = subject index 0-4, or teacher | learner | parent | cq. */
 function ico(k,cls){var I=CFG.icons||{},u=typeof k==="number"?(I.subj||[])[k]:I[k];if(!u){if(typeof k==="number"){var sj=kxCur().subj[k];return sj?'<span class="kxi'+(cls?" "+cls:"")+'" aria-hidden="true" style="display:inline-block;width:auto;height:auto;font-size:1.1em">'+esc(sj.e)+'</span>':""}return""}return'<img class="kxi'+(cls?" "+cls:"")+'" src="'+u+'" alt="" aria-hidden="true" draggable="false">'}
 function subjH(s,cls){return ico(s,cls||"s")+esc(SUBJN[s])}
@@ -1871,7 +1882,7 @@ function bodyLearners(D){
  return h+'</table><p><small>Each learner appears once, with results from every game and the Calibrated Quiz combined.</small></p>'+cqLevelsTable(D.all)}
 function bodyItems(D){
  var it=itemStats(D.rows).filter(function(x){return x.att>=3});
- if(!it.length)return'<p class="axe">Item analysis needs at least three responses per item. Only games that track items count: ABC SPRINT, 365 SMARTY, HelixPDGM, PANTAS, WHIZ CUP, ARENA, GAUNTLET, SYNAPSE, CRYPTO CORE and TACTICAL HQ. '+(D.rows.length?"":"No results are on this device yet. ")+'</p>';
+ if(!it.length)return'<p class="axe">Item analysis needs at least three responses per item. Only games that track items count: ABC SPRINT, 365 SMARTY, HelixPDGM, PANTAS, WHIZ CUP, ARENA, GAUNTLET, SYNAPSE, CRYPTO CORE and PlaySphere. '+(D.rows.length?"":"No results are on this device yet. ")+'</p>';
  var h='<p>Items are listed by competency. Answers are never shown. Lowest percent correct first.</p><table><tr><th>Competency (BOW)</th><th>Game</th><th>Term · Wk · Item</th><th class="num">Resp.</th><th class="num">% Correct</th><th>Difficulty</th><th class="num">D</th><th>Action</th></tr>';
  it.slice(0,40).forEach(function(x){var b=x.rows[0];h+='<tr><td><b>'+esc(SUBJN[x.s])+'</b><br>'+esc(b?b.label:"—")+'</td><td>'+esc(GAMEN[x.g]||x.g)+'</td><td>T'+x.t+' · W'+x.w+' · #'+(+x.i+1)+'</td><td class="num">'+x.att+'</td><td class="num">'+x.p+'</td><td>'+x.diff+'</td><td class="num">'+(x.d===null?"—":x.d)+'</td><td>'+x.act+'</td></tr>'});
  h+='</table><h2>Guide</h2><table><tr><th>Measure</th><th>How to Read It</th></tr><tr><td>% Correct</td><td>Share of responses that were right. 81 and above very easy, 61 to 80 easy, 41 to 60 average, 21 to 40 difficult, 20 and below very difficult.</td></tr><tr><td>D (Discrimination)</td><td>Difference between the top and bottom learners on the item. 0.30 and above separates well. Below 0.10 means the item does not tell strong and weak learners apart; review it. Shown when eight or more learners answered.</td></tr><tr><td>Retain</td><td>The item works. Keep it.</td></tr><tr><td>Review</td><td>Easy but not discriminating. Check wording and distractors.</td></tr><tr><td>Reteach</td><td>Many learners missed it. Reteach the competency, then ask again.</td></tr><tr><td>Revise</td><td>Almost everyone missed it. Check the item itself before reteaching.</td></tr></table>';
@@ -2167,7 +2178,7 @@ function openTools(tab){
  var pan=function(k,inner){return'<div class="tp" id="tp-'+k+'"'+(TPOPEN===k?'':' hidden')+'>'+inner+'</div>'};
  var lk=toolsLocked();
  var h='<div class="card wide tl"><div class="axh"><div><h3>KORTEX Tools</h3><p class="axs">One console for every game on this device · '+n+' saved items · '+esc(syLabel())+'</p></div><div class="axa">'+tile("tHome","main_hub")+tb("tX","Close")+'</div></div>'
- +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 E-Class Record","Excel | CSV Files")+(window.KXOBS_TILE?KXOBS_TILE():"")+(window.KXPRP_TILE?KXPRP_TILE():"")+(window.KXFRM_TILE?KXFRM_TILE():"")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tPx","📸 Snap & Score","Paper Checker · Item Analysis")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
+ +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 E-Class Record","Excel | CSV Files")+(window.KXVLT_TILE?KXVLT_TILE():"")+(window.KXOBS_TILE?KXOBS_TILE():"")+(window.KXPRP_TILE?KXPRP_TILE():"")+(window.KXFRM_TILE?KXFRM_TILE():"")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tPx","📸 Snap & Score","Paper Checker · Item Analysis")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
   +pan("log",'<p>Every open, launch, print and reset on this device, newest first.</p><div class="tg3">'+tb("tLg","View Log")+tb("tCsv","Export CSV")+tb("tLc","Clear Log","w")+'</div>'):'')
  +'<h4>Class and Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+(T?xt("tCL","🔗 Class Link","Send the Class List to Phones"):"")+(T?xt("tQR","📱 Share KORTEX","QR Code of the Website"):"")+(T?xt("tAvt","🎨 Avatars","Each Learner’s Own Look"):"")+(T?xt("tCur","📚 Subjects and Terms","Kindergarten to Grade Six"):"")+'</div>'
  +pan("settings",'<p>Current school year: <b>'+esc(syLabel())+'</b>. The School Calendar sets when each term’s Review, Summatives and Term Exam open in every game.</p><div class="tg3">'+tb("tCal",'<i class="kxcal"></i> School Calendar')+tb("tNY","🎓 Start New School Year","w")+'</div>')
@@ -2203,7 +2214,7 @@ function openTools(tab){
  on("tCsv",function(){download("KORTEX-log-"+CFG.pack+"-"+stampName()+".csv","﻿"+csv(getLog()),"text/csv");m("Log exported as CSV.",1)});
  on("tLc",function(){if(confirm("Clear the log on this device? Export it first if you need it.")){ls("KORTEX_LOG","[]");m("Log cleared.",1)}});
  on("tPin",function(){var a=prompt("New PIN (4–8 digits):");if(a===null)return;if(!/^\d{4,8}$/.test(a)){m("PIN must be 4–8 digits.");return}if(prompt("Repeat new PIN:")!==a){m("PINs do not match.");return}ls("KORTEX_PINH",hash(SALT+a));CFG.pinEnabled=true;m("PIN changed on this device.",1);log("pin-change")});
- on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tOb",function(){window.openObsDeck&&openObsDeck()});on("tPp",function(){window.openProposal&&openProposal()});on("tFm",function(){window.openForms&&openForms()});on("tWs",function(){openWorksheets()});on("tPx",function(){window.openPaper&&openPaper()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
+ on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tOb",function(){window.openObsDeck&&openObsDeck()});on("tVt",function(){window.openVault&&openVault()});on("tPp",function(){window.openProposal&&openProposal()});on("tFm",function(){window.openForms&&openForms()});on("tWs",function(){openWorksheets()});on("tPx",function(){window.openPaper&&openPaper()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
  on("tCol",function(){hubAccept()});on("tSendH",function(){hubSend()});on("tTh",function(){openThemeStudio()});on("tCL",function(){openClassLink()});on("tAvt",function(){openAvatars()});on("tCur",function(){openCurriculum()});
  $("tColF").onchange=function(){var fs=[].slice.call(this.files);this.value="";if(!fs.length)return;var n=0,a=0,b=0,left=fs.length;fs.forEach(function(f){var r=new FileReader();r.onload=function(){var o=parseScores(String(r.result)),res=o?importScores(o):{ok:0};if(res.ok){n++;a+=res.added}else b++;if(--left===0){log("collect-scores","",n+" files");m("Collected "+n+" file"+(n===1?"":"s")+": "+a+" new results"+(b?" · "+b+" not readable":"")+".",n>0)}};r.readAsText(f)})};
 
@@ -2290,7 +2301,7 @@ var L=[
 ];
 /* which theme each game wears (editable in Theme Studio); the KORTEX hub wears its own KORTEX Launchpad, the story library (Aether, Fable and Fiora) the Secret Digital Garden */
 var MAP={abc:1,gauntlet:2,smarty:3,cryptocore:4,blueprints:5,balangay:6,synapse:7,arena:8,whiz:9,gulong:10,psq:11,kue:12,pantas:13,montage:14,aff:15,hub:16};
-var NAMES={abc:"ABC SPRINT",gauntlet:"GAUNTLET",smarty:"365 SMARTY",cryptocore:"CRYPTO CORE",blueprints:"PED. BLUEPRINTS",balangay:"BALANGAY SIKHAY",synapse:"SYNAPSE",arena:"ARENA",whiz:"WHIZ CUP",gulong:"HelixPDGM",psq:"TACTICAL HQ",kue:"KUE",pantas:"PANTAS",montage:"MONTAGE",aff:"AETHER, FABLE AND FIORA",hub:"KORTEX"};
+var NAMES={abc:"ABC SPRINT",gauntlet:"GAUNTLET",smarty:"365 SMARTY",cryptocore:"CRYPTO CORE",blueprints:"PED. BLUEPRINTS",balangay:"BALANGAY SIKHAY",synapse:"SYNAPSE",arena:"ARENA",whiz:"WHIZ CUP",gulong:"HelixPDGM",psq:"PlaySphere",kue:"KUE",pantas:"PANTAS",montage:"MONTAGE",aff:"AETHER, FABLE AND FIORA",hub:"KORTEX"};
 var HIST={};
 function byId(i){i=+i;for(var j=0;j<L.length;j++)if(L[j].id===i)return L[j];return L[14]}
 function pref(){try{var o=JSON.parse(localStorage.getItem("KORTEX_THEMES")||"{}");return o&&typeof o==="object"?o:{}}catch(e){return{}}}
@@ -2357,18 +2368,21 @@ if(typeof module!=="undefined"&&module.exports)module.exports=W.KXTH;
    Learners: tap your name, then tap Yes. Teacher: Teacher PIN. Every sign-in and sign-out goes to the log. */
 function tpinHash(){return ls("KORTEX_TPINH")||(CFG.tpd?hash(SALT+CFG.tpd):"")}
 function isTeacherNow(){if(!CFG.signin)return true;var s=getSess();return!!(s&&s.role==="teacher")}
-function signRoster(){return getRosterOverride()||CFG.roster||[]}
+/* (R14) every learner on the sign-in wears a DIFFERENT emoji — ready for 50: a learner's own pick stays; a missing or repeated one takes the next unused face */
+var SIEMO=["🐻","🦊","🐼","🐯","🐸","🐙","🦁","🐵","🐰","🐶","🐱","🦄","🐧","🦖","🐢","🐨","🐮","🐷","🐤","🐝","🐞","🦀","🐳","🦒","🐘","🦓","🦔","🐲","🦕","🐠","🦜","🦩","🦉","🦋","🐬","🐺","🐹","🦝","🦦","🦥","🐿️","🦘","🦚","🐊","🦈","🐌","🦭","🐆","🦌","🐫","🦙","🐓","🦢","🦫"];
+function signRoster(){var R=getRosterOverride()||CFG.roster||[],used={},out=[];R.forEach(function(r){var e=r&&r.emoji;if(!e||used[e]){e=null}else used[e]=1;out.push([r,e])});
+ var k=0;return out.map(function(x){var r=x[0],e=x[1];if(!e){while(k<SIEMO.length&&used[SIEMO[k]])k++;e=SIEMO[k]||"⭐";used[e]=1;var c={};for(var q in r)c[q]=r[q];c.emoji=e;return c}return r})}
 function siBox(){var o=$("signin");if(!o){o=document.createElement("div");o.id="signin";document.body.appendChild(o)}o.hidden=false;$("login").hidden=true;$("main").hidden=true;return o}
 function siHead(){return'<div class="si-h">'+((document.querySelector("#login img")||{}).outerHTML||"")+'<div><h2>KORTEX</h2><p class="si-s">The Launchpad for Engineered Brilliance.</p>'+'</div></div>'}
 function showLogin(door){
  var o=siBox(),R=signRoster(),T=CFG.signin==="tl";door=door||"l";
  var dz='<div class="si-doors" role="tablist" aria-label="Who is using KORTEX?">'
-  +'<button type="button" class="si-d'+(door==="l"?" on":"")+'" data-d="l" role="tab" aria-selected="'+(door==="l")+'">'+ico("learner","d")+'<b>Learner</b><small>Pindutin ang pangalan mo</small></button>'
-  +'<button type="button" class="si-d'+(door==="p"?" on":"")+'" data-d="p" role="tab" aria-selected="'+(door==="p")+'">'+ico("parent","d")+'<b>Parent</b><small>Progreso ng inyong anak</small></button>'
-  +(T?'<button type="button" class="si-d" id="siTeach" data-d="t" role="tab" aria-selected="false">'+ico("teacher","d")+'<b>Teacher</b><small>Teacher PIN</small></button>':'')+'</div>';
+  +'<button type="button" class="si-d'+(door==="l"?" on":"")+'" data-d="l" role="tab" aria-selected="'+(door==="l")+'">'+ico("learner","d")+'<b>Learner</b></button>'
+  +'<button type="button" class="si-d'+(door==="p"?" on":"")+'" data-d="p" role="tab" aria-selected="'+(door==="p")+'">'+ico("parent","d")+'<b>Parent</b></button>'
+  +(T?'<button type="button" class="si-d" id="siTeach" data-d="t" role="tab" aria-selected="false">'+ico("teacher","d")+'<b>Teacher</b></button>':'')+'</div>';
  var names=function(cls){return'<div class="si-g">'+R.map(function(r,i){return'<button type="button" class="si-n'+(cls||"")+'" data-i="'+i+'"><span>'+esc(r.emoji||"⭐")+'</span><b>'+esc(r.name)+'</b></button>'}).join("")+'</div>'};
- o.innerHTML='<div class="si-w">'+siHead()+'<h3 class="si-q si-who">Who is using KORTEX?<small class="si-en">Sino ang Gagamit ng KORTEX?</small></h3>'+dz
-  +(door==="p"?'<h3 class="si-q">'+ico("parent","t")+' Choose Your Child<small class="si-en">Piliin ang Inyong Anak</small></h3><p class="si-s">Pagkatapos, i-type ang family code mula sa guro ng inyong anak. Tingin lamang ito; walang mababago.<br><i>Then type the family code from your child’s teacher. Parents can view progress only; nothing can be changed.</i></p>'+names(" si-pn"):'<h3 class="si-q">👋 Tap Your Name<small class="si-en">Pindutin ang Pangalan Mo</small></h3>'+names(""))+(CFG.video?'<button type="button" class="si-ab" id="siAb">▶️ About KORTEX <i>Ang KORTEX</i></button>':'')+'</div>';
+ o.innerHTML='<div class="si-w">'+siHead()+'<h3 class="si-q si-who si-pair">Who is using KORTEX?<i>Sino ang Gagamit ng KORTEX?</i></h3>'+dz
+  +(door==="p"?'<h3 class="si-q">'+ico("parent","t")+' Choose Your Child<small class="si-en">Piliin ang Inyong Anak</small></h3><p class="si-s">Pagkatapos, i-type ang family code mula sa guro ng inyong anak. Tingin lamang ito; walang mababago.<br><i>Then type the family code from your child’s teacher. Parents can view progress only; nothing can be changed.</i></p>'+names(" si-pn"):'<h3 class="si-q si-pair">Tap Your Name<i>Pindutin ang Iyong Pangalan</i></h3>'+names(""))+(CFG.video?'<button type="button" class="si-ab" id="siAb">▶ KORTEX <i>Ang KORTEX</i></button>':'')+'</div>';
  o.querySelectorAll(".si-d").forEach(function(b){b.onclick=function(){var d=b.getAttribute("data-d");if(d==="t")siTeacher();else showLogin(d)}});
  if($("siAb"))$("siAb").onclick=function(){var d=door;o.hidden=true;openVideo(function(){showLogin(d)})};
  o.querySelectorAll(".si-n").forEach(function(b){b.onclick=function(){var r=R[+b.getAttribute("data-i")];if(door==="p")parentCode(r);else siConfirm(r)}});
@@ -4916,6 +4930,8 @@ window.openPaper=home;window.KXPAPER={analyze:analyze,bits:bits,unbits:unbits,sh
 
 
 
+
+
 /* ---------- v3.5: 📤 Send Scores · 📥 Accept Scores · reminders · themes (Theme Studio) · automatic Reading Log ----------
    Hub side of the pair that every game has in its top bar. Games hand accepted files straight to KXIN.accept (one-file edition)
    or leave them in KORTEX_INQ (separate files); the hub empties that queue whenever it opens. ---------- */
@@ -5179,6 +5195,31 @@ if(typeof openProf==="function")openProf=kxnW("openProf",openProf);
 if(typeof alDrill==="function")alDrill=kxnW("alDrill",alDrill);
 if(typeof openCurriculum==="function")openCurriculum=kxnW("openCurriculum",openCurriculum);
 if(typeof avEditor==="function")avEditor=kxnW("avEditor",avEditor);
+
+/* ================= One door for each job (Blueprint R10, 6 Nov 2026) =================
+   Venice: "Worksheets vs Worksheet Questions? Parent Dashboard vs Parent Consent? Superposition Data vs Analytics
+   Dashboard? Attendance vs Attendance Alerts? Learner Goals vs Goal Certificates? Spectrum Render vs Theme Studio?"
+   Each pair is now ONE tile in KORTEX Tools. The second job opens from inside the first, from a "Kasama rito · Also
+   here" row at the top. The themed names stay (Superposition Data, Spectrum Render). */
+(function(){
+var DOORS={};
+function add(name,btns){DOORS[name]=btns}
+function dressed(fn,btns){return function(){var r=fn.apply(this,arguments);try{var ov=$("ov"),c=ov&&ov.querySelector(".card");
+  if(c&&!c.querySelector(".kxdoor")){var d=document.createElement("div");d.className="kxdoor";
+   d.innerHTML='<span class="kxdl">Kasama rito <i>Also here</i></span>'+btns.map(function(b,i){return'<button type="button" class="btn ghost sm" data-door="'+i+'">'+b[0]+'</button>'}).join("");
+   var h=c.querySelector(".axh")||c.querySelector("h3");if(h&&h.parentNode===c)c.insertBefore(d,h.nextSibling);else c.insertBefore(d,c.firstChild);
+   [].forEach.call(d.querySelectorAll("[data-door]"),function(x){x.onclick=function(){btns[+x.getAttribute("data-door")][1]()}})}}catch(e){}return r}}
+openWorksheets=dressed(openWorksheets,[["✏️ Worksheet Questions <i>I-edit ang mga Tanong</i>",function(){openBankTool()}]]);
+pdOpenTeacher=dressed(pdOpenTeacher,[["📝 Parent Consent <i>Pahintulot ng Magulang</i>",function(){openConsent()}]]);
+openAnalytics=dressed(openAnalytics,[["📈 Charts and Filters <i>Mga Tsart</i>",function(){openDash()}]]);
+openAttendance=dressed(openAttendance,[["🔔 Attendance Alerts <i>Mga Paalala sa Pagliban</i>",function(){openAlerts()}]]);
+openGoals=dressed(openGoals,[["🎓 Certificates <i>Mga Sertipiko</i>",function(){openCerts()}]]);
+openBanner=dressed(openBanner,[["🎨 Theme Studio <i>Maskot, Salita at Kulay</i>",function(){openThemeStudio()}]]);
+/* the second tile of each pair leaves the grid (the job is one tap inside its partner) */
+try{var st=document.createElement("style");st.textContent='#tIb,#tCs,#tDash,#tAlrt,#tCert,#tTh{display:none!important}'
+ +'.kxdoor{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px;padding:8px 10px;border-radius:12px;background:rgba(127,127,127,.08);border:1px dashed rgba(127,127,127,.35)}'
+ +'.kxdoor .kxdl{font-weight:800;font-size:.85rem;margin-right:4px}.kxdoor .kxdl i{font-weight:500}';(document.head||document.documentElement).appendChild(st)}catch(e){}
+})();
 
 /* ---------- boot ---------- */
 function renderTop(){

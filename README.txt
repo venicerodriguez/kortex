@@ -9,7 +9,7 @@ SIGN IN
 Learners tap their name, then Yes. The Teacher signs in with the Teacher PIN (starter PIN: 1234; choose your own in Tools → 🔐 Crypto Shield). Forgot it? Tap 🗝️ Forgot PIN? and type the Teacher Recovery Code from the private Teacher Guide. Log Out is in the top bar, and every sign-in and game opened is kept in the log.
 
 14 GAMES
-The Codex Archive: ABC SPRINT, MONTAGE. The Atheneum Space: 365 SMARTY, PED. BLUEPRINTS. The Literati Nest: BALANGAY SIKHAY, PANTAS. The Apex Summit: WHIZ CUP, ARENA. The Decathlon Suite: GAUNTLET. The Cipher Node: HelixPDGM, KUE, SYNAPSE, CRYPTO CORE. PlaySphere: TACTICAL HQ.
+The Codex Archive: ABC SPRINT, MONTAGE. The Atheneum Space: 365 SMARTY, PED. BLUEPRINTS. The Literati Nest: BALANGAY SIKHAY, PANTAS. The Apex Summit: WHIZ CUP, ARENA. The Decathlon Suite: GAUNTLET. The Cipher Node: HelixPDGM, KUE, SYNAPSE, CRYPTO CORE. TACTICAL HQ: PlaySphere.
 
 ONE KORTEX FOR EVERYONE
 The first screen has three doors: Learner (tap your name), Parent (choose your child, then type the family code) and Teacher (Teacher PIN).
