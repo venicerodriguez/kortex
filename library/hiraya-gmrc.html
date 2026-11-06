@@ -85,9 +85,10 @@ body.pfit .wrap{padding-bottom:8px}body.pfit .info{padding:10px 16px;margin-top:
 .terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0 16px;align-items:start}.term .grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:10px}.term .tm{margin-top:16px}
 @media (min-width:900px){.abx{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start}.abx>.info{grid-column:1/-1}}
 @media (orientation:landscape) and (min-width:700px){.terms{display:flex;flex-wrap:wrap;gap:0 16px}.wrap{max-width:1320px}.term{flex:0 1 calc(var(--n,1) * 150px);max-width:100%;min-width:130px}.term .grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}.dk div{padding:8px 10px}.dk b{font-size:.92rem}.dk small{font-size:.8rem}}
-.tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 92px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}
+.tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}
 /* a short screen (a phone held sideways, a small laptop): the top bar is slimmer so the page has more room */
 @media (max-height:520px){.tb{padding-top:calc(env(safe-area-inset-top,0px) + 4px)!important;padding-bottom:4px!important}.tb .nb,.tb button,.tb a.nb{height:48px!important;min-width:64px!important;padding:2px 8px!important}.tb .nb i,.tb button i{font-size:1rem!important}button>i:not([class]):not([aria-hidden]),.btn>i:not([class]):not([aria-hidden]){display:block;font-size:.82em;line-height:1.2;margin-top:1px}.tb .nb b,.tb button b{font-size:.84rem!important}.tb .nb small,.tb button small{font-size:.6rem!important}}
+.nb.back{background:#fff!important;color:var(--kn1,#b83265)!important}.hero .cov img,.lg,img{max-width:100%}
 </style></head><body>
 <div class="pr" id="pr"><i></i></div>
 <div id="app"></div>
@@ -203,8 +204,8 @@ const INKX=/[/]library[/][^/]*$/.test(location.pathname);
 function libHome(){return W.lib||"index.html"}
 function goHome(){stopMovie(true);try{speechSynthesis.cancel()}catch(e){}if(INKX)location.href="../index.html";else location.href=libHome()}
 function goShelf(){stopMovie(true);try{speechSynthesis.cancel()}catch(e){}location.href=libHome()+(W.colkey?"#"+W.colkey:"")}
-function topbar(title,exit){return'<div class="tb"><button class="nb home" id="tbH" aria-label="Home"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(title)+'</span>'+KXS.btns(INKX)+'<button class="nb exit" id="tbX" aria-label="Exit"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'}
-function wireTop(exit){$("tbH").onclick=goHome;$("tbX").onclick=exit;KXS.wire(()=>W.title)}
+function topbar(title,exit){return'<div class="tb"><button class="nb back" id="tbB" aria-label="Back"><i aria-hidden="true">⬅️</i><b>Back</b><small>Bumalik</small></button><button class="nb home" id="tbH" aria-label="Home"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(title)+'</span>'+KXS.btns(INKX)+'<button class="nb exit" id="tbX" aria-label="Exit"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'}
+function wireTop(exit){$("tbB").onclick=()=>{if(SCR==="read"||SCR==="about")home();else goShelf()};$("tbH").onclick=goHome;$("tbX").onclick=exit;KXS.wire(()=>W.title)}
 /* ---------- voice: English narration on every page ---------- */
 const VK="vdr-voice";let VL=(()=>{try{return localStorage.getItem(VK)}catch(e){return null}})()==="off"?"off":"en";
 function voice(){const vs=speechSynthesis.getVoices?speechSynthesis.getVoices():[];return vs.find(v=>/^en-PH/i.test(v.lang))||vs.find(v=>/^en-(US|GB)/i.test(v.lang)&&/female|samantha|zira|google/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null}
@@ -251,7 +252,7 @@ function words(p){const a=EN()?p.e:p.f,b=EN()?p.f:p.e;return(a?'<p class="f">'+E
 /* ---------- story home ---------- */
 function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}catch(e){}$("bar").hidden=true;$("pr").firstChild.style.width="0";scrollTo(0,0);
  const c0=W.books[0].pages[0].i;let h=topbar(W.collection)+'<div class="wrap">';
- h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
+ h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?W.sub.split(" · ").map(x=>'<p class="sub"><i>'+E(x)+'</i></p>').join(""):'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
   +(W.award?'<span class="aw">🏅 '+E(W.award)+'</span>':'')
   +'<div class="cta"><button class="big" id="wm">▶ Panoorin<small>Watch like a movie</small></button><button class="big o" id="rd">📖 Basahin<small>Read</small></button><button class="big o" id="ab">ⓘ Tungkol<small>About this book</small></button></div></div></div>';
  if(W.books.length>1){let lastL=null;const cnt={};W.books.forEach(b=>cnt[b.label]=(cnt[b.label]||0)+1);h+='<div class="terms">';W.books.forEach((b,k)=>{if(b.label!==lastL){if(lastL!==null)h+='</div></div>';h+='<div class="term" style="--n:'+cnt[b.label]+'"><div class="tm">'+E(b.label||"")+'</div><div class="grid">';lastL=b.label}h+='<button class="dk" data-k="'+k+'"><img alt="" loading="lazy" src="'+src(b.pages[0].i)+'"><div><b>'+E(b.title)+'</b><small>▶ Panoorin <i>Watch</i> &nbsp; 📖 Basahin <i>Read</i></small></div></button>'});if(lastL!==null)h+='</div></div>';h+='</div>'}
@@ -271,13 +272,13 @@ function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=to
  const G=C.get?'<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>':'';h+='</div><div>'+G+'</div>'+Dd+'</div>';
  h+='<button class="edl" id="edb">✏️ Edit <i>I-edit</i></button><footer>© 2026 Venice D. Rodriguez. All rights reserved.</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>pinGate(editor);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 /* ---------- reader ---------- */
-function show(){SCR="read";const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
+function show(){SCR="read";try{const r=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){const q=(r.requestFullscreen||r.webkitRequestFullscreen||function(){}).call(r);if(q&&q.catch)q.catch(()=>{})}}catch(e){}const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"><button class="sa l" id="sl" aria-label="Previous"'+(I==0?' disabled':'')+'>‹</button><button class="sa r" id="sr" aria-label="Next"'+(I==L-1?' disabled':'')+'>›</button></div>'
-  +'<div class="rcol"><div class="rb"><button class="ib" id="pv" aria-label="Previous">‹</button><span class="pg">'+(I+1)+' / '+L+'</span><button class="ib" id="sp" aria-label="Read aloud">🔊</button><button class="ib" id="wv" aria-label="Watch from here">▶</button><button class="ib" id="nx" aria-label="Next">›</button></div>'
+  +'<div class="rcol"><div class="rb"><button class="ib" id="pv" aria-label="Previous">‹</button><span class="pg">'+(I+1)+' / '+L+'</span><button class="ib" id="sp" aria-label="Read aloud">🔊</button><button class="ib" id="nx" aria-label="Next">›</button></div>'
   +((p.f||p.e)?'<div class="tx">'+words(p)+'</div>':'')+'</div></div>';
  wireTop(home);$("art").onclick=e=>{if(e.target.closest(".sa"))return;$("lb").innerHTML='<img alt="" src="'+src(p.i)+'">';$("lb").hidden=false};
  $("bar").hidden=true;$("sl").onclick=()=>go(-1);$("sr").onclick=()=>go(1);
- $("pv").disabled=I==0;$("nx").disabled=I==L-1;$("pv").onclick=()=>go(-1);$("nx").onclick=()=>go(1);$("sp").onclick=()=>{const v=VL;VL="en";speak(say(p));VL=v};$("wv").onclick=()=>movie(B,I);
+ $("pv").disabled=I==0;$("nx").disabled=I==L-1;$("pv").onclick=()=>go(-1);$("nx").onclick=()=>go(1);$("sp").onclick=()=>{const v=VL;VL="en";speak(say(p));VL=v};
  $("pr").firstChild.style.width=((I+1)/L*100)+"%";scrollTo(0,0);fitRead();setTimeout(fitRead,450);setTimeout(fitRead,1400)}
 function go(n){if(B===null)return;const m=I+n;if(m>=0&&m<W.books[B].pages.length){I=m;show()}}
 $("lb").onclick=()=>{$("lb").hidden=true};
@@ -285,12 +286,12 @@ $("lb").onclick=()=>{$("lb").hidden=true};
 const M={on:0,b:0,i:0,play:1,t:0,lay:0,music:0,ac:null,g:null,tx:0};
 function movie(b,i){M.on=1;M.b=b;M.i=i;M.play=1;SCR="movie";fitMode();$("bar").hidden=true;try{speechSynthesis.cancel()}catch(e){}
  const mv=$("mv");mv.hidden=false;mv.innerHTML='<div class="lay" id="l0"></div><div class="lay" id="l1"></div><div class="cap off" id="cap"></div>'
-  +'<div class="mt"><button class="nb home" id="mh"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(W.books[b].title)+'</span><button class="nb exit" id="mx"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'
+  +'<div class="mt"><button class="nb back" id="mb" aria-label="Back"><i aria-hidden="true">⬅️</i><b>Back</b><small>Bumalik</small></button><button class="nb home" id="mh"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(W.books[b].title)+'</span><button class="nb exit" id="mx"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'
   +'<div class="ctl"><button class="ib" id="mp" aria-label="Previous page">⏮</button><button class="ib" id="mpp" aria-label="Pause">⏸</button><button class="ib" id="mn" aria-label="Next page">⏭</button>'
   +'<button class="ib" id="mv1" aria-label="Narration">🔊</button><button class="ib" id="mm" aria-label="Music">🎵</button><button class="ib" id="mtx" aria-label="Words on screen">Aa</button><span class="pg" id="mpg"></span></div>'
   +'<div class="start" id="mst"><div class="kick" style="color:#cfe0ff">'+E(W.collection)+'</div><h2>'+E(W.books[b].title)+'</h2><p class="sub" style="margin:0;color:#dfe6ff">Venice D. Rodriguez</p><button class="big" id="mgo">▶ Simulan<small>Play</small></button><small style="opacity:.85">Pindutin ang screen para sa mga button · Tap the screen for the buttons</small><small class="turn" style="opacity:.85">📱↔ Ihiga ang phone para lumaki ang larawan · Turn the phone sideways for a bigger picture</small></div>';
- try{const r=document.documentElement;(r.requestFullscreen||r.webkitRequestFullscreen||function(){}).call(r)}catch(e){}
- $("mx").onclick=()=>stopMovie();$("mh").onclick=goHome;$("mp").onclick=()=>step(-1);$("mn").onclick=()=>step(1);$("mpp").onclick=togglePlay;$("mm").onclick=music;
+ try{const r=document.documentElement;const q=(r.requestFullscreen||r.webkitRequestFullscreen||function(){}).call(r);if(q&&q.catch)q.catch(()=>{})}catch(e){}
+ $("mx").onclick=()=>stopMovie();$("mb").onclick=()=>stopMovie();$("mh").onclick=goHome;$("mp").onclick=()=>step(-1);$("mn").onclick=()=>step(1);$("mpp").onclick=togglePlay;$("mm").onclick=music;
  $("mtx").onclick=()=>{M.tx=!M.tx;$("mtx").classList.toggle("on",M.tx);$("cap").classList.toggle("off",!M.tx)};$("mtx").classList.toggle("on",!!M.tx);$("cap").classList.toggle("off",!M.tx);
  const mark=()=>{$("mv1").classList.toggle("on",VL!=="off");$("mv1").textContent=VL==="off"?"🔇":"🔊"};mark();
  $("mv1").onclick=()=>{VL=VL==="off"?"en":"off";try{localStorage.setItem(VK,VL)}catch(e){}mark();page()};
@@ -309,7 +310,7 @@ function step(n,auto){const b=W.books[M.b];let m=M.i+n;if(m>=b.pages.length){M.p
  if(m<0)m=0;M.i=m;page()}
 function togglePlay(){M.play=!M.play;try{speechSynthesis.cancel()}catch(e){}clearTimeout(M.t);$("mpp").textContent=M.play?"⏸":"▶";if(M.play)page()}
 function stopMovie(silent){if(!M.on&&silent)return;M.on=0;clearTimeout(M.t);try{speechSynthesis.cancel()}catch(e){}if(M.g){try{M.g.gain.setTargetAtTime(0,M.ac.currentTime,.3)}catch(e){}M.music=0}
- $("mv").hidden=true;$("mv").innerHTML="";try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}if(!silent)home()}
+ $("mv").hidden=true;$("mv").innerHTML="";if(!silent)home()}
 function music(){try{if(!M.ac){const A=new(window.AudioContext||window.webkitAudioContext)();M.ac=A;M.g=A.createGain();M.g.gain.value=0;M.g.connect(A.destination);
   const notes=[261.6,329.6,392,523.3,440,349.2];let k=0;const tick=()=>{if(!M.ac)return;const o=A.createOscillator(),g=A.createGain();o.type="sine";o.frequency.value=notes[k++%notes.length]/2;g.gain.value=0;o.connect(g);g.connect(M.g);const t=A.currentTime;g.gain.linearRampToValueAtTime(.12,t+1.2);g.gain.linearRampToValueAtTime(0,t+4);o.start(t);o.stop(t+4.2)};tick();M.iv=setInterval(tick,2000)}
  M.music=!M.music;M.g.gain.setTargetAtTime(M.music?.35:0,M.ac.currentTime,.4);$("mm").classList.toggle("on",!!M.music)}catch(e){}}
@@ -384,6 +385,6 @@ function saveFile(){const w=clone(DRAFT.W),used=[],map={};w.books.forEach(b=>b.p
  const bl=new Blob([out],{type:"text/html"}),a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download=(w.slug||"story")+".html";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);
  $("em").textContent="Na-download: "+a.download+" · Downloaded"}
 /* edits saved on this device open in place of the shipped story */
-(async()=>{try{const s=await dbGet(KEY);if(s&&s.W&&s.IMG){W=s.W;IMG=s.IMG}}catch(e){}home();if(location.hash==="#edit")pinGate(editor)})();
+(async()=>{try{const s=await dbGet(KEY);if(s&&s.W&&s.IMG){W=s.W;IMG=s.IMG}}catch(e){}home();if(location.hash==="#edit")pinGate(editor);else if(location.hash==="#read"){history.replaceState(null,"",location.pathname);B=0;I=0;show()}else if(location.hash==="#watch"){history.replaceState(null,"",location.pathname);movie(0,0)}})();
 try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 </script></body></html>

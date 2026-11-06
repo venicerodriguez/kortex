@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="utf-8"><script>/* KORTEX school year engine.
+<meta charset="utf-8"><script>window.KXTIER="public-tl";</script><script>/* KORTEX school year engine.
    Opening day changes every year with the DepEd order, so the school year follows the School Calendar the teacher saves:
    a school year begins on the opening day she sets (Term 1, Review Opens) and stays until the next opening day she sets.
    Nothing moves on a fixed date. Safety nets: with no calendar saved yet, the DepEd three-term pattern (SY 2026-2027) is used
@@ -1170,7 +1170,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2034L32%2021A13%2013%200%200%201%2043.3%2027.5Z%22%20fill%3D%22%23ffd60a%22%20fill-opacity%3D%22.92%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%2215.5%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%229.5%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%22.75%22%2F%3E%3Cpath%20d%3D%22M32%2014.5v5M32%2048.5v5M12.5%2034h5M46.5%2034h5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M32%2034l9.5-9%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2234%22%20r%3D%223%22%20fill%3D%22%23fff%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2240.5%22%20r%3D%222.2%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2239%22%20r%3D%222.2%22%20fill%3D%22%23ff9ec8%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611052307",
+ "build": "202611061218",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -1188,7 +1188,7 @@ var CFG={
  },
  "libstories": {
   "ali-the-fireless-firefly": "Ali, the Fireless Firefly",
-  "ang-bata-sa-buwan": "Ang Bata sa Buwan",
+  "ang-bata-sa-buwan": "Yng Mula Tung Bulan",
   "ang-magiting": "Ang Magiting",
   "bahagharing-lahi": "Bahagharing Lahi",
   "breeds-in-rainbow": "Breeds in Rainbow",
@@ -1658,6 +1658,7 @@ function scan(add,P){
  var ol=jget("olympians");
  if(ol){var rg={};(ol.roster||[]).forEach(function(r){rg[r.id]=r.full||r.name});(ol.res||[]).forEach(function(r){if(r.f)return;add("gauntlet",rg[r.lid]||r.lid,subjIdx(r.sub),r.t,0,r.g+"#"+r.n+"#"+r.i,r.ok,tms(r.ts))})}
  lsKeys(/^KORTEX_CQ_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("cq",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});
+ lsKeys(/^KORTEX_WS_LOG$/).forEach(function(k){(jget(k)||[]).forEach(function(r){add("ws",r.n,+r.s,+r.t,+r.w||0,r.i,r.ok,+r.ts)})});   /* Phase 4: worksheets answered in KORTEX join the same records */
  lsKeys(/^CDX_MONTAGE_V1_/).forEach(function(k){var S=jget(k)||{},ro={};(S.roster||[]).forEach(function(r){ro[r.id]=r.fn||r.name});var pl=S.progL||{};Object.keys(pl).forEach(function(id){var L=learnerOf(ro[id]||id);Object.keys(pl[id]||{}).forEach(function(ep){var p=ep.split("|"),tw=(p[1]||"").split("-"),v=pl[id][ep]||{},c=0;["s","d","w","a"].forEach(function(x){if(v[x])c++});if(c)P.push({g:"montage",l:L.id,n:L.name,s:subjIdx(p[0]),t:+tw[0],w:+tw[1],k:c})})})});
 }
 
@@ -1838,6 +1839,7 @@ function gamesTable(D){
   grp.games.forEach(function(g){var x=G[g.id]||{att:0,ok:0},p=pc(x.ok,x.att),op=O[g.name]||0;
    rows+='<tr><td class="gn">'+gEmb(g,"t")+'<b>'+esc(g.name)+'</b></td><td class="num" data-l="Opened">'+op+'</td><td class="num" data-l="Responses">'+(x.att||"—")+'</td><td class="num" data-l="Correct">'+(x.att?p+'%':'—')+'</td><td class="gb">'+(x.att?barH(p):'<span style="color:#9aa0ac;font-size:10px">'+(GAMEN[g.id]?'No scored results yet':'Not a scored game')+'</span>')+'</td></tr>'})});
  if(G.cq){var q=G.cq,qp=pc(q.ok,q.att);rows+='<tr class="gi"><td colspan="5">'+ico("cq","t")+'<span>On the KORTEX Home</span></td></tr><tr><td class="gn">'+ico("cq","t")+'<b>Calibrated Quiz</b></td><td class="num" data-l="Opened">—</td><td class="num" data-l="Responses">'+q.att+'</td><td class="num" data-l="Correct">'+qp+'%</td><td class="gb">'+barH(qp)+'</td></tr>'}
+ if(G.ws){var q2=G.ws,qp2=pc(q2.ok,q2.att);rows+=(G.cq?'':'<tr class="gi"><td colspan="5">'+ico("cq","t")+'<span>On the KORTEX Home</span></td></tr>')+'<tr><td class="gn">📝 <b>Worksheets</b></td><td class="num" data-l="Opened">—</td><td class="num" data-l="Responses">'+q2.att+'</td><td class="num" data-l="Correct">'+qp2+'%</td><td class="gb">'+barH(qp2)+'</td></tr>'}
  return'<h2>All '+CFG.games.filter(live).length+' Games, by Imprint</h2><table class="gt"><tr><th>Game</th><th class="num">Opened</th><th class="num">Responses</th><th class="num">Correct</th><th style="width:34%">Share Correct</th></tr>'+rows+'</table>'}
 var EVN={"cq-start":"Started Calibrated Quiz","cq-end":"Finished Calibrated Quiz","pd-save":"Saved Parent Dashboard","pd-open":"Opened Parent Dashboard","collect-scores":"Accepted Scores",login:"Signed In",logout:"Signed Out",resume:"Returned",launch:"Opened Game",open:"Opened KORTEX","print-report":"Printed Report","print-attendance":"Printed Attendance",backup:"Exported Backup",restore:"Imported Backup",reset:"Reset Game Data","reset-logins":"Reset Logins","pin-change":"Changed Class PIN","teacher-pin-set":"Set Teacher PIN","login-fail":"Sign-In Failed","pin-ok":"PIN Accepted","pin-fail":"PIN Failed"};
 function bodyUsage(D){
@@ -1983,7 +1985,7 @@ function slides(D){
  for(var s=0;s<NSUBJ;s++){th+='<span>'+ico(s,"t")+esc(SUBJN[s])+'</span>';for(var t=0;t<NTERM;t++){var x=a.st[s][t];th+=x.att?'<i class="hc" style="background:'+MLV[levelOf2(x.pct)][2]+'" data-d="'+(s*3+t)+'">'+x.pct+'%</i>':'<i class="hc none">—</i>'}}
  if(a.tot.att)S.push({k:"heat",h:K+th+'</div>'});
  var GR={};D.rows.forEach(function(r){var y=GR[r.g]||(GR[r.g]={att:0,ok:0});y.att++;y.ok+=r.ok});
- var gres=[];grp.forEach(function(x){x.games.forEach(function(g){if(GR[g.id])gres.push({lab:gEmb(g,"t")+esc(g.name),x:GR[g.id]})})});if(GR.cq)gres.push({lab:ico("cq","t")+"Calibrated Quiz",x:GR.cq});
+ var gres=[];grp.forEach(function(x){x.games.forEach(function(g){if(GR[g.id])gres.push({lab:gEmb(g,"t")+esc(g.name),x:GR[g.id]})})});if(GR.cq)gres.push({lab:ico("cq","t")+"Calibrated Quiz",x:GR.cq});if(GR.ws)gres.push({lab:"📝 Worksheets",x:GR.ws});
  if(gres.length)S.push({k:"gres",h:K+'<h2>Results by Game</h2><div class="dst gr">'+gres.map(function(o){var p=pc(o.x.ok,o.x.att);return'<div class="dr"><span>'+o.lab+'</span><div class="dt"><i data-w="'+p+'" style="background:'+lvColor(p)+'"></i></div><b data-count="'+p+'">0</b><em>% · '+o.x.att+'</em></div>'}).join("")+'</div><p class="pe">Share of answers correct in each game, with the number of responses</p>'});
  if(cs.length){var top=cs.slice(0,3),low=cs.slice(-3).reverse();
   S.push({k:"comp",h:K+'<h2>Competencies</h2><div class="two"><div><h3>Strongest</h3>'+top.map(function(x){return'<p>'+ico(x.s,"t")+'<b>'+x.p+'%</b> '+esc(SUBJN[x.s])+' · '+esc(x.b.label)+'</p>'}).join("")+'</div><div><h3>Needs Reteaching</h3>'+low.map(function(x){return'<p>'+ico(x.s,"t")+'<b>'+x.p+'%</b> '+esc(SUBJN[x.s])+' · '+esc(x.b.label)+'</p>'}).join("")+'</div></div>'})}
@@ -2163,9 +2165,9 @@ function openTools(tab){
  var pan=function(k,inner){return'<div class="tp" id="tp-'+k+'"'+(TPOPEN===k?'':' hidden')+'>'+inner+'</div>'};
  var lk=toolsLocked();
  var h='<div class="card wide tl"><div class="axh"><div><h3>KORTEX Tools</h3><p class="axs">One console for every game on this device · '+n+' saved items · '+esc(syLabel())+'</p></div><div class="axa">'+tile("tHome","main_hub")+tb("tX","Close")+'</div></div>'
- +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 Grades for Excel","CSV for the E-Class Record")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
+ +(T?'<h4>Insights</h4><div class="tg2">'+tile("tAn","class_pack_results")+tile("tLgP","word_bank_qa","","log")+xt("tPd",ico("parent","t")+" Parent Dashboard","Progress for Families")+xt("tCs","📝 Parent Consent","Signed Forms from Families")+xt("tSg","✍️ Signature Pad","Scratch, Sign, Save and Print")+xt("tCq",ico("cq","t")+" Calibrated Quiz","Adaptive Practice")+xt("tPf","🗂️ Portfolio Pack","PPST MOVs")+xt("tSt","⭐ KORTEX Stars","Stars Across All 14 Games")+xt("tJy","🌱 My "+kxGrade()+" Journey","A Keepsake for Each Child")+xt("tHp","🤝 Who Needs Help","At-Risk Learners and What to Practice")+xt("tPt","➕ Class Points","Participation and Behavior")+xt("tGx","📊 E-Class Record","Excel | CSV Files")+(window.KXOBS_TILE?KXOBS_TILE():"")+(window.KXPRP_TILE?KXPRP_TILE():"")+(window.KXFRM_TILE?KXFRM_TILE():"")+xt("tWs","🖨️ Worksheets","Paper Practice for the Week")+xt("tIb","✏️ Worksheet Questions","Enrichment Questions to Edit")+xt("tAs","🔵 Answer Sheets","Bubble Sheets for Tests")+xt("tRd","📖 Reading Log","Fills Itself · Edit Anytime")+xt("tPc","🖨️ Print Center","Everything Ready to Print")+xt("tQa2","🧩 Q&A of All Games","Where Every Question Is Edited")+'</div>'
   +pan("log",'<p>Every open, launch, print and reset on this device, newest first.</p><div class="tg3">'+tb("tLg","View Log")+tb("tCsv","Export CSV")+tb("tLc","Clear Log","w")+'</div>'):'')
- +'<h4>Class and Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+(T?xt("tCL","🔗 Class Link","Send the Class List to Phones"):"")+(T?xt("tQR","📱 Share KORTEX","QR Code of the Website"):"")+(T?xt("tAvt","🎨 Avatars","Each Learner’s Own Look"):"")+(T?xt("tCur","📚 Subjects and Terms","For Any Grade Level"):"")+'</div>'
+ +'<h4>Class and Calendar <small>'+esc(syLabel())+'</small></h4><div class="tg2">'+(T?tile("tPr","profile"):'')+tile("tSy","settings","","settings")+tile("tCl","group_names","","class")+(T?xt("tCL","🔗 Class Link","Send the Class List to Phones"):"")+(T?xt("tQR","📱 Share KORTEX","QR Code of the Website"):"")+(T?xt("tAvt","🎨 Avatars","Each Learner’s Own Look"):"")+(T?xt("tCur","📚 Subjects and Terms","Kindergarten to Grade Six"):"")+'</div>'
  +pan("settings",'<p>Current school year: <b>'+esc(syLabel())+'</b>. The School Calendar sets when each term’s Review, Summatives and Term Exam open in every game.</p><div class="tg3">'+tb("tCal",'<i class="kxcal"></i> School Calendar')+tb("tNY","🎓 Start New School Year","w")+'</div>')
  +pan("class",'<p>The class masterlist. Import it once from a spreadsheet and every game takes its class list from it. Sign-in names come from it too.</p><div class="tg3">'+tb("tRI","Import Roster (CSV)")+tb("tRT","Roster Template")+tb("tLR","Reset All Logins &amp; Streaks","w")+'</div><input type="file" id="tRF" accept=".csv,text/csv" hidden>')
  +'<h4>Look and Sound</h4><div class="tg2">'+tile("tBn","edit_banner")+tile("tAv","av_settings","","av")+(T?xt("tTg",ico("teacher","t")+" Teacher Greeting","Welcome and Polo Color"):"")+xt("tTh","🎨 Theme Studio","Mascots, Words and Colors")+'</div>'
@@ -2199,7 +2201,7 @@ function openTools(tab){
  on("tCsv",function(){download("KORTEX-log-"+CFG.pack+"-"+stampName()+".csv","﻿"+csv(getLog()),"text/csv");m("Log exported as CSV.",1)});
  on("tLc",function(){if(confirm("Clear the log on this device? Export it first if you need it.")){ls("KORTEX_LOG","[]");m("Log cleared.",1)}});
  on("tPin",function(){var a=prompt("New PIN (4–8 digits):");if(a===null)return;if(!/^\d{4,8}$/.test(a)){m("PIN must be 4–8 digits.");return}if(prompt("Repeat new PIN:")!==a){m("PINs do not match.");return}ls("KORTEX_PINH",hash(SALT+a));CFG.pinEnabled=true;m("PIN changed on this device.",1);log("pin-change")});
- on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tWs",function(){openWorksheets()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
+ on("tPin",changeTeacherPin);on("tFp",function(){fpSetup(function(err){m(err||"Fingerprint saved. Use 🫆 on the Teacher sign-in.",!err)})});on("tTg",openTeacherGreet);on("tPd",function(){pdOpenTeacher()});on("tCs",function(){openConsent()});on("tSg",function(){openSignPad(function(){openTools()})});on("tQR",function(){openShareQR()});on("tPf",openPortfolio);on("tSt",openStars);on("tJy",openJourney);on("tHp",openHelp);on("tPt",openPoints);on("tGx",openGrades);on("tOb",function(){window.openObsDeck&&openObsDeck()});on("tPp",function(){window.openProposal&&openProposal()});on("tFm",function(){window.openForms&&openForms()});on("tWs",function(){openWorksheets()});on("tAs",function(){openAnswerSheets()});on("tIb",function(){openBankTool()});on("tRd",function(){openReading()});on("tPc",function(){openPrintCenter()});on("tQa2",function(){openQAAll()});on("tPr",function(){openProfile()});on("tCq",function(){cqEditOpen("tools")});
  on("tCol",function(){hubAccept()});on("tSendH",function(){hubSend()});on("tTh",function(){openThemeStudio()});on("tCL",function(){openClassLink()});on("tAvt",function(){openAvatars()});on("tCur",function(){openCurriculum()});
  $("tColF").onchange=function(){var fs=[].slice.call(this.files);this.value="";if(!fs.length)return;var n=0,a=0,b=0,left=fs.length;fs.forEach(function(f){var r=new FileReader();r.onload=function(){var o=parseScores(String(r.result)),res=o?importScores(o):{ok:0};if(res.ok){n++;a+=res.added}else b++;if(--left===0){log("collect-scores","",n+" files");m("Collected "+n+" file"+(n===1?"":"s")+": "+a+" new results"+(b?" · "+b+" not readable":"")+".",n>0)}};r.readAsText(f)})};
 
@@ -2298,8 +2300,8 @@ function lum(h){var c=hex(h).map(function(v){v/=255;return v<=.03928?v/12.92:Mat
 function contrast(a,b){var x=lum(a),y=lum(b),hi=Math.max(x,y),lo=Math.min(x,y);return(hi+.05)/(lo+.05)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function pattern(t){var s="<svg xmlns='http://www.w3.org/2000/svg' width='84' height='56'><text x='4' y='24' font-size='19'>"+t.pat[0]+"</text><text x='46' y='20' font-size='15'>"+t.pat[1]+"</text><text x='24' y='50' font-size='17'>"+t.pat[2]+"</text></svg>";return'url("data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)+'")'}
-var THCSS="#kxbub{position:fixed;left:8px;top:calc(var(--kxnh,52px) + 6px);z-index:2147483400;max-width:min(300px,86vw);display:none;align-items:center;gap:8px;padding:9px 12px;border-radius:16px;background:#fff;color:#1d2433;border:3px solid var(--kx-n1,#14284b);box-shadow:0 8px 22px rgba(0,0,0,.35);font:700 14px/1.3 system-ui,'Segoe UI',sans-serif;pointer-events:none}"
-+"#kxbub.on{display:flex;animation:kxbin .28s cubic-bezier(.2,.9,.3,1.3)}#kxbub.kxb-low{top:auto;bottom:66px;left:auto;right:8px}#kxbub .kxbm{font-size:28px;line-height:1}@keyframes kxbin{from{transform:translateY(-8px) scale(.9);opacity:0}}"
+var THCSS="#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:2147483400;max-width:min(300px,86vw);display:none;align-items:center;gap:8px;padding:9px 12px;border-radius:16px;background:#fff;color:#1d2433;border:3px solid var(--kx-n1,#14284b);box-shadow:0 8px 22px rgba(0,0,0,.35);font:700 14px/1.3 system-ui,'Segoe UI',sans-serif;pointer-events:none}"
++"#kxbub.on{display:flex;animation:kxbin .28s cubic-bezier(.2,.9,.3,1.3)}#kxbub.kxb-low{top:auto;bottom:66px;left:auto;right:8px;transform:none}#kxbub .kxbm{font-size:28px;line-height:1}@keyframes kxbin{from{opacity:0}}"
 +".kxmasc{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:2px solid var(--kx-a,#fff);background:rgba(255,255,255,.2);font-size:24px;line-height:1;cursor:pointer;padding:0;flex:none;color:#fff}"
 +".kxm-pop{animation:kxpop .7s ease}@keyframes kxpop{0%{transform:scale(1) rotate(0)}25%{transform:scale(1.35) rotate(-12deg)}55%{transform:scale(1.2) rotate(10deg)}100%{transform:scale(1) rotate(0)}}"
 +".kxm-shim{animation:kxpop .7s ease,kxshim 1.1s ease}@keyframes kxshim{0%,100%{filter:none}40%{filter:hue-rotate(-30deg) saturate(1.8) brightness(1.25) drop-shadow(0 0 8px #ffd23a)}}"
@@ -3345,7 +3347,7 @@ function gradesCsv(term){var sy=KXSY.y(),D=withAX(term?{period:"term",term:term,
  var head=["No.","LRN","Learner"].concat(SUBJN.map(function(s){return s+" %"})).concat(["Overall %","Level","Answers","Days Present","Days Absent","Class Points"]),rows=[head.map(q).join(",")];
  R.forEach(function(r,i){var b=D.a.L.filter(function(x){return x.l===r.id})[0],ps=ptsSum(r.id,rg[0],rg[1]);rows.push([i+1,r.lrn||"",r.fn||r.name].concat([0,1,2,3,4].map(function(s){return b&&b.sub[s].att?b.sub[s].pct:""})).concat([b?b.pct:"",b?lvName(b.pct):"",b?b.att:0,A[r.id].p,A[r.id].a,ps.plus]).map(q).join(","))});
  return"﻿"+rows.join("\r\n")}
-function openGrades(){var t=termOfDate(ymd()),h='<div class="card sm"><h3>📊 Grades for Excel</h3><p>One row per learner: the percentage in each subject, overall, level, answers, days present and absent, and class points. It opens in Excel or Google Sheets, so you can copy the columns into your e-class record.</p>'
+function openGrades(){var t=termOfDate(ymd()),h='<div class="card sm"><h3>📊 E-Class Record <i>Excel | CSV Files</i></h3><p>One row per learner: the percentage in each subject, overall, level, answers, days present and absent, and class points. It opens in Excel or Google Sheets, so you can copy the columns into your e-class record.</p>'
  +'<label>Period<select id="grT"><option value="1"'+(t===1?" selected":"")+'>Term 1</option><option value="2"'+(t===2?" selected":"")+'>Term 2</option><option value="3"'+(t===3?" selected":"")+'>Term 3</option><option value="0">Whole School Year</option></select></label><div class="msg" id="grM"></div>'
  +'<div class="row"><button class="btn" id="grG" type="button">📊 Save CSV</button><button class="btn ghost" id="grX" type="button">Back</button></div><p><small>The file holds learner names and LRNs: keep it private.</small></p></div>';
  $("ov").innerHTML='<div class="sheet">'+h+'</div>';$("grX").onclick=function(){openTools()};
@@ -3401,13 +3403,14 @@ function openProfile(){var p=profGet();
    Choices are mixed the same way every time for that week (so reprints and the answer key always match). ---------- */
 var WSCSS='#prt .ws{page-break-after:always;font:13px/1.45 system-ui,"Segoe UI",sans-serif;color:#1c2433}#prt .ws:last-child{page-break-after:auto}'
  +'#prt .wsh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid #14284b;padding-bottom:6px;margin-bottom:8px}#prt .wsh h1{font:700 22px Georgia,serif;margin:0;color:#14284b}#prt .wsh small{display:block;color:#5b6475;font-size:11px}'
- +'#prt .wsn{font-size:13px;line-height:2.1;text-align:left;min-width:62mm}#prt .wsn span{display:inline-block;min-width:44mm;border-bottom:1px solid #1c2433;padding:0 4px;font:700 14px Georgia,serif}'
+ +'#prt .wsn{font-size:13px;line-height:2.4;text-align:left;min-width:62mm}#prt .wsn span,#prt .wsf span{position:relative;display:inline-block;min-width:44mm;border-top:1.6px solid #1d5fd6;border-bottom:1.6px solid #1d5fd6;padding:2px 4px;height:8.5mm;vertical-align:bottom;font:700 14px Georgia,serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'#prt .wsn span:after,#prt .wsf span:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.4px dashed #e03131}'
  +'#prt .wsl{margin:4px 0;font-size:12px;text-align:justify}#prt .wsd{margin:4px 0 6px;padding:5px 9px;border:1.5px dashed #8a6d2b;border-radius:8px;font-size:12.5px}'
  +'#prt ol.wsq{margin:0;padding-left:22px}#prt ol.wsq li{page-break-inside:avoid;break-inside:avoid;margin:0 0 5px}#prt .wsq .qq{display:flex;gap:8px;align-items:flex-start}#prt .wsq .em{font-size:22px;line-height:1}#prt .wsq .qq b{font-size:14px}#prt .wsq .qq i{color:#4a5263;font-size:12px}'
  +'#prt .wch{display:flex;flex-wrap:wrap;gap:4px 16px;margin:4px 0 2px 30px}#prt .wch span{white-space:nowrap}#prt .wch .lt{display:inline-block;width:18px;height:18px;border:1.5px solid #14284b;border-radius:50%;text-align:center;font:700 11px/16px system-ui;margin-right:5px}#prt .wch i{color:#5b6475;font-size:11px}'
  +'#prt .wln{position:relative;height:15mm;margin:3px 0 0 30px;border-top:1.6px solid #1d5fd6;border-bottom:1.6px solid #1d5fd6;-webkit-print-color-adjust:exact;print-color-adjust:exact}#prt .wln:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.6px dashed #e03131}'
  +'#prt .ws.dense .wsq .qq b{font-size:13px}#prt .ws.dense .wch{font-size:12px;gap:2px 12px}#prt .ws.dense .wln{height:14mm}#prt .ws.dense ol.wsq li{margin-bottom:3px}'
- +'#prt .wsf{display:flex;justify-content:space-between;gap:12px;margin-top:7px;font-size:12.5px}#prt .wsf span{border-bottom:1px solid #1c2433;display:inline-block;min-width:38mm}'
+ +'#prt .wsf{display:flex;justify-content:space-between;gap:12px;margin-top:7px;font-size:12.5px}#prt .wsf span{min-width:38mm}'
  +'#prt .wsk td,#prt .wsk th{text-align:center}#prt .wsk td:first-child,#prt .wsk th:first-child{text-align:left}';
 function wsRand(str){var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return function(){h=(Math.imul(h^(h>>>15),2246822507)+1013904223)>>>0;return h/4294967296}}
 function wsItems(t,s,w){var Q=(wsBankItems(t+"|"+s+"|"+w)||[]).slice(0,5),R=wsRand("ws|"+t+"|"+s+"|"+w);
@@ -3415,7 +3418,7 @@ function wsItems(t,s,w){var Q=(wsBankItems(t+"|"+s+"|"+w)||[]).slice(0,5),R=wsRa
   return{f:q[0],e:q[1],em:q[5]||"",ch:ord.map(function(k){return[q[2][k],q[3][k]]}),key:"ABCD".charAt(ord.indexOf(q[4]))}})}
 function wsSheet(t,s,w,name){var it=wsItems(t,s,w),L=bowRows(s,t,w).slice(0,2).map(function(r){return esc(r.label)}).join(" · "),len=0;
  it.forEach(function(q){len+=String(q.f).length+String(q.e).length;q.ch.forEach(function(c){len+=String(c[0]).length+String(c[1]||"").length})});
- var h='<div class="ws'+(len>700?' dense':'')+'"><div class="wsh"><div><div class="brand">KORTEX · WORKSHEET</div><h1>'+esc(CQS[s][2]+" "+SUBJN[s])+'</h1><small>Grade 1 · Term '+t+' · Week '+w+' · '+esc(syLabel())+'</small></div>'
+ var h='<div class="ws'+(len>700?' dense':'')+'"><div class="wsh"><div><div class="brand">KORTEX · WORKSHEET</div><h1>'+esc(CQS[s][2]+" "+SUBJN[s])+'</h1><small>'+esc(kxGrade())+' · Term '+t+' · Week '+w+' · '+esc(syLabel())+'</small></div>'
   +'<div class="wsn">Name: <span>'+(name?esc(name):"&nbsp;")+'</span><br>Date: <span>&nbsp;</span></div></div>'
   +(L?'<p class="wsl"><b>Lesson:</b> '+L+'</p>':'')
   +'<div class="wsd"><b>Panuto:</b> Bilugan ang titik ng tamang sagot. Isulat ang sagot sa asul-pula-asul na guhit.<br><i>Directions: Circle the letter of the right answer. Write the answer on the blue-red-blue lines.</i></div>';
@@ -3423,7 +3426,7 @@ function wsSheet(t,s,w,name){var it=wsItems(t,s,w),L=bowRows(s,t,w).slice(0,2).m
  h+='<ol class="wsq">'+it.map(function(q){return'<li><div class="qq">'+(q.em?'<span class="em">'+esc(q.em)+'</span>':'')+'<div><b>'+esc(q.f)+'</b><br><i>'+esc(q.e)+'</i></div></div><div class="wch">'
   +q.ch.map(function(c,k){return'<span><span class="lt">'+"ABCD".charAt(k)+'</span>'+esc(c[0])+(c[1]&&c[1]!==c[0]?' <i>('+esc(c[1])+')</i>':'')+'</span>'}).join("")+'</div><div class="wln"></div></li>'}).join("")+'</ol>'
  return h+'<div class="wsf"><div>⭐ Score: <span>&nbsp;</span> / '+it.length+'</div><div>Parent’s signature: <span>&nbsp;</span></div></div><div class="ft">'+AUTHC+' KORTEX · The Launchpad for Engineered Brilliance.</div></div>'}
-function wsKey(t,S,w){return'<div class="ws"><div class="wsh"><div><div class="brand">KORTEX · WORKSHEET</div><h1>Answer Key</h1><small>For the teacher · Grade 1 · Term '+t+' · Week '+w+' · '+esc(syLabel())+'</small></div></div>'
+function wsKey(t,S,w){return'<div class="ws"><div class="wsh"><div><div class="brand">KORTEX · WORKSHEET</div><h1>Answer Key</h1><small>For the teacher · '+esc(kxGrade())+' · Term '+t+' · Week '+w+' · '+esc(syLabel())+'</small></div></div>'
  +'<table class="wsk"><tr><th>Subject</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>'+S.map(function(s){var it=wsItems(t,s,w);return'<tr><td>'+esc(CQS[s][2]+" "+SUBJN[s])+'</td>'+[0,1,2,3,4].map(function(i){return'<td><b>'+(it[i]?it[i].key:"")+'</b></td>'}).join("")+'</tr>'}).join("")+'</table>'
  +'<p><small>The letters stay the same every time this week is printed, for every copy.</small></p><div class="ft">'+AUTHC+' KORTEX · The Launchpad for Engineered Brilliance.</div></div>'}
 function openWorksheets(t0,w0,fromMission){var I=null;try{I=msnInfo(new Date())}catch(e){}
@@ -3436,7 +3439,9 @@ function openWorksheets(t0,w0,fromMission){var I=null;try{I=msnInfo(new Date())}
   +'<label class="st-lb"><input type="checkbox" id="wsK" checked> Add the answer key (last page, for you)</label>'
   +'<div class="msg" id="wsM"></div><div class="row"><button class="btn" id="wsP" type="button">🖨️ Print / Save PDF</button><button class="btn ghost" id="wsX" type="button">Back</button></div>'
   +'<p><small>This week of Today’s Mission is already picked. Week numbers match the games (Weeks 1 to 8 of each term).</small></p></div>';
- $("ov").innerHTML='<div class="sheet">'+h+'</div>';
+ $("ov").innerHTML='<div class="sheet">'+h+(window.KXWSM_CARD?KXWSM_CARD():"")+(window.KXRTP_CARD?KXRTP_CARD():"")+'</div>';
+ if(window.KXWSM_WIRE)KXWSM_WIRE();
+ if(window.KXRTP_WIRE)KXRTP_WIRE();
  $("wsX").onclick=function(){if(fromMission)closeOv();else openTools()};
  $("wsP").onclick=function(){var sv=$("wsS").value,tt=+$("wsT").value,ww=+$("wsW").value,S=sv==="all"?[0,1,2,3,4]:[+sv],names=[""];
   if($("wsC").value==="c"){names=pdRoster().map(function(r){return r.name||""}).filter(Boolean);if(!names.length){$("wsM").textContent="Load the class masterlist first (Tools → 🔗 Entangled Pairs).";return}}
@@ -4000,14 +4005,40 @@ function tplActive(){var a=kxJ(CTK,{}),id=(a&&a.active)||"classic",L=tplAll();re
 function certIssue(g,e){var A=certAll(),id=g.l+"|"+g.id;if(A.some(function(c){return c.id===id}))return null;var r=kxRosOf(g.l);if(!r)return null;var y=new Date().getFullYear(),n=A.filter(function(c){return String(c.no).indexOf("KX-"+y+"-")===0}).length+1,a=avOf(r.name);
  var c={id:id,no:"KX-"+y+"-"+("0000"+n).slice(-5),l:g.l,name:r.fn||r.name,short:r.name,av:{e:a.e,b:a.b,a:a.a||""},goal:g.title,metric:GM[g.metric],target:g.target,value:e.v,date:ymd(new Date()),ts:Date.now()};A.push(c);kxW(CEK,A);return c}
 function certHtml(c,t){t=t||tplActive();var sig=(t.sig||profGet().teacher||"").trim(),bd=t.border==="double"?"6px double":t.border==="dashed"?"4px dashed":"4px solid";
- return'<div class="kxcert" style="background:'+esc(t.paper)+';border:'+bd+' '+esc(t.c1)+';color:#1b2130"><div class="kxct" style="color:'+esc(t.c1)+'">'+esc(t.title)+'</div><div class="kxcav">'+avChip(c.av,84)+'</div><p>This certifies that</p><div class="kxcn" style="color:'+esc(t.c1)+'">'+esc(c.name)+'</div><p>completed the goal</p><div class="kxcg" style="border-color:'+esc(t.c2)+'">'+esc(c.goal)+'</div><p>'+esc(c.metric)+': <b>'+esc(c.value)+'</b> of a target of <b>'+esc(c.target)+'</b> · '+esc(c.date)+'</p><div class="kxcs"><div><span>'+esc(sig)+'</span><small>Teacher</small></div><div><span>'+esc(c.no)+'</span><small>Certificate Number</small></div></div></div>'}
+ /* Phase 5: the Teacher's saved Signature Pad signs the certificate (the typed name stays under it) */
+ var sgi="";try{var sg=(typeof kxESigns==="function"?kxESigns():[]).filter(function(x){return x.by==="teacher"}).slice(-1)[0];if(sg&&sg.sig)sgi='<img src="'+sg.sig+'" alt="" style="display:block;max-height:44px;max-width:150px;margin:0 auto -6px">'}catch(e){}
+ var mid=c.kind==="award"
+  ?'<p>is recognized as</p><div class="kxcg" style="border-color:'+esc(t.c2)+'">'+esc(c.goal)+'</div><p>'+(c.metric?esc(c.metric)+' · ':'')+esc(c.date)+'</p>'
+  :'<p>completed the goal</p><div class="kxcg" style="border-color:'+esc(t.c2)+'">'+esc(c.goal)+'</div><p>'+esc(c.metric)+': <b>'+esc(c.value)+'</b> of a target of <b>'+esc(c.target)+'</b> · '+esc(c.date)+'</p>';
+ return'<div class="kxcert" style="background:'+esc(t.paper)+';border:'+bd+' '+esc(t.c1)+';color:#1b2130"><div class="kxct" style="color:'+esc(t.c1)+'">'+esc(t.title)+'</div><div class="kxcav">'+avChip(c.av,84)+'</div><p>This certifies that</p><div class="kxcn" style="color:'+esc(t.c1)+'">'+esc(c.name)+'</div>'+mid+'<div class="kxcs"><div>'+sgi+'<span>'+esc(sig)+'</span><small>Teacher</small></div><div><span>'+esc(c.no)+'</span><small>Certificate Number</small></div></div></div>'}
+/* Phase 5 — 🎖️ Make Certificates: any award, names from the class list, numbered like the rest */
+function certMake(title,line,ids){var A=certAll(),y=new Date().getFullYear(),made=[];
+ ids.forEach(function(lid){var r=kxRosOf(lid);if(!r)return;var n=A.filter(function(c){return String(c.no).indexOf("KX-"+y+"-")===0}).length+1,a=avOf(r.name);
+  var c={id:"mk|"+lid+"|"+Date.now()+"|"+n,kind:"award",no:"KX-"+y+"-"+("0000"+n).slice(-5),l:lid,name:r.fn||r.name,short:r.name,av:{e:a.e,b:a.b,a:a.a||""},goal:title,metric:line||"",target:"",value:"",date:ymd(new Date()),ts:Date.now()};
+  A.push(c);made.push(c)});
+ if(made.length)kxW(CEK,A);return made}
+function certMaker(){if(!kxIsT())return kxDeny();var R=kxRos();
+ var h='<div class="card wide kxw"><div class="axh"><div><h3>🎖️ Make Certificates <i>Gumawa ng Sertipiko</i></h3><p class="axs">Any award, in your words. The names come from the class list, the number follows the same series, and the Teacher’s saved Signature Pad signs it. Issue, then print from the list.</p></div><div class="axa"><button class="btn ghost" id="cmX" type="button">⬅️ Back</button></div></div>'
+  +'<div class="kxf"><label>Award <i>Parangal</i><input id="cmT" maxlength="80" placeholder="Best in Mathematics · Most Improved Reader · Perfect Attendance"></label>'
+  +'<label>Second line <i>Ikalawang linya (opsyonal)</i><input id="cmL" maxlength="120" placeholder="For Term 1 · Para sa Unang Termino"></label></div>'
+  +'<div class="row"><button class="btn ghost sm" id="cmAll" type="button">☑️ Everyone</button><button class="btn ghost sm" id="cmNone" type="button">Clear</button></div>'
+  +'<div class="w" style="max-height:40vh;overflow:auto">'+R.map(function(r){return'<label style="display:block;padding:3px 0"><input type="checkbox" class="cmL1" value="'+esc(r.id)+'"> '+esc((r.emoji||"")+" "+r.name)+'</label>'}).join("")+'</div>'
+  +'<p class="msg" id="cmM"></p><div class="row"><button class="btn" id="cmGo" type="button">🎖️ Issue the Certificates <i>Ilabas</i></button></div></div>';
+ $("ov").innerHTML='<div class="sheet">'+h+'</div>';
+ $("cmX").onclick=function(){openCerts()};
+ $("cmAll").onclick=function(){[].forEach.call(document.querySelectorAll(".cmL1"),function(x){x.checked=true})};
+ $("cmNone").onclick=function(){[].forEach.call(document.querySelectorAll(".cmL1"),function(x){x.checked=false})};
+ $("cmGo").onclick=function(){var t=$("cmT").value.replace(/\s+/g," ").trim(),l=$("cmL").value.replace(/\s+/g," ").trim(),ids=[].map.call(document.querySelectorAll(".cmL1:checked"),function(x){return x.value});
+  var m=$("cmM");if(!t){m.className="msg bad";m.textContent="Isulat ang pangalan ng parangal. · Write the award name.";return}
+  if(!ids.length){m.className="msg bad";m.textContent="Pumili ng kahit isang learner. · Pick at least one learner.";return}
+  var made=certMake(t,l,ids);made.forEach(function(c){CF.sel[c.id]=1});try{log("cert-make",String(made.length),t)}catch(e){}openCerts()}}
 var CF={q:"",l:"all",g:"all",from:"",to:"",sort:"new",sel:{}};
 function certList(){var A=certAll(),q=CF.q.toLowerCase();var L=A.filter(function(c){if(CF.l!=="all"&&c.l!==CF.l)return false;if(CF.g!=="all"&&c.goal!==CF.g)return false;if(CF.from&&c.date<CF.from)return false;if(CF.to&&c.date>CF.to)return false;if(q&&[c.name,c.short,c.goal,c.metric,c.no,c.date].join(" ").toLowerCase().indexOf(q)<0)return false;return true});
  var s={new:function(a,b){return b.ts-a.ts},old:function(a,b){return a.ts-b.ts},az:function(a,b){return a.short.localeCompare(b.short)},za:function(a,b){return b.short.localeCompare(a.short)},goal:function(a,b){return a.goal.localeCompare(b.goal)},no:function(a,b){return a.no.localeCompare(b.no)}}[CF.sort]||function(){return 0};return L.sort(s)}
 function openCerts(){if(!kxIsT())return kxDeny();try{rwSync()}catch(e){}var A=certAll(),R=kxRos(),goals={},L=certList(),T=tplAll(),act=tplActive();A.forEach(function(c){goals[c.goal]=1});var nSel=L.filter(function(c){return CF.sel[c.id]}).length;
- $("ov").innerHTML='<div class="sheet"><div class="card wide kxw"><h3>🎓 Goal Certificates <i>Sertipiko</i></h3><p class="axs">One certificate for each completed learner goal. Print one, or print every selected certificate in the order shown.</p>'
+ $("ov").innerHTML='<div class="sheet"><div class="card wide kxw"><h3>🎓 Goal Certificates <i>Sertipiko</i></h3><p class="axs">One certificate for each completed learner goal — and 🎖️ Make Certificates issues any award you name, for any learners on the class list. Print one, or print every selected certificate in the order shown.</p>'
   +'<div class="kxf"><label>Search <i>Hanapin</i><input id="ceQ" value="'+esc(CF.q)+'" placeholder="Learner, goal, metric, number or date"></label><label>Learner<select id="ceL"><option value="all">All</option>'+R.map(function(r){return'<option value="'+esc(r.id)+'"'+(CF.l===r.id?" selected":"")+'>'+esc(r.name)+'</option>'}).join("")+'</select></label><label>Goal<select id="ceG"><option value="all">All</option>'+Object.keys(goals).sort().map(function(g){return'<option'+(CF.g===g?" selected":"")+'>'+esc(g)+'</option>'}).join("")+'</select></label><label>Completed From<input type="date" id="ceF" value="'+esc(CF.from)+'"></label><label>Completed To<input type="date" id="ceT" value="'+esc(CF.to)+'"></label><label>Sort<select id="ceS">'+[["new","Newest"],["old","Oldest"],["az","Learner A–Z"],["za","Learner Z–A"],["goal","Goal A–Z"],["no","Certificate Number"]].map(function(x){return'<option value="'+x[0]+'"'+(CF.sort===x[0]?" selected":"")+'>'+x[1]+'</option>'}).join("")+'</select></label><label>Template<select id="ceTp">'+T.map(function(t){return'<option value="'+esc(t.id)+'"'+(act.id===t.id?" selected":"")+'>'+esc(t.name)+'</option>'}).join("")+'</select></label></div><p class="msg" id="ceM"></p>'
-  +'<div class="row"><button class="btn ghost" id="ceAll" type="button">☑️ Select All Filtered</button><button class="btn ghost" id="ceNone" type="button">Clear Selection</button><span class="kxsel">'+nSel+' selected of '+L.length+'</span><button class="btn" id="ceP" type="button">🖨️ Print Selected</button><button class="btn ghost" id="ceC" type="button">⬇️ Certificate Index CSV</button><button class="btn ghost" id="ceE" type="button">🎨 Edit Templates</button></div>'
+  +'<div class="row"><button class="btn ghost" id="ceAll" type="button">☑️ Select All Filtered</button><button class="btn ghost" id="ceNone" type="button">Clear Selection</button><span class="kxsel">'+nSel+' selected of '+L.length+'</span><button class="btn" id="ceP" type="button">🖨️ Print Selected</button><button class="btn ghost" id="ceC" type="button">⬇️ Certificate Index CSV</button><button class="btn ghost" id="ceMk" type="button">🎖️ Make Certificates</button><button class="btn ghost" id="ceE" type="button">🎨 Edit Templates</button></div>'
   +'<div class="w"><table class="kxt"><tr><th></th><th>Number</th><th>Learner</th><th>Goal</th><th>Metric</th><th>Value / Target</th><th>Completed</th><th></th></tr>'+L.map(function(c){return'<tr><td><input type="checkbox" class="ceX" data-id="'+esc(c.id)+'"'+(CF.sel[c.id]?" checked":"")+' aria-label="Select '+esc(c.no)+'"></td><td>'+esc(c.no)+'</td><td>'+avChip(c.av,24)+' '+esc(c.short)+'</td><td>'+esc(c.goal)+'</td><td>'+esc(c.metric)+'</td><td>'+esc(c.value)+' / '+esc(c.target)+'</td><td>'+esc(c.date)+'</td><td><button type="button" class="btn sm ghost" data-one="'+esc(c.id)+'">🖨️</button></td></tr>'}).join("")+'</table></div>'+(L.length?"":'<p class="kxe">No certificates match. <i>Walang tugma.</i></p>')+'<div id="ceX"></div></div></div>';
  var re=function(){CF.q=$("ceQ").value;CF.l=$("ceL").value;CF.g=$("ceG").value;CF.from=$("ceF").value;CF.to=$("ceT").value;CF.sort=$("ceS").value;if(CF.from&&CF.to&&CF.from>CF.to){$("ceM").className="msg bad";$("ceM").textContent="Completed From must be on or before Completed To.";return}openCerts()};
  ["ceL","ceG","ceF","ceT","ceS"].forEach(function(i){$(i).onchange=re});$("ceQ").onchange=re;
@@ -4018,6 +4049,7 @@ function openCerts(){if(!kxIsT())return kxDeny();try{rwSync()}catch(e){}var A=ce
  $("ceP").onclick=function(){if(!kxIsT())return kxDeny();pr(certList().filter(function(c){return CF.sel[c.id]}))};
  [].forEach.call($("ov").querySelectorAll("[data-one]"),function(b){b.onclick=function(){pr(certAll().filter(function(c){return c.id===b.getAttribute("data-one")}))}});
  $("ceC").onclick=function(){var V=certList(),sel=V.filter(function(c){return CF.sel[c.id]}),use=sel.length?sel:V,out=[["Search",CF.q],["Learner",CF.l],["Goal",CF.g],["Completed From",CF.from],["Completed To",CF.to],["Sort",CF.sort],[],["Certificate Number","Learner","Goal","Metric","Target","Completed Value","Completion Date"]];use.forEach(function(c){out.push([c.no,c.name,c.goal,c.metric,c.target,c.value,c.date])});kxCsvDl("KORTEX-Certificate-Index",out)};
+ $("ceMk").onclick=function(){certMaker()};
  $("ceE").onclick=function(){tplEditor()}}
 function tplEditor(){var T=tplAll(),t=tplActive();
  $("ceX").innerHTML='<h4>🎨 Template: '+esc(t.name)+'</h4><div class="kxf"><label>Template Name<input id="tpN" maxlength="30" value="'+esc(t.name)+'"></label><label>Certificate Title<input id="tpT" maxlength="50" value="'+esc(t.title)+'"></label><label>Signature (name)<input id="tpS" maxlength="60" value="'+esc(t.sig||"")+'" placeholder="'+esc(profGet().teacher||"Teacher")+'"></label><label>Primary Color<input type="color" id="tpC1" value="'+esc(t.c1)+'"></label><label>Accent Color<input type="color" id="tpC2" value="'+esc(t.c2)+'"></label><label>Paper Color<input type="color" id="tpP" value="'+esc(t.paper)+'"></label><label>Border<select id="tpB">'+["solid","double","dashed"].map(function(b){return'<option'+(t.border===b?" selected":"")+'>'+b+'</option>'}).join("")+'</select></label></div>'
@@ -4185,7 +4217,7 @@ function tcSigHtml(x){return x.s.map(function(g,i){return'<fieldset class="tcf" 
   +(i>=TCMIN?'<button class="btn sm ghost" type="button" data-trm="'+i+'">✖ Remove <i>Alisin</i></button>':'')+'</div></div></fieldset>'}).join("")
   +'<div class="tcadd"><button class="btn" id="tcA" type="button">➕ Add Signatory <i>Magdagdag ng Lalagda</i></button><small>At least '+TCMIN+' School Heads. Add as many as you need.</small></div>'}
 function openTechCert(){if(!kxIsT())return kxDeny();var x=tcGet();
- $("ov").innerHTML='<div class="sheet"><div class="card wide kxw"><div class="axh"><div><h3>🏅 Technical Certification <i>Sertipikasyong Teknikal</i></h3><p class="axs">For School Heads who review KORTEX. Edit anything, sign on the pads, then print.</p></div><div class="axa"><button class="btn" id="tcP" type="button">🖨️ Print / Save PDF <i>I-print</i></button><button class="btn ghost" id="tcR" type="button">↺ Default Text <i>Orihinal na Teksto</i></button><button class="btn ghost" id="tcX" type="button">⬅️ Back</button></div></div>'
+ $("ov").innerHTML='<div class="sheet"><div class="card wide kxw"><div class="axh"><div><h3>🏅 Technical Certification <i>Authorized Personnel Review</i></h3><p class="axs">For School Heads who review KORTEX. Edit anything, sign on the pads, then print.</p></div><div class="axa"><button class="btn" id="tcP" type="button">🖨️ Print / Save PDF <i>I-print</i></button><button class="btn ghost" id="tcR" type="button">↺ Default Text <i>Orihinal na Teksto</i></button><button class="btn ghost" id="tcX" type="button">⬅️ Back</button></div></div>'
   +'<div class="kxf tcform"><label>Title <i>Pamagat</i><input id="tcT" value="'+esc(x.title)+'" maxlength="80"></label><label>Statement <i>Pahayag</i> <small>(a blank line starts a new paragraph)</small><textarea id="tcB" rows="6">'+esc(x.text)+'</textarea></label><label>Items to Check <i>Mga Susuriin</i> <small>(each line is one item)</small><textarea id="tcI" rows="5">'+esc(x.items)+'</textarea></label></div>'
   +'<h4>Checklist <i>Talaan ng Pagsusuri</i></h4><p class="axs">Tap Yes or No for each item. Tap it again to clear. The printout shows your ticks.</p><div class="tcck" id="tcC">'+tcCkHtml(x)+'</div>'
   +'<h4>Signatories <i>Mga Lalagda</i></h4><p class="axs">Sign with a finger or mouse, or upload a photo of the signature on white paper. Signatures stay on this device and in your backups.</p><div class="tcg" id="tcG"></div><p class="msg" id="tcM"></p><h4>Preview <i>Silip</i></h4><div class="tcpv">'+tcPrintBody(x)+'</div></div></div>';
@@ -4207,7 +4239,7 @@ function openTechCert(){if(!kxIsT())return kxDeny();var x=tcGet();
  $("tcP").onclick=function(){save();var y=tcGet();printDoc(chrome(y.title||"Technical Certification","KORTEX · The Launchpad for Engineered Brilliance",tcPrintBody(y),{sig:false}))};
  $("tcR").onclick=function(){if(!confirm("Put back the original text? Your signatories stay."))return;var y=tcGet(),d=tcDefault();y.title=d.title;y.text=d.text;y.items=d.items;kxW(TCK,y);openTechCert()};
  $("tcX").onclick=function(){openTools()}}
-(function(){var o=openTools;openTools=function(){var r=o.apply(this,arguments);try{if(!kxIsT())return r;var a=$("tAu");if(!a||$("tTc"))return r;var b=document.createElement("button");b.className="tt";b.id="tTc";b.type="button";b.innerHTML="<b>🏅 Technical Certification</b><small>School Heads Review and Signature</small>";b.onclick=function(){openTechCert()};a.parentNode.insertBefore(b,a.nextSibling)}catch(e){}return r}})();
+(function(){var o=openTools;openTools=function(){var r=o.apply(this,arguments);try{if(!kxIsT())return r;var a=$("tAu");if(!a||$("tTc"))return r;var b=document.createElement("button");b.className="tt";b.id="tTc";b.type="button";b.innerHTML="<b>🏅 Technical Certification</b><small>Authorized Personnel Review</small>";b.onclick=function(){openTechCert()};a.parentNode.insertBefore(b,a.nextSibling)}catch(e){}return r}})();
 /* ---------- Buttons: English on top, Filipino smaller and italic below (Master Blueprint §3). Older KORTEX screens get their Filipino line here. ---------- */
 var KXFIL={"Print / Save PDF":"I-print / I-save","Print":"I-print","Save":"I-save","Close":"Isara","Cancel":"Kanselahin","Export Bank":"I-export","Import Bank":"I-import",
  "Add Question":"Magdagdag ng Tanong","Save Keepsake":"I-save ang Alaala","Undo Last":"Ibalik ang Huli","Print Week":"I-print ang Linggo","Save CSV":"I-save ang CSV",
@@ -4570,6 +4602,155 @@ function openQrCards(){if(!kxIsT())return kxDeny();
  var h=css+'<p>Cut one card per learner and keep them in the classroom. In any game, the picker\u2019s \U0001F4F7 Scan QR reads a card and that learner is picked. <i>Gupitin ang isang card bawat mag-aaral; sa laro, i-scan ito para siya ang mapili.</i></p><div class="qc">'
   +R.map(function(r){return '<div class="cd">'+kxQrSvg("KXL:"+r.id+":"+r.name,128)+'<b>'+((r.emoji?esc(r.emoji)+" ":""))+esc(r.name)+'</b><small>KORTEX \u00B7 '+esc(KXSY.label(KXSY.y()))+'</small></div>'}).join("")+'</div>';
  printDoc(chrome("Learner QR Cards","KORTEX",h));try{log("qr-cards")}catch(e){}}
+
+/* ================= 📝 My Worksheets — learners answer in KORTEX (Blueprint Phase 4) =================
+   The same BOW worksheet items the printed sheets use. Choice items are checked at once; the written
+   answer goes on a blue-red-blue lined pad and WAITS for the Teacher's mark (Worksheets tool →
+   ✍️ Mark Written Answers). Choice and writing marks join the same records (game "ws" in Analytics). */
+(function(){
+var WSL="KORTEX_WS_LOG",WSS="KORTEX_WS_SUB";
+function wsL(){try{return JSON.parse(localStorage.getItem(WSL)||"[]")||[]}catch(e){return[]}}
+function wsS(){try{return JSON.parse(localStorage.getItem(WSS)||"{}")||{}}catch(e){return{}}}
+function wsLW(a){try{if(a.length>6000)a=a.slice(-6000);localStorage.setItem(WSL,JSON.stringify(a))}catch(e){}}
+function wsSW(o){try{localStorage.setItem(WSS,JSON.stringify(o))}catch(e){var ks=Object.keys(o).sort(function(a,b){return(o[a].done||0)-(o[b].done||0)});for(var i=0;i<ks.length-20&&i<8;i++)delete o[ks[i]];try{localStorage.setItem(WSS,JSON.stringify(o))}catch(e2){}}}
+var WSPCSS='.kxws .it{border:2px solid #d8d2c2;border-radius:12px;padding:12px;margin:10px 0;background:#fff;color:#1c2433}'
+ +'.kxws .q b{font-size:16px}.kxws .q i{display:block;color:#4a5263;font-size:12.5px}'
+ +'.kxws .ch{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}'
+ +'.kxws .ch button{all:unset;box-sizing:border-box;cursor:pointer;border:2px solid #c9c2b0;border-radius:10px;padding:8px 10px;background:#fffdf7;font-size:14px}'
+ +'.kxws .ch button .lt{display:inline-block;width:20px;height:20px;border:2px solid #14284b;border-radius:50%;text-align:center;font:700 12px/18px system-ui;margin-right:6px}'
+ +'.kxws .ch button.ok{border-color:#2f9e44;background:#ebfbee}.kxws .ch button.no{border-color:#e03131;background:#fff5f5}'
+ +'.kxws .pad{margin-top:10px}.kxws .pad canvas{width:100%;height:96px;border:2px solid #d8d2c2;border-radius:10px;touch-action:none;'
+ +'background:repeating-linear-gradient(180deg,transparent 0 14px,#2563eb 14px 15.6px,transparent 15.6px 30px,rgba(220,38,38,.9) 30px 31.4px,rgba(220,38,38,0) 31.4px 46px,#2563eb 46px 47.6px,transparent 47.6px 96px)}'
+ +'.kxws .padr{display:flex;gap:8px;justify-content:flex-end;margin-top:5px}'
+ +'.kxws .fb{font-weight:700;margin-top:7px}.kxws .fb.good{color:#2f9e44}.kxws .fb.bad{color:#c92a2a}'
+ +'.kxwsm img{width:100%;max-width:340px;border:1.5px solid #d8d2c2;border-radius:8px;background:#fff}'
+ +'.kxwsm .mi{border-bottom:1px dashed #cfc8b6;padding:8px 0}';
+function wsKeyOf(lid,t,s,w){return lid+"|"+t+"|"+s+"|"+w}
+/* ---------- learner home card ---------- */
+function wsCard(){try{
+ var f=$("feat");if(!f)return;var old=$("kxwsh");if(old)old.remove();
+ var sess=getSess();if(!sess||sess.role==="teacher"||sess.role==="parent")return;
+ var T=curTW();if(!T||!T.t||!T.gw)return;
+ var SU=wsS(),rows="";
+ for(var s=0;s<5;s++){
+  var it=wsItems(T.t,s,T.gw);if(!it.length)continue;
+  var k=wsKeyOf(sess.id,T.t,s,T.gw),e=SU[k],st;
+  if(!e)st='<button type="button" class="btn sm" data-ws="'+s+'">✏️ Sagutan <i>Answer</i></button>';
+  else if(!e.marked)st='<span>⏳ Hinihintay ang marka ng Teacher <i>Waiting for the Teacher’s mark</i> · ✔ '+e.items.filter(function(x){return x.ok}).length+'/'+e.items.length+'</span>';
+  else{var tot=e.items.length*2,got=0;e.items.forEach(function(x){got+=(x.ok?1:0)+(x.mk?1:0)});st='<span>⭐ '+got+'/'+tot+' · Namarkahan na <i>Marked</i></span>'}
+  rows+='<div class="wsh-r"><b>'+esc(SUBJN[s])+'</b>'+st+'</div>';
+ }
+ if(!rows)return;
+ var el=document.createElement("div");el.id="kxwsh";el.className="kxstar";
+ el.innerHTML='<div class="ms-l">📝 Aking Worksheets <i style="font-weight:400">My Worksheets · Term '+T.t+' · Week '+T.gw+'</i></div>'
+  +'<style>.wsh-r{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(127,127,127,.35)}.wsh-r i{font-size:11px;opacity:.8}</style>'+rows;
+ var star=$("kxstar");if(star&&star.nextSibling)star.parentNode.insertBefore(el,star.nextSibling);else f.appendChild(el);
+ el.querySelectorAll("[data-ws]").forEach(function(b){b.onclick=function(){wsBegin(+b.getAttribute("data-ws"))}});
+}catch(e){}}
+(function(){var r=renderFeat;renderFeat=function(){r.apply(this,arguments);wsCard()}})();
+/* ---------- answering flow ---------- */
+var WX=null;
+function wsBegin(s){var sess=getSess();if(!sess)return;var T=curTW();
+ WX={lid:sess.id,n:sess.name,s:s,t:T.t,w:T.gw,items:wsItems(T.t,s,T.gw),k:0,out:[]};
+ if(!WX.items.length)return;wsStep()}
+function wsStep(){
+ var q=WX.items[WX.k];
+ var h='<div class="card sm kxws"><h3>📝 '+esc(SUBJN[WX.s])+' <i>Tanong '+(WX.k+1)+' ng '+WX.items.length+' · Question '+(WX.k+1)+' of '+WX.items.length+'</i></h3>'
+  +'<div class="it"><div class="q">'+(q.em?'<span style="font-size:26px">'+esc(q.em)+'</span> ':'')+'<b>'+esc(q.f)+'</b><i>'+esc(q.e)+'</i></div>'
+  +'<div class="ch">'+q.ch.map(function(c,i){return'<button type="button" data-c="'+i+'"><span class="lt">'+"ABCD".charAt(i)+'</span>'+esc(c[0])+(c[1]&&c[1]!==c[0]?' <i>('+esc(c[1])+')</i>':'')+'</button>'}).join("")+'</div>'
+  +'<div class="fb" id="wsFb"></div>'
+  +'<div class="pad" id="wsPad" style="display:none"><b>✍️ Isulat ang sagot sa guhit <i style="font-weight:400;font-size:12px">Write the answer on the lines</i></b>'
+  +'<canvas id="wsCv" width="640" height="192"></canvas><div class="padr"><button class="btn ghost sm" id="wsCl" type="button">🧽 Burahin <i>Clear</i></button>'
+  +'<button class="btn sm" id="wsNx" type="button">➡️ Susunod <i>Next</i></button></div></div></div>';
+ $("ov").innerHTML='<div class="sheet">'+h+'</div>';
+ var picked=false;
+ $("ov").querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){
+  if(picked)return;picked=true;
+  var i=+b.getAttribute("data-c"),okc="ABCD".charAt(i)===q.key;
+  b.classList.add(okc?"ok":"no");
+  if(!okc)$("ov").querySelectorAll("[data-c]").forEach(function(x){if("ABCD".charAt(+x.getAttribute("data-c"))===q.key)x.classList.add("ok")});
+  var fb=$("wsFb");fb.className="fb "+(okc?"good":"bad");fb.innerHTML=okc?"✔ Tama! <i>Correct!</i>":"✖ Mali. Ang tamang sagot ay nakakulay berde. <i>The right answer is in green.</i>";
+  try{chime(okc?[659,880]:[440])}catch(e){}
+  WX.cur={ok:okc?1:0,ch:"ABCD".charAt(i)};
+  $("wsPad").style.display="";wsPadInit();
+ }});
+}
+function wsPadInit(){
+ var cv=$("wsCv"),x=cv.getContext("2d");x.lineWidth=5;x.lineCap="round";x.strokeStyle="#1c2433";var dr=false,lx=0,ly=0;
+ function pos(e){var r=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e;return[(t.clientX-r.left)*cv.width/r.width,(t.clientY-r.top)*cv.height/r.height]}
+ cv.onpointerdown=function(e){dr=true;var p=pos(e);lx=p[0];ly=p[1];try{cv.setPointerCapture(e.pointerId)}catch(x2){}};
+ cv.onpointermove=function(e){if(!dr)return;var p=pos(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(p[0],p[1]);x.stroke();lx=p[0];ly=p[1];cv.__ink=1};
+ cv.onpointerup=cv.onpointerleave=function(){dr=false};
+ $("wsCl").onclick=function(){x.clearRect(0,0,cv.width,cv.height);cv.__ink=0};
+ $("wsNx").onclick=function(){
+  var q=WX.items[WX.k],pad=null;
+  try{if(cv.__ink)pad=cv.toDataURL("image/jpeg",0.55)}catch(e){}
+  WX.out.push({q:q.f,ans:q.ch["ABCD".indexOf(q.key)]?q.ch["ABCD".indexOf(q.key)][0]:"",ok:WX.cur.ok,ch:WX.cur.ch,pad:pad,mk:null});
+  WX.k++;if(WX.k<WX.items.length)wsStep();else wsFinish()};
+}
+function wsFinish(){
+ var a=wsL(),ts=Date.now();
+ WX.out.forEach(function(o,i){a.push({n:WX.n,s:WX.s,t:WX.t,w:WX.w,i:"q"+(i+1),ok:o.ok,ts:ts})});
+ wsLW(a);
+ var SU=wsS();SU[wsKeyOf(WX.lid,WX.t,WX.s,WX.w)]={n:WX.n,items:WX.out,done:ts,marked:null};wsSW(SU);
+ var ok=WX.out.filter(function(x){return x.ok}).length;
+ try{log("ws-done",SUBJN[WX.s],ok+"/"+WX.out.length)}catch(e){}
+ $("ov").innerHTML='<div class="sheet"><div class="card sm kxws"><h3>🎉 Tapos na! <i>All done!</i></h3>'
+  +'<p><b>✔ '+ok+' ng '+WX.out.length+'</b> sa pagpili. <i>'+ok+' of '+WX.out.length+' choices correct.</i></p>'
+  +'<p>⏳ Ang sinulat mo ay hinihintay ang marka ng Teacher. <i>Your written answers wait for the Teacher’s mark.</i></p>'
+  +'<div class="row"><button class="btn" id="wsHm" type="button">🏠 Bumalik <i>Back Home</i></button></div></div></div>';
+ if(ok>=4)try{confetti()}catch(e){}
+ $("wsHm").onclick=function(){closeOv();try{renderFeat()}catch(e){}};
+}
+/* ---------- the Teacher's marking card (Worksheets tool) ---------- */
+window.KXWSM_CARD=function(){
+ var SU=wsS(),pend=Object.keys(SU).filter(function(k){return!SU[k].marked});
+ return '<div class="card sm wsx"><h3>✍️ Mark Written Answers <i>Markahan ang Sinulat</i></h3>'
+  +'<p>Worksheets answered inside KORTEX: the choices were checked at once; the handwriting on the lined pad waits for your mark. Marks join the same records.</p>'
+  +'<div class="row"><button class="btn" id="wsmGo" type="button">✍️ Open ('+pend.length+' waiting) <i>Buksan</i></button></div></div>';
+};
+window.KXWSM_WIRE=function(){var b=$("wsmGo");if(b)b.onclick=wsmOpen};
+function wsmOpen(){
+ var SU=wsS(),ks=Object.keys(SU).filter(function(k){return!SU[k].marked}).sort(function(a,b){return(SU[a].done||0)-(SU[b].done||0)});
+ var h='<div class="card wide kxwsm"><div class="axh"><div><h3>✍️ Mark Written Answers</h3><p class="axs">Tap ✔ or ✖ on each written answer. The expected answer is beside each pad. Marks join the records at once.</p></div>'
+  +'<div class="axa"><button class="btn ghost" id="wsmX" type="button">Back</button></div></div>';
+ if(!ks.length)h+='<p>🎉 Nothing is waiting. Every written answer is marked.</p>';
+ ks.forEach(function(k){
+  var e=SU[k],p=k.split("|");
+  h+='<div class="card" data-k="'+esc(k)+'"><h3>'+esc(e.n)+' <i>'+esc(SUBJN[+p[2]])+' · Term '+p[1]+' · Week '+p[3]+'</i></h3>';
+  e.items.forEach(function(o,i){
+   h+='<div class="mi"><b>'+(i+1)+'. '+esc(o.q)+'</b> — expected: <b>'+esc(o.ans)+'</b> · choice '+(o.ok?"✔":"✖")+'<br>'
+    +(o.pad?'<img src="'+o.pad+'" alt="written answer">':'<i>(walang sulat / nothing written)</i>')
+    +'<div class="row"><button class="btn sm" data-mk="1" data-i="'+i+'" type="button">✔ Tama</button><button class="btn ghost sm" data-mk="0" data-i="'+i+'" type="button">✖ Mali</button> <span data-st="'+i+'">'+(o.mk==null?"":o.mk?"✔":"✖")+'</span></div></div>';
+  });
+  h+='<div class="row"><button class="btn" data-sv="1" type="button">💾 Save the Marks <i>I-save</i></button></div></div>';
+ });
+ $("ov").innerHTML='<div class="sheet">'+h+'</div></div>';
+ $("wsmX").onclick=function(){openWorksheets()};
+ $("ov").querySelectorAll("[data-k]").forEach(function(card){
+  var k=card.getAttribute("data-k");
+  card.querySelectorAll("[data-mk]").forEach(function(b){b.onclick=function(){
+   var SU2=wsS(),e=SU2[k];if(!e)return;e.items[+b.getAttribute("data-i")].mk=+b.getAttribute("data-mk");wsSW(SU2);
+   card.querySelector('[data-st="'+b.getAttribute("data-i")+'"]').textContent=+b.getAttribute("data-mk")?"✔":"✖"}});
+  card.querySelector("[data-sv]").onclick=function(){
+   var SU2=wsS(),e=SU2[k];if(!e)return;
+   if(e.items.some(function(o){return o.pad&&o.mk==null})){alert("May sulat pang walang marka. / A written answer has no mark yet.");return}
+   var a=wsL(),p=k.split("|"),ts=Date.now();
+   e.items.forEach(function(o,i){if(o.pad!=null&&o.mk!=null)a.push({n:e.n,s:+p[2],t:+p[1],w:+p[3],i:"w"+(i+1),ok:o.mk,ts:ts})});
+   wsLW(a);e.marked=ts;wsSW(SU2);try{log("ws-marked","",e.n)}catch(ex){}wsmOpen()};
+ });
+}
+window.KXWS_CSS=WSPCSS;
+(function(){try{var st=document.createElement("style");st.textContent=WSPCSS;(document.head||document.documentElement).appendChild(st)}catch(e){}})();
+})();
+
+
+
+
+
+
+
+
 
 /* ---------- v3.5: 📤 Send Scores · 📥 Accept Scores · reminders · themes (Theme Studio) · automatic Reading Log ----------
    Hub side of the pair that every game has in its top bar. Games hand accepted files straight to KXIN.accept (one-file edition)
