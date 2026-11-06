@@ -1,5 +1,5 @@
 KORTEX
-The Codex Archive • Author: Venice D. Rodriguez
+Author: Venice D. Rodriguez
 The Launchpad for Engineered Brilliance.
 
 HOW TO OPEN
