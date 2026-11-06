@@ -199,7 +199,7 @@ var SI=window.setInterval;window.setInterval=function(fn,ms){try{if(typeof fn===
   var p=String(path).split("."),t=o;for(var i=0;i<p.length-1;i++){if(t[p[i]]==null||typeof t[p[i]]!=="object")t[p[i]]={};t=t[p[i]]}
   var l=p[p.length-1];if(t[l]!==val){t[l]=val;return 1}return 0}catch(e){return 0}};
 })();
-</script><script>/* KORTEX Item Bank: the Calibrated Quiz and Worksheets questions are edited in KORTEX (Tools → 📚 Item Bank) and saved as KORTEX_BANK.
+</script><script>/* KORTEX Item Bank: the Calibrated Quiz and Worksheets questions are edited in KORTEX (Tools → 🖨️ Worksheets → ✏️ Worksheet Questions; the Calibrated Quiz keeps its own) and saved as KORTEX_BANK.
    Format: {v:1,w:{"term|subject|week":{e:{"<index>":item},a:[item,...]}}}.  An item is [Filipino question, English question,
    [4 Filipino choices], [4 English choices], correct index 0-3, emoji, (optional picture)].
    Original items keep their place (they can be reworded, never removed) so item numbers in saved scores stay true; added items
