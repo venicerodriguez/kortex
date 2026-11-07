@@ -34,7 +34,7 @@ window.KXATT={key:K,S:{P:"Present",L:"Late",A:"Absent",E:"Excused"},F:{P:"Narito
  status:function(day,id){var e=this.day(day)[id];return e?e.s:""},
  here:function(s){return s==="P"||s==="L"},
  set:function(day,id,s,by){if(!RX.test(day)||!id)return 0;var o=migrate(),D=o.d[day]||(o.d[day]={});if(!s)delete D[id];else{if(!ok(s))return 0;D[id]={s:s,t:Date.now(),by:String(by||"kortex").slice(0,20)}}if(!wr(K,o))return 0;sync(day,o);return 1},
- setMany:function(day,map,by){if(!RX.test(day))return 0;var o=migrate(),D=o.d[day]||(o.d[day]={}),t=Date.now();Object.keys(map||{}).forEach(function(id){var s=map[id];if(!id)return;if(!s)delete D[id];else if(ok(s))D[id]={s:s,t:t,by:String(by||"kortex").slice(0,20)}});var r=wr(K,o);sync(day,o);return r},
+ setMany:function(day,map,by,rms){if(!RX.test(day))return 0;var o=migrate(),D=o.d[day]||(o.d[day]={}),t=Date.now();Object.keys(map||{}).forEach(function(id){var s=map[id];if(!id)return;if(!s)delete D[id];else if(ok(s)){var old=D[id];D[id]={s:s,t:t,by:String(by||"kortex").slice(0,20)};if(rms&&rms[id]){D[id].rm=String(rms[id]).slice(0,160);D[id].was=old&&old.s||""}}});var r=wr(K,o);sync(day,o);return r},
  idOf:idOf,roster:ros,migrate:migrate};
 try{migrate()}catch(e){}
 })();
@@ -733,8 +733,10 @@ function lum(h){var c=hex(h).map(function(v){v/=255;return v<=.03928?v/12.92:Mat
 function contrast(a,b){var x=lum(a),y=lum(b),hi=Math.max(x,y),lo=Math.min(x,y);return(hi+.05)/(lo+.05)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function pattern(t){var s="<svg xmlns='http://www.w3.org/2000/svg' width='84' height='56'><text x='4' y='24' font-size='19'>"+t.pat[0]+"</text><text x='46' y='20' font-size='15'>"+t.pat[1]+"</text><text x='24' y='50' font-size='17'>"+t.pat[2]+"</text></svg>";return'url("data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)+'")'}
-var THCSS="#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:2147483400;max-width:min(300px,86vw);display:none;align-items:center;gap:8px;padding:9px 12px;border-radius:16px;background:#fff;color:#1d2433;border:3px solid var(--kx-n1,#14284b);box-shadow:0 8px 22px rgba(0,0,0,.35);font:700 14px/1.3 system-ui,'Segoe UI',sans-serif;pointer-events:none}"
-+"#kxbub.on{display:flex;animation:kxbin .28s cubic-bezier(.2,.9,.3,1.3)}#kxbub.kxb-low{top:auto;bottom:66px;left:auto;right:8px;transform:none}#kxbub .kxbm{font-size:28px;line-height:1}@keyframes kxbin{from{opacity:0}}"
+var THCSS="#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:2147483400;width:fit-content;max-width:min(380px,86vw);display:none;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:22px;background:linear-gradient(135deg,var(--kx-n1,#14284b),var(--kx-n2,#2f5d3f));color:#fff;border:2px solid rgba(255,255,255,.35);box-shadow:0 0 0 3px var(--kx-a,#d4a84b),0 12px 28px rgba(0,0,0,.4);font:800 16px/1.35 system-ui,'Segoe UI',sans-serif;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.35)}"
++"#kxbub::after{content:'';position:absolute;left:50%;bottom:-9px;transform:translateX(-50%) rotate(45deg);width:14px;height:14px;background:var(--kx-n2,#2f5d3f);border-right:3px solid var(--kx-a,#d4a84b);border-bottom:3px solid var(--kx-a,#d4a84b);border-radius:2px}"
++"#kxbub.on{display:flex;animation:kxbin .28s cubic-bezier(.2,.9,.3,1.3)}#kxbub.kxb-low{top:auto;bottom:66px;left:auto;right:8px;transform:none}#kxbub.kxb-low::after{left:auto;right:22px;transform:rotate(45deg)}"
++"#kxbub .kxbm{flex:0 0 auto;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:28px;line-height:1;background:radial-gradient(circle at 50% 42%,#fff 0 60%,rgba(255,255,255,.85) 100%);border-radius:50%;box-shadow:0 0 0 2px var(--kx-a,#d4a84b),0 4px 10px rgba(0,0,0,.3);text-shadow:none}@keyframes kxbin{from{opacity:0}}"
 +".kxmasc{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:2px solid var(--kx-a,#fff);background:rgba(255,255,255,.2);font-size:24px;line-height:1;cursor:pointer;padding:0;flex:none;color:#fff}"
 +".kxm-pop{animation:kxpop .7s ease}@keyframes kxpop{0%{transform:scale(1) rotate(0)}25%{transform:scale(1.35) rotate(-12deg)}55%{transform:scale(1.2) rotate(10deg)}100%{transform:scale(1) rotate(0)}}"
 +".kxm-shim{animation:kxpop .7s ease,kxshim 1.1s ease}@keyframes kxshim{0%,100%{filter:none}40%{filter:hue-rotate(-30deg) saturate(1.8) brightness(1.25) drop-shadow(0 0 8px #ffd23a)}}"
@@ -1518,6 +1520,60 @@ function hookHome(){/* ➡️ Next Star rides a capture listener, so it survives
 function start(){try{hookHome();setTimeout(hookHome,1500)}catch(x){}if(RECT||!sess())return;try{if(sessionStorage.getItem("KX_RULES_"+C.g))return}catch(x){}setTimeout(rules,900)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 window.KXFAIR={rules:rules,rec:rec,key:K,next:nextOf,nextStop:nextStop};
+})();
+
+/* ================= 🔍 Zoom — fit the screen to the phone (R22, 7 Nov 17:34) =================
+   Her call: on the phone she had to scroll up and down just to read a question and its choices. A 🔍 sits on the top bar
+   beside ⛶ (KORTEX, every game, the library, every story). Tap it: [ − ] 90% [ + ] — every tap shrinks or grows the whole
+   screen at once; tap the % to go back to 100%. Every game and screen family keeps its own size (WHIZ CUP at 80% stays 80%;
+   the others do not move). Every device (her 17:39 call): on the laptop and the class TV it also grows to 150% for the room. */
+(function(){if(window.__KXZOOM)return;window.__KXZOOM=1;
+var STEPS=[0.6,0.7,0.8,0.9,1,1.1,1.25,1.5];
+function top(){try{return window.parent===window||!window.parent.__KXS}catch(e){return true}}
+if(!top())return;   /* the inner page of a game shell: the shell's own 🔍 sizes the whole page, the inner page follows */
+function scope(){try{var C=window.__KXS;if(C&&C.g)return"g_"+C.g}catch(e){}var p=location.pathname;
+ if(/\/library\/(index\.html)?$/.test(p))return"lib";if(/\/library\/[^\/]+\.html$/.test(p))return"story";return"hub"}
+var K="KX_ZOOM_"+scope();
+function get(){var z=1;try{z=+localStorage.getItem(K)||1}catch(e){}return STEPS.indexOf(z)>=0?z:1}
+function put(z){try{if(z===1)localStorage.removeItem(K);else localStorage.setItem(K,String(z))}catch(e){}}
+function apply(z){var el=document.documentElement;if(!el)return;var on=z!==1;if(on)el.style.zoom=String(z);else el.style.removeProperty("zoom");
+ var b=document.getElementById("kxzm");if(b)b.setAttribute("data-z",Math.round(z*100)+"%");
+ var o=document.getElementById("kxzs");if(o){o.style.zoom=on?String(1/z):"";var p=o.querySelector(".p");if(p)p.textContent=Math.round(z*100)+"%"}}   /* the strip keeps its own size whatever the page's zoom */
+function css(){if(document.getElementById("kxzmcss"))return;var st=document.createElement("style");st.id="kxzmcss";
+ st.textContent="#kxzs{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:2147483612;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:var(--kx-n1,#14284b);box-shadow:0 0 0 2px var(--kx-a,#d4a84b),0 10px 26px rgba(0,0,0,.4);font:800 15px/1 system-ui,'Segoe UI',sans-serif}"
+  +"#kxzs button{min-width:44px;height:44px;border-radius:999px;border:0;background:#fff;color:#14284b;font:900 22px/1 system-ui,sans-serif;cursor:pointer}"
+  +"#kxzs .p{min-width:66px;font-size:15px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}"
+  +"#kxzm{position:relative}#kxzm[data-z]:not([data-z='100%'])::after{content:attr(data-z);position:absolute;right:-4px;bottom:-6px;font:800 9px/1 system-ui,sans-serif;background:var(--kx-a,#d4a84b);color:#14284b;border-radius:6px;padding:2px 3px}";
+ (document.head||document.documentElement).appendChild(st)}
+var HT=0;
+function strip(btn){css();var o=document.getElementById("kxzs");if(o){o.remove();return}
+ o=document.createElement("div");o.id="kxzs";o.setAttribute("role","group");o.setAttribute("aria-label","Zoom");o.setAttribute("data-kxskip","1");
+ o.innerHTML='<button type="button" data-d="-1" aria-label="Zoom out · Liitan">−</button><button type="button" class="p" data-d="0" aria-label="Back to 100% · Ibalik sa 100%"></button><button type="button" data-d="1" aria-label="Zoom in · Lakihan">+</button>';
+ document.body.appendChild(o);
+ var place=function(){apply(get())};
+ place();
+ var bump=function(){clearTimeout(HT);HT=setTimeout(function(){o.remove()},4500)};bump();
+ [].forEach.call(o.querySelectorAll("button"),function(b){b.onclick=function(ev){ev.stopPropagation();var d=+b.getAttribute("data-d"),z=get(),i=STEPS.indexOf(z);
+  z=d===0?1:STEPS[Math.max(0,Math.min(STEPS.length-1,i+d))];put(z);apply(z);place();bump()}});
+ setTimeout(function(){document.addEventListener("click",function off(ev){if(!o.isConnected){document.removeEventListener("click",off,true);return}if(!o.contains(ev.target)&&ev.target!==btn){o.remove();document.removeEventListener("click",off,true)}},true)},0)}
+/* the 🔍 rides the top bar beside ⛶ — KORTEX (#bFs), a game (#kxmt-f), the library and its stories (before Exit) */
+function anchor(){var f=document.getElementById("kxmt-f");if(f&&f.tagName==="BUTTON")return[f,"after",f.className];
+ var h=document.getElementById("bFs");if(h)return[h,"after",h.className];
+ var x=document.getElementById("tbX");if(x&&x.closest(".tb"))return[x,"before","nb kxzmn"];
+ var B=[].slice.call(document.querySelectorAll("button")).filter(function(b){return(b.textContent||"").trim()==="⛶"&&b.getBoundingClientRect().top<160})[0];if(B)return[B,"after",B.className];
+ return null}
+function mount(){if(!document.body)return;if(document.getElementById("kxzm"))return;var a=anchor();if(!a)return;
+ var b=document.createElement("button");b.type="button";b.id="kxzm";b.className=a[2]||"";b.setAttribute("data-kxskip","1");b.title="Zoom · Liitan o Lakihan";b.setAttribute("aria-label","Zoom · Liitan o Lakihan");
+ b.innerHTML=a[1]==="before"?'<i aria-hidden="true">🔍</i><b>Zoom</b><small>Laki</small>':'🔍';
+ b.onclick=function(ev){ev.stopPropagation();strip(b)};
+ if(a[1]==="before")a[0].parentNode.insertBefore(b,a[0]);else a[0].parentNode.insertBefore(b,a[0].nextSibling);
+ b.setAttribute("data-z",Math.round(get()*100)+"%")}
+apply(get());
+function go(){apply(get());mount()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
+setInterval(mount,1200);   /* bars that redraw (every story page turn) get their 🔍 back */
+addEventListener("resize",function(){apply(get())});
+window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply(z)},key:K,steps:STEPS};
 })();
 
 /* ================= Game Shell Standard (Master Blueprint §5, Phase 3) =================
