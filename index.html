@@ -1233,7 +1233,7 @@ var CFG={
    "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22gpsq%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff2e88%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233b0fb8%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22gpsqh%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.28%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsq)%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2215%22%20fill%3D%22url(%23gpsqh)%22%2F%3E%3Crect%20x%3D%222.75%22%20y%3D%222.75%22%20width%3D%2258.5%22%20height%3D%2258.5%22%20rx%3D%2214.3%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%221.5%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M33.5%209.5l-7%2011.5h5.6l-3.2%208.6%209.2-13h-5.8l3.6-7.1z%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%23ffd60a%22%20stroke-width%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M19%2029c-5%200-8.5%205.6-8.5%2012.4%200%204.6%201.9%207.4%204.8%207.4%203.2%200%205.3-3.8%208.3-5.8h16.8c3%202%205.1%205.8%208.3%205.8%202.9%200%204.8-2.8%204.8-7.4%200-6.8-3.5-12.4-8.5-12.4z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M21.4%2032.6h3.4v3h3v3.4h-3v3h-3.4v-3h-3v-3.4h3z%22%20fill%3D%22%233b0fb8%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2241%22%20cy%3D%2235%22%20r%3D%222.5%22%20fill%3D%22%23ff2e88%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2238.6%22%20r%3D%222.5%22%20fill%3D%22%23ffd60a%22%20stroke%3D%22%233b0fb8%22%20stroke-width%3D%22.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
   }
  ],
- "build": "202611081622",
+ "build": "202611081857",
  "ver": "3.5",
  "video": "media/kortex-video.mp4",
  "icons": {
@@ -2517,7 +2517,7 @@ function kxSaveSheet(body){
  o.onclick=function(ev){var b=ev.target.closest("[data-f]");if(ev.target===o){o.remove();return}if(!b)return;var f=b.getAttribute("data-f");o.remove();
   try{
    if(f==="pdf"){printDocNow(body)}
-   else if(f==="doc"){kxSvDl(kxSvName(body,".doc"),new Blob([kxSvPage(body)],{type:"application/msword"}))}
+   else if(f==="doc"){if(window.KXMHT&&/class="cstw"/.test(body))KXMHT(kxSvPage(body),function(b){kxSvDl(kxSvName(body,".doc"),b)});else kxSvDl(kxSvName(body,".doc"),new Blob([kxSvPage(body)],{type:"application/msword"}))}
    else if(f==="html"){kxSvDl(kxSvName(body,".html"),new Blob([kxSvPage(body)],{type:"text/html"}))}
    else if(f==="txt"){var d=document.createElement("div");d.innerHTML=body;kxSvDl(kxSvName(body,".txt"),new Blob([d.innerText],{type:"text/plain"}))}
    else if(f==="csv"&&rows){kxSvDl(kxSvName(body,".csv"),new Blob([kxSvCsv(rows)],{type:"text/csv"}))}
@@ -3762,7 +3762,8 @@ function openWorksheets(t0,w0,fromMission){var I=null;try{I=msnInfo(new Date())}
   +'<label class="st-lb"><input type="checkbox" id="wsK" checked> Add the answer key (last page, for you)</label>'
   +'<div class="msg" id="wsM"></div><div class="row"><button class="btn" id="wsP" type="button">💾 Save PDF</button><button class="btn ghost" id="wsX" type="button">Back</button></div>'
   +'<p><small>This week of Today’s Mission is already picked. Week numbers match the games (Weeks 1 to 8 of each term).</small></p></div>';
- $("ov").innerHTML='<div class="sheet">'+h+(window.KXWSM_CARD?KXWSM_CARD():"")+(window.KXRTP_CARD?KXRTP_CARD():"")+'</div>';
+ $("ov").innerHTML='<div class="sheet">'+h+(window.KXCST_CARD?KXCST_CARD():"")+(window.KXWSM_CARD?KXWSM_CARD():"")+(window.KXRTP_CARD?KXRTP_CARD():"")+'</div>';
+ if(window.KXCST_WIRE)KXCST_WIRE();
  if(window.KXWSM_WIRE)KXWSM_WIRE();
  if(window.KXRTP_WIRE)KXRTP_WIRE();
  $("wsX").onclick=function(){if(fromMission)closeOv();else openTools()};
@@ -5062,9 +5063,10 @@ function wsmOpen(){
  if(!ks.length)h+='<p>🎉 Nothing is waiting. Every written answer is marked.</p>';
  ks.forEach(function(k){
   var e=SU[k],p=k.split("|");
-  h+='<div class="card" data-k="'+esc(k)+'"><h3>'+esc(e.n)+' <i>'+esc(SUBJN[+p[2]])+' · Term '+p[1]+' · Week '+p[3]+'</i></h3>';
+  h+='<div class="card" data-k="'+esc(k)+'"><h3>'+esc(e.n)+' <i>'+(e.cst?'🌌 '+esc(e.cst)+' · ':'')+esc(SUBJN[+p[2]])+' · Term '+p[1]+' · Week '+p[3]+'</i></h3>';
   e.items.forEach(function(o,i){
-   h+='<div class="mi"><b>'+(i+1)+'. '+esc(o.q)+'</b> — expected: <b>'+esc(o.ans)+'</b> · choice '+(o.ok?"✔":"✖")+'<br>'
+   if(e.cst&&o.pad==null)return;   /* (R34) a Constellation worksheet lists only the answers that wait for a mark; its choices were checked at once */
+   h+='<div class="mi"><b>'+(i+1)+'. '+esc(o.q)+'</b> — expected: <b>'+esc(o.ans)+'</b>'+(o.ok==null?'':' · choice '+(o.ok?"✔":"✖"))+'<br>'
     +(o.pad?'<img src="'+o.pad+'" alt="written answer">':'<i>(walang sulat / nothing written)</i>')
     +'<div class="row"><button class="btn sm" data-mk="1" data-i="'+i+'" type="button">✔ Tama</button><button class="btn ghost sm" data-mk="0" data-i="'+i+'" type="button">✖ Mali</button> <span data-st="'+i+'">'+(o.mk==null?"":o.mk?"✔":"✖")+'</span></div></div>';
   });
@@ -5087,6 +5089,488 @@ function wsmOpen(){
 }
 window.KXWS_CSS=WSPCSS;
 (function(){try{var st=document.createElement("style");st.textContent=WSPCSS;(document.head||document.documentElement).appendChild(st)}catch(e){}})();
+})();
+
+/* ================= 🌌 Constellation Studio — her worksheet maker (Blueprint §20, R34, 8 Nov 2026) =================
+   KORTEX's own worksheet maker, made after her Tudlo "Likha Worksheet" reference — never a copy. Pick the grade, subject,
+   term and week: the week's lesson and competency fill in from KORTEX's own curriculum (editable). Ten kinds of
+   activities, any number, any order: 🔢 Counting · ✏️ Tracing · 🖍️ Coloring · 🅰️ Multiple Choice · 🏷️ Identification ·
+   🔗 Matching · ✅ Tama o Mali · ⭕ Bilugan · ✍️ Fill in the Blank · 🪜 Pagkakasunod-sunod. Pictures come from KORTEX's own
+   picture shelf (original drawings; each one is also a coloring outline) or from her own photos (a photo becomes a
+   coloring outline on the device). Every word, picture, direction and answer is editable. 💾 Save goes through the
+   I-save Bilang sheet (PDF · Word · HTML · TXT), 🖨️ Print names the printed file "MATH K1 T1W1 WORKSHEET 2026-11-08"
+   (the kept Word copy carries no date), the answer key prints last. 📤 Give to the class: learners answer it in KORTEX
+   (My Worksheets) — choices, matching, counting and order are checked at once; tracing, coloring and writing wait for
+   the Teacher's mark in ✍️ Mark Written Answers. Everything stays on the device (photos in IndexedDB), for next year. */
+(function(){
+var CK="KORTEX_CST",IDBN="KORTEX_CST_IMG",IST="img";
+function cj(){var o=null;try{o=JSON.parse(localStorage.getItem(CK)||"null")}catch(e){}o=o&&typeof o==="object"?o:{};o.sheets=Array.isArray(o.sheets)?o.sheets:[];return o}
+function cw(o){try{localStorage.setItem(CK,JSON.stringify(o));return true}catch(e){alert("Puno na ang storage ng device. / The device storage is full — remove an old worksheet or photo first.");return false}}
+function e2(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function rnd(str){var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return function(){h=(Math.imul(h^(h>>>15),2246822507)+1013904223)>>>0;return h/4294967296}}
+function shuf(a,seed){var r=rnd(seed),b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),x=b[i];b[i]=b[j];b[j]=x}return b}
+function nid(){return"c"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36)}
+var ROM=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"];
+/* ---------- 🖼️ KORTEX's picture shelf: original line drawings (100×100). Colored on screen; with fill set to white they
+   become coloring outlines (the same drawing, so a coloring page always matches the picture the class knows). ---------- */
+var K='stroke="#1c2433" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+var PICS={
+ apple:["mansanas","apple","Prutas",'<path d="M50 32C36 18 12 26 14 52C16 76 34 92 50 84C66 92 84 76 86 52C88 26 64 18 50 32Z" fill="#e03131"/><path d="M50 32C50 24 52 17 57 12" fill="none"/><path d="M54 24C60 13 72 12 77 16C71 25 61 27 54 24Z" fill="#2f9e44"/><path d="M30 46C30 40 34 36 38 35" fill="none" stroke="#fff" stroke-width="3"/>'],
+ banana:["saging","banana","Prutas",'<path d="M20 26C20 62 48 84 82 76C86 75 86 70 82 69C56 68 36 52 31 26Z" fill="#fcc419"/><path d="M31 26C40 50 58 64 80 70" fill="none"/><path d="M20 26L18 17L28 17L31 26Z" fill="#8d6e63"/>'],
+ mango:["mangga","mango","Prutas",'<path d="M30 26C52 10 88 30 83 60C78 87 46 92 30 77C14 61 12 36 30 26Z" fill="#ffa94d"/><path d="M41 20C42 14 45 10 49 8" fill="none"/><path d="M45 15C50 6 62 5 67 9C61 17 51 19 45 15Z" fill="#2f9e44"/>'],
+ orange:["dalandan","orange","Prutas",'<circle cx="50" cy="56" r="32" fill="#ff922b"/><path d="M50 24V16" fill="none"/><path d="M51 19C57 10 68 10 72 14C66 22 57 23 51 19Z" fill="#2f9e44"/><circle cx="38" cy="48" r="1.6" fill="#1c2433" stroke="none"/><circle cx="60" cy="66" r="1.6" fill="#1c2433" stroke="none"/><circle cx="64" cy="44" r="1.6" fill="#1c2433" stroke="none"/>'],
+ grapes:["ubas","grapes","Prutas",'<path d="M50 20V10M50 16C58 8 68 8 72 12" fill="none"/><circle cx="38" cy="32" r="9" fill="#9c36b5"/><circle cx="56" cy="32" r="9" fill="#9c36b5"/><circle cx="29" cy="48" r="9" fill="#9c36b5"/><circle cx="47" cy="48" r="9" fill="#9c36b5"/><circle cx="65" cy="48" r="9" fill="#9c36b5"/><circle cx="38" cy="64" r="9" fill="#9c36b5"/><circle cx="56" cy="64" r="9" fill="#9c36b5"/><circle cx="47" cy="80" r="9" fill="#9c36b5"/>'],
+ pineapple:["pinya","pineapple","Prutas",'<path d="M50 34L40 12L50 22L56 8L58 24L70 14L62 34Z" fill="#2f9e44"/><ellipse cx="50" cy="62" rx="23" ry="29" fill="#fab005"/><path d="M33 46L64 84M28 62L52 90M40 36L72 72M67 46L36 84M72 62L48 90M60 36L28 72" fill="none" stroke-width="2"/>'],
+ watermelon:["pakwan","watermelon","Prutas",'<path d="M12 36A38 38 0 0 0 88 36Z" fill="#ff6b6b"/><path d="M12 36A38 38 0 0 0 88 36" fill="none" stroke="#2f9e44" stroke-width="7"/><path d="M12 36A38 38 0 0 0 88 36Z" fill="none"/><ellipse cx="34" cy="48" rx="2.4" ry="4" fill="#1c2433" stroke="none"/><ellipse cx="50" cy="56" rx="2.4" ry="4" fill="#1c2433" stroke="none"/><ellipse cx="66" cy="48" rx="2.4" ry="4" fill="#1c2433" stroke="none"/><ellipse cx="44" cy="44" rx="2.4" ry="4" fill="#1c2433" stroke="none"/><ellipse cx="58" cy="44" rx="2.4" ry="4" fill="#1c2433" stroke="none"/>'],
+ fish:["isda","fish","Hayop",'<path d="M16 50C30 26 64 26 76 50C64 74 30 74 16 50Z" fill="#4dabf7"/><path d="M76 50L94 34V66Z" fill="#339af0"/><circle cx="32" cy="46" r="3.5" fill="#1c2433" stroke="none"/><path d="M48 36C54 44 54 56 48 64" fill="none"/>'],
+ cat:["pusa","cat","Hayop",'<path d="M26 44L28 16L46 32Z" fill="#ffc078"/><path d="M74 44L72 16L54 32Z" fill="#ffc078"/><circle cx="50" cy="56" r="28" fill="#ffc078"/><circle cx="40" cy="50" r="3.5" fill="#1c2433" stroke="none"/><circle cx="60" cy="50" r="3.5" fill="#1c2433" stroke="none"/><path d="M46 60L50 64L54 60Z" fill="#f06595"/><path d="M50 64V68M50 68C46 72 42 70 41 68M50 68C54 72 58 70 59 68M30 60L14 56M30 65L14 68M70 60L86 56M70 65L86 68" fill="none" stroke-width="2"/>'],
+ dog:["aso","dog","Hayop",'<ellipse cx="50" cy="52" rx="25" ry="28" fill="#e8c39e"/><path d="M27 34C13 38 12 64 23 72C30 62 31 46 27 34Z" fill="#a0522d"/><path d="M73 34C87 38 88 64 77 72C70 62 69 46 73 34Z" fill="#a0522d"/><circle cx="41" cy="46" r="3.5" fill="#1c2433" stroke="none"/><circle cx="59" cy="46" r="3.5" fill="#1c2433" stroke="none"/><ellipse cx="50" cy="60" rx="6" ry="4.5" fill="#1c2433"/><path d="M50 65V70M50 70C46 75 41 73 40 70M50 70C54 75 59 73 60 70" fill="none" stroke-width="2"/>'],
+ bird:["ibon","bird","Hayop",'<ellipse cx="46" cy="58" rx="27" ry="19" fill="#74c0fc"/><circle cx="70" cy="40" r="13" fill="#74c0fc"/><path d="M81 37L94 42L81 46Z" fill="#fab005"/><circle cx="72" cy="37" r="2.6" fill="#1c2433" stroke="none"/><path d="M30 54C40 46 54 50 58 60C48 66 36 64 30 54Z" fill="#4dabf7"/><path d="M19 56L6 48L8 64Z" fill="#4dabf7"/><path d="M42 76V88M52 76V88M38 88H46M48 88H56" fill="none"/>'],
+ chicken:["manok","chicken","Hayop",'<path d="M26 58C26 38 48 32 60 42C64 32 80 32 80 46C88 58 80 78 56 80C38 82 26 74 26 58Z" fill="#fff"/><path d="M66 34C66 26 72 24 74 30C76 24 82 26 81 32C86 30 88 36 83 38Z" fill="#e03131"/><path d="M80 44L92 48L80 52Z" fill="#fab005"/><path d="M80 52C84 56 82 62 78 60" fill="#e03131"/><circle cx="72" cy="42" r="2.6" fill="#1c2433" stroke="none"/><path d="M34 54C40 64 54 66 60 58" fill="none"/><path d="M26 52L14 44M26 58L12 56M28 64L16 68" fill="none"/><path d="M48 80V90M58 80V90M44 90H52M54 90H62" fill="none" stroke="#e8590c"/>'],
+ duck:["pato","duck","Hayop",'<path d="M18 62C18 50 30 46 46 50C50 40 54 28 68 28C80 28 84 40 78 50C90 54 90 74 70 80C48 86 18 80 18 62Z" fill="#ffe066"/><path d="M80 36L94 40L80 45Z" fill="#ff922b"/><circle cx="70" cy="36" r="2.8" fill="#1c2433" stroke="none"/><path d="M34 60C42 70 58 70 62 62" fill="none"/>'],
+ pig:["baboy","pig","Hayop",'<path d="M26 38L22 18L42 28Z" fill="#ffc9c9"/><path d="M74 38L78 18L58 28Z" fill="#ffc9c9"/><circle cx="50" cy="54" r="30" fill="#ffc9c9"/><ellipse cx="50" cy="62" rx="13" ry="9" fill="#ffa8a8"/><ellipse cx="45" cy="62" rx="2.4" ry="3.4" fill="#1c2433" stroke="none"/><ellipse cx="55" cy="62" rx="2.4" ry="3.4" fill="#1c2433" stroke="none"/><circle cx="38" cy="46" r="3.2" fill="#1c2433" stroke="none"/><circle cx="62" cy="46" r="3.2" fill="#1c2433" stroke="none"/>'],
+ cow:["baka","cow","Hayop",'<path d="M30 30C22 26 16 18 18 12C24 16 30 20 36 26ZM70 30C78 26 84 18 82 12C76 16 70 20 64 26Z" fill="#f8f9fa"/><path d="M26 34C26 22 74 22 74 34L72 64C72 80 28 80 28 64Z" fill="#fff"/><path d="M34 30C42 30 44 42 36 46C30 48 28 38 34 30ZM62 50C70 50 72 58 66 60C60 62 58 52 62 50Z" fill="#1c2433"/><ellipse cx="50" cy="70" rx="17" ry="11" fill="#ffc9c9"/><circle cx="43" cy="70" r="2.4" fill="#1c2433" stroke="none"/><circle cx="57" cy="70" r="2.4" fill="#1c2433" stroke="none"/><circle cx="40" cy="46" r="3" fill="#fff" stroke="none"/><circle cx="58" cy="44" r="3.2" fill="#1c2433" stroke="none"/><circle cx="41" cy="44" r="3.2" fill="#1c2433" stroke="none"/>'],
+ carabao:["kalabaw","carabao","Hayop",'<path d="M30 34C14 34 6 24 8 12C14 22 22 26 34 26ZM70 34C86 34 94 24 92 12C86 22 78 26 66 26Z" fill="#dee2e6"/><path d="M28 30C28 20 72 20 72 30L70 66C70 82 30 82 30 66Z" fill="#868e96"/><ellipse cx="50" cy="70" rx="15" ry="10" fill="#495057"/><circle cx="44" cy="70" r="2.2" fill="#f8f9fa" stroke="none"/><circle cx="56" cy="70" r="2.2" fill="#f8f9fa" stroke="none"/><circle cx="40" cy="44" r="3.2" fill="#1c2433" stroke="none"/><circle cx="60" cy="44" r="3.2" fill="#1c2433" stroke="none"/><path d="M28 34L18 40L28 44M72 34L82 40L72 44" fill="#868e96"/>'],
+ butterfly:["paru-paro","butterfly","Hayop",'<path d="M48 46C36 22 12 22 14 40C16 54 34 56 48 50Z" fill="#da77f2"/><path d="M52 46C64 22 88 22 86 40C84 54 66 56 52 50Z" fill="#da77f2"/><path d="M48 54C34 56 22 68 28 78C34 86 46 74 48 60Z" fill="#f783ac"/><path d="M52 54C66 56 78 68 72 78C66 86 54 74 52 60Z" fill="#f783ac"/><ellipse cx="50" cy="54" rx="4" ry="18" fill="#495057"/><path d="M48 38C44 28 40 24 36 22M52 38C56 28 60 24 64 22" fill="none" stroke-width="2"/>'],
+ frog:["palaka","frog","Hayop",'<ellipse cx="50" cy="62" rx="32" ry="24" fill="#69db7c"/><circle cx="34" cy="38" r="11" fill="#69db7c"/><circle cx="66" cy="38" r="11" fill="#69db7c"/><circle cx="34" cy="38" r="4.5" fill="#1c2433" stroke="none"/><circle cx="66" cy="38" r="4.5" fill="#1c2433" stroke="none"/><path d="M34 62C42 72 58 72 66 62" fill="none"/><path d="M20 80L8 88M80 80L92 88" fill="none"/>'],
+ turtle:["pagong","turtle","Hayop",'<ellipse cx="28" cy="74" rx="8" ry="6" fill="#8ce99a"/><ellipse cx="72" cy="74" rx="8" ry="6" fill="#8ce99a"/><circle cx="86" cy="58" r="9" fill="#8ce99a"/><circle cx="89" cy="56" r="1.8" fill="#1c2433" stroke="none"/><path d="M14 66A36 34 0 0 1 82 66Z" fill="#2f9e44"/><path d="M36 46L48 40L60 46L60 58L48 64L36 58ZM36 46L28 40M60 46L68 40M48 64V66M36 58L24 64M60 58L72 64M48 40V32" fill="none" stroke-width="2.4"/>'],
+ pencil:["lapis","pencil","Paaralan",'<path d="M22 70L68 24L80 36L34 82Z" fill="#ffd43b"/><path d="M22 70L14 90L34 82Z" fill="#f4d9a8"/><path d="M14 90L17 82L22 85Z" fill="#1c2433"/><path d="M68 24L74 18C77 15 82 15 85 18L86 19C89 22 89 27 86 30L80 36Z" fill="#f783ac"/><path d="M28 76L74 30" fill="none" stroke-width="2"/>'],
+ book:["aklat","book","Paaralan",'<path d="M50 26C40 18 22 18 12 22V80C22 76 40 76 50 84Z" fill="#fff"/><path d="M50 26C60 18 78 18 88 22V80C78 76 60 76 50 84Z" fill="#fff"/><path d="M50 26V84" fill="none"/><path d="M20 34C28 32 36 32 42 35M20 44C28 42 36 42 42 45M20 54C28 52 36 52 42 55M58 35C64 32 72 32 80 34M58 45C64 42 72 42 80 44M58 55C64 52 72 52 80 54" fill="none" stroke-width="2"/><path d="M12 80C22 76 40 76 50 84C60 76 78 76 88 80V86C78 82 60 82 50 90C40 82 22 82 12 86Z" fill="#4c6ef5"/>'],
+ bag:["bag","bag","Paaralan",'<path d="M36 26C36 12 64 12 64 26" fill="none" stroke-width="5"/><rect x="20" y="24" width="60" height="64" rx="14" fill="#f76707"/><rect x="30" y="56" width="40" height="24" rx="6" fill="#ffa94d"/><path d="M30 64H70" fill="none"/><path d="M50 30V48" fill="none" stroke-width="2"/>'],
+ chair:["upuan","chair","Paaralan",'<rect x="30" y="12" width="40" height="38" rx="5" fill="#d9a066"/><path d="M36 22H64M36 32H64" fill="none" stroke-width="2"/><rect x="24" y="50" width="52" height="10" rx="3" fill="#a9744f"/><path d="M30 60V90M70 60V90M30 76H70" fill="none" stroke-width="4"/>'],
+ crayon:["krayola","crayon","Paaralan",'<path d="M30 30H70V90H30Z" fill="#e64980"/><path d="M30 30L42 10H58L70 30Z" fill="#e64980"/><path d="M42 10L46 4H54L58 10Z" fill="#c2255c"/><path d="M30 44H70V54H30ZM30 70H70V78H30Z" fill="#fff"/><path d="M40 62H60" fill="none" stroke-width="2"/>'],
+ ruler:["ruler","ruler","Paaralan",'<rect x="8" y="36" width="84" height="28" rx="3" fill="#ffe066"/><path d="M16 36V48M24 36V44M32 36V48M40 36V44M48 36V52M56 36V44M64 36V48M72 36V44M80 36V48M88 36V44" fill="none" stroke-width="2"/>'],
+ scissors:["gunting","scissors","Paaralan",'<circle cx="28" cy="72" r="11" fill="#4dabf7"/><circle cx="72" cy="72" r="11" fill="#4dabf7"/><path d="M34 62L66 14M66 62L34 14" fill="none" stroke-width="5"/><circle cx="50" cy="38" r="3" fill="#1c2433" stroke="none"/>'],
+ sun:["araw","sun","Kalikasan",'<path d="M50 6V18M50 82V94M6 50H18M82 50H94M19 19L27 27M73 73L81 81M81 19L73 27M27 73L19 81" fill="none" stroke-width="4"/><circle cx="50" cy="50" r="22" fill="#fcc419"/><circle cx="43" cy="46" r="2.4" fill="#1c2433" stroke="none"/><circle cx="57" cy="46" r="2.4" fill="#1c2433" stroke="none"/><path d="M42 56C46 62 54 62 58 56" fill="none" stroke-width="2.4"/>'],
+ moon:["buwan","moon","Kalikasan",'<path d="M62 12C40 16 26 36 30 58C34 78 54 92 76 86C56 80 44 62 46 44C48 30 54 18 62 12Z" fill="#ffe066"/><circle cx="46" cy="58" r="3" fill="none" stroke-width="2"/><circle cx="54" cy="74" r="2.4" fill="none" stroke-width="2"/>'],
+ star:["bituin","star","Kalikasan",'<path d="M50 8L61 36L92 38L68 57L76 88L50 71L24 88L32 57L8 38L39 36Z" fill="#ffd43b"/>'],
+ cloud:["ulap","cloud","Kalikasan",'<path d="M26 74C12 74 8 54 22 50C20 34 38 26 48 36C54 22 78 24 78 44C92 44 94 74 76 74Z" fill="#e7f5ff"/>'],
+ rain:["ulan","rain","Kalikasan",'<path d="M26 56C12 56 8 36 22 32C20 16 38 8 48 18C54 4 78 6 78 26C92 26 94 56 76 56Z" fill="#ced4da"/><path d="M30 66L26 76M50 66L46 76M70 66L66 76M40 80L36 90M60 80L56 90" fill="none" stroke="#339af0" stroke-width="4"/>'],
+ tree:["puno","tree","Kalikasan",'<path d="M44 58H56V92H44Z" fill="#a9744f"/><path d="M50 8C64 8 72 18 70 28C82 30 86 46 76 54C76 66 60 70 50 64C40 70 24 66 24 54C14 46 18 30 30 28C28 18 36 8 50 8Z" fill="#51cf66"/><path d="M50 64V76M50 72L42 66" fill="none" stroke-width="2"/>'],
+ flower:["bulaklak","flower","Kalikasan",'<path d="M50 56V94M50 80C40 72 30 74 26 78C34 84 44 84 50 80ZM50 74C60 66 70 68 74 72C66 78 56 78 50 74Z" fill="#51cf66"/><circle cx="50" cy="20" r="11" fill="#f783ac"/><circle cx="66" cy="31" r="11" fill="#f783ac"/><circle cx="60" cy="50" r="11" fill="#f783ac"/><circle cx="40" cy="50" r="11" fill="#f783ac"/><circle cx="34" cy="31" r="11" fill="#f783ac"/><circle cx="50" cy="36" r="10" fill="#fcc419"/>'],
+ leaf:["dahon","leaf","Kalikasan",'<path d="M18 82C18 42 46 16 86 14C86 54 60 82 18 82Z" fill="#51cf66"/><path d="M18 82L70 30M40 60L36 44M40 60L56 62M54 46L52 34M54 46L66 46" fill="none" stroke-width="2.4"/>'],
+ house:["bahay","house","Tahanan",'<path d="M18 46H82V90H18Z" fill="#ffe8cc"/><path d="M10 48L50 14L90 48Z" fill="#e8590c"/><path d="M42 62H58V90H42Z" fill="#a9744f"/><circle cx="54" cy="77" r="1.8" fill="#1c2433" stroke="none"/><path d="M24 56H36V68H24ZM64 56H76V68H64Z" fill="#a5d8ff"/><path d="M30 56V68M24 62H36M70 56V68M64 62H76" fill="none" stroke-width="2"/>'],
+ ball:["bola","ball","Laro",'<circle cx="50" cy="50" r="36" fill="#ff6b6b"/><path d="M50 14C36 30 36 70 50 86C64 70 64 30 50 14Z" fill="#ffd43b"/><path d="M16 42C34 50 66 50 84 42" fill="none"/><circle cx="50" cy="50" r="36" fill="none"/>'],
+ kite:["saranggola","kite","Laro",'<path d="M50 8L80 40L50 72L20 40Z" fill="#74c0fc"/><path d="M50 8V72M20 40H80" fill="none" stroke-width="2"/><path d="M50 8L80 40L50 40Z" fill="#ff8787"/><path d="M50 40L20 40L50 72Z" fill="#ff8787"/><path d="M50 72C46 78 54 82 50 88C46 92 52 96 50 98" fill="none" stroke-width="2"/><path d="M48 80L42 78L44 84ZM51 90L57 88L55 94Z" fill="#fcc419" stroke-width="2"/>'],
+ car:["kotse","car","Sasakyan",'<path d="M10 66V54C10 50 14 48 18 48L28 32C30 28 34 26 38 26H62C66 26 70 28 72 32L82 48C88 48 92 52 92 58V66Z" fill="#339af0"/><path d="M32 46L40 32H50V46ZM56 46V32H62L70 46Z" fill="#e7f5ff"/><circle cx="30" cy="68" r="10" fill="#343a40"/><circle cx="72" cy="68" r="10" fill="#343a40"/><circle cx="30" cy="68" r="3.5" fill="#ced4da" stroke="none"/><circle cx="72" cy="68" r="3.5" fill="#ced4da" stroke="none"/>'],
+ boat:["bangka","boat","Sasakyan",'<path d="M50 14V58" fill="none"/><path d="M52 16L80 52H52Z" fill="#fff"/><path d="M48 22L26 52H48Z" fill="#ffd43b"/><path d="M14 60H86L76 74H24Z" fill="#a9744f"/><path d="M8 82H92M22 74L20 82M78 74L80 82" fill="none"/><path d="M6 90C14 86 22 94 30 90C38 86 46 94 54 90C62 86 70 94 78 90C84 87 90 92 94 90" fill="none" stroke="#339af0" stroke-width="2.4"/>'],
+ bike:["bisikleta","bicycle","Sasakyan",'<circle cx="24" cy="66" r="16" fill="none" stroke-width="4"/><circle cx="76" cy="66" r="16" fill="none" stroke-width="4"/><path d="M24 66L42 40H66L76 66M42 40L52 66H24M52 66L66 40M38 30H48M66 40L62 28H72" fill="none"/>'],
+ umbrella:["payong","umbrella","Tahanan",'<path d="M10 52C12 28 30 14 50 14C70 14 88 28 90 52C84 46 76 46 70 52C64 46 56 46 50 52C44 46 36 46 30 52C24 46 16 46 10 52Z" fill="#4dabf7"/><path d="M50 14V8M50 52V82C50 90 38 90 38 82" fill="none" stroke-width="4"/><path d="M50 14C40 24 30 40 30 52M50 14C60 24 70 40 70 52" fill="none" stroke-width="2"/>'],
+ cup:["baso","glass","Tahanan",'<path d="M26 16H74L66 88H34Z" fill="#d0ebff"/><path d="M29 40H71L66 88H34Z" fill="#74c0fc"/><path d="M26 16H74" fill="none"/>'],
+ egg:["itlog","egg","Pagkain",'<path d="M50 10C30 10 18 44 20 62C22 80 36 90 50 90C64 90 78 80 80 62C82 44 70 10 50 10Z" fill="#fff9db"/><path d="M34 40C36 32 40 26 44 22" fill="none" stroke-width="2.4"/>'],
+ clock:["orasan","clock","Tahanan",'<circle cx="50" cy="52" r="36" fill="#fff"/><path d="M50 52V30M50 52L66 60" fill="none" stroke-width="4"/><path d="M50 20V24M50 80V84M18 52H22M78 52H82" fill="none" stroke-width="3"/><circle cx="50" cy="52" r="3" fill="#1c2433"/><path d="M30 14L20 22M70 14L80 22" fill="none" stroke-width="4"/>'],
+ hand:["kamay","hand","Katawan",'<path d="M30 92V56L18 42C14 36 20 30 26 34L34 42V18C34 12 42 12 42 18V40V12C42 6 50 6 50 12V40V14C50 8 58 8 58 14V42V22C58 16 66 16 66 22V60C66 78 60 92 56 92Z" fill="#ffd8a8"/>'],
+ eye:["mata","eye","Katawan",'<path d="M8 50C24 26 76 26 92 50C76 74 24 74 8 50Z" fill="#fff"/><circle cx="50" cy="50" r="14" fill="#5c940d"/><circle cx="50" cy="50" r="6" fill="#1c2433"/><circle cx="54" cy="46" r="2.4" fill="#fff" stroke="none"/><path d="M20 34L14 26M34 26L32 18M50 24V16M66 26L68 18M80 34L86 26" fill="none" stroke-width="2.4"/>'],
+ heart:["puso","heart","Hugis",'<path d="M50 86C20 64 10 48 12 32C14 18 30 10 42 18C46 21 48 24 50 28C52 24 54 21 58 18C70 10 86 18 88 32C90 48 80 64 50 86Z" fill="#e64980"/>'],
+ circle:["bilog","circle","Hugis",'<circle cx="50" cy="50" r="36" fill="#ff8787"/>'],
+ square:["parisukat","square","Hugis",'<rect x="16" y="16" width="68" height="68" fill="#74c0fc"/>'],
+ triangle:["tatsulok","triangle","Hugis",'<path d="M50 12L90 84H10Z" fill="#8ce99a"/>'],
+ rectangle:["parihaba","rectangle","Hugis",'<rect x="8" y="28" width="84" height="44" fill="#ffd43b"/>'],
+ oval:["biluhaba","oval","Hugis",'<ellipse cx="50" cy="50" rx="40" ry="26" fill="#da77f2"/>'],
+ flag:["watawat","flag","Bayan",'<path d="M14 8V94" fill="none" stroke-width="4"/><path d="M16 14H90V38H16Z" fill="#1971c2"/><path d="M16 38H90V62H16Z" fill="#e03131"/><path d="M16 14L48 38L16 62Z" fill="#fff"/><circle cx="28" cy="38" r="5" fill="#fcc419"/><path d="M20 20L21 22M20 56L21 54M42 38L44 38" fill="none" stroke="#fcc419" stroke-width="2.4"/>']
+};
+var PORD=Object.keys(PICS);
+function picLine(svg){return svg.replace(/fill="#(?!1c2433)[0-9a-fA-F]{3,6}"/g,'fill="#fff"').replace(/stroke="#(?!1c2433)[0-9a-fA-F]{3,6}"/g,'stroke="#1c2433"')}
+/* a picture by its reference: "s:apple" (shelf) or "p:<key>" (her own photo, or a photo she turned into a coloring outline) */
+var IMGC={};
+function picHTML(ref,line,css){ref=String(ref||"");css=css||"";
+ if(ref.indexOf("s:")===0){var p=PICS[ref.slice(2)];if(!p)return"";return'<svg class="cpic" viewBox="0 0 100 100" style="'+css+'" role="img" aria-label="'+e2(p[1])+'"><g '+K+'>'+(line?picLine(p[3]):p[3])+'</g></svg>'}
+ if(ref.indexOf("p:")===0){var u=IMGC[ref.slice(2)];return u?'<img class="cpic" src="'+u+'" style="object-fit:contain;'+css+'" alt="">':'<span class="cpic cmiss" style="'+css+'">🖼️</span>'}
+ return""}
+function picName(ref,lang){var p=PICS[String(ref||"").slice(2)];return p?(lang==="en"?p[1]:p[0]):""}
+/* ---------- her own photos: IndexedDB on this device (a picture is made smaller first, so the device keeps hundreds) ---------- */
+var _db=null;
+function idb(cb){if(_db)return cb(_db);try{var r=indexedDB.open(IDBN,1);r.onupgradeneeded=function(){r.result.createObjectStore(IST,{keyPath:"k"})};r.onsuccess=function(){_db=r.result;cb(_db)};r.onerror=function(){cb(null)}}catch(e){cb(null)}}
+function imgPut(k,u,cb){idb(function(d){if(!d){cb&&cb(false);return}try{var t=d.transaction(IST,"readwrite");t.objectStore(IST).put({k:k,u:u,ts:Date.now()});t.oncomplete=function(){IMGC[k]=u;cb&&cb(true)};t.onerror=function(){cb&&cb(false)}}catch(e){cb&&cb(false)}})}
+function imgAll(cb){idb(function(d){if(!d){cb([]);return}try{var q=d.transaction(IST,"readonly").objectStore(IST).getAll();q.onsuccess=function(){var a=q.result||[];a.forEach(function(x){IMGC[x.k]=x.u});cb(a)};q.onerror=function(){cb([])}}catch(e){cb([])}})}
+function imgDel(k,cb){idb(function(d){if(!d){cb&&cb();return}try{var t=d.transaction(IST,"readwrite");t.objectStore(IST).delete(k);t.oncomplete=function(){delete IMGC[k];cb&&cb()}}catch(e){cb&&cb()}})}
+function shrink(file,cb){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var M=720,s=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));
+  var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",0.84))};im.onerror=function(){cb(null)};im.src=fr.result};fr.onerror=function(){cb(null)};fr.readAsDataURL(file)}
+/* 🖍️ a photo becomes a coloring outline: soft blur, Sobel edges, a threshold from the picture's own edges, thin dark lines on white */
+function toOutline(u,cb){var im=new Image();im.onload=function(){var W=Math.min(640,im.width),H=Math.max(1,Math.round(im.height*W/im.width)),c=document.createElement("canvas");c.width=W;c.height=H;
+ var x=c.getContext("2d");x.drawImage(im,0,0,W,H);var d=x.getImageData(0,0,W,H),p=d.data,g=new Float32Array(W*H),b=new Float32Array(W*H),m=new Float32Array(W*H),i,yy,xx;
+ for(i=0;i<W*H;i++)g[i]=0.299*p[4*i]+0.587*p[4*i+1]+0.114*p[4*i+2];
+ for(yy=1;yy<H-1;yy++)for(xx=1;xx<W-1;xx++){var s=0;for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++)s+=g[(yy+dy)*W+xx+dx]*((dx===0&&dy===0)?4:(dx===0||dy===0)?2:1);b[yy*W+xx]=s/16}
+ var sum=0,sq=0,n=0;for(yy=1;yy<H-1;yy++)for(xx=1;xx<W-1;xx++){var j=yy*W+xx,gx=b[j-W+1]+2*b[j+1]+b[j+W+1]-b[j-W-1]-2*b[j-1]-b[j+W-1],gy=b[j+W-1]+2*b[j+W]+b[j+W+1]-b[j-W-1]-2*b[j-W]-b[j-W+1],v=Math.sqrt(gx*gx+gy*gy);m[j]=v;sum+=v;sq+=v*v;n++}
+ var mu=sum/Math.max(1,n),sd=Math.sqrt(Math.max(0,sq/Math.max(1,n)-mu*mu)),T=mu+1.1*sd;
+ for(i=0;i<W*H;i++){var on=m[i]>T,k=on?28:255;p[4*i]=p[4*i+1]=p[4*i+2]=k;p[4*i+3]=255}
+ x.putImageData(d,0,0);cb(c.toDataURL("image/png"))};im.onerror=function(){cb(null)};im.src=u}
+/* ---------- the ten kinds of activities: each knows its directions, its editor, its paper, its key and its learner steps ---------- */
+function isPic(v){return /^[sp]:/.test(String(v||""))}
+function picOrText(v,line,css){return isPic(v)?picHTML(v,line,css):'<span class="cwd">'+e2(v)+'</span>'}
+function inp(path,val,ph,w){return'<input data-b="'+path+'" value="'+e2(val)+'" placeholder="'+e2(ph||"")+'"'+(w?' style="width:'+w+'"':'')+'>'}
+function num(path,val,mn,mx){return'<input type="number" data-b="'+path+'" data-n="1" min="'+mn+'" max="'+mx+'" value="'+e2(val)+'" style="width:64px">'}
+function pbtn(path,ref,line){return'<button type="button" class="cst-pb" data-pic="'+path+'"'+(line?' data-line="1"':'')+' title="Palitan ang larawan · Change the picture">'+(ref?picHTML(ref,line,"width:46px;height:46px"):'<span class="cst-pe">🖼️</span>')+'</button>'}
+function rmi(ai,ki){return'<button type="button" class="cst-x" data-rmi="'+ai+'.'+ki+'" title="Alisin · Remove">✖</button>'}
+function ptOr(path,v,ph){return'<span class="cst-pt">'+pbtn(path,isPic(v)?v:"",false)+'<input data-b="'+path+'" data-pt="1" value="'+e2(isPic(v)?"":v)+'" placeholder="'+e2(ph||"o isulat · or type")+'"></span>'}
+var BRB='<span class="cln"></span>';
+function lineIn(w){return'<span class="cln cin" style="width:'+(w||"34mm")+'"></span>'}
+function picks(seed,n,pool){return shuf(pool||PORD.filter(function(k){return!/^(circle|square|triangle|rectangle|oval|flag|hand|eye)$/.test(k)}),seed).slice(0,n)}
+var TY={
+ count:{ic:"🔢",n:["Bilangin","Counting"],dir:["Bilangin ang mga larawan. Isulat ang bilang sa kahon.","Count the pictures. Write the number in the box."],
+  item:function(c){return{p:"s:"+(picks(c.seed,1)[0]),n:Math.min(c.max,3+Math.floor(rnd(c.seed+"n")()*(c.max-2)))}},
+  ed:function(a,ai){return a.items.map(function(it,ki){return'<div class="cst-it">'+pbtn(ai+".items."+ki+".p",it.p)+'<label>Ilan · How many '+num(ai+".items."+ki+".n",it.n,1,30)+'</label>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<div class="cg2">'+a.items.map(function(it,ki){var p="";for(var i=0;i<Math.max(1,Math.min(30,+it.n||1));i++)p+=picHTML(it.p,false,"width:9mm;height:9mm");return'<div class="ccnt"><b class="cno">'+(ki+1)+'.</b><div class="ccp">'+p+'</div><span class="cbx"></span></div>'}).join("")+'</div>'},
+  key:function(a){return a.items.map(function(it,ki){return(ki+1)+". "+it.n}).join(" · ")},
+  steps:function(a){return a.items.map(function(it,ki){return{k:"count",it:it,ans:String(+it.n),q:"Ilan · How many? ("+(picName(it.p)||"larawan")+")"}})}},
+ trace:{ic:"✏️",n:["Bakatin","Tracing"],dir:["Bakatin ang mga titik at salita. Isulat muli sa guhit.","Trace the letters and words. Write them again on the lines."],
+  item:function(c){return{x:c.word||"Aa"}},
+  ed:function(a,ai){return'<label>Ilang ulit sa guhit · Times on a line '+num(ai+".rep",a.rep||3,1,6)+'</label>'+a.items.map(function(it,ki){return'<div class="cst-it"><label>Bakatin · Trace '+inp(ai+".items."+ki+".x",it.x,"Aa · bola · 1 2 3")+'</label>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){var rep=Math.max(1,Math.min(6,+a.rep||3));return a.items.map(function(it){var t=String(it.x||"").trim()||" ",per=Math.max(1,Math.min(rep,Math.floor(22/(t.length+2))));
+   var s=[];for(var i=0;i<per;i++)s.push(t);return'<div class="ctr">'+trSvg(s.join("   "),true)+trSvg("",false)+'</div>'}).join("")},
+  key:function(){return"— (bakat at sulat · traced and written)"},
+  steps:function(a){return a.items.map(function(it){return{k:"trace",it:it,ans:it.x,q:"Bakatin · Trace: "+it.x}})}},
+ color:{ic:"🖍️",n:["Kulayan","Coloring"],dir:["Kulayan ang larawan.","Color the picture."],
+  item:function(c){var k=picks(c.seed,1)[0];return{p:"s:"+k,c:"Kulayan ang "+PICS[k][0]+".",ce:"Color the "+PICS[k][1]+"."}},
+  ed:function(a,ai){return a.items.map(function(it,ki){return'<div class="cst-it">'+pbtn(ai+".items."+ki+".p",it.p,true)+'<div class="cst-col"><label>Panuto · Filipino '+inp(ai+".items."+ki+".c",it.c,"Kulayan ng pula ang mansanas.")+'</label><label>English '+inp(ai+".items."+ki+".ce",it.ce,"Color the apple red.")+'</label></div>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<div class="cg2">'+a.items.map(function(it,ki){return'<div class="ccol">'+picHTML(it.p,true,"width:58mm;height:58mm")+'<p><b>'+(ki+1)+'.</b> '+e2(it.c)+(it.ce?' <i>'+e2(it.ce)+'</i>':'')+'</p></div>'}).join("")+'</div>'},
+  key:function(){return"— (kulay · colored)"},
+  steps:function(a){return a.items.map(function(it){return{k:"color",it:it,ans:"",q:(it.c||"Kulayan")+(it.ce?" · "+it.ce:"")}})}},
+ mcq:{ic:"🅰️",n:["Piliin ang Tamang Sagot","Multiple Choice"],dir:["Bilugan ang titik ng tamang sagot.","Circle the letter of the right answer."],
+  item:function(){return{q:"",qe:"",p:"",ch:["","",""],k:0}},
+  ed:function(a,ai){return a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it cst-mc">'+pbtn(P+".p",it.p)+'<div class="cst-col"><label>Tanong · Filipino '+inp(P+".q",it.q)+'</label><label>Question · English '+inp(P+".qe",it.qe)+'</label>'
+   +'<div class="cst-chs">'+it.ch.map(function(c,ci){return'<label class="cst-ch"><input type="radio" name="k'+ai+'_'+ki+'" data-b="'+P+'.k" data-n="1" value="'+ci+'"'+(+it.k===ci?" checked":"")+'> '+"ABCD".charAt(ci)+' '+inp(P+".ch."+ci,c,"","120px")+'</label>'}).join("")
+   +(it.ch.length<4?'<button type="button" class="btn ghost sm" data-addch="'+P+'">➕</button>':'')+(it.ch.length>2?'<button type="button" class="btn ghost sm" data-rmch="'+P+'">➖</button>':'')+'</div></div>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<ol class="cmq">'+a.items.map(function(it){return'<li><div class="cq">'+(it.p?picHTML(it.p,false,"width:16mm;height:16mm"):'')+'<div><b>'+e2(it.q)+'</b>'+(it.qe?'<br><i>'+e2(it.qe)+'</i>':'')+'</div></div><div class="cch">'
+   +it.ch.map(function(c,ci){return'<span><span class="clt">'+"ABCD".charAt(ci)+'</span>'+(isPic(c)?picHTML(c,false,"width:13mm;height:13mm"):e2(c))+'</span>'}).join("")+'</div></li>'}).join("")+'</ol>'},
+  key:function(a){return a.items.map(function(it,ki){return(ki+1)+". "+"ABCD".charAt(+it.k||0)}).join(" · ")},
+  steps:function(a){return a.items.map(function(it){return{k:"pick",q:it.q,qe:it.qe,p:it.p,opts:it.ch,key:+it.k||0}})}},
+ ident:{ic:"🏷️",n:["Tukuyin","Identification"],dir:["Isulat ang pangalan ng larawan sa guhit.","Write the name of the picture on the lines."],
+  item:function(c){var k=picks(c.seed,1)[0];return{p:"s:"+k,a:PICS[k][c.lang==="en"?1:0]}},
+  ed:function(a,ai){return a.items.map(function(it,ki){return'<div class="cst-it">'+pbtn(ai+".items."+ki+".p",it.p)+'<label>Sagot · Answer '+inp(ai+".items."+ki+".a",it.a,"mansanas")+'</label>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<div class="cg3">'+a.items.map(function(it,ki){return'<div class="cid"><b class="cno">'+(ki+1)+'.</b>'+picHTML(it.p,false,"width:26mm;height:26mm")+BRB+'</div>'}).join("")+'</div>'},
+  key:function(a){return a.items.map(function(it,ki){return(ki+1)+". "+e2(it.a)}).join(" · ")},
+  steps:function(a){return a.items.map(function(it){return{k:"write",p:it.p,ans:it.a,q:"Ano ito? · What is this?"}})}},
+ match:{ic:"🔗",n:["Pagtambalin","Matching"],dir:["Pagtambalin. Gumuhit ng linya mula sa Hanay A papunta sa Hanay B.","Match. Draw a line from Column A to Column B."],
+  item:function(c){var k=picks(c.seed,1)[0];return{l:"s:"+k,r:PICS[k][c.lang==="en"?1:0]}},
+  ed:function(a,ai){return'<p class="cst-h">Hanay A · Column A ↔ Hanay B · Column B</p>'+a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it">'+ptOr(P+".l",it.l)+'<span>↔</span>'+inp(P+".r",it.r,"salita · word")+rmi(ai,ki)+'</div>'}).join("")},
+  order:function(a,sh,ai){return shuf(a.items.map(function(x,i){return i}),sh.id+"|m"+ai)},
+  paper:function(a,ai,sh){var o=TY.match.order(a,sh,ai);return'<table class="cmt"><tr><th>Hanay A <i>Column A</i></th><th></th><th>Hanay B <i>Column B</i></th></tr>'+a.items.map(function(it,ki){var r=a.items[o[ki]];
+   return'<tr><td><b class="cno">'+(ki+1)+'.</b> '+picOrText(it.l,false,"width:17mm;height:17mm")+' <span class="cdot"></span></td><td class="cgap"></td><td><span class="cdot"></span> <b class="cno">'+"abcdefghij".charAt(ki)+'.</b> '+picOrText(r.r,false,"width:17mm;height:17mm")+'</td></tr>'}).join("")+'</table>'},
+  key:function(a,sh,ai){var o=TY.match.order(a,sh,ai);return a.items.map(function(it,ki){return(ki+1)+"–"+"abcdefghij".charAt(o.indexOf(ki))}).join(" · ")},
+  steps:function(a,ai,sh){return[{k:"match",a:a,o:TY.match.order(a,sh,ai),q:"Pagtambalin · Match"}]}},
+ tf:{ic:"✅",n:["Tama o Mali","True or False"],dir:["Bilugan ang TAMA kung wasto ang pangungusap at MALI kung hindi.","Circle TAMA if the sentence is right and MALI if it is not."],
+  item:function(){return{s:"",se:"",k:true}},
+  ed:function(a,ai){return a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it"><div class="cst-col"><label>Pangungusap · Filipino '+inp(P+".s",it.s)+'</label><label>Sentence · English '+inp(P+".se",it.se)+'</label></div>'
+   +'<label class="cst-ch"><input type="radio" name="t'+ai+'_'+ki+'" data-b="'+P+'.k" data-bool="1" value="1"'+(it.k?" checked":"")+'> TAMA</label><label class="cst-ch"><input type="radio" name="t'+ai+'_'+ki+'" data-b="'+P+'.k" data-bool="1" value="0"'+(!it.k?" checked":"")+'> MALI</label>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<ol class="ctf">'+a.items.map(function(it){return'<li><span>'+e2(it.s)+(it.se?' <i>'+e2(it.se)+'</i>':'')+'</span><span class="ctfo"><b>TAMA</b><b>MALI</b></span></li>'}).join("")+'</ol>'},
+  key:function(a){return a.items.map(function(it,ki){return(ki+1)+". "+(it.k?"TAMA":"MALI")}).join(" · ")},
+  steps:function(a){return a.items.map(function(it){return{k:"pick",q:it.s,qe:it.se,opts:["TAMA","MALI"],key:it.k?0:1}})}},
+ circle:{ic:"⭕",n:["Bilugan","Circle"],dir:["Bilugan ang tamang sagot.","Circle the right answer."],
+  item:function(c){var ks=picks(c.seed,3);return{q:"Bilugan ang "+PICS[ks[1]][0]+".",qe:"Circle the "+PICS[ks[1]][1]+".",o:ks.map(function(k){return"s:"+k}),k:1}},
+  ed:function(a,ai){return a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it cst-mc"><div class="cst-col"><label>Panuto · Filipino '+inp(P+".q",it.q)+'</label><label>English '+inp(P+".qe",it.qe)+'</label>'
+   +'<div class="cst-chs">'+it.o.map(function(c,ci){return'<label class="cst-ch"><input type="radio" name="c'+ai+'_'+ki+'" data-b="'+P+'.k" data-n="1" value="'+ci+'"'+(+it.k===ci?" checked":"")+'> '+ptOr(P+".o."+ci,c,"salita")+'</label>'}).join("")
+   +(it.o.length<4?'<button type="button" class="btn ghost sm" data-addch="'+P+'" data-arr="o">➕</button>':'')+(it.o.length>2?'<button type="button" class="btn ghost sm" data-rmch="'+P+'" data-arr="o">➖</button>':'')+'</div></div>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return a.items.map(function(it,ki){return'<div class="ccir"><p><b class="cno">'+(ki+1)+'.</b> '+e2(it.q)+(it.qe?' <i>'+e2(it.qe)+'</i>':'')+'</p><div class="ccro">'+it.o.map(function(c){return'<span>'+picOrText(c,false,"width:22mm;height:22mm")+'</span>'}).join("")+'</div></div>'}).join("")},
+  key:function(a){return a.items.map(function(it,ki){var c=it.o[+it.k||0];return(ki+1)+". "+(isPic(c)?(picName(c)||"larawan "+((+it.k||0)+1)):e2(c))}).join(" · ")},
+  steps:function(a){return a.items.map(function(it){return{k:"pick",q:it.q,qe:it.qe,opts:it.o,key:+it.k||0}})}},
+ fill:{ic:"✍️",n:["Punan ang Patlang","Fill in the Blank"],dir:["Punan ang patlang ng tamang sagot.","Fill in the blank with the right answer."],
+  item:function(){return{s:"Ang ___ ay pula.",a:"mansanas"}},
+  ed:function(a,ai){return'<p class="cst-h">Isulat ang ___ kung saan ang patlang. · Type ___ where the blank goes.</p>'+a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it"><label>Pangungusap · Sentence '+inp(P+".s",it.s,"Ang ___ ay pula.","220px")+'</label><label>Sagot · Answer '+inp(P+".a",it.a,"mansanas")+'</label>'+rmi(ai,ki)+'</div>'}).join("")},
+  paper:function(a){return'<ol class="cfl">'+a.items.map(function(it){var s=String(it.s||"");if(s.indexOf("___")<0)s+=" ___";return'<li>'+e2(s).split(/_{3,}/).join(lineIn())+'</li>'}).join("")+'</ol>'},
+  key:function(a){return a.items.map(function(it,ki){return(ki+1)+". "+e2(it.a)}).join(" · ")},
+  steps:function(a){return a.items.map(function(it){return{k:"write",q:String(it.s||"").replace(/_{3,}/g,"_____"),ans:it.a}})}},
+ order:{ic:"🪜",n:["Pagkakasunod-sunod","Sequencing"],dir:["Isulat ang 1, 2, 3 ayon sa tamang pagkakasunod-sunod.","Write 1, 2, 3 in the right order."],
+  item:function(){return{q:"",o:["1","2","3","4"]}},
+  ed:function(a,ai){return'<p class="cst-h">Isulat sa TAMANG ayos; ihahalo ito ng KORTEX sa papel. · Enter them in the RIGHT order; KORTEX mixes them on the paper.</p>'+a.items.map(function(it,ki){var P=ai+".items."+ki;return'<div class="cst-it cst-mc"><div class="cst-col"><label>Tanong · Prompt (opsyonal) '+inp(P+".q",it.q)+'</label><div class="cst-chs">'
+   +it.o.map(function(c,ci){return'<label class="cst-ch">'+(ci+1)+'. '+ptOr(P+".o."+ci,c,"hakbang · step")+'</label>'}).join("")
+   +(it.o.length<6?'<button type="button" class="btn ghost sm" data-addch="'+P+'" data-arr="o">➕</button>':'')+(it.o.length>2?'<button type="button" class="btn ghost sm" data-rmch="'+P+'" data-arr="o">➖</button>':'')+'</div></div>'+rmi(ai,ki)+'</div>'}).join("")},
+  mix:function(it,seed){var o=it.o.map(function(x,i){return i}),m=shuf(o,seed);if(m.every(function(v,i){return v===i})&&m.length>1){m.push(m.shift())}return m},
+  paper:function(a,ai,sh){return a.items.map(function(it,ki){var m=TY.order.mix(it,sh.id+"|o"+ai+"."+ki);return'<div class="cord"><p><b class="cno">'+(ki+1)+'.</b> '+e2(it.q||"")+'</p><div class="ccro">'+m.map(function(j){return'<span class="cos"><span class="cbx"></span>'+picOrText(it.o[j],false,"width:20mm;height:20mm")+'</span>'}).join("")+'</div></div>'}).join("")},
+  key:function(a,sh,ai){return a.items.map(function(it,ki){var m=TY.order.mix(it,sh.id+"|o"+ai+"."+ki);return(ki+1)+". "+m.map(function(j){return j+1}).join(", ")}).join(" · ")},
+  steps:function(a,ai,sh){return a.items.map(function(it,ki){return{k:"order",it:it,m:TY.order.mix(it,sh.id+"|o"+ai+"."+ki),q:it.q||"Ayusin · Put in order"}})}}
+};
+var TORD=["count","trace","color","mcq","ident","match","tf","circle","fill","order"];
+/* tracing line: the blue-red-blue guide lines with the word in soft dotted letters to trace (or empty, to write alone) */
+function trSvg(t,dots){return'<svg class="ctrs" viewBox="0 0 640 72" preserveAspectRatio="none"><line x1="0" y1="10" x2="640" y2="10" stroke="#1d5fd6" stroke-width="1.7"/><line x1="0" y1="36" x2="640" y2="36" stroke="#e03131" stroke-width="1.5" stroke-dasharray="7 6"/><line x1="0" y1="62" x2="640" y2="62" stroke="#1d5fd6" stroke-width="1.7"/>'
+ +(dots&&t?'<text x="10" y="62" font-size="50" font-family="Andika,\'Century Gothic\',\'Trebuchet MS\',system-ui,sans-serif" fill="#eef1f7" stroke="#7d8799" stroke-width="1.5" stroke-dasharray="2.6 3.2" xml:space="preserve">'+e2(t)+'</text>':'')+'</svg>'}
+function blankAct(t,c){var T=TY[t],a={t:t,dir:T.dir.slice(),items:[]},n=t==="trace"?3:t==="color"?2:t==="match"?4:t==="count"?4:t==="ident"?4:t==="circle"?2:t==="order"?1:3;
+ for(var i=0;i<n;i++){var cc={seed:(c.seed||"x")+t+i,max:c.max||10,lang:c.lang,word:(c.words||[])[i]};a.items.push(T.item(cc))}
+ if(t==="trace")a.rep=3;return a}
+/* ---------- the paper (screen preview and print share it) ---------- */
+var PCSS='.cstw{font:13px/1.45 system-ui,"Segoe UI",sans-serif;color:#1c2433;background:#fff;page-break-after:always;text-align:left}.cstw:last-child{page-break-after:auto}'
+ +'.cstw .chd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px double #14284b;padding-bottom:6px;margin-bottom:8px}'
+ +'.cstw .brand{font-weight:800;letter-spacing:.14em;font-size:10.5px;color:#14284b}.cstw h1{font:700 21px Georgia,serif;margin:2px 0;color:#14284b}.cstw .chd small{display:block;color:#5b6475;font-size:11px}'
+ +'.cstw .cnm{font-size:12.5px;line-height:2.5;min-width:64mm;white-space:nowrap}'
+ +'.cstw .cln{position:relative;display:inline-block;min-width:44mm;height:8.5mm;border-top:1.6px solid #1d5fd6;border-bottom:1.6px solid #1d5fd6;vertical-align:bottom;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'.cstw .cln:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.4px dashed #e03131}.cstw .cnm .cln{font:700 14px Georgia,serif;padding:0 4px}'
+ +'.cstw .cin{min-width:0;height:7mm;margin:0 3px}.cstw .clsn{font-size:12px;margin:3px 0}'
+ +'.cstw .cact{margin:10px 0 4px}.cstw .cact h2{font-size:14.5px;margin:0 0 3px;color:#14284b;break-after:avoid}'
+ +'.cstw .cdir{margin:2px 0 6px;padding:4px 9px;border:1.5px dashed #8a6d2b;border-radius:8px;font-size:12.3px;break-after:avoid}.cstw .cdir i{color:#4a5263}'
+ +'.cstw .cg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cstw .cg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}'
+ +'.cstw .ccnt{display:flex;align-items:center;gap:6px;border:1.5px solid #d8d2c2;border-radius:10px;padding:6px;break-inside:avoid}.cstw .ccp{flex:1;display:flex;flex-wrap:wrap;gap:2px}'
+ +'.cstw .cbx{display:inline-block;width:12mm;height:10mm;border:2px solid #14284b;border-radius:6px;flex:none;background:#fff}.cstw .cno{color:#14284b;margin-right:3px}'
+ +'.cstw .ctr{margin:3px 0 7px;break-inside:avoid}.cstw .ctrs{display:block;width:100%;height:15mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'.cstw .ccol{text-align:center;border:1.5px solid #d8d2c2;border-radius:10px;padding:6px;break-inside:avoid}.cstw .ccol p{margin:4px 0 0;font-size:12.5px}.cstw .ccol i{color:#4a5263}'
+ +'.cstw ol.cmq,.cstw ol.ctf,.cstw ol.cfl{margin:0;padding-left:22px}.cstw ol li{break-inside:avoid;margin:0 0 6px}'
+ +'.cstw .cq{display:flex;gap:8px;align-items:flex-start}.cstw .cq i{color:#4a5263;font-size:12px}'
+ +'.cstw .cch{display:flex;flex-wrap:wrap;gap:4px 16px;margin:4px 0 2px 4px;align-items:center}.cstw .cch>span{display:inline-flex;align-items:center;gap:4px}'
+ +'.cstw .clt{display:inline-block;width:18px;height:18px;border:1.5px solid #14284b;border-radius:50%;text-align:center;font:700 11px/16px system-ui;flex:none}'
+ +'.cstw .cid{text-align:center;break-inside:avoid}.cstw .cid .cln{display:block;min-width:0;width:100%;margin-top:3px}'
+ +'.cstw table.cmt{width:100%;border-collapse:collapse}.cstw .cmt th{font-size:12px;text-align:left;color:#14284b;padding:2px}.cstw .cmt th i{font-weight:400;color:#5b6475}.cstw .cmt td{padding:4px 2px;vertical-align:middle;break-inside:avoid}'
+ +'.cstw .cmt td:first-child{text-align:right}.cstw .cgap{width:24%}.cstw .cdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#14284b;vertical-align:middle;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+ +'.cstw .ctf li{display:flex;justify-content:space-between;gap:10px;align-items:center}.cstw .ctf i{color:#4a5263;font-size:12px}.cstw .ctfo{white-space:nowrap}.cstw .ctfo b{display:inline-block;border:1.5px solid #14284b;border-radius:999px;padding:1px 10px;margin-left:6px;font-size:11.5px}'
+ +'.cstw .ccir,.cstw .cord{margin:4px 0 8px;break-inside:avoid}.cstw .ccir p,.cstw .cord p{margin:0 0 3px}.cstw .ccir i{color:#4a5263}'
+ +'.cstw .ccro{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-left:16px}.cstw .ccro>span{display:inline-flex;align-items:center;gap:6px}.cstw .cwd{font-size:15px;font-weight:600}.cstw .cos .cbx{width:9mm;height:9mm}'
+ +'.cstw .cfl li{line-height:2.4}.cstw .cfoot{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:12.5px}.cstw .cfoot .cln{min-width:36mm}'
+ +'.cstw .ckey{border-collapse:collapse;width:100%;font-size:12.5px}.cstw .ckey td{border:1px solid #d8d2c2;padding:5px 7px;vertical-align:top}.cstw .ckey td:first-child{width:34%;font-weight:700;color:#14284b}'
+ +'.cstw .cmiss{display:inline-flex;align-items:center;justify-content:center;font-size:20px;background:#f1f3f5;border-radius:6px}.cstw .ft{margin-top:8px;font-size:10px;color:#6b7280;text-align:center}.cstw svg.cpic,.cstw img.cpic{vertical-align:middle;flex:none}';
+var GRL={KK:"Kindergarten",K1:"Grade 1",K2:"Grade 2",K3:"Grade 3",K4:"Grade 4",K5:"Grade 5",K6:"Grade 6"};
+function subjN(s){try{return SUBJN[+s]||"Subject"}catch(e){return"Subject"}}
+function kName(sh){var n=subjN(sh.s);n=n==="Mathematics"?"MATH":n.toUpperCase();return(n+" "+(sh.g||"K1")+" T"+sh.t+"W"+sh.w+" WORKSHEET").replace(/\s+/g," ")}
+function paper(sh,name){var h='<div class="cstw" data-kxname="'+e2(kName(sh))+'"><div class="chd"><div><div class="brand">KORTEX · WORKSHEET</div><h1>'+e2(sh.title||subjN(sh.s))+'</h1><small>'+e2(GRL[sh.g]||"Grade 1")+' · '+e2(subjN(sh.s))+' · Term '+sh.t+' · Week '+sh.w+'</small></div>'
+  +'<div class="cnm">Pangalan <i>Name</i>: <span class="cln">'+(name?e2(name):"")+'</span><br>Petsa <i>Date</i>: <span class="cln"></span></div></div>'
+  +(sh.topic?'<p class="clsn"><b>Aralin · Lesson:</b> '+e2(sh.topic)+'</p>':'')+(sh.comp&&sh.showComp?'<p class="clsn"><b>Kasanayan · Competency:</b> '+e2(sh.comp)+'</p>':'');
+ if(!sh.acts.length)h+='<p><i>Wala pang gawain · No activity yet — add one with ➕.</i></p>';
+ sh.acts.forEach(function(a,ai){var T=TY[a.t];if(!T)return;h+='<div class="cact"><h2>'+(ROM[ai]||ai+1)+'. '+T.ic+' '+e2(T.n[0])+' <i style="font-weight:400;color:#5b6475">'+e2(T.n[1])+'</i></h2>'
+  +'<div class="cdir"><b>Panuto:</b> '+e2(a.dir[0])+(a.dir[1]?'<br><i>Directions: '+e2(a.dir[1])+'</i>':'')+'</div>'+T.paper(a,ai,sh)+'</div>'});
+ return h+'<div class="cfoot"><div>⭐ Iskor <i>Score</i>: <span class="cln"></span></div><div>Lagda ng Magulang <i>Parent’s signature</i>: <span class="cln"></span></div></div><div class="ft">'+(typeof AUTHC!=="undefined"?AUTHC:"")+' KORTEX · The Launchpad for Engineered Brilliance.</div></div>'}
+function keyPage(sh){return'<div class="cstw"><div class="chd"><div><div class="brand">KORTEX · WORKSHEET</div><h1>Susi sa Pagwawasto <i style="font-weight:400;font-size:15px">Answer Key</i></h1><small>Para sa Teacher · For the teacher · '+e2(sh.title||subjN(sh.s))+' · '+e2(GRL[sh.g]||"Grade 1")+' · Term '+sh.t+' · Week '+sh.w+'</small></div></div>'
+ +'<table class="ckey">'+sh.acts.map(function(a,ai){var T=TY[a.t];return T?'<tr><td>'+(ROM[ai]||ai+1)+'. '+T.ic+' '+e2(T.n[0])+'</td><td>'+T.key(a,sh,ai)+'</td></tr>':''}).join("")+'</table>'
+ +'<p><small>Ang ayos ng mga pagpipilian ay pareho sa bawat print ng worksheet na ito. · The order of the choices stays the same every time this worksheet is printed.</small></p><div class="ft">'+(typeof AUTHC!=="undefined"?AUTHC:"")+' KORTEX · The Launchpad for Engineered Brilliance.</div></div>'}
+function body(sh,names,key){var b='<style>'+PCSS+'</style>';(names&&names.length?names:[""]).forEach(function(n){b+=paper(sh,n)});if(key)b+=keyPage(sh);return b}
+/* 🖨️ the printed file is named "MATH K1 T1W1 WORKSHEET 2026-11-08"; the kept Word copy is "MATH K1 T1W1 WORKSHEET.doc" (no date) */
+function out(sh,names,key,direct){var t0=document.title,d=new Date(),ymd2=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);document.title=kName(sh)+" "+ymd2;
+ var b=body(sh,names,key);try{log("print-worksheet","🌌 "+(sh.title||""),"Term "+sh.t+" Week "+sh.w)}catch(e){}
+ if(direct&&typeof printDocNow==="function")printDocNow(b);else printDoc(b);
+ var n=0,iv=setInterval(function(){n++;if(n>600||(!document.getElementById("kxsv")&&!document.body.classList.contains("printing"))){document.title=t0;clearInterval(iv)}},800)}
+/* ---------- the studio ---------- */
+var SCSS='<style>.cst label{display:block;font-size:12.5px;margin:4px 0}.cst input,.cst select,.cst textarea{font:inherit;padding:5px 8px;border:1px solid #c9d2e3;border-radius:8px;max-width:100%;box-sizing:border-box;background:#fff;color:#1c2433}'
+ +'.cst .cst-top{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}.cst .cst-top label{margin:0}.cst-ttl{font:700 17px/1.2 system-ui,sans-serif;width:100%;max-width:520px}'
+ +'.cst-wrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(300px,1fr);gap:12px;align-items:start;margin-top:8px}@media(max-width:900px){.cst-wrap{grid-template-columns:1fr}}'
+ +'.cst-a{border:1px solid rgba(127,127,127,.38);border-radius:14px;padding:8px 10px;margin:8px 0;background:rgba(127,127,127,.06)}.cst-ah{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}.cst-ah b{font-size:14.5px}'
+ +'.cst-it{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(127,127,127,.3)}.cst-col{flex:1;min-width:190px}.cst-col input{width:100%}'
+ +'.cst-chs{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.cst .cst-ch{display:inline-flex;align-items:center;gap:4px;margin:2px 0}'
+ +'.cst-pb{all:unset;cursor:pointer;width:50px;height:50px;border:2px dashed #8a94a8;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#fff;flex:none}.cst-pe{font-size:22px}'
+ +'.cst-x{all:unset;cursor:pointer;padding:2px 8px;border-radius:8px;color:#c92a2a;font-weight:700}.cst-pt{display:inline-flex;gap:6px;align-items:center}.cst-pt input{width:120px}.cst-h{font-size:12px;opacity:.82;margin:4px 0}'
+ +'.cst-prev{position:sticky;top:8px;background:#dee2e6;border-radius:12px;padding:10px;max-height:84vh;overflow:auto}.cst-prev .cstw{padding:10mm 9mm;box-shadow:0 2px 12px rgba(0,0,0,.2);margin:0 auto 10px;max-width:190mm}'
+ +'.cst-add{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.cst-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(127,127,127,.35)}.cst-row .nm{flex:1;min-width:200px}.cst-row .nm small{display:block;opacity:.75}'
+ +'.cst-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:6px;max-height:50vh;overflow:auto;margin:6px 0}.cst-grid button{all:unset;cursor:pointer;border:1px solid #d8d2c2;border-radius:10px;padding:4px;text-align:center;font-size:11px;background:#fff;color:#1c2433;position:relative}'
+ +'.cst-grid button .cpic{width:62px;height:62px;display:block;margin:0 auto}.cst-grid button.on{outline:3px solid #f59f00}.cst-tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 8px;background:#e7f5ff;color:#1864ab;margin-left:4px}'
+ +'.cst-sky{position:relative;border-radius:14px;padding:10px 12px;margin:6px 0 10px;color:#eef2ff;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.9) 0 1px,transparent 1.6px),radial-gradient(circle at 70% 60%,rgba(255,255,255,.8) 0 1px,transparent 1.6px),radial-gradient(circle at 40% 80%,rgba(255,255,255,.7) 0 1px,transparent 1.5px),linear-gradient(135deg,#14284b,#3b2d6b 60%,#5b3c88)}'
+ +'.cst-sky b{font-size:15px}.cst-sky i{opacity:.85}</style>';
+var CUR=null,PVT=0,SVT=0;
+function find(id){return cj().sheets.filter(function(x){return x.id===id})[0]}
+function put(sh){var o=cj(),i=-1;o.sheets.forEach(function(x,k){if(x.id===sh.id)i=k});sh.up=Date.now();if(i<0)o.sheets.push(sh);else o.sheets[i]=sh;return cw(o)}
+function gradeK(){try{return kxGradeK()}catch(e){return"K1"}}
+function nowTW(){try{var I=msnInfo(new Date());if(I&&!I.brk)return{t:I.t,w:I.gw}}catch(e){}return{t:1,w:1}}
+function lesson(s,t,w){try{var r=bowRows(+s,+t,+w)||[];return{topic:r.map(function(x){return x.label}).filter(Boolean).slice(0,2).join(" · "),comp:r.map(function(x){return x.text}).filter(Boolean).slice(0,2).join(" ")}}catch(e){return{topic:"",comp:""}}}
+function newSheet(){var tw=nowTW(),s=1,L=lesson(s,tw.t,tw.w);return{id:nid(),title:subjN(s),g:gradeK(),s:s,t:tw.t,w:tw.w,topic:L.topic,comp:L.comp,showComp:false,acts:[],key:true,given:false}}
+function bank(sh){try{return(wsBankItems(sh.t+"|"+sh.s+"|"+sh.w)||[]).filter(function(q){return q&&q[0]&&Array.isArray(q[2])&&q[2].length>=2})}catch(e){return[]}}
+/* ✨ Make it for me: a full first draft from KORTEX's own bank for that week and the picture shelf — then every part is hers to change */
+function gen(sh){var s=+sh.s,mx=sh.g==="KK"?10:20,seed=sh.id+"|"+sh.t+"|"+sh.w+"|"+s,c={seed:seed,max:mx,lang:"fil"},acts=[],B=bank(sh);
+ function mcq(n){var a=blankAct("mcq",c);if(B.length){a.items=B.slice(0,n).map(function(q){var ch=q[2].map(function(x,i){var en=(q[3]||[])[i];return String(x)+(en&&en!==x?" ("+en+")":"")});return{q:q[0],qe:q[1]&&q[1]!==q[0]?q[1]:"",p:"",ch:ch.slice(0,4),k:Math.min(+q[4]||0,3)}})}return a}
+ var lt=/(?:letter|titik)\s+([A-Za-zÑñ]{1,2})\b/i.exec((sh.topic||"")+" "+(sh.comp||"")),words=[];
+ if(lt){var L=lt[1].charAt(0);words=[L.toUpperCase()+L.toLowerCase()];PORD.forEach(function(k){if(words.length<3&&PICS[k][0].charAt(0).toLowerCase()===L.toLowerCase())words.push(PICS[k][0])})}
+ if(words.length<3)picks(seed+"w",3).forEach(function(k){if(words.length<3)words.push(PICS[k][0])});c.words=words;
+ if(s===1){acts.push(blankAct("count",c));if(B.length)acts.push(mcq(5));var o=blankAct("order",c),r=rnd(seed+"o");o.items=[0,1].map(function(i){var a0=1+Math.floor(r()*(mx-4));return{q:i?"Ayusin mula pinakamalaki hanggang pinakamaliit. · Biggest to smallest.":"Ayusin mula pinakamaliit hanggang pinakamalaki. · Smallest to biggest.",o:(i?[a0+3,a0+2,a0+1,a0]:[a0,a0+1,a0+2,a0+3]).map(String)}});acts.push(o)}
+ else if(s===2){acts.push(blankAct("trace",c));acts.push(blankAct("ident",c));acts.push(blankAct("match",c));if(B.length)acts.push(mcq(5))}
+ else if(s===3){acts.push(blankAct("ident",c));acts.push(blankAct("match",c));acts.push(blankAct("circle",c));if(B.length)acts.push(mcq(5))}
+ else if(s===0){if(B.length)acts.push(mcq(5));var m=blankAct("match",c);m.items=m.items.slice(0,3);acts.push(m);acts.push(blankAct("color",c))}
+ else if(s===4){if(B.length)acts.push(mcq(5));var cl=blankAct("color",c);cl.items=[{p:"s:heart",c:"Kulayan ng pula ang puso.",ce:"Color the heart red."}];acts.push(cl);acts.push(blankAct("circle",c))}
+ else{if(B.length)acts.push(mcq(5));acts.push(blankAct("ident",c));acts.push(blankAct("color",c))}
+ return acts}
+function getP(o,path){return path.split(".").reduce(function(x,k){return x==null?x:x[k]},o)}
+function setP(o,path,v){var ks=path.split("."),x=o;for(var i=0;i<ks.length-1;i++){x=x[ks[i]];if(x==null)return}x[ks[ks.length-1]]=v}
+function save(){clearTimeout(SVT);SVT=setTimeout(function(){if(CUR)put(CUR)},250)}
+function prev(){clearTimeout(PVT);PVT=setTimeout(function(){var p=$("cstPv");if(p&&CUR)p.innerHTML='<style>'+PCSS+'</style>'+paper(CUR,"")+(CUR.key?keyPage(CUR):"")},180)}
+function sel(id,opts,v,attr){return'<select id="'+id+'"'+(attr||"")+'>'+opts.map(function(o){return'<option value="'+e2(o[0])+'"'+(String(o[0])===String(v)?" selected":"")+'>'+e2(o[1])+'</option>'}).join("")+'</select>'}
+function home(){CUR=null;var o=cj(),L=o.sheets.slice().sort(function(a,b){return(+a.t-+b.t)||(+a.w-+b.w)||String(a.title).localeCompare(String(b.title))});
+ var h=SCSS+'<div class="card wide cst"><div class="axh"><div><h3>🌌 Constellation Studio <i>Every activity a star, every sheet your sky</i></h3></div><div class="axa"><button class="btn ghost" id="cstX" type="button">⬅️ Back <i>Bumalik</i></button></div></div>'
+  +'<div class="cst-sky"><b>✨ '+L.length+' worksheet'+(L.length===1?'':'s')+'</b> <i>· Bilangin, bakatin, kulayan, piliin, tukuyin, pagtambalin — sa sarili mong mga larawan at salita</i></div>'
+  +'<div class="row"><button class="btn" id="cstN" type="button">➕ New Worksheet <i>Bagong Worksheet</i></button></div>';
+ if(!L.length)h+='<p>Wala pa · None yet. ➕ New Worksheet, then ✨ Make it for me — KORTEX drafts the week, you shape every part.</p>';
+ L.forEach(function(sh){h+='<div class="cst-row"><div class="nm"><b>🌟 '+e2(sh.title||subjN(sh.s))+'</b>'+(sh.given?'<span class="cst-tag">📤 nasa klase · with the class</span>':'')+'<small>'+e2(GRL[sh.g]||sh.g)+' · '+e2(subjN(sh.s))+' · Term '+sh.t+' · Week '+sh.w+' · '+sh.acts.length+' gawain · activities</small></div>'
+  +'<button class="btn sm" data-ed="'+sh.id+'" type="button">✏️ Edit</button><button class="btn ghost sm" data-sv="'+sh.id+'" type="button">💾 Save</button><button class="btn ghost sm" data-pr="'+sh.id+'" type="button">🖨️ Print</button>'
+  +'<button class="btn ghost sm" data-gv="'+sh.id+'" type="button">'+(sh.given?'↩️ Take Back <i>Bawiin</i>':'📤 Give <i>Ibigay</i>')+'</button><button class="btn ghost sm" data-cp="'+sh.id+'" type="button">📄 Copy</button><button class="btn ghost sm" data-dl="'+sh.id+'" type="button">🗑️</button></div>'});
+ $("ov").innerHTML='<div class="sheet">'+h+'</div></div>';
+ $("cstX").onclick=function(){try{openWorksheets()}catch(e){closeOv()}};
+ $("cstN").onclick=function(){var sh=newSheet();put(sh);edit(sh.id)};
+ var q=function(a,fn){[].forEach.call($("ov").querySelectorAll("["+a+"]"),function(b){b.onclick=function(){fn(b.getAttribute(a))}})};
+ q("data-ed",edit);q("data-sv",function(id){var sh=find(id);if(sh)imgAll(function(){out(sh,[""],sh.key!==false,false)})});q("data-pr",function(id){var sh=find(id);if(sh)imgAll(function(){out(sh,[""],sh.key!==false,true)})});
+ q("data-gv",function(id){var sh=find(id);if(!sh)return;sh.given=!sh.given;put(sh);try{log(sh.given?"cst-give":"cst-takeback",sh.title,"Term "+sh.t+" Week "+sh.w)}catch(e){}home()});
+ q("data-cp",function(id){var sh=find(id);if(!sh)return;var c=JSON.parse(JSON.stringify(sh));c.id=nid();c.title=(sh.title||"")+" (2)";c.given=false;put(c);home()});
+ q("data-dl",function(id){var sh=find(id);if(!sh||!confirm("I-delete ang \""+(sh.title||"")+"\"? · Delete this worksheet? (It waits in 🕳️ Event Horizon for 30 days.)"))return;var o=cj();o.sheets=o.sheets.filter(function(x){return x.id!==id});cw(o);home()})}
+function edit(id){var sh=find(id);if(!sh){home();return}CUR=sh;imgAll(function(){draw()})}
+function draw(){var sh=CUR,tw=[1,2,3,4].filter(function(x){try{return kxTerms().indexOf(x)>=0}catch(e){return x<4}});
+ var subs=[];try{subs=SUBJN.map(function(n,i){return[i,n]})}catch(e){subs=[[1,"Mathematics"]]}
+ var h=SCSS+'<div class="card wide cst"><div class="axh"><div style="flex:1"><input class="cst-ttl" id="cstTt" value="'+e2(sh.title)+'" aria-label="Title"></div><div class="axa"><button class="btn ghost" id="cstB" type="button">⬅️ My Worksheets <i>Mga Worksheet</i></button></div></div>'
+  +'<div class="cst-top"><label>Baitang · Grade '+sel("cstG",Object.keys(GRL).map(function(k){return[k,GRL[k]]}),sh.g)+'</label><label>Asignatura · Subject '+sel("cstS",subs,sh.s)+'</label>'
+  +'<label>Term '+sel("cstT",tw.map(function(x){return[x,"Term "+x]}),sh.t)+'</label><label>Week '+sel("cstW",[1,2,3,4,5,6,7,8,9,10].map(function(x){return[x,"Week "+x]}),sh.w)+'</label></div>'
+  +'<label>Aralin · Lesson <input id="cstTp" value="'+e2(sh.topic)+'" style="width:100%"></label>'
+  +'<label>Kasanayan · Competency <textarea id="cstCp" rows="2" style="width:100%">'+e2(sh.comp)+'</textarea></label>'
+  +'<div class="row" style="gap:12px;align-items:center"><label class="st-lb"><input type="checkbox" id="cstSc"'+(sh.showComp?" checked":"")+'> Ipakita ang Kasanayan sa papel · Show the competency on the paper</label>'
+  +'<button class="btn ghost sm" id="cstLs" type="button">↻ Kunin muli sa Kurikulum · Refill from the curriculum</button></div>'
+  +'<div class="row"><button class="btn" id="cstGn" type="button">✨ Make it for me <i>Buuin para sa akin</i></button></div>'
+  +'<div class="cst-wrap"><div id="cstAc">'+acts()+'<p class="cst-h">➕ Magdagdag ng gawain · Add an activity</p><div class="cst-add">'+TORD.map(function(t){return'<button class="btn ghost sm" data-add="'+t+'" type="button">'+TY[t].ic+' '+e2(TY[t].n[0])+'</button>'}).join("")+'</div></div>'
+  +'<div class="cst-prev" id="cstPv"></div></div>'
+  +'<div class="row" style="flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">'+sel("cstC",[["1","Isang kopya · One sheet (names by hand)"],["c","Bawat bata · One for each learner (names printed)"]],"1")
+  +'<label class="st-lb"><input type="checkbox" id="cstK"'+(sh.key!==false?" checked":"")+'> Susi sa huli · Answer key last</label>'
+  +'<button class="btn" id="cstSv" type="button">💾 Save</button><button class="btn ghost" id="cstPr" type="button">🖨️ Print</button><button class="btn ghost" id="cstGv" type="button">'+(sh.given?'↩️ Take Back <i>Bawiin</i>':'📤 Give to the Class <i>Ibigay sa Klase</i>')+'</button></div><div class="msg" id="cstM"></div></div>';
+ $("ov").innerHTML='<div class="sheet">'+h+'</div></div>';wireEd();prev()}
+function acts(){var sh=CUR;return sh.acts.map(function(a,ai){var T=TY[a.t];if(!T)return"";return'<div class="cst-a" data-a="'+ai+'"><div class="cst-ah"><b>'+(ROM[ai]||ai+1)+'. '+T.ic+' '+e2(T.n[0])+' <i style="font-weight:400">'+e2(T.n[1])+'</i></b><span>'
+  +'<button class="btn ghost sm" data-mv="'+ai+'.-1" type="button" title="Itaas · Move up">⬆️</button><button class="btn ghost sm" data-mv="'+ai+'.1" type="button" title="Ibaba · Move down">⬇️</button><button class="btn ghost sm" data-rma="'+ai+'" type="button" title="Alisin · Remove">🗑️</button></span></div>'
+  +'<label>Panuto · Filipino '+inp(ai+".dir.0",a.dir[0],"","100%")+'</label><label>Directions · English '+inp(ai+".dir.1",a.dir[1],"","100%")+'</label>'+T.ed(a,ai)
+  +'<button class="btn ghost sm" data-addi="'+ai+'" type="button">➕ Item</button></div>'}).join("")}
+function wireAdd(){var sh=CUR;[].forEach.call($("ov").querySelectorAll("[data-add]"),function(b){b.onclick=function(){var t=b.getAttribute("data-add");sh.acts.push(blankAct(t,{seed:sh.id+"|"+t+"|"+sh.acts.length+"|"+Date.now(),max:sh.g==="KK"?10:20,lang:"fil",words:[]}));reAct();var w=$("cstAc").querySelectorAll(".cst-a");if(w.length)w[w.length-1].scrollIntoView({block:"center"})}});}
+function reAct(){var w=$("cstAc");if(!w)return;var keep=w.querySelector(".cst-add").outerHTML,lbl=w.querySelector(".cst-add").previousElementSibling.outerHTML;w.innerHTML=acts()+lbl+keep;wireActs();wireAdd();prev();save()}
+function wireEd(){var sh=CUR;
+ $("cstB").onclick=function(){put(CUR);home()};
+ $("cstTt").oninput=function(){sh.title=this.value;save();prev()};
+ var meta=function(){sh.g=$("cstG").value;sh.s=+$("cstS").value;sh.t=+$("cstT").value;sh.w=+$("cstW").value;save();prev()};
+ $("cstG").onchange=meta;$("cstT").onchange=$("cstW").onchange=function(){meta()};
+ $("cstS").onchange=function(){var old=subjN(sh.s);meta();if(!sh.title||sh.title===old){sh.title=subjN(sh.s);$("cstTt").value=sh.title}};
+ $("cstTp").oninput=function(){sh.topic=this.value;save();prev()};$("cstCp").oninput=function(){sh.comp=this.value;save();prev()};
+ $("cstSc").onchange=function(){sh.showComp=this.checked;save();prev()};$("cstK").onchange=function(){sh.key=this.checked;save();prev()};
+ $("cstLs").onclick=function(){var L=lesson(sh.s,sh.t,sh.w);if(!L.topic&&!L.comp){$("cstM").textContent="Walang aralin sa kurikulum para sa linggong ito. · No lesson in the curriculum for this week.";return}sh.topic=L.topic;sh.comp=L.comp;$("cstTp").value=sh.topic;$("cstCp").value=sh.comp;save();prev()};
+ $("cstGn").onclick=function(){if(sh.acts.length&&!confirm("Aalisin ang kasalukuyang mga gawain at gagawa ng bago. · This removes the current activities and drafts new ones. (They wait in 🕳️ Event Horizon.)"))return;put(sh);sh.acts=gen(sh);reAct();$("cstM").textContent="✨ "+sh.acts.length+" gawain · activities — palitan ang anumang bahagi · change any part."};
+ wireAdd();
+ $("cstSv").onclick=function(){go(false)};$("cstPr").onclick=function(){go(true)};
+ $("cstGv").onclick=function(){sh.given=!sh.given;put(sh);try{log(sh.given?"cst-give":"cst-takeback",sh.title,"Term "+sh.t+" Week "+sh.w)}catch(e){}this.innerHTML=sh.given?'↩️ Take Back <i>Bawiin</i>':'📤 Give to the Class <i>Ibigay sa Klase</i>';$("cstM").textContent=sh.given?"📤 Nasa My Worksheets na ng mga bata. · It is now in the learners’ My Worksheets.":"↩️ Binawi. · Taken back."};
+ wireActs()}
+function go(direct){var sh=CUR;put(sh);var names=[""];if($("cstC").value==="c"){try{names=pdRoster().map(function(r){return r.name||""}).filter(Boolean)}catch(e){names=[]}if(!names.length){$("cstM").textContent="Ilagay muna ang listahan ng klase (Tools → 🔗 Entangled Pairs). · Load the class masterlist first.";return}}out(sh,names,sh.key!==false,direct)}
+function wireActs(){var sh=CUR,w=$("cstAc");if(!w)return;
+ [].forEach.call(w.querySelectorAll("[data-b]"),function(el){var ev=(el.type==="radio"||el.tagName==="SELECT")?"change":"input";el.addEventListener(ev,function(){var p=el.getAttribute("data-b"),v=el.value;
+  if(el.type==="radio"&&!el.checked)return;if(el.getAttribute("data-n"))v=+v||0;if(el.getAttribute("data-bool"))v=v==="1";
+  if(el.getAttribute("data-pt")&&!v)return;setP(sh.acts,p,v);if(el.getAttribute("data-pt")){var pb=el.parentNode.querySelector(".cst-pb");if(pb)pb.innerHTML='<span class="cst-pe">🖼️</span>'}save();prev()})});
+ [].forEach.call(w.querySelectorAll("[data-pic]"),function(b){b.onclick=function(){picker(b.getAttribute("data-pic"),!!b.getAttribute("data-line"))}});
+ [].forEach.call(w.querySelectorAll("[data-rmi]"),function(b){b.onclick=function(){var p=b.getAttribute("data-rmi").split("."),a=sh.acts[+p[0]];if(a.items.length<=1){alert("Kailangan ng kahit isang item. · An activity needs at least one item.");return}a.items.splice(+p[1],1);reAct()}});
+ [].forEach.call(w.querySelectorAll("[data-addi]"),function(b){b.onclick=function(){var ai=+b.getAttribute("data-addi"),a=sh.acts[ai];a.items.push(TY[a.t].item({seed:sh.id+"|i"+ai+"|"+a.items.length+"|"+Date.now(),max:sh.g==="KK"?10:20,lang:"fil",word:"Aa"}));reAct()}});
+ [].forEach.call(w.querySelectorAll("[data-addch]"),function(b){b.onclick=function(){var arr=getP(sh.acts,b.getAttribute("data-addch")+"."+(b.getAttribute("data-arr")||"ch"));if(arr)arr.push("");reAct()}});
+ [].forEach.call(w.querySelectorAll("[data-rmch]"),function(b){b.onclick=function(){var it=getP(sh.acts,b.getAttribute("data-rmch")),k=b.getAttribute("data-arr")||"ch";if(it&&it[k].length>2){it[k].pop();if(it.k!=null&&+it.k>=it[k].length)it.k=0}reAct()}});
+ [].forEach.call(w.querySelectorAll("[data-mv]"),function(b){b.onclick=function(){var p=b.getAttribute("data-mv").split("."),i=+p[0],j=i+(+p[1]);if(j<0||j>=sh.acts.length)return;var x=sh.acts[i];sh.acts[i]=sh.acts[j];sh.acts[j]=x;reAct()}});
+ [].forEach.call(w.querySelectorAll("[data-rma]"),function(b){b.onclick=function(){var ai=+b.getAttribute("data-rma"),T=TY[sh.acts[ai].t];if(!confirm("Alisin ang gawaing "+T.n[0]+"? · Remove this activity? (It waits in 🕳️ Event Horizon.)"))return;put(sh);sh.acts.splice(ai,1);reAct()}})}
+/* 🖼️ the picture picker: KORTEX's shelf (search in Filipino or English), her own photos, a new photo, and a photo turned into a coloring outline */
+function picker(path,line){var cur=getP(CUR.acts,path),Q="",ov=document.createElement("div");ov.id="cstPk";ov.style.cssText="position:fixed;inset:0;z-index:2147483000;background:rgba(10,14,30,.6);display:flex;align-items:center;justify-content:center;padding:12px";
+ var close=function(){ov.remove()};
+ function grid(){var q=Q.trim().toLowerCase(),own=Object.keys(IMGC).sort().reverse();
+  var sh=PORD.filter(function(k){var p=PICS[k];return!q||p[0].indexOf(q)>=0||p[1].indexOf(q)>=0||p[2].toLowerCase().indexOf(q)>=0}).map(function(k){var r="s:"+k;return'<button type="button" data-r="'+r+'" class="'+(cur===r?"on":"")+'">'+picHTML(r,line)+e2(PICS[k][0])+'<br><i>'+e2(PICS[k][1])+'</i></button>'}).join("");
+  var ow=own.map(function(k){var r="p:"+k;return'<button type="button" data-r="'+r+'" class="'+(cur===r?"on":"")+'">'+picHTML(r,false)+'<span data-del="'+k+'" title="Alisin · Remove" style="position:absolute;top:2px;right:4px;color:#c92a2a">✖</span></button>'}).join("");
+  return'<p class="cst-h"><b>📚 Istante ng KORTEX · KORTEX picture shelf</b>'+(line?' — guhit na pangkulay · as coloring outlines':'')+'</p><div class="cst-grid">'+(sh||'<p>Walang tugma · No match.</p>')+'</div>'
+   +'<p class="cst-h"><b>📷 Sariling larawan · Your own photos</b></p><div class="cst-grid">'+(ow||'<p class="cst-h">Wala pa · none yet</p>')+'</div>'}
+ function paint(){ov.innerHTML='<div class="cst" style="background:#fffdf7;color:#1c2433;max-width:760px;width:100%;max-height:90vh;overflow:auto;border-radius:18px;padding:14px 16px;box-shadow:0 18px 50px rgba(0,0,0,.45)">'
+  +'<h3 style="margin:0 0 6px">🖼️ Pumili ng larawan <i style="font-weight:400">Choose a picture</i></h3><input id="cstQ" placeholder="🔎 Hanapin · Search: aso, apple, Prutas…" value="'+e2(Q)+'" style="width:100%">'
+  +'<div class="row" style="gap:6px;flex-wrap:wrap;margin:8px 0"><button class="btn sm" id="cstUp" type="button">📷 Bagong larawan · New photo</button><button class="btn ghost sm" id="cstOl" type="button">🖍️ Gawing pangkulay · Turn a photo into a coloring outline</button>'
+  +'<button class="btn ghost sm" id="cstPx" type="button">Close <i>Isara</i></button></div><p class="cst-h" id="cstPm"></p><div id="cstGr">'+grid()+'</div></div>';
+  var qi=ov.querySelector("#cstQ");qi.oninput=function(){Q=qi.value;ov.querySelector("#cstGr").innerHTML=grid();wireG()};
+  ov.querySelector("#cstPx").onclick=close;
+  ov.querySelector("#cstUp").onclick=function(){pickFile(function(u){if(!u)return;var k="p"+Date.now();imgPut(k,u,function(ok){if(!ok){ov.querySelector("#cstPm").textContent="Hindi ma-save ang larawan sa device. · The photo could not be kept on this device.";return}choose("p:"+k)})})};
+  ov.querySelector("#cstOl").onclick=function(){pickFile(function(u){if(!u)return;ov.querySelector("#cstPm").textContent="🖍️ Ginagawang pangkulay… · Making the coloring outline…";toOutline(u,function(o){if(!o){ov.querySelector("#cstPm").textContent="Hindi nagawa. · It could not be made.";return}var k="p"+Date.now()+"o";imgPut(k,o,function(){choose("p:"+k)})})})};
+  wireG()}
+ function wireG(){[].forEach.call(ov.querySelectorAll("[data-r]"),function(b){b.onclick=function(ev){var d=ev.target.closest("[data-del]");if(d){ev.stopPropagation();var k=d.getAttribute("data-del");if(!confirm("Alisin ang larawang ito sa device? · Remove this photo from the device? (A worksheet that uses it will show 🖼️.)"))return;imgDel(k,function(){paint()});return}choose(b.getAttribute("data-r"))}})}
+ function choose(r){setP(CUR.acts,path,r);close();reAct()}
+ document.body.appendChild(ov);paint()}
+function pickFile(cb){var i=document.createElement("input");i.type="file";i.accept="image/*";i.style.display="none";document.body.appendChild(i);i.onchange=function(){var f=i.files&&i.files[0];i.remove();if(!f){cb(null);return}shrink(f,cb)};i.click()}
+/* ---------- learners answer a given worksheet in KORTEX (My Worksheets) ---------- */
+var WSS="KORTEX_WS_SUB",WSL="KORTEX_WS_LOG";
+function sj(){try{return JSON.parse(localStorage.getItem(WSS)||"{}")||{}}catch(e){return{}}}
+function sw(o){try{localStorage.setItem(WSS,JSON.stringify(o))}catch(e){}}
+function lj(){try{return JSON.parse(localStorage.getItem(WSL)||"[]")||[]}catch(e){return[]}}
+function lw(a){try{if(a.length>6000)a=a.slice(-6000);localStorage.setItem(WSL,JSON.stringify(a))}catch(e){}}
+function subKey(lid,sh){return lid+"|"+sh.t+"|"+sh.s+"|"+sh.w+"|"+sh.id}
+function given(){return cj().sheets.filter(function(x){return x.given&&x.acts&&x.acts.length})}
+function cstRows(){try{var sess=getSess();if(!sess||sess.role==="teacher"||sess.role==="parent")return;var L=given();var old=$("kxcsth");if(old)old.remove();if(!L.length)return;var f=$("feat");if(!f)return;
+ var SU=sj(),rows=L.map(function(sh){var e=SU[subKey(sess.id,sh)],st;
+  if(!e)st='<button type="button" class="btn sm" data-cst="'+sh.id+'">✏️ Sagutan <i>Answer</i></button>';
+  else if(!e.marked&&e.items.some(function(x){return x.pad})){st='<span>⏳ Hinihintay ang marka ng Teacher <i>Waiting for the Teacher’s mark</i></span>'}
+  else{var got=0,tot=0;e.items.forEach(function(x){tot++;if(x.pad?x.mk:x.ok)got++});st='<span>⭐ '+got+'/'+tot+'</span>'}
+  return'<div class="wsh-r"><b>🌌 '+e2(sh.title||subjN(sh.s))+' <i style="font-weight:400">Term '+sh.t+' · Week '+sh.w+'</i></b>'+st+'</div>'}).join("");
+ var el=document.createElement("div");el.id="kxcsth";el.className="kxstar";
+ el.innerHTML='<div class="ms-l">🌌 Mga Worksheet ng Teacher <i style="font-weight:400">Worksheets from your Teacher</i></div><style>.wsh-r{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(127,127,127,.35)}.wsh-r i{font-size:11px;opacity:.8}</style>'+rows;
+ var a=$("kxwsh")||$("kxstar");if(a&&a.parentNode){if(a.nextSibling)a.parentNode.insertBefore(el,a.nextSibling);else a.parentNode.appendChild(el)}else f.appendChild(el);
+ el.querySelectorAll("[data-cst]").forEach(function(b){b.onclick=function(){begin(b.getAttribute("data-cst"))}})}catch(e){}}
+try{(function(){var r=renderFeat;renderFeat=function(){r.apply(this,arguments);cstRows()}})()}catch(e){}
+var LX=null;
+function begin(id){var sess=getSess(),sh=find(id);if(!sess||!sh)return;imgAll(function(){var st=[];sh.acts.forEach(function(a,ai){var T=TY[a.t];if(!T)return;T.steps(a,ai,sh).forEach(function(x){x.ai=ai;x.dir=a.dir;x.T=T;st.push(x)})});
+ LX={sh:sh,lid:sess.id,n:sess.name,st:st,k:0,out:[]};step()})}
+function shell(inner,canNext){var x=LX.st[LX.k];return'<div class="card sm kxws cstl"><h3>🌌 '+e2(LX.sh.title||subjN(LX.sh.s))+' <i>'+(LX.k+1)+' / '+LX.st.length+' · '+x.T.ic+' '+e2(x.T.n[0])+'</i></h3>'
+ +'<p class="cstd"><b>'+e2(x.dir[0])+'</b><br><i>'+e2(x.dir[1]||"")+'</i></p><div class="it">'+inner+'</div><div class="fb" id="cstFb"></div><div class="padr"><button class="btn sm" id="cstNx" type="button"'+(canNext?'':' style="display:none"')+'>➡️ Susunod <i>Next</i></button></div></div>'
+ +'<style>.cstl .cstd{margin:4px 0 8px;font-size:13px}.cstl .cstd i{opacity:.8}.cstl .cbig{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}.cstl .cbig .cpic{width:54px;height:54px}'
+ +'.cstl .ckp{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:340px;margin:8px auto}.cstl .ckp button,.cstl .cop button{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;border:2px solid #c9c2b0;border-radius:12px;padding:10px 4px;background:#fffdf7;font:700 18px system-ui;color:#1c2433}'
+ +'.cstl .cshow{font:800 30px system-ui;text-align:center;min-height:40px;color:#14284b}.cstl .cop{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:8px}.cstl .cop button{font-size:15px;display:flex;flex-direction:column;align-items:center;gap:4px}'
+ +'.cstl .cop button .cpic{width:70px;height:70px}.cstl .cop button.ok{border-color:#2f9e44;background:#ebfbee}.cstl .cop button.no{border-color:#e03131;background:#fff5f5}.cstl .cop button.pk{border-color:#1971c2;background:#e7f5ff}'
+ +'.cstl .cmx{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}.cstl .cmx button{all:unset;box-sizing:border-box;cursor:pointer;border:2px solid #c9c2b0;border-radius:12px;padding:8px;background:#fffdf7;display:flex;align-items:center;gap:8px;min-height:52px;color:#1c2433;font-size:15px}'
+ +'.cstl .cmx button .cpic{width:44px;height:44px}.cstl .cmx button.sel{border-color:#f59f00;background:#fff9db}.cstl .cmx .tag{margin-left:auto;font:800 13px system-ui;border-radius:999px;padding:2px 9px;color:#fff}'
+ +'.cstl canvas{width:100%;border:2px solid #d8d2c2;border-radius:10px;touch-action:none;background:#fff;display:block}.cstl .cpal{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;align-items:center}.cstl .cpal button{all:unset;cursor:pointer;width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #adb5bd}.cstl .cpal button.on{box-shadow:0 0 0 3px #1c2433}</style>'}
+function fb(ok,txt){var f=$("cstFb");if(f){f.className="fb "+(ok?"good":"bad");f.textContent=txt||(ok?"✔ Tama! · Right!":"✖ Hindi pa · Not yet")}var n=$("cstNx");if(n)n.style.display=""}
+function step(){if(LX.k>=LX.st.length){finish();return}var x=LX.st[LX.k],h="";
+ if(x.k==="count"){var p="";for(var i=0;i<Math.max(1,+x.it.n||1);i++)p+=picHTML(x.it.p,false);h='<div class="cbig">'+p+'</div><div class="cshow" id="cstV"></div><div class="ckp">'+[1,2,3,4,5,6,7,8,9,0].map(function(d){return'<button type="button" data-d="'+d+'">'+d+'</button>'}).join("")+'<button type="button" data-d="b">⌫</button><button type="button" data-d="ok" style="grid-column:span 4;background:#14284b;color:#fff">✔ Sagot · Answer</button></div>'}
+ else if(x.k==="pick"){h=(x.p?'<div class="cbig">'+picHTML(x.p,false,"width:90px;height:90px")+'</div>':'')+'<p><b>'+e2(x.q||"")+'</b>'+(x.qe?'<br><i>'+e2(x.qe)+'</i>':'')+'</p><div class="cop">'+x.opts.map(function(o,i){return'<button type="button" data-o="'+i+'">'+(isPic(o)?picHTML(o,false):'')+'<span>'+(isPic(o)?e2(picName(o)):e2(o))+'</span></button>'}).join("")+'</div>'}
+ else if(x.k==="match"){var a=x.a;h='<div class="cmx"><div>'+a.items.map(function(it,i){return'<button type="button" data-l="'+i+'">'+picOrText(it.l,false)+'<span class="tag" id="tl'+i+'"></span></button>'}).join("")+'</div><div>'+x.o.map(function(j){return'<button type="button" data-r="'+j+'">'+picOrText(a.items[j].r,false)+'<span class="tag" id="tr'+j+'"></span></button>'}).join("")+'</div></div><div class="padr"><button class="btn ghost sm" id="cstRs" type="button">↺ Ulitin · Start again</button><button class="btn sm" id="cstCk" type="button" style="display:none">✔ Tingnan · Check</button></div>'}
+ else if(x.k==="order"){h='<p><b>'+e2(x.q)+'</b></p><div class="cop">'+x.m.map(function(j){return'<button type="button" data-q="'+j+'">'+picOrText(x.it.o[j],false)+'<span class="tag" id="tq'+j+'" style="font:800 18px system-ui;color:#14284b"></span></button>'}).join("")+'</div><div class="padr"><button class="btn ghost sm" id="cstRs" type="button">↺ Ulitin · Start again</button></div>'}
+ else if(x.k==="trace"||x.k==="write"){h=(x.p?'<div class="cbig">'+picHTML(x.p,false,"width:96px;height:96px")+'</div>':'')+'<p><b>'+e2(x.q||"")+'</b></p><canvas id="cstCv" width="640" height="'+(x.k==="trace"?220:200)+'"></canvas><div class="padr"><button class="btn ghost sm" id="cstCl" type="button">🧽 Burahin <i>Clear</i></button></div>'}
+ else if(x.k==="color"){h='<p><b>'+e2(x.q||"")+'</b></p><div class="cpal" id="cstPal">'+["#e03131","#f76707","#fcc419","#2f9e44","#1971c2","#9c36b5","#f783ac","#8d6e63","#212529"].map(function(c,i){return'<button type="button" data-c="'+c+'" style="background:'+c+'" class="'+(i?"":"on")+'"></button>'}).join("")+'<button class="btn ghost sm" id="cstTool" type="button">🪣 Punuin · Fill</button><button class="btn ghost sm" id="cstCl" type="button">🧽 Ulitin · Again</button></div><canvas id="cstCv" width="480" height="480" style="max-width:420px;margin:auto"></canvas>'}
+ $("ov").innerHTML='<div class="sheet">'+shell(h,x.k==="trace"||x.k==="write"||x.k==="color")+'</div>';
+ var next=function(){LX.k++;step()};$("cstNx").onclick=function(){if(x.k==="trace"||x.k==="write"||x.k==="color"){var cv=$("cstCv");LX.out.push({q:x.q||"",ans:x.k==="color"?"kulay · colored":x.ans||"",ok:null,pad:cv&&cv._ink?cv.toDataURL("image/png"):"",mk:null,ai:x.ai})}next()};
+ if(x.k==="count"){var v="";[].forEach.call($("ov").querySelectorAll("[data-d]"),function(b){b.onclick=function(){if(LX.done)return;var d=b.getAttribute("data-d");if(d==="b")v=v.slice(0,-1);else if(d==="ok"){if(!v)return;var ok=+v===+x.ans;LX.out.push({q:x.q,ans:x.ans,ok:ok,ai:x.ai});LX.done=1;fb(ok,ok?"✔ Tama! "+x.ans:"✖ "+x.ans+" ang sagot · The answer is "+x.ans);$("cstNx").onclick=function(){LX.done=0;next()};return}else if(v.length<2)v+=d;$("cstV").textContent=v}})}
+ else if(x.k==="pick"){var pk=false;[].forEach.call($("ov").querySelectorAll("[data-o]"),function(b){b.onclick=function(){if(pk)return;pk=true;var i=+b.getAttribute("data-o"),ok=i===x.key;b.classList.add(ok?"ok":"no");if(!ok){var r=$("ov").querySelector('[data-o="'+x.key+'"]');if(r)r.classList.add("ok")}
+  LX.out.push({q:x.q||"",ans:String(isPic(x.opts[x.key])?picName(x.opts[x.key]):x.opts[x.key]),ok:ok,ai:x.ai});fb(ok);$("cstNx").onclick=next}})}
+ else if(x.k==="match"){var P={},L=null,COL=["#1971c2","#e8590c","#2f9e44","#9c36b5","#c2255c","#0b7285","#5c940d","#862e9c","#d9480f","#364fc7"],nP=0;
+  var paint=function(){[].forEach.call($("ov").querySelectorAll("[data-l]"),function(b){var i=+b.getAttribute("data-l");b.classList.toggle("sel",L===i);var t=$("tl"+i);if(P[i]!=null){t.textContent=i+1;t.style.background=COL[i%10]}else{t.textContent="";t.style.background="transparent"}});
+   [].forEach.call($("ov").querySelectorAll("[data-r]"),function(b){var j=+b.getAttribute("data-r"),i=null;Object.keys(P).forEach(function(k){if(P[k]===j)i=+k});var t=$("tr"+j);if(i!=null){t.textContent=i+1;t.style.background=COL[i%10]}else{t.textContent="";t.style.background="transparent"}});
+   $("cstCk").style.display=Object.keys(P).length===x.a.items.length?"":"none"};
+  [].forEach.call($("ov").querySelectorAll("[data-l]"),function(b){b.onclick=function(){if(LX.done)return;L=+b.getAttribute("data-l");paint()}});
+  [].forEach.call($("ov").querySelectorAll("[data-r]"),function(b){b.onclick=function(){if(LX.done||L==null)return;var j=+b.getAttribute("data-r");Object.keys(P).forEach(function(k){if(P[k]===j)delete P[k]});P[L]=j;L=null;paint()}});
+  $("cstRs").onclick=function(){if(LX.done)return;P={};L=null;paint()};
+  $("cstCk").onclick=function(){if(LX.done)return;LX.done=1;var g=0;x.a.items.forEach(function(it,i){var ok=P[i]===i;if(ok)g++;LX.out.push({q:"🔗 "+(isPic(it.l)?picName(it.l):it.l),ans:String(isPic(it.r)?picName(it.r):it.r),ok:ok,ai:x.ai});var t=$("tl"+i);if(t)t.textContent=(ok?"✔ ":"✖ ")+(i+1)});
+   fb(g===x.a.items.length,"✔ "+g+" / "+x.a.items.length);$("cstNx").onclick=function(){LX.done=0;next()}};paint()}
+ else if(x.k==="order"){var seq=[];var pt=function(){x.m.forEach(function(j){var t=$("tq"+j),i=seq.indexOf(j);t.textContent=i>=0?String(i+1):""})};
+  [].forEach.call($("ov").querySelectorAll("[data-q]"),function(b){b.onclick=function(){if(LX.done)return;var j=+b.getAttribute("data-q");if(seq.indexOf(j)>=0)return;seq.push(j);pt();
+   if(seq.length===x.it.o.length){LX.done=1;var ok=seq.every(function(v,i){return v===i});LX.out.push({q:x.q,ans:x.it.o.map(function(o){return isPic(o)?picName(o):o}).join(", "),ok:ok,ai:x.ai});fb(ok,ok?"✔ Tama ang ayos! · Right order!":"✖ "+x.it.o.map(function(o){return isPic(o)?picName(o):o}).join(" → "));$("cstNx").onclick=function(){LX.done=0;next()}}}});
+  $("cstRs").onclick=function(){if(LX.done)return;seq=[];pt()}}
+ else if(x.k==="trace"||x.k==="write")padInit($("cstCv"),x.k==="trace"?String(x.ans||""):"");
+ else if(x.k==="color")colorInit($("cstCv"),x.it.p)}
+/* ✍️ the lined pad (blue-red-blue); tracing draws the word in soft dotted letters first */
+function padInit(cv,word){var x=cv.getContext("2d"),W=cv.width,H=cv.height,top=H*0.2,mid=H*0.5,base=H*0.8;
+ function bg(){x.fillStyle="#fff";x.fillRect(0,0,W,H);x.lineWidth=2;x.strokeStyle="#2563eb";x.setLineDash([]);[top,base].forEach(function(y){x.beginPath();x.moveTo(0,y);x.lineTo(W,y);x.stroke()});x.strokeStyle="#dc2626";x.setLineDash([10,8]);x.beginPath();x.moveTo(0,mid);x.lineTo(W,mid);x.stroke();x.setLineDash([]);
+  if(word){x.font="700 "+Math.round((base-top)*1.25)+"px Andika,'Century Gothic','Trebuchet MS',system-ui,sans-serif";x.fillStyle="#eef1f7";x.strokeStyle="#8a94a8";x.lineWidth=2;x.setLineDash([4,5]);var t=word+"   "+word;while(x.measureText(t).width>W-20&&t.length>word.length)t=word;x.fillText(t,14,base);x.strokeText(t,14,base);x.setLineDash([])}}
+ bg();cv._ink=false;padDraw(cv,function(){return{c:"#14284b",w:6,mode:"pen"}});var cl=$("cstCl");if(cl)cl.onclick=function(){bg();cv._ink=false}}
+function padDraw(cv,opt){var x=cv.getContext("2d"),dn=false,lx=0,ly=0;function pos(e){var r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]}
+ cv.onpointerdown=function(e){var o=opt();if(o.mode==="fill"){var p=pos(e);flood(cv,Math.round(p[0]),Math.round(p[1]),o.c);cv._ink=true;return}dn=true;var p2=pos(e);lx=p2[0];ly=p2[1];try{cv.setPointerCapture(e.pointerId)}catch(er){}x.beginPath();x.arc(lx,ly,o.w/2,0,7);x.fillStyle=o.c;x.fill();cv._ink=true};
+ cv.onpointermove=function(e){if(!dn)return;var o=opt(),p=pos(e);x.strokeStyle=o.c;x.lineWidth=o.w;x.lineCap="round";x.lineJoin="round";x.globalCompositeOperation=o.mode==="brush"?"multiply":"source-over";x.beginPath();x.moveTo(lx,ly);x.lineTo(p[0],p[1]);x.stroke();x.globalCompositeOperation="source-over";lx=p[0];ly=p[1]};
+ cv.onpointerup=cv.onpointercancel=function(){dn=false}}
+/* 🖍️ coloring: the outline drawing on the canvas; 🪣 tap a space to fill it, or 🖌️ color freely (the lines stay dark) */
+function colorInit(cv,ref){var x=cv.getContext("2d"),W=cv.width,H=cv.height,C="#e03131",mode="fill";
+ function bg(cb){x.fillStyle="#fff";x.fillRect(0,0,W,H);var src=null;if(/^s:/.test(ref)){var p=PICS[ref.slice(2)];if(p)src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="'+W+'" height="'+H+'"><g '+K+'>'+picLine(p[3])+'</g></svg>')}else if(/^p:/.test(ref))src=IMGC[ref.slice(2)];
+  if(!src){cb&&cb();return}var im=new Image();im.onload=function(){var s=Math.min(W/im.width,H/im.height),w=im.width*s,h=im.height*s;x.drawImage(im,(W-w)/2,(H-h)/2,w,h);cb&&cb()};im.onerror=function(){cb&&cb()};im.src=src}
+ bg();cv._ink=false;padDraw(cv,function(){return{c:C,w:14,mode:mode}});
+ [].forEach.call($("cstPal").querySelectorAll("[data-c]"),function(b){b.onclick=function(){C=b.getAttribute("data-c");[].forEach.call($("cstPal").querySelectorAll("[data-c]"),function(z){z.classList.toggle("on",z===b)})}});
+ var tb=$("cstTool");tb.onclick=function(){mode=mode==="fill"?"brush":"fill";tb.textContent=mode==="fill"?"🪣 Punuin · Fill":"🖌️ Brotsa · Brush"};$("cstCl").onclick=function(){bg();cv._ink=false}}
+function flood(cv,sx,sy,hex){var x=cv.getContext("2d"),W=cv.width,H=cv.height;if(sx<0||sy<0||sx>=W||sy>=H)return;var d=x.getImageData(0,0,W,H),p=d.data,i0=(sy*W+sx)*4,r0=p[i0],g0=p[i0+1],b0=p[i0+2];
+ if(r0+g0+b0<180)return;var c=parseInt(hex.slice(1),16),R=c>>16&255,G=c>>8&255,B=c&255;if(Math.abs(r0-R)+Math.abs(g0-G)+Math.abs(b0-B)<30)return;
+ var same=function(i){return Math.abs(p[i]-r0)+Math.abs(p[i+1]-g0)+Math.abs(p[i+2]-b0)<90},st=[[sx,sy]],n=0;
+ while(st.length&&n<W*H){var q=st.pop(),xx=q[0],yy=q[1],i=(yy*W+xx)*4;while(xx>=0&&same(i)){xx--;i-=4}xx++;i+=4;var up=false,dn=false;
+  while(xx<W&&same(i)){p[i]=R;p[i+1]=G;p[i+2]=B;p[i+3]=255;n++;if(yy>0){var u=i-W*4;if(same(u)){if(!up){st.push([xx,yy-1]);up=true}}else up=false}if(yy<H-1){var dd=i+W*4;if(same(dd)){if(!dn){st.push([xx,yy+1]);dn=true}}else dn=false}xx++;i+=4}}
+ x.putImageData(d,0,0)}
+function finish(){var sh=LX.sh,ts=Date.now(),a=lj();LX.out.forEach(function(o,i){if(o.pad==null)a.push({n:LX.n,s:+sh.s,t:+sh.t,w:+sh.w,i:"c:"+sh.id+":"+(i+1),ok:!!o.ok,ts:ts})});lw(a);
+ var SU=sj();SU[subKey(LX.lid,sh)]={n:LX.n,cst:sh.title||"",items:LX.out.map(function(o){var y={q:o.q,ans:o.ans,ok:o.pad!=null?null:!!o.ok,mk:null};if(o.pad!=null)y.pad=o.pad||"";return y}),done:ts,marked:LX.out.some(function(o){return o.pad!=null})?null:ts};sw(SU);
+ var auto=LX.out.filter(function(o){return o.pad==null}),ok=auto.filter(function(o){return o.ok}).length,pads=LX.out.length-auto.length;try{log("cst-done",sh.title||"",ok+"/"+auto.length)}catch(e){}
+ $("ov").innerHTML='<div class="sheet"><div class="card sm kxws"><h3>🎉 Tapos na! <i>All done!</i></h3>'+(auto.length?'<p><b>✔ '+ok+' ng '+auto.length+'</b> <i>'+ok+' of '+auto.length+' right</i></p>':'')
+  +(pads?'<p>⏳ Ang '+pads+' sinulat o kinulayan mo ay hinihintay ang marka ng Teacher. <i>Your '+pads+' written or colored answer'+(pads>1?'s wait':' waits')+' for the Teacher’s mark.</i></p>':'')
+  +'<div class="row"><button class="btn" id="cstHm" type="button">🏠 Bumalik <i>Back Home</i></button></div></div></div>';
+ if(auto.length&&ok>=Math.ceil(auto.length*0.8))try{confetti()}catch(e){}
+ $("cstHm").onclick=function(){LX=null;closeOv();try{renderFeat()}catch(e){}}}
+/* ---------- the door: a card inside 📝 Worksheets ---------- */
+window.KXCST_CARD=function(){var n=cj().sheets.length,g=given().length;return SCSS+'<div class="card sm wsx cst"><h3>🌌 Constellation Studio <i>Every activity a star, every sheet your sky</i></h3>'
+ +'<div class="cst-sky"><b>✨ '+n+' worksheet'+(n===1?'':'s')+(g?' · 📤 '+g+' with the class':'')+'</b><br><i>🔢 ✏️ 🖍️ 🅰️ 🏷️ 🔗 ✅ ⭕ ✍️ 🪜 — sa sarili mong mga larawan at salita</i></div>'
+ +'<div class="row"><button class="btn" id="cstGo" type="button">🌌 Open the Studio <i>Buksan</i></button></div></div>'};
+window.KXCST_WIRE=function(){var b=$("cstGo");if(b)b.onclick=function(){home()}};
+window.openConstellation=home;
+/* 📘 Word with pictures: Word does not draw inline SVG, so a worksheet's .doc is a single-file web page (MHTML) —
+   every drawing rasterized to PNG on the device and carried inside the file; Word opens it, every word editable */
+function b64u(s){return btoa(unescape(encodeURIComponent(s)))}
+function wrap76(s){return s.replace(/(.{76})/g,"$1\r\n")}
+function rast(svg,w,h,cb){var m=svg.replace(/^<svg\b/,'<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"'),im=new Image();
+ im.onload=function(){var c=document.createElement("canvas");c.width=w;c.height=h;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);cb(c.toDataURL("image/png").split(",")[1])};im.onerror=function(){cb(null)};
+ im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(m)}
+window.KXMHT=function(page,cb){var jobs=[],parts=[],n=0,L="file:///C:/KORTEX/";
+ var html=page.replace(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/g,function(m,at){var id="kx"+(++n)+".png",tr=/class="ctrs"/.test(at),mw=/width:([\d.]+)mm/.exec(at),mh=/height:([\d.]+)mm/.exec(at),pw=tr?620:Math.round((mw?+mw[1]:20)*3.78),ph=tr?70:Math.round((mh?+mh[1]:20)*3.78);
+  jobs.push({id:id,svg:m.replace(/\sstyle="[^"]*"/,"").replace(/\spreserveAspectRatio="none"/,""),w:tr?1240:Math.max(60,pw*3),h:tr?140:Math.max(60,ph*3)});return'<img src="'+L+id+'" width="'+pw+'" height="'+ph+'" alt="">'});
+ html=html.replace(/<img\b([^>]*?)src="data:(image\/(png|jpeg|gif|webp));base64,([^"]+)"([^>]*)>/g,function(m,a,mt,ex,b,c){var id="kx"+(++n)+"."+(ex==="jpeg"?"jpg":ex);parts.push({id:id,t:mt,b:b});return'<img'+a+'src="'+L+id+'"'+c+'>'});
+ (function nx(i){if(i>=jobs.length){var B="----=_KORTEX_"+Date.now().toString(36),s="MIME-Version: 1.0\r\nContent-Type: multipart/related; boundary=\""+B+"\"; type=\"text/html\"\r\n\r\n--"+B+"\r\nContent-Type: text/html; charset=\"utf-8\"\r\nContent-Transfer-Encoding: base64\r\nContent-Location: "+L+"worksheet.htm\r\n\r\n"+wrap76(b64u(html))+"\r\n";
+   parts.forEach(function(p){s+="--"+B+"\r\nContent-Type: "+p.t+"\r\nContent-Transfer-Encoding: base64\r\nContent-Location: "+L+p.id+"\r\n\r\n"+wrap76(p.b)+"\r\n"});s+="--"+B+"--\r\n";cb(new Blob([s],{type:"application/msword"}));return}
+  var j=jobs[i];rast(j.svg,j.w,j.h,function(b){if(b)parts.push({id:j.id,t:"image/png",b:b});nx(i+1)})})(0)};
+window.KXCST={PICS:PICS,TY:TY,paper:paper,keyPage:keyPage,kName:kName,gen:gen,picHTML:picHTML,cj:cj,toOutline:toOutline,flood:flood,bank:function(k){try{return wsBankItems(k)||[]}catch(e){return[]}}};
 })();
 
 /* ================= 📸 Snap & Score — the KORTEX Paper Checker (Blueprint R11, 6 Nov 2026) =================
