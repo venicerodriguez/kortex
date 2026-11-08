@@ -601,7 +601,7 @@ var LABEL={daily:'Daily',weekly:'Weekly',monthly:'Monthly',term:'End-of-Term',ye
 function reportHTML(kind,per,mode){
  var S=load(),R=rosterMap(S),P=prof(S),all=rows(S),rs=all.filter(function(r){return keyOf(kind,r)===per});
  var sm=summarise(rs).sort(function(a,b){return(R[a.lid]&&R[b.lid])?(S.roster.indexOf(R[a.lid])-S.roster.indexOf(R[b.lid])):0});
- var head='<div class="kx-hd"><b>'+esc(P.short||P.school||'')+'</b>'+(OFFICIAL&&P.sid?' &bull; '+esc(P.sid):'')+'<br>'+esc(P.grade||'Grade 1')+(P.sec?' &ndash; '+esc(P.sec):'')+' &bull; SY '+esc(P.sy||'')+'<br>BLUEBERRY '+K.game.toUpperCase()+' &mdash; '+LABEL[kind]+' '+(mode==='cert'?'Certificates':'Report')+': <b>'+esc(per)+'</b></div>';
+ var head='<div class="kx-hd"><b>'+esc(P.short||P.school||'')+'</b>'+(OFFICIAL&&P.sid?' &bull; '+esc(P.sid):'')+'<br>'+esc(P.grade||'Grade 1')+(P.sec?' &ndash; '+esc(P.sec):'')+' &bull; SY '+esc(P.sy||'')+'<br>'+(function(a,b){var ok=function(v){return v&&!/^section$/i.test(String(v).trim())},s=ok(a)?a:ok(b)?b:'';return s?esc(s).toUpperCase()+' ':''})(P.sec,(function(){try{return(JSON.parse(localStorage.getItem('KORTEX_PROFILE')||'{}')||{}).section||''}catch(e){return''}})())+K.game.toUpperCase()+' &mdash; '+LABEL[kind]+' '+(mode==='cert'?'Certificates':'Report')+': <b>'+esc(per)+'</b></div>';
  var foot='<div class="kx-ft">Generated '+stamp()+' &bull; '+esc(P.teacher||'')+(P.pos?' ('+esc(P.pos)+')':'')+' &bull; '+(OFFICIAL?'Private report &mdash; contains learner names and LRN. Do not share.':'Public edition &mdash; generic roster.')+'</div>';
  if(!sm.length)return head+'<p>No results recorded for this period.</p>'+foot;
  if(mode==='cert'){
