@@ -9,6 +9,25 @@
   d.innerHTML='<span style="flex:1">⚠️ Not saved: the storage for KORTEX on this device is full. Save a backup now (KORTEX → Tools → Backup).<br><i style="font-weight:400">Hindi na-save: puno na ang storage ng KORTEX sa device na ito. Mag-backup ngayon.</i></span><button type="button" style="font:inherit;border:0;border-radius:10px;padding:8px 12px;background:#fff;color:#b42318;cursor:pointer">OK</button>';
   d.querySelector("button").onclick=function(){d.remove()};(document.body||document.documentElement).appendChild(d)}catch(e){}}
  try{var P=Storage.prototype.setItem;Storage.prototype.setItem=function(){try{return P.apply(this,arguments)}catch(e){if(full(e)){try{sessionStorage.setItem("KX_FULL",String(Date.now()))}catch(x){}if(document.body)show();else document.addEventListener("DOMContentLoaded",show)}throw e}}}catch(e){}
+ /* 3) The mirror (9 Nov 2026, Blueprint R67): every localStorage write is also kept in IndexedDB (kortex_mirror) with its write time, and on every open
+    anything the browser dropped from localStorage comes back (a heavy page plus a reload was seen to lose the newest writes — a PIN, a hero, a score).
+    Rule: a key missing from localStorage comes back; a key whose own write time is older than the mirror's comes back; a key written outside this page
+    (no write time, e.g. an older build's data) is left alone. If anything came back, the page starts once more, clean. */
+ (function(){var DB="kortex_mirror",ST="kv",TP="__t:",idb=null,P=Storage.prototype,raw={set:P.setItem,get:P.getItem,rem:P.removeItem,clr:P.clear},ok=typeof indexedDB!=="undefined";
+  function open(cb){if(!ok)return;if(idb)return cb(idb);try{var r=indexedDB.open(DB,1);r.onupgradeneeded=function(){r.result.createObjectStore(ST)};r.onsuccess=function(){idb=r.result;cb(idb)};r.onerror=function(){}}catch(e){}}
+  function tx(fn){open(function(db){try{fn(db.transaction(ST,"readwrite").objectStore(ST))}catch(e){}})}
+  function mine(k){return String(k).indexOf(TP)!==0}
+  P.setItem=function(k,v){var r=raw.set.apply(this,arguments);if(this===window.localStorage&&mine(k)){var t=Date.now();try{raw.set.call(this,TP+k,String(t))}catch(e){}tx(function(st){st.put({v:String(v),t:t},String(k))})}return r};
+  P.removeItem=function(k){var r=raw.rem.apply(this,arguments);if(this===window.localStorage&&mine(k)){try{raw.rem.call(this,TP+k)}catch(e){}tx(function(st){st["delete"](String(k))})}return r};
+  P.clear=function(){var r=raw.clr.apply(this,arguments);if(this===window.localStorage)tx(function(st){st.clear()});return r};
+  function restore(cb){open(function(db){try{var req=db.transaction(ST,"readonly").objectStore(ST).openCursor(),fixed=0,keys=[],newer=[];
+   req.onsuccess=function(){var c=req.result;
+    if(!c){if(newer.length)tx(function(st){newer.forEach(function(n){st.put({v:n.v,t:n.t},n.k)})});if(fixed){try{console.log("KORTEX mirror: put back "+fixed+" saved item(s): "+keys.join(", "))}catch(e){}}
+     if(cb)cb(fixed);else if(fixed&&window.name.indexOf("[kortex-restored]")<0){window.name+="[kortex-restored]";location.reload()}else if(!fixed)window.name=window.name.replace("[kortex-restored]","");return}
+    var k=String(c.key),rec=c.value;if(rec&&typeof rec.v==="string"&&mine(k)){var lv=raw.get.call(localStorage,k),ltr=raw.get.call(localStorage,TP+k),lt=+ltr||0;
+     if(lv!==rec.v){if(lv===null||(ltr!==null&&lt<(rec.t||0))){raw.set.call(localStorage,k,rec.v);raw.set.call(localStorage,TP+k,String(rec.t||0));fixed++;keys.push(k)}else if(ltr!==null)newer.push({k:k,v:lv,t:lt})}}
+    c["continue"]()};req.onerror=function(){if(cb)cb(0)}}catch(e){if(cb)cb(0)}})}
+  window.KXMIRROR={raw:raw,restore:restore};restore()})();
  window.KXSTORE={used:function(){var n=0;try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);n+=k.length+(localStorage.getItem(k)||"").length}}catch(e){}return n},cap:5e6,
   pct:function(){return Math.min(100,Math.round(this.used()*100/this.cap))}};
 })();
