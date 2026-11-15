@@ -6,7 +6,7 @@ DIGITAL CODE: VDR-HIRAYAGMRC-F3468E9EC824
 RIGHTS: © 2026 Venice D. Rodriguez. All rights reserved.
 FORMAT: complete standalone HTML; works offline once saved; no server needed.
 -->
-<html lang="fil"><head><script>window.KXPUB=1</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="fil"><head><script>window.KXPUB=1</script><script>window.__KXSURF="story";window.__KXTPD="1234";</script><script>(function(){try{["replaceState","pushState"].forEach(function(n){var f=history[n];history[n]=function(){try{return f.apply(history,arguments)}catch(e){}}})}catch(e){}})()</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>HIRAYA · GMRC · Venice D. Rodriguez</title>
 <meta name="description" content="Lira’s picture lessons for Grade 1 GMRC, in Filipino with English."><meta name="author" content="Venice D. Rodriguez"><meta name="copyright" content="© 2026 Venice D. Rodriguez. All rights reserved.">
 <meta name="DC.identifier" content="VDR-HIRAYAGMRC-F3468E9EC824"><meta name="theme-color" content="#f6f8ff">
@@ -276,7 +276,7 @@ function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=to
   +((C.isbns||[]).length?R('ISBN','ISBN',(C.isbns||[]).map(x=>E(x[0])+(x[1]?' <small>('+E(x[1])+')</small>':'')).join("<br>")):R('Digital na Code','Digital Code','<b>'+E(W.code)+'</b>'))+R('Gawad','Recognition',E(W.award||''))+R('Wika','Languages',BI(C.langs||''))
   +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''),(C.copy||'').length>90?'wide':'')+((C.isbns||[]).length?R('Digital na Code','Digital Code',E(W.code)):'')+'</dl></div>';const Dd=D;
  const G=C.get?'<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>':'';h+='</div><div>'+G+'</div>'+Dd+'</div>';
- h+='<button class="edl" id="edb">'+(lockedStory()?'➕ Make My Own Story <i>Gumawa ng Sariling Kuwento</i>':'✏️ Edit <i>I-edit</i>')+'</button><footer>'+(W.own?E(C.copy||""):'© 2026 Venice D. Rodriguez. All rights reserved.')+'</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);$("edb").onclick=()=>editGate();fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
+ h+='<footer>'+(W.own?E(C.copy||""):'© 2026 Venice D. Rodriguez. All rights reserved.')+'</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 /* ---------- reader ---------- */
 function show(){SCR="read";try{const r=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){const q=(r.requestFullscreen||r.webkitRequestFullscreen||function(){}).call(r);if(q&&q.catch)q.catch(()=>{})}}catch(e){}const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"></div>'
@@ -330,7 +330,8 @@ function lsg(k){try{return localStorage.getItem(k)}catch(e){return null}}functio
 let PINOK=false;
 function pinGate(cb){if(PINOK)return cb();let se=null;try{se=JSON.parse(lsg("KORTEX_SESS")||"null")}catch(e){}
  if(se&&se.role==="learner"){alert("Naka-sign in ang isang learner sa KORTEX. Teacher lamang ang makapag-e-edit.\nA learner is signed in on KORTEX. Only the teacher can edit.");return}
- const th=lsg("KORTEX_TPINH"),first=!th,d=document.createElement("div");d.className="pin";
+ if(se&&se.role==="teacher"){PINOK=true;return cb()}
+ const th=lsg("KORTEX_TPINH")||(window.__KXTPD?hh(SALT+String(window.__KXTPD)):""),first=!th,d=document.createElement("div");d.className="pin";
  d.innerHTML='<div class="c"><div style="font-size:42px">✏️</div><b style="display:block;font-size:1.15rem;margin:4px 0 8px">'+(first?'Gumawa ng Teacher PIN<br><small>Create your Teacher PIN</small>':'Teacher PIN')+'</b><input id="pi1" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••">'+(first?'<input id="pi2" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="Ulitin · Repeat">':'')+'<div class="m" id="pim"></div><div class="r"><button id="pok">Buksan · Open</button><button class="o" id="pno">Kanselahin · Cancel</button></div><small style="display:block;margin-top:10px;color:#6b7499">Ang PIN na ito rin ang nagbubukas ng KORTEX Tools. · The same PIN opens KORTEX Tools.</small></div>';
  document.body.appendChild(d);const i1=d.querySelector("#pi1"),i2=d.querySelector("#pi2"),m=d.querySelector("#pim");let n=0;
  const ok=()=>{const p=i1.value.trim();if(!/^\d{4,8}$/.test(p)){m.textContent="4 hanggang 8 numero · 4 to 8 numbers";return}
@@ -391,7 +392,7 @@ function saveFile(){const w=clone(DRAFT.W),used=[],map={};w.books.forEach(b=>b.p
  if(w.own&&OWNNEW){w.slug=slugOf(w.title)}const bl=new Blob([out],{type:"text/html"}),a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download=(w.slug||"story")+".html";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);
  $("em").textContent="Na-download: "+a.download+" · Downloaded"}
 /* edits saved on this device open in place of the shipped story */
-(async()=>{try{const s=await dbGet(KEY);if(s&&s.W&&s.IMG&&!lockedStory()){W=s.W;IMG=s.IMG}}catch(e){}home();if(location.hash==="#edit")editGate();else if(location.hash==="#read"){history.replaceState(null,"",location.pathname);B=0;I=0;show()}else if(location.hash==="#watch"){history.replaceState(null,"",location.pathname);movie(0,0)}})();
+(async()=>{try{const s=await dbGet(KEY);if(s&&s.W&&s.IMG&&!lockedStory()){W=s.W;IMG=s.IMG}}catch(e){}home();if(location.hash==="#read"){history.replaceState(null,"",location.pathname);B=0;I=0;show()}else if(location.hash==="#watch"){history.replaceState(null,"",location.pathname);movie(0,0)}})();
 try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 </script><script>/* ================= 🔍 Zoom — fit the screen to the phone (R22, 7 Nov 17:34) =================
    Her call: on the phone she had to scroll up and down just to read a question and its choices. A 🔍 sits on the top bar
@@ -408,7 +409,7 @@ var ZM={1:["🔍","Magnifier"],2:["🐞","Bug Lens"],3:["📷","Trip Camera"],4:
  9:["🌬️","Cloud Puff"],10:["🫧","Bubble Gum"],11:["🪞","Fun Mirror"],12:["🧱","Block Size"],13:["✨","Size Spell"],14:["🦪","Pearl Lens"],15:["💧","Dewdrop"],16:["🔭","Star Scope"]};
 function top(){try{return window.parent===window||!window.parent.__KXS}catch(e){return true}}
 if(!top())return;   /* the inner page of a game shell: the shell's own 🔍 sizes the whole page, the inner page follows */
-function scope(){try{var C=window.__KXS;if(C&&C.g)return"g_"+C.g}catch(e){}var p=location.pathname;
+function scope(){try{var C=window.__KXS;if(C&&C.g)return"g_"+C.g}catch(e){}try{if(window.__KXSURF==="lib"||window.__KXSURF==="story")return window.__KXSURF}catch(e){}var p=location.pathname;
  if(/\/library\/(index\.html)?$/.test(p))return"lib";if(/\/library\/[^\/]+\.html$/.test(p))return"story";return"hub"}
 var K="KX_ZOOM_"+scope();
 function surf(){var c=scope();return c==="hub"?"hub":(c==="lib"||c==="story")?"aff":c.slice(2)}
@@ -445,7 +446,7 @@ function anchor(){var f=document.getElementById("kxmt-f");if(f&&f.tagName==="BUT
  return null}
 function kind(a){if(a[0].id==="bFs")return"hub";if(a[1]==="before")return"lib";if(a[0].id==="kxmt-f"&&a[0].closest&&a[0].closest("#kxnav"))return"game";return"gen"}
 function E(x){return String(x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function paint(b){var w=word(),k=b.getAttribute("data-k"),sig=w.join("|");if(b.getAttribute("data-w")===sig)return;b.setAttribute("data-w",sig);
+function paint(b){var w=word(),k=b.getAttribute("data-k"),sig=w.join("|");if(b.getAttribute("data-w")===sig)return;b.setAttribute("data-w",sig);b.setAttribute("data-kxth","1");
  b.title=w[1]+" · Zoom · Liitan o Lakihan";b.setAttribute("aria-label",w[1]+" · Zoom · Liitan o Lakihan");
  b.innerHTML=k==="hub"?'<span class="kxw1">'+E(w[0])+' '+E(w[1])+'<\/span><small>Zoom<\/small>'
   :k==="lib"?'<i aria-hidden="true">'+E(w[0])+'<\/i><b>'+E(w[1])+'<\/b><small>Zoom<\/small>'
@@ -463,6 +464,281 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 setInterval(mount,1200);   /* bars that redraw (every story page turn) get their 🔍 back */
 addEventListener("resize",function(){apply(get())});
 window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply(z)},key:K,steps:STEPS,word:word,names:ZM};
+})();
+/* R82 — her §4 R18 and the themed-name rule, enforced on the screen instead of by hand.
+   A button says its THEME'S OWN name on top and the plain meaning in italics underneath. The hub speaks KORTEX Launchpad,
+   each game speaks its own of the sixteen, so the same control is 🎛️ Flight Deck here and 🧰 Dig Kit on Dino Island.
+   Nothing stands bare (an icon with no name) and nothing stands plain (a word with no theme).
+   Loaded after kxthemes.js and kxskin.js, and re-run whenever a screen is drawn. */
+(function () {
+  var W = typeof window !== 'undefined' ? window : {}; if (W.KXLBL) return;
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] }) }
+  /* the button found by its id: [theme word key, the plain meaning in italics underneath ('' = keep what the button already says)] */
+  var BYID = {
+    bSnd: ['snd', 'Sound'], bFs: ['fs', 'Full Screen'], bCur: ['cur', 'Pointer'], cSY: ['yr', ''],
+    bTools: ['tls', 'Tools'], bAbout: ['abt', ''], bInst: ['ins', 'Install'],
+    msnWs: ['wks', "This Week's Worksheets"], msnAs: ['ans', 'Answer Sheets'], bRead: ['rdd', 'I Read Today'],
+    msnP: ['back', 'Back'], msnF: ['nxt', 'Next']
+  };
+  /* the button found by the words it already says, when it has no id of its own */
+  var BYWORD = [
+    [/^tools$/i, 'tls', 'Tools'], [/^install$/i, 'ins', 'Install'], [/^full screen$/i, 'fs', 'Full Screen'],
+    [/^(cursor|pointer|mouse pointer)$/i, 'cur', 'Pointer'], [/^sound$/i, 'snd', 'Sound'],
+    [/^all about kortex$/i, 'abt', ''], [/^i read today$/i, 'rdd', 'I Read Today'],
+    [/^answer sheets$/i, 'ans', 'Answer Sheets'], [/worksheets$/i, 'wks', "This Week's Worksheets"],
+    [/^sound (on|off)$/i, 'snd', ''], [/^sign off\b/i, 'exit', 'Log Out'], [/^hq$/i, 'home', 'HQ'], [/^log ?out$/i, 'exit', 'Log Out']
+  ];
+  /* R18's other half: a button with no theme word of its own says its English on top and the Filipino in italics underneath */
+  var FIL = {
+    'teacher': 'Guro', 'learner': 'Mag-aaral', 'parent': 'Magulang', 'save and reports': 'I-save at Ulat',
+    'copy': 'Kopyahin', 'clear': 'Burahin', 'new round': 'Bagong Ikot', 'class grid': 'Talaan ng Klase',
+    'pairs': 'Magkapares', 'you are next': 'Ikaw na ang Susunod', 'print': 'I-print', 'save': 'I-save',
+    'open': 'Buksan', 'close': 'Isara', 'start': 'Simulan', 'cancel': 'Kanselahin', 'delete': 'Burahin',
+    'edit': 'Baguhin', 'add': 'Magdagdag', 'search': 'Hanapin', 'yes': 'Oo', 'no': 'Hindi', 'done': 'Tapos na',
+    'send': 'Ipadala', 'accept': 'Tanggapin', 'back': 'Bumalik', 'next': 'Susunod', 'hide': 'Itago', 'show': 'Ipakita', 'exit': 'Lumabas', 'home': 'Tahanan', 'look': 'Tema', 'scan qr': 'I-scan ang Card ng Learner',
+    'trigger node': 'Pick the Next Learner', 'full screen': 'Buong Tabing', 'sound': 'Tunog', 'pointer': 'Panturo',
+    /* R85: the words the deep label scan found standing alone inside Tools */
+    'whole class': 'Buong Klase', 'log reading': 'Itala ang Pagbasa', 'class analytics': 'Pagsusuri ng Klase',
+    'general scoreboard': 'Pangkalahatang Talaan ng Iskor', 'kortex usage': 'Paggamit ng KORTEX', 'learner progress': 'Pag-unlad ng Mag-aaral',
+    'assessment blueprint': 'Plano ng Pagtatasa', 'item analysis': 'Pagsusuri ng Aytem', 'competency mastery': 'Kahusayan sa mga Kasanayan',
+    'bow spread': 'Saklaw ng BOW', 'learner updates': 'Balita ng Mag-aaral', 'certificates': 'Mga Sertipiko', 'reading log': 'Talaan ng Pagbasa',
+    'learner notes': 'Mga Tala ng Mag-aaral', 'parent consent': 'Pahintulot ng Magulang', 'apply': 'Ilapat', 'csv': 'I-download',
+    'preferences': 'Mga Kagustuhan', 'baseline': 'Panimula', 'midline': 'Kalagitnaan', 'endline': 'Pangwakas',
+    'add subject': 'Magdagdag ng Asignatura', 'pick your dux vitae': 'Piliin ang Iyong Bayani', 'change dux vitae': 'Palitan ang Iyong Bayani',
+    'deped orders': 'Mga Kautusang Pangkagawaran', 'deped memoranda': 'Mga Memorandum ng DepEd', 'remove': 'Alisin',
+    'participation': 'Paglahok', 'helping others': 'Pagtulong sa Iba', 'kindness': 'Kabaitan', 'good listening': 'Mahusay na Pakikinig',
+    'rescue': 'Pagsagip', 'needs a reminder': 'Kailangang Paalalahanan',
+    /* (A2) the sign-in door */
+    'sign in': 'Mag-sign In', 'forgot pin': 'Nakalimutan ang PIN', 'use fingerprint': 'Gamitin ang Fingerprint', 'sign in again': 'Pumasok Muli'
+  };
+  /* R86 (review #3): the words a button says in plain English, and the key of the theme's own name for it (kxthemes.js XV, sixteen voices).
+     The theme's name goes on top; the button's own English words become the plain meaning in italics underneath (R82). First match wins. */
+  var ACT = [
+    [/^(print save pdf|save pdf|save week pdf|save sf \d+ pdf|save selected pdf)\b/, 'pdf'], [/^print code cards\b/, 'cards'],
+    [/^(save|i save)\b/, 'save'], [/^print\b/, 'print'], [/^(open|buksan)\b/, 'open'], [/^close\b/, 'close'], [/^cancel\b/, 'cancel'],
+    [/^(clear|reset)\b/, 'clear'], [/^undo\b/, 'undo'], [/^preview\b/, 'preview'], [/^apply\b/, 'apply'], [/^upload\b/, 'upload'],
+    [/^download\b/, 'download'], [/^import\b/, 'imp'], [/^export\b/, 'exp'], [/^add\b/, 'add'], [/^(remove|delete)\b/, 'del'], [/^edit\b/, 'edit'],
+    [/^copy\b/, 'copy'], [/^paste\b/, 'paste'], [/^choose files?\b/, 'files'], [/^later$/, 'later'], [/^change pin\b/, 'pin'], [/^hide( bar)?$/, 'hide'],
+    [/^rules\b/, 'rules'], [/^play alone$/, 'solo'], [/^play in groups$/, 'group'], [/^(play|let s play|lets play|go)$/, 'play'],
+    [/^(scores|scoreboard|stars)$/, 'scores'], [/^my certificate$/, 'cert'], [/^(game settings|exam settings|settings|preferences)$/, 'sett'],
+    [/^(random|surprise me|re pick)$/, 'rnd'], [/^reveal\b/, 'rev'], [/^(reports?|my results)$/, 'rep'], [/^teacher( pin)?$/, 'door_t'], [/^learner$/, 'door_l'],
+    [/^parent$/, 'door_p'], [/^avatar$/, 'look'], [/^subjects$/, 'subj'], [/^spin$/, 'spin'], [/^(prompt|custom prompt)$/, 'prompt'],
+    [/^(csv|show csv to copy)$/, 'csv'], [/^mark done$/, 'done'], [/^share$/, 'share'], [/^start\b/, 'start'], [/^(answer|sagutan)$/, 'answer'],
+    [/^search\b/, 'search'], [/^load\b/, 'load'], [/^enter the collection$/, 'enter'], [/^(exit to role menu|exit)$/, 'exit'], [/^(back to )?kortex$/, 'home'],
+    [/^back exit$/, 'back'], [/^(back|bumalik)$/, 'back'], [/^next$/, 'nxt'], [/^present$/, 'live'], [/^previous$/, 'prev'],
+    [/^general scoreboard$/, 'board'], [/^certificates$/, 'cert'], [/^authorship$/, 'auth'], [/^my avatar$/, 'look'],
+    [/\bcsv$/, 'csv'], [/\bpdf$/, 'pdf'], [/^type in$/, 'edit'], [/^look$/, 'look'], [/^about$/, 'abt'], [/^(guide|help)$/, 'hlp'],
+    [/^(send( scores| to teacher| my results)?|ipadala kay ma am( send to teacher)?)$/, 'send'], [/^teacher corner$/, 'door_t'], [/^random learner$/, 'rnd'],
+    [/^this (lesson|week)$/, 'print'], [/^year plan$/, 'plan'], [/^board$/, 'board'], [/^(reports?|my results)$/, 'rep']
+  ];
+  function actFor(pl) { var k = String(pl || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); if (!k) return null;
+    for (var i = 0; i < ACT.length; i++) if (ACT[i][0].test(k)) return ACT[i][1]; return null }
+  /* the first line of a button that already carries a second line */
+  function firstLine(b, had) { var c = b.cloneNode(true), x = c.querySelectorAll('small,i:not(.ic):not(.kxbd):not(.em),em,.kxt-c,br,span.f,span.d'); for (var i = 0; i < x.length; i++) x[i].remove(); return (c.textContent || '').replace(/\s+/g, ' ').trim() }
+  /*HUBLEX-BEGIN*/
+  var HUBLEX = {"deped updates":["📡","Signal Relay"],"attendance alerts":["🔔","Absence Beacon"],"mark a day":["📋","Roll Call Log"],"class goals":["🎯","Mission Targets"],"mark all present":["✅","All Hands on Deck"],"profile":["🪪","Crew File"],"guide lines":["📏","Flight Lines"],"worksheet questions":["✏️","Quest Forge"],"worksheet answer key":["💾","Quest Pack"],"new test":["➕","New Probe"],"calibrated quiz questions":["✏️","Calibration Forge"],"blank answer sheet":["🔵","Signal Grid"],"open answer sheet":["🔵","Open Signal Grid"],"lesson plan":["📄","Flight Plan"],"lesson plan no annotation":["📄","Clean Flight Plan"],"lesson plan with annotation":["📝","Annotated Flight Plan"],"cot files":["📎","Evidence Bay"],"intervention remedial action plan":["📋","Rescue Protocol"],"parental commitment forms":["🤝","Home Crew Pact"],"progress logs":["📅","Recovery Log"],"lesson presentation library":["🎞️","Briefing Reels"],"cot classroom observations":["🔭","Observation Runs"],"home reading sheet":["💾","Home Orbit Sheet"],"whole class":["👥","Full Crew"],"log reading":["📖","Log the Voyage"],"reports catalog":["🗂️","Report Hangar"],"charts and filters":["📈","Telemetry"],"view log":["📜","Flight Recorder"],"class analytics":["📊","Command Overview"],"kortex usage":["🛰️","Orbit Traffic"],"learner progress":["📈","Ascent Tracks"],"assessment blueprint":["🧭","Probe Blueprint"],"item analysis":["🔎","Deep Scan"],"competency mastery":["🎯","Mastery Radar"],"bow spread":["🗺️","Course Map"],"learner updates":["🧒","Crew Dispatch"],"goal certificates":["🎓","Target Medals"],"reading log":["📖","Voyage Log"],"learner notes":["🗒️","Crew Notes"],"parent consent":["📝","Launch Consent"],"family update":["📮","Home Transmission"],"family code slips":["🔑","Access Slips"],"this learner s file":["💾","Cadet Capsule"],"learner qr cards":["🪪","Boarding Cards"],"stars by game":["⭐","Star Map"],"difficulty by game":["🎚️","Thrust Levels"],"mark read":["✔️","Signal Received"],"who needs help":["🤝","Rescue Radar"],"attendance":["📋","Roll Call"],"worksheets":["🖨️","Quest Sheets"],"portfolio pack":["🗂️","Proof Vault"],"my grade 1 journey":["🌱","Voyage Keepsake"],"share kortex":["📱","Boarding Pass"],"technical certification":["🏅","Flight Clearance"],"read my lis sf 1":["📥","Dock the LIS Register"],"read my class records":["📥","Dock the Class Records"],"use all suggestions":["✅","Accept the Autopilot"],"all learners zip":["⬇️","Fleet Archive"],"class link":["🔗","Boarding Link"],"my profile":["🪪","My Crew File"],"school ns report":["🏫","Fleet Health Report"],"official workbook":["⬇️","Flight Workbook"],"vault backup":["📦","Vault Capsule"],"restore":["⤴","Re-Entry"],"school calendar":["🗓️","Orbit Calendar"],"roster template":["📋","Crew Manifest"],"checked":["✅","Systems Go"],"presenter view":["🎤","Briefing Console"],"presenter s guide":["🖨️","Briefing Notes"],"12 hour clock am pm":["🕰️","Twelve-Hour Orbit"],"default text":["↺","Original Signal"],"all":["🌌","Full Sky"],"what it is":["☄️","The Mission"],"14 games":["🎮","The Fleet"],"matatag bow":["🗺️","Course Chart"],"data privacy":["🛡️","Shield Code"],"how it works":["⚙️","Engine Room"],"authorship record":["📜","Planck Ledger"]};
+  var THEMED = {"snap score":1,"ascent ladder":1,"climb the ladder":1,"travel clearance deck":1,"form foundry":1,"theme studio":1,"lift off":1,"dock in accept scores":1,"beam up send scores":1,"lesson plan studio":1,"pick your dux vitae":1,"change dux vitae":1,"pick your ad astra":1,"change ad astra":1,"change your ad astra":1,"constellation studio":1,"question nebula":1,"records bay":1,"summit ledger":1,"observatory deck":1,"gravity check":1,"signal relay":1,"planck ledger":1,"crypto shield":1,"teleport drive":1,"event horizon":1,"zero state":1,"absolute freeze":1,"coherence check":1,"mission briefing":1,"spectrum render":1,"phase shift":1,"orbit clock":1,"entangled pairs":1,"vector state":1,"ground state":1,"launch dossier":1,"masterfile vault":1,"quantum lattice":1,"superposition data":1,"qubit registry":1,"wander map":1,"e class record":1};
+  /*HUBLEX-END*/
+  function norm(t) { return String(t || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim() }
+  /* R86: each game's own controls, named once in that game's own voice (its identity does not change with the mascot theme); the
+     plain meaning rides in italics. [emoji, name, plain] — or ['@key', plain] for one of the sixteen-voice words of the screen's theme. */
+  var GID = ''; try { GID = (W.__KXS && W.__KXS.g) || '' } catch (e) { }
+  var GAMELEX = {
+    '*': { 'all present': ['✅', 'All Hands on Deck'], 'mark all here': ['✅', 'All Hands on Deck'] },
+    abc: { 'words to practice': ['\u{1f3af}', 'Sprint Targets'] },
+    montage: { 'passport': ['\u{1f39f}️', 'Passport', 'Sticker Book'], 'spotlight': ['\u{1f526}', 'Spotlight', 'Pick the Next Learner'],
+      'collect results': ['\u{1f4e5}', 'Curtain Call', 'Collect Results'], 'participation sheet': ['✅', 'Cast List', 'Participation Sheet'],
+      'class planner': ['\u{1f5d3}️', 'Season Planner', 'Class & Planner'], 'episode editor': ['✏️', 'Script Room', 'Episode Editor'],
+      'dance moves': ['\u{1f483}', 'Choreo Deck', 'Dance Moves'], 'media shelf': ['\u{1f5c2}️', 'Prop Shelf', 'Media Shelf'],
+      'songbook print': ['\u{1f4da}', 'Songbook Press', 'Songbook Print'], 'look sound': ['\u{1f3a8}', 'Stage Design', 'Look & Sound'] },
+    blueprints: { 'week': ['\u{1f4d6}', 'Week Blueprint', 'Week'], 'plotter': ['\u{1f4d0}', 'Plotter', 'Lesson Plotter'], 'open plotter': ['\u{1f4d0}', 'Plotter', 'Open the Lesson Plotter'],
+      'coron words': ['\u{1f30a}', 'Coron Words', 'Local Word List'] },
+    balangay: { 'mapa': ['\u{1f5fa}️', 'Mapa', 'Map'], 'tuklas': ['\u{1f50d}', 'Tuklas', 'Discover'], 'sanay': ['\u{1f3af}', 'Sanay', 'Practice'],
+      'likha': ['\u{1f3a8}', 'Likha', 'Create'], 'pagdiriwang': ['\u{1f3c6}', 'Pagdiriwang', 'Celebrate'], 'library': ['\u{1f4da}', 'Aklatan', 'Library'],
+      'mark all here': ['✅', 'Lahat Sakay', 'Mark All Here'], 'sonar call': ['\u{1f4e1}', 'Sonar Call', 'Pick the Next Learner'],
+      'narito ako i am here': ['\u270b', 'Narito Ako!', 'I Am Here'], 'ipadala kay ma am send to teacher': ['\u{1f4e4}', 'Ipadala Kay Ma\u2019am', 'Send to Teacher'],
+      'my edits': ['@del', 'Delete My Edits'], 'progress': ['@del', 'Delete Progress'], 'files and notes': ['@del', 'Delete Files and Notes'] },
+    whiz: { 'apprentice academy': ['\u{1f393}', 'Apprentice Academy', 'Summative 1 · Weeks 1 to 4'], 'wizard s quest': ['\u{1f9d9}', 'Wizard’s Quest', 'Summative 2 · Weeks 5 to 8'],
+      'sorcerer s grand': ['\u{1f52e}', 'Sorcerer’s Grand', 'Term Exam'], 'test paper': ['\u{1f4dc}', 'Spell Scroll', 'Test Paper'],
+      'answer key': ['\u{1f5dd}️', 'Counter-Spell', 'Answer Key'], 'answer sheet': ['\u{1f52e}', 'Crystal Sheet', 'Answer Sheet'],
+      'reviewer copy': ['\u{1f989}', 'Owl’s Copy', 'Reviewer Copy'], 'encode paper test': ['✍️', 'Inscribe the Marks', 'Encode Paper Test'],
+      'pick a learner': ['\u{1f0cf}', 'Draw a Wizard', 'Pick a Learner'], 'review marks': ['@del', 'Delete Review Marks'], 'item edits': ['@undo', 'Undo Item Edits'],
+      'my test': ['@home', 'My Test'] },
+    arena: { 'spark summative 1': ['⚡', 'SPARK', 'Summative 1'], 'prime summative 2': ['\u{1f4a5}', 'PRIME', 'Summative 2'],
+      'live engine term exam': ['⚙️', 'LIVE ENGINE', 'Term Exam'], 'q a': ['\u{1f5c2}️', 'Arsenal', 'Q&A'] },
+    gauntlet: { 'q a': ['\u{1f5c2}️', 'Armory', 'Q&A'] },
+    kue: { 'class grid': ['\u{1fad0}', 'Node Lattice', 'Class Grid'], 'pairs': ['\u{1f465}', 'Linked Nodes', 'Pairs'],
+      'you are next': ['➡️', 'Next Uplink', 'You Are Next!'], 'new round': ['\u{1f504}', 'Reboot Cycle', 'New Round'],
+      'trigger node': ['', 'TRIGGER NODE', 'Pick the Next Learner'] },
+    psq: { 'excuse': ['\u{1f64b}', 'Stand-Down Pass', 'Excuse'], 'scan qr': ['\u{1f4f7}', 'Lock On', 'Scan QR'] }
+  };
+  function gameLex(T, k) { var e = (GAMELEX[GID] || {})[k] || GAMELEX['*'][k]; if (!e) return null;
+    if (e[0].charAt(0) === '@') { var tw = T[e[0].slice(1)]; return tw ? [tw[0], tw[1], e[1]] : null } return e }
+  /* the theme's own name for what a button says: the sixteen-voice action table first, then KORTEX's own names for its panels */
+  function lexFor(T, text, b) { var k = norm(text); if (!k) return null;
+    try { if (W.__kxRuleFor && W.__kxRuleFor(String(text || '').replace(/\s+/g, ' ').trim(), b)) return null } catch (e) { }   /* this game names it itself (its own Tools voice) */
+    var ge = gameLex(T, k); if (ge) return ge;
+    var a = actFor(k); if (a && T[a]) return T[a];
+    if (HUBLEX[k]) return HUBLEX[k];
+    for (var j = 0; j < BYWORD.length; j++) if (BYWORD[j][0].test(k) && T[BYWORD[j][1]]) return T[BYWORD[j][1]];
+    return null }
+  /* §4 Values and Names (R83 · R86): a chip whose face is the value it sets, and a tile that is the name of a thing, are not renamed */
+  var VALSEL = '[data-kxval],[data-v],[data-cur],[data-per],.pd-f>button,.kxsb,.rd-m,.rd-f,.tcy,.tcn,.drawn,.tps';
+  var NAMESEL = '[data-kxname],.tt,.tile,.cvb,.ft-c,.ks-c,.affm,.rd-c';
+  var OFFICIAL = /^(sf \d|deped (orders|memoranda)\b)/;
+  /* does KORTEX know this top line as one of its own names? (a theme word of the screen, a panel name, an official form) */
+  function known(text) { var k = norm(text); if (!k) return false; if (THEMED[k] || OFFICIAL.test(k)) return true;
+    var T = theme() || {}, x; for (x in T) if (T[x] && T[x].length === 2 && typeof T[x][1] === 'string' && norm(T[x][1]) === k) return true;
+    for (x in HUBLEX) if (norm(HUBLEX[x][1]) === k) return true;
+    var G = [GAMELEX[GID] || {}, GAMELEX['*']]; for (var gi = 0; gi < 2; gi++) for (x in G[gi]) if (G[gi][x][0].charAt(0) !== '@' && norm(G[gi][x][1]) === k) return true;
+    try { var TH = (W.__KXS && W.__KXS.th) || {}; for (x in TH) if (TH[x] && TH[x].l && norm(String(TH[x].l).replace(/^[^A-Za-z0-9]+/, '')) === k) return true } catch (e) { }
+    return false }
+  function WRAP(top, plain) { return '<span class="kxt-w"><span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span><\/span>' }
+  /* a button that carries a picture or a badge keeps it: only its word is exchanged for the two lines */
+  function swapText(b, top, plain, keepRest) {
+    var tw = document.createTreeWalker(b, NodeFilter.SHOW_TEXT, null), tn, hit = null, rest = [];
+    while ((tn = tw.nextNode())) { var p = tn.parentNode; if (p && p.closest && p.closest('small,i,em,.kxt-c,.kxl2,.kxt-w,.kxbd,span.f,span.d')) continue;
+      if (!/[A-Za-z]/.test(tn.nodeValue)) continue; if (!hit) hit = tn; else rest.push(tn) }
+    if (!hit) return false;
+    var sp = document.createElement('span'); sp.className = 'kxt-w'; sp.innerHTML = '<span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span>';
+    hit.parentNode.replaceChild(sp, hit); if (!keepRest) for (var i = 0; i < rest.length; i++) rest[i].nodeValue = ''; return true;
+  }
+  /* a tile that says only a game's name wears that game's own line underneath it */
+  var GAMES = {
+    'ABC SPRINT': 'Trace. Link. Build.', 'MONTAGE': 'Revue. Tapestry. Vanguard.', '365 SMARTY': 'Brain. Bold. Best.',
+    'PEDAGOGICAL BLUEPRINTS': 'Orchestrate. Configure. Codify.', 'BALANGAY SIKHAY': 'Decode. Track. Fluent.',
+    'PANTAS': 'Sovereign. Illumine. Zenith.', 'WHIZ CUP': 'Outwit. Dominate. Precision.', 'ARENA': 'Recall. Conquer. Master.',
+    'GAUNTLET': 'Move. Mind. Match.', 'HelixPDGM': 'Overdrive. Fuse. Surge.', 'KUE': 'Audit. Forge. Harness.',
+    'SYNAPSE SIMULATOR': 'Neural. Kinetic. Omniscient.', 'SYNAPSE': 'Neural. Kinetic. Omniscient.',
+    'CRYPTO CORE': 'Prompt. Isolate. Activate.',
+    'PlaySphere': 'Outsmart. Outplay. Outlast.', 'PED. BLUEPRINTS': 'Orchestrate. Configure. Codify.'
+  };
+  /* a button that is nothing but a symbol: the symbol says which control it is, the theme says what to call it */
+  var GLYPH = { '\u26f6': ['fs', 'Full Screen'], '\u2922': ['fs', 'Full Screen'], '\u{1f50a}': ['snd', 'Sound'], '\u{1f507}': ['snd', 'Sound'],
+                '\u{1f509}': ['snd', 'Sound'], '\u{1f3e0}': ['home', 'Home'], '\u{1f5b1}\ufe0f': ['cur', 'Pointer'], '\u{1f5b1}': ['cur', 'Pointer'],
+                '\u00a9': ['auth', 'Authorship'], '\u{1f3b2}': ['rnd', 'Random pick'], '\u23f9': ['stop', 'Stop'], '\u{1f4fa}': ['live', 'On the big screen'],
+                '\u23ee': ['prev', 'Previous'], '\u23f8': ['pause', 'Pause'], '\u23ed': ['nxt', 'Next'], '\u{1f3b5}': ['music', 'Music'], 'Aa': ['textsize', 'Text size'] };
+  /* a character portrait is not a labelled control: the mascot keeps its face and says its name on tap */
+  function portrait(b) { return !!(b.className && /kxmasc|kxh-|avc/.test(b.className)) }
+  function theme() { try { return W.__KXT || (W.KXTH && W.KXTH.cur && W.KXTH.cur()) || null } catch (e) { return null } }
+  function words(b) { return (b.innerText || '').replace(/\s+/g, ' ').trim() }
+  function plainOf(b) { return words(b).replace(/[^A-Za-z0-9'’ ]/g, ' ').replace(/\s+/g, ' ').trim() }
+  function wearTwoLines(b, w, plain) {
+    if (!w) return false;
+    var top = (w[0] ? w[0] + ' ' : '') + w[1];
+    b.innerHTML = '<span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span>';
+    b.setAttribute('data-kxl', b.innerHTML); b.title = w[1] + ' · ' + plain;
+    b.setAttribute('aria-label', w[1] + ' · ' + plain); return true;
+  }
+  function pass(root) {
+    var T = theme(); if (!T) return 0; var n = 0;
+    var els = (root || document).querySelectorAll('button,a.btn,[role=button],label.btn');
+    for (var i = 0; i < els.length; i++) {
+      var b = els[i]; if (b.getAttribute('data-kxl') === b.innerHTML) continue;
+      if (b.closest && b.closest('[data-kxlskip]')) continue;   /* a layer that draws its own two lines (Screen 3) is read by the label scan as it stands */
+      if (portrait(b)) continue;                       /* §4 Portraits: a face, not a word */
+      if (b.hasAttribute('data-v') || b.closest('.kxh-sw')) continue;   /* a color swatch is a color */
+      if (b.matches(NAMESEL)) continue;                                 /* a name tile is its name */
+      var isVal = b.matches(VALSEL);                                    /* a value chip is its value: never renamed */
+      /* a button that already wears a second line is right as it stands: the stylesheet puts it in italics */
+      var had = null, hs = b.querySelectorAll('small,i:not(.ic):not(.kxbd):not(.em),em,.kxt-c,span.f');
+      for (var hi = 0; hi < hs.length && !had; hi++) if ((hs[hi].textContent || '').trim()) had = hs[hi];
+      if (had && (had.textContent || '').trim()) {
+        if (b.classList.contains('kxt') || b.querySelector('.kxt-l,.kxt-w,select,input:not([type=file])')) { if (b.querySelector('.kxt-l')) { } continue; }
+        if (isVal) continue;
+        var fl = firstLine(b, had);
+        if (known(fl.replace(/[^A-Za-z0-9'’& ]/g, ' '))) { b.setAttribute('data-kxth', '1'); b.setAttribute('data-kxl', b.innerHTML); continue }
+        var aw = lexFor(T, fl, b);
+        if (!aw) continue;
+        var pm = aw[2] || fl.replace(/^[^A-Za-z0-9]+/, '').replace(/\s+/g, ' ').trim(), sec = (had.textContent || '').replace(/\s+/g, ' ').trim();
+        if (/^print save pdf$/.test(norm(pm))) { pm = 'Save PDF'; sec = 'I-save ang PDF' }   /* R19: a tool saves; the Print Center prints */
+        if (aw === T.pdf && /^i-?print/i.test(sec)) sec = 'I-save ang PDF';
+        var tbw = b.querySelector('.tbw'), tbi = b.querySelector('.tbi');
+        if (tbw && had.classList.contains('tbf')) {   /* a tab bar that draws icon, word and line in its own three parts keeps them */
+          tbw.textContent = aw[1]; if (tbi) tbi.textContent = aw[0]; had.textContent = pm + (sec && norm(sec) !== norm(pm) ? ' \u00b7 ' + sec : '');
+          b.title = aw[1] + ' \u00b7 ' + pm; b.setAttribute('data-kxth', '1'); b.setAttribute('data-kxl', b.innerHTML); n++; continue }
+        var pic = b.querySelector('img,svg,.kxbd,[data-keep],input'), shortTr = sec.length <= 30 && !/[.!?,]/.test(sec);
+        if (pic) {
+          if (!swapText(b, aw[1], pm + (shortTr && norm(sec) !== norm(pm) ? ' · ' + sec : ''), true)) continue;
+          if (shortTr && had.parentNode) had.parentNode.removeChild(had);   /* a short translation rides in the plain line; a description stays where it stands */
+        } else b.innerHTML = WRAP((aw[0] ? aw[0] + ' ' : '') + aw[1], pm + (sec && norm(sec) !== norm(pm) ? ' · ' + sec : ''));
+        b.title = aw[1] + ' · ' + pm; b.setAttribute('data-kxth', '1'); b.setAttribute('data-kxl', b.innerHTML); n++; continue;
+      }
+      var actw = null, said = words(b), pl = plainOf(b), ar = (b.getAttribute('aria-label') || b.title || '');
+      /* a control this game names in its own Tools voice (her per-game list) is left to the game's skin, whatever it shows now: a word, or a bare symbol with a name */
+      try { if (!isVal && W.__kxRuleFor && W.__kxRuleFor(pl || ar.split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim(), b)) continue } catch (e) { }
+      var top = said, plain = '', w = null;
+      var spec = isVal ? null : BYID[b.id];
+      if (!isVal && !spec && !pl) spec = GLYPH[said.trim()] || GLYPH[said.trim().replace(/\ufe0f/g, '')] || null;
+      if (!spec && !isVal) for (var j = 0; j < BYWORD.length && !spec; j++)
+        if (BYWORD[j][0].test(pl) || (!pl && BYWORD[j][0].test(ar))
+            || (!pl && BYWORD[j][2] && ar.toLowerCase().indexOf(BYWORD[j][2].toLowerCase()) >= 0))
+          spec = [BYWORD[j][1], BYWORD[j][2]];
+      if (spec) { w = T[spec[0]]; plain = spec[1] || pl; if (!w) continue; top = (w[0] ? w[0] + ' ' : '') + w[1]; }
+      else if (GAMES[said]) { plain = GAMES[said]; }
+      else if (!isVal && !pl && lexFor(T, (b.getAttribute('aria-label') || b.title || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0], b)) {   /* a bare symbol whose name is known: the theme's word, the name in italics */
+        var nm0 = (b.getAttribute('aria-label') || b.title || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim(); w = lexFor(T, nm0, b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = nm0; actw = w; }
+      else if (!isVal && pl && lexFor(T, pl, b) && !b.querySelector('input,select')) { w = lexFor(T, pl, b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = w[2] || said.replace(/^[^A-Za-z0-9]+/, '').trim() || pl; actw = w;
+        if (/^print save pdf$/.test(norm(plain))) plain = 'Save PDF';                       /* R19: a tool saves; the Print Center prints */
+        var fk = FIL[norm(pl)] || FIL[pl.toLowerCase()]; if (fk) plain += ' \u00b7 ' + fk; }   /* her Filipino line rides along */
+      else if (!isVal && said.indexOf(' \u00b7 ') > 0 && !b.children.length && lexFor(T, said.slice(0, said.indexOf(' \u00b7 ')), b)) {   /* "Name · what it is" on one line */
+        w = lexFor(T, said.slice(0, said.indexOf(' \u00b7 ')), b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = said.replace(/^[^A-Za-z0-9]+/, '').trim(); actw = w; }
+      else {
+        var k = (pl || ar.split('\u00b7')[0]).toLowerCase().replace(/[!?.]+$/, '').trim();
+        plain = FIL[k] || '';
+        if (!pl) {   /* R85: a bare symbol whose name is known (its title or aria-label) says the symbol and the name on top, the Filipino underneath */
+          var nm = (b.title || ar || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim();
+          if (nm && FIL[nm.toLowerCase()]) { top = said + ' ' + nm; plain = FIL[nm.toLowerCase()]; } else plain = '';
+        }
+        if (!plain && !b.children.length && said.indexOf(' \u2022 ') > 0) {   /* "Name • what it is": the name on top, the rest in italics */
+          var cb = said.indexOf(' \u2022 '); top = said.slice(0, cb); plain = said.slice(cb + 3);
+          var wb = lexFor(T, top, b); if (wb) { w = wb; top = (wb[0] ? wb[0] + ' ' : '') + wb[1]; plain = (wb[2] || said.slice(0, cb).replace(/^[^A-Za-z0-9]+/, '')) + ' \u2022 ' + plain; actw = wb }
+        }
+        if (!plain && !b.children.length && said.indexOf(' \u00b7 ') > 0) {   /* R85: a plain "Name · what it is" on one line: the name on top, the rest in italics underneath */
+          var cut = said.indexOf(' \u00b7 '); top = said.slice(0, cut); plain = said.slice(cut + 3);
+        }
+        if (!plain) continue;
+      }
+      /* a button that carries a picture or a badge keeps it: the second line is added beneath, never over it */
+      if (b.querySelector('img,svg,.kxbd,[data-keep],input')) {
+        if (actw) { if (!swapText(b, actw[1], plain)) continue }   /* a pictured button: the picture stays, its word becomes the theme's two lines */
+        else { var sm = document.createElement('small'); sm.className = 'kxl2'; sm.textContent = plain; b.appendChild(sm) }
+      } else if (actw) {
+        b.innerHTML = WRAP(top, plain);
+      } else {
+        b.innerHTML = '<span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span>';
+      }
+      if (w || GAMES[said]) b.setAttribute('data-kxth', '1');
+      b.setAttribute('data-kxl', b.innerHTML);
+      if (!said) { b.title = (spec ? spec[1] || top : top) + ' \u00b7 ' + plain; b.setAttribute('aria-label', b.title); }
+      n++;
+    }
+    return n;
+  }
+  /* every second line a button wears is italic, whoever drew it (R18: the plain meaning sits in italics underneath) */
+  function style() {
+    if (document.getElementById('kxlblcss')) return;
+    var st = document.createElement('style'); st.id = 'kxlblcss';
+    st.textContent = 'button small,button i:not(.ic):not(.kxbd):not(.em),button em,a.btn small,a.btn em,[role=button] small,[role=button] em,.kxt-c,.kxl2,.ft-t small,.ftd,.tlx{font-style:italic!important}'
+      + 'button .kxt-l,a.btn .kxt-l{display:block;font-style:normal;line-height:1.08}button .kxt-c,a.btn .kxt-c,button small.kxl2,#kxzm small{display:block;font-size:.74em;font-weight:600;opacity:.9;line-height:1.1}'
+      + '.pill.kxp2 .kxt-l,.pill.kxp2 .kxt-c{display:block}.pill.kxp2 .kxt-c{font-size:10px;font-weight:700;opacity:.9}'
+      + '.kxt-w{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;line-height:1.12;vertical-align:middle;max-width:100%;text-align:inherit;min-width:0}'
+      + '.kxt-w .kxt-l{display:block;font-style:normal;white-space:normal}.kxt-w .kxt-c{display:block;font-style:italic;font-size:.72em;font-weight:600;opacity:.9;margin-top:1px;white-space:normal;text-transform:none;letter-spacing:0}'
+      + 'button.kxt,a.btn.kxt{flex-direction:column!important}'
+      + 'button:has(>.kxt-l),a.btn:has(>.kxt-l),[role=button]:has(>.kxt-l),#kxzm{flex-direction:column!important}'
+      /* a chip that carries a picture, a game's name and that game's own line (🎯 Today's Mission — Play This Week): the line sits UNDER the name, the picture beside both */
+      + '.msn-p button:has(>.kxl2),.msn-w button:has(>.kxl2){display:inline-grid!important;grid-template-columns:auto auto;column-gap:6px;row-gap:0;align-items:center;justify-items:start;text-align:left}.msn-p button:has(>.kxl2)>img,.msn-w button:has(>.kxl2)>img{grid-row:1 / span 2}.msn-p button>.kxl2,.msn-w button>.kxl2{grid-column:2;display:block}'   /* the plain line sits UNDER its name in a bar that lays its keys out in a row, too */
+      + 'button[data-kxl="1"]{line-height:1.1}';
+    (document.head || document.documentElement).appendChild(st);
+  }
+  function run() { try { style(); return pass(document) } catch (e) { return 0 } }
+  W.KXLBL = { run: run, pass: pass, byId: BYID, byWord: BYWORD, hublex: HUBLEX, known: known, valsel: VALSEL, namesel: NAMESEL, lexFor: function (t) { var T = theme(); return T ? lexFor(T, t) : null } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  try {
+    var t = 0, mo = new MutationObserver(function () { clearTimeout(t); t = setTimeout(run, 80) });
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e) { }
+  try { window.addEventListener('kxtheme', run) } catch (e) { }
 })();
 </script><script>(function(){function sess(){try{var s=JSON.parse(localStorage.getItem("KORTEX_SESS")||"null");return s&&s.role==="learner"?s:null}catch(e){return null}}
 function nextOf(){try{var s=sess(),N=JSON.parse(localStorage.getItem("KORTEX_NEXT")||"null");if(!s||!N||N.id!==s.id||!N.list)return null;var slug=location.pathname.split("/").pop().replace(/\.html$/,"");for(var i=0;i<N.list.length;i++){var p=N.list[i];if(p&&p.href&&p.k!=="s:"+slug)return p}}catch(e){}return null}
