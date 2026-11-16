@@ -1846,7 +1846,7 @@ function kxNav(){if(!isTopGame()||document.getElementById("kxnav"))return;
   +'#kxnav::before{content:"";position:absolute;inset:0;background-image:var(--kx-pat);background-size:84px 56px;opacity:.15;pointer-events:none}#kxnav>*{position:relative}'
   +'#kxnav .kn,#kxnav #kxdock .kd{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:64px;height:42px;padding:2px 10px;border-radius:12px;border:2px solid rgba(255,255,255,.75);font:800 14px/1.05 '+NF+';cursor:pointer;box-sizing:border-box;white-space:nowrap}'
   +'#kxnav .kn small,#kxnav #kxdock .kd small{font-size:10px;font-weight:700;opacity:.88}#kxnav .l1{display:inline-flex;align-items:center;gap:4px}#kxnav .kn[hidden]{display:none}'
-  +'#kxnav .kn.h{background:#fff;color:var(--kx-n1,#14204a)}#kxnav .kn.b{background:rgba(255,255,255,.14);color:#fff;border:2px solid var(--kx-a,#ffd23f)}#kxnav .kn.x{background:var(--kx-x,#e5383b);color:#fff}'
+  +'#kxnav .kn.kxh{background:#fff;color:var(--kx-n1,#14204a)}#kxnav .kn.kxb{background:rgba(255,255,255,.14);color:#fff;border:2px solid var(--kx-a,#ffd23f)}#kxnav .kn.kxx{background:var(--kx-x,#e5383b);color:#fff}'
   +'#kxnav .kt{flex:1;min-width:0;text-align:center;color:#fff;font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
   +'#kxnav .kr{display:flex;align-items:center;gap:6px}#kxnav .kr button:not(.kn):not(.kd){height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font:700 13px system-ui,sans-serif;padding:0 10px;cursor:pointer}'
   +'#kxnav #kxdock{display:flex;gap:6px;align-items:center}#kxnav #kxdock .kd .ki{font-size:16px}'
@@ -1856,7 +1856,7 @@ function kxNav(){if(!isTopGame()||document.getElementById("kxnav"))return;
   +'@media (min-height:561px) and (max-width:560px){#kxnav #kxnR,#kxnav #kxdock{display:contents}#kxnav .kn,#kxnav #kxdock .kd{flex:1 1 0;min-width:0;max-width:112px}#kxnav .kt,#kxnav #kxnM{display:none}}';
  document.head.appendChild(st);
  var t=(document.title||"").split(/[·|—-]/)[0].trim(),bar=document.createElement("div");bar.id="kxnav";bar.setAttribute("data-kxskip","1");
- bar.innerHTML=nbtn("kxnH","h",T.home[0],T.home[1],"Home","Home: back to KORTEX, still signed in · Tahanan")+nbtn("kxnB","b",T.back[0],T.back[1],"Back","Back: one step back in this game · Bumalik")+'<button type="button" class="kxmasc" id="kxnM" data-kxskip="1" aria-label="Mascot"></button><span class="kt"></span><span class="kr" id="kxnR">'+nbtn("kxnX","x",T.exit[0],T.exit[1],"Exit","Exit: all done, sign out of KORTEX · Labas")+'</span>';
+ bar.innerHTML=nbtn("kxnH","kxh",T.home[0],T.home[1],"Home","Home: back to KORTEX, still signed in · Tahanan")+nbtn("kxnB","kxb",T.back[0],T.back[1],"Back","Back: one step back in this game · Bumalik")+'<button type="button" class="kxmasc" id="kxnM" data-kxskip="1" aria-label="Mascot"></button><span class="kt"></span><span class="kr" id="kxnR">'+nbtn("kxnX","kxx",T.exit[0],T.exit[1],"Exit","Exit: all done, sign out of KORTEX · Labas")+'</span>';
  bar.querySelector(".kt").textContent=t;document.body.appendChild(bar);document.body.classList.add("kxnav-on");document.documentElement.classList.add("kxnav-on");bar.querySelector("#kxnB").hidden=true;
  try{mascotInit(document.getElementById("kxnM"))}catch(e){}
  var home=function(){if(KXN.P){try{KXN.P.KXHOME();return}catch(e){}}try{location.href=KXN.hub}catch(e){}};

@@ -536,7 +536,7 @@ const GM=[["Maze Escape","🌀","outsmart","maze",{skin:"plain",bg:["#e9f7d4","#
 ["Brick Breaker","🧱","outsmart","breakout",{skin:"brick",bg:["#1b2a52","#0f1a38"],decor:"stars",pl:"⚽"},"Bounce and break","← → keys"],
 ["Marble Roll","🔵","outsmart","roll",{skin:"bin",bg:["#f2dcb3","#d9b77e"],decor:"wood",pl:"🔵"},"Tilt and settle","← → keys"],
 ["Gold Miner","⛏️","outplay","hook",{skin:"nugget",bg:["#c9a06a","#8a5a2b"],decor:"dirt",pl:"🪝"},"Swing and grab","Space to throw"],
-["Space Invaders","👾","outlast","defend",{skin:"ufo",bg:["#0b1030","#1c0f4a"],decor:"stars",pl:"🚀"},"Blast the wrong, save the right","← → move, Space shoots"],
+["Saucer Sweep","🛸","outlast","defend",{skin:"ufo",bg:["#0b1030","#1c0f4a"],decor:"stars",pl:"🚀"},"Blast the wrong, save the right","← → move, Space shoots"],
 ["Memory Matrix","🧠","outplay","memory",{skin:"plain",bg:["#2a1f5c","#120d33"],decor:"stars"},"Watch, remember, flip","Arrows pick, Space flips"],
 ["Word Weaver","🔠","outsmart","weave",{skin:"plain",bg:["#fff6dc","#ffe2a8"],decor:"none"},"Build the answer","Type the letters, Enter checks"],
 ["Fruit Catcher","🧺","outplay","catch",{skin:"fruit",bg:["#bfe9ff","#e7f7d4"],decor:"grass",pl:"🧺"},"Catch the right fruit","← → keys"],
@@ -709,7 +709,7 @@ notes.forEach(o=>{if(!u.lock)o.y+=v;const x=lw*(o.l+.5),nr=Math.abs(o.y-HY)<24;c
 for(let l=0;l<n;l++)box(l,l*lw+4,HY+24,lw-8,48);if(u.kb){c.strokeStyle="#fff";c.lineWidth=3;c.strokeRect(sel*lw+2,HY+22,lw-4,52)}
 if(msg&&msg.l-->0)say(msg.t,26,"#ffd166");
 const cn=notes.filter(o=>o.l==ci).sort((a,b)=>Math.abs(a.y-HY)-Math.abs(b.y-HY))[0];u.tgt={x:lw*(ci+.5),y:cn?cn.y:-99}})}
-/* 👾 SPACE INVADERS: blast every WRONG answer and let the right one land safely */
+/* 🛸 SAUCER SWEEP: blast every WRONG answer and let the right one land safely */
 else if(kind=="defend"){let I=[],B=[],fx=W/2,dir=1,y0=30,last=0,land=0;
 reset=()=>{const w=Math.min(78,(W-24)/n-8);I=it.ch.map((_,k)=>({k,dx:(k-(n-1)/2)*(w+8),on:1}));B=[];fx=W/2;dir=1;y0=30;land=0};reset();
 const IW=()=>Math.min(78,(W-24)/n-8);
@@ -2202,7 +2202,7 @@ function kxNav(){if(!isTopGame()||document.getElementById("kxnav"))return;
   +'#kxnav::before{content:"";position:absolute;inset:0;background-image:var(--kx-pat);background-size:84px 56px;opacity:.15;pointer-events:none}#kxnav>*{position:relative}'
   +'#kxnav .kn,#kxnav #kxdock .kd{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:64px;height:42px;padding:2px 10px;border-radius:12px;border:2px solid rgba(255,255,255,.75);font:800 14px/1.05 '+NF+';cursor:pointer;box-sizing:border-box;white-space:nowrap}'
   +'#kxnav .kn small,#kxnav #kxdock .kd small{font-size:10px;font-weight:700;opacity:.88}#kxnav .l1{display:inline-flex;align-items:center;gap:4px}#kxnav .kn[hidden]{display:none}'
-  +'#kxnav .kn.h{background:#fff;color:var(--kx-n1,#14204a)}#kxnav .kn.b{background:rgba(255,255,255,.14);color:#fff;border:2px solid var(--kx-a,#ffd23f)}#kxnav .kn.x{background:var(--kx-x,#e5383b);color:#fff}'
+  +'#kxnav .kn.kxh{background:#fff;color:var(--kx-n1,#14204a)}#kxnav .kn.kxb{background:rgba(255,255,255,.14);color:#fff;border:2px solid var(--kx-a,#ffd23f)}#kxnav .kn.kxx{background:var(--kx-x,#e5383b);color:#fff}'
   +'#kxnav .kt{flex:1;min-width:0;text-align:center;color:#fff;font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
   +'#kxnav .kr{display:flex;align-items:center;gap:6px}#kxnav .kr button:not(.kn):not(.kd){height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font:700 13px system-ui,sans-serif;padding:0 10px;cursor:pointer}'
   +'#kxnav #kxdock{display:flex;gap:6px;align-items:center}#kxnav #kxdock .kd .ki{font-size:16px}'
@@ -2212,7 +2212,7 @@ function kxNav(){if(!isTopGame()||document.getElementById("kxnav"))return;
   +'@media (min-height:561px) and (max-width:560px){#kxnav #kxnR,#kxnav #kxdock{display:contents}#kxnav .kn,#kxnav #kxdock .kd{flex:1 1 0;min-width:0;max-width:112px}#kxnav .kt,#kxnav #kxnM{display:none}}';
  document.head.appendChild(st);
  var t=(document.title||"").split(/[·|—-]/)[0].trim(),bar=document.createElement("div");bar.id="kxnav";bar.setAttribute("data-kxskip","1");
- bar.innerHTML=nbtn("kxnH","h",T.home[0],T.home[1],"Home","Home: back to KORTEX, still signed in · Tahanan")+nbtn("kxnB","b",T.back[0],T.back[1],"Back","Back: one step back in this game · Bumalik")+'<button type="button" class="kxmasc" id="kxnM" data-kxskip="1" aria-label="Mascot"></button><span class="kt"></span><span class="kr" id="kxnR">'+nbtn("kxnX","x",T.exit[0],T.exit[1],"Exit","Exit: all done, sign out of KORTEX · Labas")+'</span>';
+ bar.innerHTML=nbtn("kxnH","kxh",T.home[0],T.home[1],"Home","Home: back to KORTEX, still signed in · Tahanan")+nbtn("kxnB","kxb",T.back[0],T.back[1],"Back","Back: one step back in this game · Bumalik")+'<button type="button" class="kxmasc" id="kxnM" data-kxskip="1" aria-label="Mascot"></button><span class="kt"></span><span class="kr" id="kxnR">'+nbtn("kxnX","kxx",T.exit[0],T.exit[1],"Exit","Exit: all done, sign out of KORTEX · Labas")+'</span>';
  bar.querySelector(".kt").textContent=t;document.body.appendChild(bar);document.body.classList.add("kxnav-on");document.documentElement.classList.add("kxnav-on");bar.querySelector("#kxnB").hidden=true;
  try{mascotInit(document.getElementById("kxnM"))}catch(e){}
  var home=function(){if(KXN.P){try{KXN.P.KXHOME();return}catch(e){}}try{location.href=KXN.hub}catch(e){}};
