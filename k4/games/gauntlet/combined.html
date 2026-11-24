@@ -69,6 +69,23 @@ var APP = on, LVX = /\/(?:kk|k[1-6])\//;
 try { if (!on && W.parent !== W && W.parent.__KXPLAY === true) on = true } catch (e) {}
 try { if (!on && W.top !== W && W.top.__KXPLAY === true) on = true } catch (e) {}
 try { if (!on && ((typeof W.__KXLV === 'string' && W.__KXLV) || LVX.test(location.pathname || ''))) on = true } catch (e) {}
+/* (24 Nov 22:00, Fable; her words 21:44 "Bakit week 1 din lang ang para sa klase ko? Pang playstore ito." — Blueprint R207) HER OWN CLASS HAS
+   THE WHOLE GRADE 1 WHEREVER ITS LINK OPENS — ALSO INSIDE THE PLAY APP. On a phone that has the KORTEX app, Android hands every link of this site
+   to the app, so her Class Link came with the app's own referrer and the lines below sent her class to the Week-1 folder (k1/). The pages of her
+   class's site (the hub at the main link and Grade 1's own games) are sealed: such a page stands here only because her class key opened it — the
+   opener leaves its mark (window.__KXT4, and "KX_T4" for the tab). With that mark the page and every side inside it are her class's site as in
+   a browser: no Play lock, no sending to k1/, nothing kept for the tab. A stranger has no key, so a stranger never has the mark on such a page;
+   the seven level folders are the trial for everyone, mark or no mark. */
+var CLS = false;
+try {
+  var tp0 = ''; try { tp0 = W.top.location.pathname || '' } catch (e) { tp0 = location.pathname || '' }
+  var cp0 = !LVX.test(tp0) && !/\/(?:kk|k[1-6])f\//.test(tp0) && !(typeof W.__KXLV === 'string' && W.__KXLV) &&
+            (/\/games\/[a-z0-9]+\/combined\.html$/.test(tp0) || (/\/(?:index\.html)?$/.test(tp0) && !/\/(?:library|levels|media|icons)\/(?:index\.html)?$/.test(tp0)));
+  var mk0 = false; try { mk0 = W.top.__KXT4 === 1 } catch (e) {}
+  if (!mk0) mk0 = get('KX_T4') === '1';
+  CLS = cp0 && mk0;
+} catch (e) {}
+if (CLS) { on = false; APP = false }
 /* 0. (24 Nov 18:45, Fable; her words 17:15 "NEVER MAPIPRINT O MASISAVE NINUMAN ANG GAWA KO. SA PUBLIC AT PLAYSTORE. O KUNG ANONG WAY PARA
    MAREPRODUCE" · 17:28 "Ang aether sa playstore???" — Blueprint R200 ④, R203 ①) NOTHING OF HERS IS COPIED OUT OF A PAGE: in a level's folder,
    in the Play app, and in the online library (the first pages of her stories) however it is opened — no selecting, no copy or cut, no
