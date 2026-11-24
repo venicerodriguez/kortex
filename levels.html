@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><script>/* KORTEX PLAY: in the Play app nothing about a child is typed or loaded (R174) */(function KXPLAYLOCK(){
+/* KORTEX PLAY (R174 ②): in the Google Play app nothing about a child is typed or loaded — no name, LRN, score, roster or record;
+   the Teacher sees the sample class only. On only when the page is opened by the Play app: ?play=1 on the start page (the app's
+   start URL), kept for the tab in sessionStorage "KX_PLAY", or an android-app:// referrer. The website itself stays as it is. */
+var W = window, D = document, on = false, SS = null;
+try { SS = W.sessionStorage } catch (e) {}
+function get(k) { try { return SS ? Storage.prototype.getItem.call(SS, k) : null } catch (e) { return null } }
+function set(k, v) { try { if (SS) Storage.prototype.setItem.call(SS, k, v) } catch (e) {} }
+try {
+  var q = /(^|[?&])play=1(&|$)/.test((location.search || '').slice(1)), tq = false;
+  try { tq = /(^|[?&])play=1(&|$)/.test((W.top.location.search || '').slice(1)) } catch (e) {}
+  /* (24 Nov 15:10, Fable) the referrer of the Play app ITSELF only: a class link tapped in Gmail or another Android app also comes with an
+     android-app:// referrer, and her own class would have met the sample-class lock on Grade 1's own site */
+  on = q || tq || get('KX_PLAY') === '1' || /^android-app:\/\/io\.github\.venicerodriguez\.kortex\.app(\/|$)/.test(D.referrer || '');
+} catch (e) {}
+/* (24 Nov 15:10, Fable; her words 14:27 "IBINIGAY MO NANG LIBRE LAHAT") THE SEVEN LEVEL FOLDERS (kk/, k1/ … k6/) ARE THE PLAY APP'S TRIAL
+   WHEREVER THEY ARE OPENED: before, the lock stood only with ?play=1, so the same pages typed into a browser were wide open (every tool,
+   every editor). A level's page is locked always; a side of a game (a frame) follows the page around it; the tab's mark (KX_PLAY) is still
+   written by the Play app only, so Grade 1's own site (her class) stays as it is in a browser. */
+var APP = on, LVX = /\/(?:kk|k[1-6])\//;
+try { if (!on && W.parent !== W && W.parent.__KXPLAY === true) on = true } catch (e) {}
+try { if (!on && W.top !== W && W.top.__KXPLAY === true) on = true } catch (e) {}
+try { if (!on && ((typeof W.__KXLV === 'string' && W.__KXLV) || LVX.test(location.pathname || ''))) on = true } catch (e) {}
+/* 0. (24 Nov 18:45, Fable; her words 17:15 "NEVER MAPIPRINT O MASISAVE NINUMAN ANG GAWA KO. SA PUBLIC AT PLAYSTORE. O KUNG ANONG WAY PARA
+   MAREPRODUCE" · 17:28 "Ang aether sa playstore???" — Blueprint R200 ④, R203 ①) NOTHING OF HERS IS COPIED OUT OF A PAGE: in a level's folder,
+   in the Play app, and in the online library (the first pages of her stories) however it is opened — no selecting, no copy or cut, no
+   dragging a picture out, no long-press or right-click menu (its "Download image", "Copy image", "Save as"), no printing (the page prints
+   blank), and the keys Ctrl or ⌘ with S, P, U, A, and F12 closed. A box that is typed in (a PIN, a search, a game's own answer) keeps its
+   caret and its own selection. Grade 1's own class site (her class) is as it was. What this does NOT stop: a screenshot (the app's own
+   secure screen will, R201), and a programmer who reads the page's file — which is why a level here holds Week 1 only (R181). */
+var NC = on; try { if (!NC && /\/library\//.test(location.pathname || '')) NC = true } catch (e) {}
+try { if (!NC && W.parent !== W && W.parent.__KXNOCOPY === true) NC = true } catch (e) {}
+if (NC && W.__KXNOCOPY !== true) {
+  W.__KXNOCOPY = true;
+  (function () {
+    var BOX = 'input:not([readonly]):not([disabled]),textarea:not([readonly]):not([disabled]),[contenteditable=""],[contenteditable="true"]';
+    function box(t) { try { return !!(t && t.closest && t.closest(BOX)) } catch (e) { return false } }
+    function stop(e) { try { e.preventDefault() } catch (x) {} }
+    var css = 'html,body,body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}' +
+              BOX + '{-webkit-user-select:text!important;user-select:text!important}' +
+              'img,svg,canvas,video,picture{-webkit-user-drag:none!important}' +
+              '@media print{html,body{display:none!important}}';
+    function style() {
+      try {
+        if (D.getElementById('kxNoCopy')) return;
+        var st = D.createElement('style'); st.id = 'kxNoCopy'; st.textContent = css; (D.head || D.documentElement).appendChild(st);
+      } catch (e) {}
+    }
+    style(); D.addEventListener('DOMContentLoaded', style); W.addEventListener('beforeprint', style);
+    D.addEventListener('contextmenu', stop, true);
+    D.addEventListener('selectstart', function (e) { if (!box(e.target)) stop(e) }, true);
+    D.addEventListener('dragstart', function (e) { try { if (e.target && e.target.closest && e.target.closest('[draggable="true"]')) return } catch (x) {} stop(e) }, true);
+    D.addEventListener('copy', function (e) { if (!box(e.target)) stop(e) }, true);
+    D.addEventListener('cut', function (e) { if (!box(e.target)) stop(e) }, true);
+    D.addEventListener('keydown', function (e) {
+      var k = String(e.key || '').toLowerCase(), c = (e.ctrlKey || e.metaKey) && !e.altKey;
+      if (k === 'f12' || (c && (k === 's' || k === 'p' || k === 'u')) || (c && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) || (c && (k === 'a' || k === 'c' || k === 'x') && !box(e.target))) stop(e);
+    }, true);
+  })();
+}
+if (!on) return;
+if (APP) set('KX_PLAY', '1');
+W.__KXPLAY = true;
+/* in the Play app Grade 1 is its Week 1 folder (k1/): the whole Grade 1 of her class (the site's own hub and games) is never shown there */
+try {
+  if (APP && W === W.top && !(typeof W.__KXLV === 'string' && W.__KXLV) && !LVX.test(location.pathname || '')) {
+    var pn0 = location.pathname || '', gm0 = /\/games\/([a-z0-9]+)\/combined\.html$/.exec(pn0);
+    if (gm0) { location.replace('../../k1/games/' + gm0[1] + '/combined.html?play=1'); return }
+    if (/\/(?:index\.html)?$/.test(pn0) && !/\/(?:library|levels|media|icons)\/(?:index\.html)?$/.test(pn0)) { location.replace('k1/?play=1'); return }
+  }
+} catch (e) {}
+/* a whole-year folder (<level>f/, Google Play Billing, R182 — not there yet) keeps every week: 3c below is for the trial */
+var FULL = false; try { FULL = /\/(?:kk|k[1-6])f\//.test(W.top.location.pathname || '') } catch (e) { try { FULL = /\/(?:kk|k[1-6])f\//.test(location.pathname || '') } catch (e2) {} }
+var GAME = /\/games\//.test(location.pathname || '');
+/* (24 Nov 15:00) a game's Teacher and Learner sides stand in frames of the game's page (their address is not /games/): they are the game too */
+try { if (!GAME && W.parent !== W) GAME = /\/games\//.test(W.parent.location.pathname || '') } catch (e) {}
+var NOTE = 'Sa Play app, sample class lamang: walang pangalan, LRN, marka o record na maitatype o maipapasok. · ' +
+           'In the Play app the class is the sample class only: no name, LRN, score or record can be typed or loaded.';
+var last = 0;
+function note() {
+  var t = Date.now(); if (t - last < 3500) return; last = t;
+  try {
+    var b = D.getElementById('kxPlayNote');
+    if (!b) {
+      b = D.createElement('div'); b.id = 'kxPlayNote'; b.setAttribute('role', 'status');
+      /* (24 Nov 10:40, R191) the note spans the phone's width at its foot and lets every tap through: on a phone the old one stood
+         tall and narrow over ✨ Sign In for 4 seconds after a tap on the Name box, so the tap on Sign In did nothing */
+      b.style.cssText = 'position:fixed;left:12px;right:12px;bottom:18px;margin:0 auto;z-index:2147483647;max-width:560px;pointer-events:none;' +
+        'background:#0b1530;color:#fff;border:1px solid #f5c542;border-radius:14px;padding:12px 16px;font:600 14px/1.4 system-ui,sans-serif;' +
+        'box-shadow:0 8px 28px rgba(0,0,0,.45);text-align:center';
+      (D.body || D.documentElement).appendChild(b);
+    }
+    b.textContent = '🔒 ' + NOTE; b.style.display = 'block';
+    clearTimeout(b._t); b._t = setTimeout(function () { b.style.display = 'none' }, 4200);
+  } catch (e) {}
+}
+/* what may still be typed: a PIN box (it opens the Teacher's side; it is not about a child), and in a game the answer
+   boxes of the play itself — never a box for a name, a team, an LRN, a score, a roster, a record or a teacher's own items */
+var CHILD = /name|pangalan|\blrn\b|learner|mag-?aaral|team|koponan|score|marka|roster|klase|\bclass\b|section|seksiyon|record|talaan|teacher|guro|title|pamagat|question|tanong|\bitem|story|kuwento|e-?mail|phone|address|tirahan|birth|kaarawan|parent|magulang/i;
+function label(el) {
+  var s = [el.id, el.name, el.getAttribute('placeholder'), el.getAttribute('aria-label'), el.getAttribute('title'), el.className].join(' ');
+  try { var l = el.closest('label'); if (l) s += ' ' + l.textContent } catch (e) {}
+  return s;
+}
+function typable(el) {
+  if (!el || el.nodeType !== 1) return false;
+  var tg = el.tagName;
+  if (tg === 'TEXTAREA') return true;
+  if (el.isContentEditable) return true;
+  if (tg !== 'INPUT') return false;
+  var ty = (el.getAttribute('type') || 'text').toLowerCase();
+  return !/^(button|submit|reset|checkbox|radio|range|color|hidden|image)$/.test(ty);
+}
+function allowed(el) {
+  if (!typable(el)) return true;
+  var ty = (el.getAttribute('type') || 'text').toLowerCase();
+  if (ty === 'file') return false;
+  if (ty === 'password' || el.id === 'siP' || el.id === 'siP2' || el.getAttribute('data-kx-pin') !== null) return true;
+  /* (24 Nov 14:45; her words 14:27 "NAIEDIT PA") no game draws a box for a typed answer (every answer is a tap): a box in a game is an
+     editor, a setting, a name, a note or a code — closed like every other box. Only a PIN box and a search box take words. */
+  if (searchy(el)) return true;
+  return false;
+}
+function searchy(el) { var x = [el.getAttribute('type'), el.getAttribute('placeholder'), el.getAttribute('aria-label'), el.getAttribute('oninput'), el.className, el.id].join(' '); return /\bsearch\b|srch|hanapin|\uD83D\uDD0E|\uD83D\uDD0D/i.test(x) }
+function stop(e) { e.preventDefault(); e.stopImmediatePropagation(); note(); return false }
+/* 1. no file is loaded: no chooser opens, no file is dropped or pasted in */
+var pc = HTMLInputElement.prototype.click;
+HTMLInputElement.prototype.click = function () { if ((this.type || '').toLowerCase() === 'file') { note(); return } return pc.apply(this, arguments) };
+try { var sp = HTMLInputElement.prototype.showPicker; if (sp) HTMLInputElement.prototype.showPicker = function () { if ((this.type || '').toLowerCase() === 'file') { note(); return } return sp.apply(this, arguments) } } catch (e) {}
+D.addEventListener('click', function (e) {
+  var t = e.target; if (!t || !t.closest) return;
+  var f = (t.tagName === 'INPUT' && (t.type || '').toLowerCase() === 'file') ? t : null;
+  if (!f) { var l = t.closest('label'); if (l) f = l.querySelector('input[type=file]') || (l.htmlFor && D.getElementById(l.htmlFor)); if (f && (f.type || '').toLowerCase() !== 'file') f = null }
+  if (f) return stop(e);
+}, true);
+D.addEventListener('change', function (e) { var t = e.target; if (t && t.tagName === 'INPUT' && (t.type || '').toLowerCase() === 'file') { try { t.value = '' } catch (x) {} return stop(e) } }, true);
+['dragover', 'drop'].forEach(function (n) { D.addEventListener(n, function (e) { var dt = e.dataTransfer; if (dt && (dt.files && dt.files.length || [].indexOf.call(dt.types || [], 'Files') >= 0)) stop(e) }, true) });
+try { var FR = FileReader.prototype; ['readAsText', 'readAsArrayBuffer', 'readAsDataURL', 'readAsBinaryString'].forEach(function (k) { if (FR[k]) FR[k] = function () { note() } }) } catch (e) {}
+/* (24 Nov 15:45, Fable) nor read from the clipboard: a game's Accept sheet takes a learner's scores by 📥 Paste Code */
+try { var ncb = navigator.clipboard; if (ncb) { ['readText', 'read'].forEach(function (k) { if (ncb[k]) ncb[k] = function () { note(); return Promise.reject(new Error('KORTEX Play')) } }) } } catch (e) {}
+/* 2. nothing is typed where a child's data would go */
+function guard(e) { var t = e.target; if (t && typable(t) && !allowed(t)) return stop(e) }
+['beforeinput', 'paste', 'drop', 'keypress'].forEach(function (n) { D.addEventListener(n, guard, true) });
+D.addEventListener('keydown', function (e) {
+  var t = e.target; if (!t || !typable(t) || allowed(t)) return;
+  if (e.key && (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'Enter' && t.tagName === 'TEXTAREA')) return stop(e);
+}, true);
+D.addEventListener('focusin', function (e) {
+  var t = e.target; if (!t || !typable(t) || allowed(t)) return;
+  try { if (t.isContentEditable) t.setAttribute('contenteditable', 'false'); else t.readOnly = true } catch (x) {}
+  if (t.id !== 'pcI') note();      /* (P4) the family code box is filled by the lock itself: no note when the hub puts the cursor there */
+}, true);
+/* 3. no box of the browser asks for a word; KORTEX's own sheet asks only for a PIN */
+W.prompt = function () { note(); return null };
+function wrapKXD() {
+  var K = W.KXD; if (!K || K.__play || typeof K.prompt !== 'function') return !!(K && K.__play);
+  var p = K.prompt;
+  K.prompt = function (msg, val, done, opt) {
+    if (opt && (opt.type === 'password' || /PIN/.test(opt.hint || ''))) return p.apply(K, arguments);
+    note(); if (typeof done === 'function') setTimeout(function () { done(null) }, 0);
+  };
+  K.__play = true; return true;
+}
+if (!wrapKXD()) { var n = 0, iv = setInterval(function () { if (wrapKXD() || ++n > 200) clearInterval(iv) }, 50) }
+/* 3b. (23 Nov, Blueprint R181) THE TRIAL BUILD: only Week 1 of every subject in each term is in the files; the other weeks stand under
+   labels that begin with 🔒 — in every page of the Play app (games too) such a week cannot be chosen, and one line says why */
+var WNOTE = 'Week 1 ng bawat subject kada term lang ang bukas sa Play app. · Only Week 1 of every subject in each term is open in the Play app.';
+function wnote() { var keep = NOTE; NOTE = WNOTE; last = 0; note(); NOTE = keep }
+function locked(el) {
+  if (!el || el.nodeType !== 1) return false;
+  var x = el.tagName === 'OPTION' ? el.text : (el.textContent || '');
+  return x.length < 240 && x.indexOf('\uD83D\uDD12\u2060') >= 0;      /* 🔒 + the unseen word joiner of the trial's labels (kx/lvq.py LOCK) */
+}
+/* (24 Nov 16:00, Fable) a tap is judged by what the key SAYS AND CALLS at that moment, marked or not yet: a screen that draws itself again
+   (ARENA redraws with its clock) shows its keys for a blink before the mark is back on them, and a tap in that blink went through */
+function wkey(b) {
+  try {
+    if (FULL) return false;
+    if (b.tagName === 'OPTION') { var sl = b.parentElement; while (sl && sl.tagName !== 'SELECT') sl = sl.parentElement; return wnum(b.text, sl ? wlab(sl) : false) >= 2 }
+    var t = (b.textContent || '').replace(/^\s+/, ''); if (t.length > 160) return false;
+    var n = wnum(t, false), m = ocweek(b.getAttribute('onclick') || ''); if (m > n) n = m;
+    if (n >= 2) return true;
+    return GAME && t.length <= 140 && EXAMX.test(t);
+  } catch (e) { return false }
+}
+D.addEventListener('click', function (e) {
+  var t = e.target && e.target.closest && e.target.closest('button,a,[role=button],option,li,[onclick]');
+  if (t && !t.closest('#kxPlayNote,#kxpSheet') && (locked(t) || wkey(t))) { e.preventDefault(); e.stopImmediatePropagation(); wnote(); return }
+  if (!FULL && e.target && e.target.nodeType === 1 && !e.target.closest('#kxPlayNote,#kxpSheet,#signin') && wcard(e.target) >= 2) { e.preventDefault(); e.stopImmediatePropagation(); wnote() }
+}, true);
+D.addEventListener('change', function (e) {
+  var s = e.target; if (!s || s.tagName !== 'SELECT') return;
+  var o = s.options && s.options[s.selectedIndex];
+  if (o && (locked(o) || wkey(o))) { e.stopImmediatePropagation(); var ok = [].filter.call(s.options, function (x) { return !locked(x) && !wkey(x) })[0]; if (ok) s.value = ok.value; wnote() }
+}, true);
+/* 3c. (24 Nov 14:25; her words 14:16 "Term2 week 7 open sa grade 5 play store" · "Ayusin mo lahat sa playstore" · 14:17 "Hanapin mo lahat!!!!
+   … Huwag lang grade 5") EVERY WEEK OF EVERY PAGE OF EVERY LEVEL: the pickers a game or the hub draws in its own code ("Week 7", "Wk 7",
+   "Linggo 7", a bare 7 under a Week label, a link that sets a week) carried no trial mark, so Week 7 could be chosen and opened. Here every
+   week after Week 1 carries the mark (🔒 and the unseen joiner) and cannot be chosen, whoever is signed in; a page standing on such a week
+   moves to Week 1 (its own onchange runs); a week number box keeps 1; the School Calendar locks no term in the Play app (Week 1 of every
+   term is the trial) and a week after Week 1 answers with the line of 3b. */
+var LK = '\uD83D\uDD12\u2060', WKX = /^\s*(?:\uD83D\uDD12[\u2060\s]*)*(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})(?!\d)/i, NUMX = /^\s*(?:\uD83D\uDD12[\u2060\s]*)*(\d{1,2})\s*$/,
+    SETW = /(?:^|[^A-Za-z0-9_$.])(?:S|st|N|HP|MAN|v\.o)\.(?:w|wk)\s*=\s*(\d{1,2})(?!\d)/,
+    HWX = /^(?:(?:Term|Termino)\s*\d+\s*[·:,|–—-]\s*)?(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})(?!\d)/i,
+    EXAMX = /(?:Summative|Lagumang Pagsusulit)\s*(?:Test\s*)?2(?!\d)|Term\s*Exam|Markahang Pagsusulit|Periodical (?:Test|Exam)|(?:Weeks?|Linggo)\s*[2-9]\s*(?:to|hanggang|–|—|-)\s*\d+/i,
+    W14X = /(?:Weeks?|Linggo)\s*1\s*(?:to|hanggang|–|—|-)\s*4(?!\d)/i,
+    PSX = /(PlaySphere\s+Week\s+)(?:[2-9]|\d\d)(\s+of\b)/i,
+    WLX = /^(?:\uD83D\uDD12[\u2060\s]*)*(?:(?:Term|Termino)\s*\d+\s*[·:,|•–—-]\s*)?(?:Linggo\s*\/\s*)?(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})$/i;
+/* (24 Nov 16:25, Fable; found by the walk: MONTAGE) the week a key opens BY WHAT IT CALLS: a state it sets (S.w=7), an episode it opens
+   (openEp('MATHEMATICS',1,7)), a screen it goes to with a week ({t:1,w:7}) — a box with such a call (a ticket) is a key like any other */
+var OCWX = [SETW, /\bopenEp\(\s*['"][^'"]*['"]\s*,\s*\d+\s*,\s*(\d{1,2})\s*\)/, /\bgo\([^)]*\{[^}]*\b(?:w|wk|week)\s*:\s*(\d{1,2})\b/];
+function ocweek(oc) { var n = 0; if (!oc) return 0; for (var i = 0; i < OCWX.length; i++) { var m = OCWX[i].exec(oc); if (m && +m[1] > n) n = +m[1] } return n }
+function owntext(el) { var t = '', c = el.firstChild; while (c) { if (c.nodeType === 3) t += c.nodeValue; c = c.nextSibling } return t.replace(/\s+/g, ' ').trim() }
+function wlabels(root) {      /* every element whose own words are the label of a week gets data-kxwl = its number */
+  try {
+    var els = root.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th,td,div,span,b,strong,small,p,li,label');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i]; if (el.hasAttribute('data-kxwl') || el.childElementCount > 2) continue;
+      var t = owntext(el); if (!t || t.length > 44) continue;
+      var m = WLX.exec(t); if (m) el.setAttribute('data-kxwl', m[1]);
+    }
+  } catch (e) {}
+}
+function wcard(t) {      /* the week of the card a tap lands in: the nearest box around the tap that holds the label of ONE week */
+  try {
+    var a = t, d = 0, top = t; for (var k = 0; k < 5 && top.parentElement && top.parentElement !== D.documentElement; k++) top = top.parentElement;
+    wlabels(top);
+    while (a && a !== D.body && a !== D.documentElement && d++ < 6) {
+      if (a.getAttribute && a.getAttribute('data-kxwl')) return +a.getAttribute('data-kxwl');
+      var ls = a.querySelectorAll ? a.querySelectorAll('[data-kxwl]') : [];
+      if (ls.length) { var n0 = ls[0].getAttribute('data-kxwl'); for (var i = 1; i < ls.length; i++) if (ls[i].getAttribute('data-kxwl') !== n0) return 0; return +n0 }
+      a = a.parentElement;
+    }
+  } catch (e) {}
+  return 0;
+}
+/* (Fable 15:35) these five are the Play app's for good: the calendar lock of a game (kxcallock.js, R195, the last script of its bundle) sets
+   its own under the same names — here a later hand cannot change them, so in the Play app Week 1 is the open week whatever the calendar says */
+function pin(k, fn) { try { Object.defineProperty(W, k, { configurable: true, enumerable: true, get: function () { return fn }, set: function () {} }) } catch (e) { try { W[k] = fn } catch (e2) {} } }
+if (!FULL) {
+pin('KXLKQ', function () { return false }); pin('KXLK', function () { return false });
+pin('KXWKQ', function (t, w) { return +w > 1 }); pin('KXWK', function (t, w) { if (+w > 1) { wnote(); return true } return false });
+pin('KXWKN', function () { return 1 });
+}
+var kc = 0, kci = setInterval(function () { try { if (W.KXCAL && !W.KXCAL.__play) { W.KXCAL.ok = function () { return true }; W.KXCAL.__play = 1 } } catch (e) {} if (++kc > 400) clearInterval(kci) }, 50);
+function wlab(el) {
+  var s = (el.getAttribute('aria-label') || '') + ' ' + (el.id || '') + ' ' + (el.getAttribute('name') || '');
+  try {
+    var l = el.closest('label'); if (l) s += ' ' + l.textContent;
+    var p = el.previousElementSibling; if (p && /^(LABEL|SPAN|B|SMALL|I)$/.test(p.tagName)) s += ' ' + p.textContent;
+    if (el.id) { var f = D.querySelector('label[for="' + el.id + '"]'); if (f) s += ' ' + f.textContent }
+  } catch (e) {}
+  return /\b(week|wk|linggo)\b/i.test(s);
+}
+function wnum(text, lab) { var m = WKX.exec(text || ''); if (m) return +m[1]; if (lab) { m = NUMX.exec(text || ''); if (m) return +m[1] } return 0 }
+function weeks() {
+  if (FULL) return;
+  [].forEach.call(D.querySelectorAll('select'), function (s) {
+    var lab = wlab(s), any = 0;
+    [].forEach.call(s.options, function (o) {
+      if (wnum(o.text, lab) < 2) return; any = 1;
+      if (o.text.indexOf(LK) < 0) { if (!o.hasAttribute('value')) o.setAttribute('value', o.value); o.text = LK + o.text.replace(/^\s*\uD83D\uDD12\s*/, '') }
+      o.disabled = true;
+    });
+    if (!any) return;
+    var cur = s.options[s.selectedIndex];
+    if (cur && cur.disabled && (s.__kxw || 0) < 3) {
+      var one = [].filter.call(s.options, function (o) { return !o.disabled && wnum(o.text, lab) === 1 })[0] || [].filter.call(s.options, function (o) { return !o.disabled })[0];
+      if (one) { s.__kxw = (s.__kxw || 0) + 1; s.selectedIndex = one.index; try { s.dispatchEvent(new Event('change', { bubbles: true })) } catch (e) {} }
+    }
+  });
+  [].forEach.call(D.querySelectorAll('button,a,[role=button],[onclick]'), function (b) {
+    if (b.closest('#kxPlayNote,#kxpSheet')) return;
+    var t = (b.textContent || '').replace(/^\s+/, ''), n = wnum(t, false), oc = b.getAttribute('onclick') || '', m = ocweek(oc);
+    if (m > n) n = m;
+    if (n < 2 || t.length > 160 || t.indexOf(LK) >= 0) return;
+    b.insertBefore(D.createTextNode(LK), b.firstChild); b.setAttribute('aria-disabled', 'true');
+    if (/(^|\s)(on|active|sel|selected|y)(\s|$)/.test(b.className || '') && !m && (b.__kxw || 0) < 2) {      /* standing on a locked week: Week 1 of the same row */
+      var row = b.parentElement, w1 = row && [].filter.call(row.querySelectorAll('button,a,[role=button]'), function (x) { return wnum((x.textContent || '').replace(/^\s+/, ''), false) === 1 })[0];
+      b.__kxw = (b.__kxw || 0) + 1; if (w1) setTimeout(function () { try { w1.click() } catch (e) {} }, 0);
+    }
+  });
+  [].forEach.call(D.querySelectorAll('input[type=number]'), function (i) {
+    if (!wlab(i)) return; i.min = '1'; i.max = '1';
+    if (i.value !== '1') { i.value = '1'; try { i.dispatchEvent(new Event('input', { bubbles: true })) } catch (e) {} }
+  });
+  /* (24 Nov 15:45, Fable; found by the walk of every key, kx/play/t_crawl.py) (1) A LIST OF THE YEAR'S WEEKS (PED. BLUEPRINTS's Year Plan: a
+     card for every week with each subject's focus) showed every week's lines: a heading of a week after Week 1 carries the mark and
+     what stands under it is not shown. (2) THE TESTS OVER MANY WEEKS (ARENA, WHIZ CUP: Summative 2 — Weeks 5 to 8 — and the Term Exam) are
+     not Week 1: their keys carry the mark and do not open; Summative 1 plays Week 1's items (all the trial holds) and says "Week 1". */
+  [].forEach.call(D.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th'), function (h) {
+    if (h.__kxh) return; var t = (h.textContent || '').replace(/^\s+/, ''); if (t.length > 70) return;
+    var m = HWX.exec(t); if (!m || +m[1] < 2) return;
+    h.__kxh = 1; h.insertBefore(D.createTextNode(LK), h.firstChild);
+    var box = h.parentElement; if (!box || box === D.body || box === D.documentElement) return;
+    if (box.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th').length === 1) { [].forEach.call(box.children, function (c) { if (c !== h) c.style.display = 'none' }); return }
+    var n = h.nextElementSibling; while (n && !/^(?:H[2-5]|SUMMARY|LEGEND|DT|TH)$/.test(n.tagName)) { n.style.display = 'none'; n = n.nextElementSibling }
+  });
+  /* (24 Nov 16:10, Fable; found by the walk: MONTAGE's tickets "LINGGO / WEEK 2 … 8") A WEEK'S LABEL IN ANY TAG, AND THE CARD AROUND IT: a box
+     that holds the label of one week after Week 1 (a ticket, a card, a row) carries the mark, shows only its label and takes no tap. */
+  wlabels(D.body);
+  [].forEach.call(D.querySelectorAll('[data-kxwl]'), function (l) {
+    if (l.__kxw2 || +l.getAttribute('data-kxwl') < 2) return; l.__kxw2 = 1;
+    if ((l.textContent || '').indexOf(LK) < 0) l.insertBefore(D.createTextNode(LK), l.firstChild);
+    var box = l.parentElement; if (!box || box === D.body || box === D.documentElement) return;
+    var ls = box.querySelectorAll('[data-kxwl]'), n0 = l.getAttribute('data-kxwl');
+    for (var i = 0; i < ls.length; i++) if (ls[i].getAttribute('data-kxwl') !== n0) return;      /* a box of many weeks (a table's header row): only the mark */
+    if (box.querySelectorAll('*').length > 60) return;
+    [].forEach.call(box.children, function (c) { if (c !== l && !c.contains(l)) c.style.display = 'none' });
+    box.setAttribute('aria-disabled', 'true'); box.style.opacity = '.6';
+  });
+  if (GAME) {
+    [].forEach.call(D.querySelectorAll('button,a,[role=button]'), function (b) {
+      if (b.__kxe || b.closest('#kxPlayNote,#kxpSheet')) return; var t = b.textContent || '';
+      if (t.length > 140 || t.indexOf(LK) >= 0 || !EXAMX.test(t)) return;
+      b.__kxe = 1; b.insertBefore(D.createTextNode(LK), b.firstChild); b.setAttribute('aria-disabled', 'true');
+    });
+    try {
+      var tw = D.createTreeWalker(D.body, 4, null), nd, hit = [];
+      while ((nd = tw.nextNode())) { if (nd.nodeValue.length < 200 && (W14X.test(nd.nodeValue) || PSX.test(nd.nodeValue))) hit.push(nd) }
+      /* (PlaySphere's own line counted the school's week — "PlaySphere Week 7 of 10" — while the trial plays its Week 1) */
+      hit.forEach(function (x) { var pe = x.parentElement; if (pe && !/^(?:SCRIPT|STYLE|TEXTAREA|OPTION)$/.test(pe.tagName)) x.nodeValue = x.nodeValue.replace(W14X, 'Week 1').replace(PSX, '$11$2') });
+    } catch (e) {}
+  }
+}
+var wbusy = 0;
+function wscan() {
+  if (wbusy) return; wbusy = 1;
+  setTimeout(function () { wbusy = 0; try { weeks() } catch (e) {} try { tools() } catch (e) {} try { [].forEach.call(D.querySelectorAll('option'), function (o) { if (!o.disabled && locked(o)) o.disabled = true }) } catch (e) {} }, 90);
+}
+function wwatch() { try { new MutationObserver(wscan).observe(D.body, { childList: true, subtree: true }); wscan() } catch (e) {} }
+if (D.body) wwatch(); else D.addEventListener('DOMContentLoaded', wwatch);
+/* 3d. (24 Nov 14:50; her words 14:27, with a tester's screens of 365 SMARTY's question editor: "IBINIGAY MO NANG LIBRE LAHAT. NAIEDIT PA.")
+   IN THE PLAY APP ONLY THE GAMES ARE OPEN (their Week 1), whoever is signed in: (1) no box takes a word but a PIN box and a search box
+   (above); (2) no file leaves the app — no download, no Save As, no Share of a file, no print; (3) in the hub, the Tools that edit, print
+   or hand out her work carry 🔒 and answer with one line (they are in the full KORTEX); (4) in a game, its own tools, set-up, questions
+   editor, settings and teacher corner carry 🔒 and answer the same — playing stays open. */
+var TNOTE = 'Sa Play app, ang mga laro (Week 1) lang ang bukas. Nasa buong KORTEX ito. · In the Play app only the games (Week 1) are open. This is in the full KORTEX.',
+    FNOTE = 'Walang file na lumalabas sa Play app: walang download, print o share. · No file leaves the Play app: no download, print or share.';
+function say(t) { var keep = NOTE; NOTE = t; last = 0; note(); NOTE = keep }
+function block(e, t) { e.preventDefault(); e.stopImmediatePropagation(); say(t); return false }
+/* (2) no file leaves */
+var ac = HTMLAnchorElement.prototype.click;
+HTMLAnchorElement.prototype.click = function () { if (this.hasAttribute('download') || /^(blob|data):/i.test(this.getAttribute('href') || '')) { say(FNOTE); return } return ac.apply(this, arguments) };
+W.print = function () { say(FNOTE) };
+try { var nsh = navigator.share; if (nsh) navigator.share = function (d) { if (d && d.files && d.files.length) { say(FNOTE); return Promise.reject(new Error('KORTEX Play')) } return nsh.apply(navigator, arguments) } } catch (e) {}
+try { var ncs = navigator.canShare; if (ncs) navigator.canShare = function (d) { if (d && d.files) return false; return ncs.apply(navigator, arguments) } } catch (e) {}
+/* (24 Nov 15:30, Fable) a print asked of a frame or of a new window (fr.contentWindow.print() in ARENA and WHIZ CUP, a sheet written into a
+   new window) went past the line above: every frame's window and every window opened here answers a print with the same line; a click sent
+   to a download link by code is stopped like a tap; the browser's own Save and Open pickers stay shut */
+function noprint(w) { try { if (w && w !== W && !w.__KXPLAY && !w.__kxpp) { w.print = function () { say(FNOTE) }; w.__kxpp = 1 } } catch (e) {} return w }
+try {
+  var cwd = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'contentWindow');
+  if (cwd && cwd.get) Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', { configurable: true, enumerable: cwd.enumerable, get: function () { return noprint(cwd.get.call(this)) } });
+  var cdd = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'contentDocument');
+  if (cdd && cdd.get) Object.defineProperty(HTMLIFrameElement.prototype, 'contentDocument', { configurable: true, enumerable: cdd.enumerable, get: function () { var d = cdd.get.call(this); try { if (d && d.defaultView) noprint(d.defaultView) } catch (e) {} return d } });
+} catch (e) {}
+var wop = W.open; W.open = function (u) { if (/^(blob|data):/i.test(String(u || ''))) { say(FNOTE); return null } return noprint(wop.apply(W, arguments)) };
+try {
+  var ded = EventTarget.prototype.dispatchEvent;
+  EventTarget.prototype.dispatchEvent = function (ev) {
+    try { if (ev && ev.type === 'click' && this && this.tagName === 'A' && (this.hasAttribute('download') || /^(blob|data):/i.test(this.getAttribute('href') || ''))) { say(FNOTE); return false } } catch (e) {}
+    return ded.apply(this, arguments);
+  };
+} catch (e) {}
+['showSaveFilePicker', 'showOpenFilePicker', 'showDirectoryPicker'].forEach(function (k) { try { if (W[k]) W[k] = function () { say(FNOTE); return Promise.reject(new Error('KORTEX Play')) } } catch (e) {} });
+D.addEventListener('click', function (e) {
+  var t = e.target; if (!t || !t.closest) return;
+  if (t.closest('a[download],a[href^="blob:"],a[href^="data:"],#kxsv [data-f]')) return block(e, FNOTE);
+}, true);
+/* (3) the hub's Tools that edit, print or hand out her work */
+var LOCKT = {tWs: 1, tPx: 1, tQa2: 1, tPc: 1, tCq: 1, tPt: 1, tJy: 1, tGoal: 1, tLead: 1, tSg: 1, tGx: 1, tSfx: 1, tTct: 1, tBf: 1, tPf: 1, tPr: 1, tSy: 1,
+             tCl: 1, tAvt: 1, tCur: 1, tCp: 1, tBn: 1, tTg: 1, tBkP: 1, tBin: 1, tTc: 1, tRz: 1, tCLb: 1, tRF: 1, cqEd: 1,
+             tQR: 1,      /* (Fable) 📱 Share KORTEX hands out the address of the website: the sample class has no one to give it to */
+             msnWs: 1, msnAs: 1, ftCQ: 1, cSY: 1};      /* (Fable 15:50) the same Tools from the home screen: This Week's Worksheets, Answer Sheets, the Calibrated Quiz's questions, the School Calendar */
+/* (24 Nov 15:50, Fable; found by opening every key of the home screen) THE SHEET, NOT ONLY ITS KEY: a Tool that is 🔒 in the Flight Deck opened
+   all the same from another key (the mission card's 📄 This Week's Worksheets and ✅ Answer Sheets, the Calibrated Quiz tile → its questions'
+   editor). A locked Tool is known by the title of its sheet: whatever key opens it, for the Teacher it closes at once and the line answers. */
+var SHEETX = /Worksheets|Answer Sheets|Snap & Score|Question Nebula|Print Center|Calibrated Quiz Questions|Class Points|My (?:Grade \d+|Kinder\w*) Journey|Learner Goals|Leaderboard and Rewards|Signature Pad|E-Class Record|Records Bay|Summit Ledger|Form Foundry|Portfolio Pack|School and Teacher Profile|Vector State|School Year and Calendar|Entangled Pairs|Masterlist|Avatars|Subjects and Terms|Orbit Clock|Class Program|Spectrum Render|Customize Banner|Teacher Greeting|Teleport Drive|Backup and Restore|Event Horizon|Recycle Bin|Technical Certification|Class Link|Share KORTEX|^\s*\uD83D\uDCC5\s*SY\s*20/i;
+function sheets() {
+  var o = D.getElementById('ov'); if (!o || !o.firstChild) return;
+  var h = o.querySelector('h3'); if (!h) return;
+  if (!SHEETX.test((h.textContent || '').replace(/\s+/g, ' '))) return;
+  var tea = true; try { var ss = getSess(); tea = !ss || ss.role === 'teacher' } catch (e) {}      /* a Learner's or a Parent's own sheet of the same name stays */
+  if (!tea) return;
+  try { closeOv() } catch (e) { try { o.innerHTML = '' } catch (e2) {} }
+  say(TNOTE);
+}
+if (!GAME) { var sn = 0, si = setInterval(function () { var o = D.getElementById('ov'); if (o) { clearInterval(si); try { new MutationObserver(function () { try { sheets() } catch (e) {} }).observe(o, { childList: true, subtree: true }); sheets() } catch (e) {} } else if (++sn > 400) clearInterval(si) }, 25) }
+/* (4) a game's own tools: the first screen's Game Tools, the bar's tools key, and every key that opens a set-up, an editor, a setting */
+var TOOLRX = /(?:^|[^A-Za-z0-9_$.])(?:go\(\s*\{\s*s\s*:\s*['"](?:tools|qa|roster|prof|look|av|bak|sec|cert|tos|imp|collab)['"]|go\(\s*['"](?:setup|tools|qa|edit|bank|roster|print|collab|reports)['"]|gate\(\s*['"](?:setup|tools|board|reports)['"]|settings\(\)|tools\(\)|openGT\(|pSetup\(|needPin\(|pinGate\(|resetAsk\(|kxRDS\(|manSave|saveSet\()/,
+    /* (Fable 15:40) by its words a key is a tool only when the words can be nothing else: "Tools for cooking rice", "edit", "Questions, write
+       them!" are ANSWERS of the levels' own question sets (EPP, English) — a single word like Tools, Edit, Setup, Settings or Questions is
+       never read as a tool here; such a key is known by its id or by what it calls (TOOLRX) */
+    TOOLTX = /(?:Game Tools|Mga Kagamitan ng Laro|Teacher Tools|Teacher Corner|Edit Questions|Question Bank|Restore Default Set|Clear Scores)(?![A-Za-z])/i;
+function toolish(b) {
+  if (!b || !b.closest) return false;
+  if (b.closest('#kxPlayNote,#kxpSheet,#signin')) return false;
+  if (b.id && LOCKT[b.id]) return true;
+  if (!GAME) return false;
+  if (b.id === 'kxs3G' || b.id === 'kxfsTG' || b.getAttribute('data-kx') === 'tls') return true;      /* the first screen's 🔧 Game Tools (kxfirst, kxshell) and the bar's tools key */
+  var oc = b.getAttribute('onclick') || '';
+  if (oc && TOOLRX.test(oc)) return true;
+  var t = (b.textContent || '').replace(/^[\s🔒⁠]+/, '');
+  return t.length < 90 && TOOLTX.test(t);
+}
+D.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest && e.target.closest('button,a,[role=button],[data-kx]');
+  if (b && toolish(b)) return block(e, TNOTE);
+}, true);
+var tk = 0, tki = setInterval(function () {
+  try { if (W.KXS3 && !W.KXS3.__play) { W.KXS3.tools = function () { say(TNOTE) }; W.KXS3.__play = 1 } } catch (e) {}
+  try { if (W.KXSHELLAPI && !W.KXSHELLAPI.__play) { W.KXSHELLAPI.open = function () { say(TNOTE) }; W.KXSHELLAPI.__play = 1 } } catch (e) {}
+  /* (Fable 16:25) a game's own way to another week that no key names (MONTAGE: the Next key at the end of a show, 🎲 Surprise Me): its go()
+     and its openEp() asked for a week after Week 1 open Week 1, and the line says why. Only an episode's own call is touched ({sub, t, w}:
+     of the 14 games MONTAGE alone passes a week this way) — a "w" that is not a week is never changed. */
+  try {
+    if (GAME && !FULL && typeof W.go === 'function' && !W.go.__play) {
+      var g0 = W.go, g1 = function () {
+        try { for (var i = 0; i < arguments.length; i++) { var o = arguments[i]; if (o && typeof o === 'object' && 'sub' in o && 't' in o) ['w', 'wk', 'week'].forEach(function (k) { if (typeof o[k] === 'number' && o[k] > 1 && o[k] <= 12) { o[k] = 1; wnote() } }) } } catch (e) {}
+        return g0.apply(this, arguments);
+      };
+      g1.__play = 1; W.go = g1;
+    }
+  } catch (e) {}
+  try {
+    if (GAME && !FULL && typeof W.openEp === 'function' && !W.openEp.__play) {
+      var oe = W.openEp, oe1 = function (a, b, c) { if (+c > 1) { c = 1; wnote() } return oe.call(this, a, b, c) };
+      oe1.__play = 1; W.openEp = oe1;
+    }
+  } catch (e) {}
+  if (++tk > 400) clearInterval(tki);
+}, 50);
+function tools() {
+  [].forEach.call(D.querySelectorAll('button,a,[role=button],[data-kx]'), function (b) {
+    if (b.__kxt || !toolish(b)) return; b.__kxt = 1; b.setAttribute('aria-disabled', 'true'); b.style.opacity = '.55';
+    if ((b.textContent || '').indexOf(LK) < 0) b.insertBefore(D.createTextNode('🔒 '), b.firstChild);
+  });
+}
+/* 4. (23 Nov, notes/PLAN_PLAY.md P2–P5) THE PLAY APP MADE CLEAR, on the hub of every level (never inside a game):
+   the Teacher makes her own PIN at the first tap (nothing to look up); a forgotten PIN is made again; the parent finds the
+   sample family code already in its box; the first screen carries 🔁 Change Grade and ❓ FAQ. Short words only. */
+if (GAME) return;
+var UP = (typeof W.__KXLV === 'string' && W.__KXLV) ? '../' : '';
+function css() {
+  if (D.getElementById('kxpCss')) return;
+  var c = D.createElement('style'); c.id = 'kxpCss';
+  c.textContent = '.kxp-keys{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0 4px}' +
+    '.kxp-keys a,.kxp-c button{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;min-height:48px;padding:10px 16px;border-radius:14px;' +
+    'background:rgba(255,255,255,.08);border:1px solid rgba(241,210,122,.5);color:#f6f0e0;font:700 15px/1.25 system-ui,sans-serif;text-decoration:none;cursor:pointer}' +
+    '.kxp-keys a i,.kxp-c button i,.kxp-c p i{font-weight:400;font-size:13px;opacity:.85;display:block}' +
+    '.kxp-keys a:focus-visible,.kxp-c button:focus-visible{outline:3px solid #f1d27a;outline-offset:2px}' +
+    '#kxpSheet{position:fixed;inset:0;z-index:2147483646;background:rgba(5,10,24,.72);display:flex;align-items:center;justify-content:center;padding:16px}' +
+    '.kxp-c{background:#0b1530;color:#f6f0e0;border:1px solid #f1d27a;border-radius:18px;max-width:440px;width:100%;padding:20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.45);font:16px/1.45 system-ui,sans-serif}' +
+    '.kxp-c h3{margin:0 0 8px;font-size:20px}.kxp-c h3 i{display:block;font-weight:400;font-size:15px;opacity:.85}.kxp-c p{margin:0 0 14px}' +
+    '.kxp-c .kxp-yn{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.kxp-c button.kxp-y{background:#f1d27a;color:#0b1530;border-color:#f1d27a}' +
+    /* (24 Nov, P6) a TV or a big screen: the keys and their words larger (16 px and more, read from across a room) */
+    '@media (min-width:1600px){.kxp-keys a,.kxp-c button{font-size:17px}.kxp-keys a i,.kxp-c button i,.kxp-c p i{font-size:15px}.kxp-c{font-size:18px;max-width:520px}}';
+  (D.head || D.documentElement).appendChild(c);
+}
+/* P3 the Teacher PIN: the starter PIN is set aside, so the first tap on Teacher asks her to make her own */
+var tn = 0, ti = setInterval(function () {
+  try { if (typeof CFG === 'object' && CFG) { if (CFG.tpd) CFG.tpd = ''; clearInterval(ti); return } } catch (e) {}
+  if (++tn > 400) clearInterval(ti);
+}, 25);
+function sheet(hf, he, pf, pe, yf, ye, yes) {
+  css(); var o = D.getElementById('kxpSheet'); if (o) o.remove();
+  o = D.createElement('div'); o.id = 'kxpSheet'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true');
+  o.innerHTML = '<div class="kxp-c"><h3></h3><p></p><div class="kxp-yn"><button type="button" class="kxp-y"></button><button type="button" class="kxp-n">↩ No<i>Huwag</i></button></div></div>';
+  var h = o.querySelector('h3'), p = o.querySelector('p'), y = o.querySelector('.kxp-y');
+  h.textContent = hf; var i1 = D.createElement('i'); i1.textContent = he; h.appendChild(i1);
+  p.textContent = pf; var i2 = D.createElement('i'); i2.textContent = pe; p.appendChild(i2);
+  y.textContent = yf; var i3 = D.createElement('i'); i3.textContent = ye; y.appendChild(i3);
+  y.onclick = function () { o.remove(); yes() };
+  o.querySelector('.kxp-n').onclick = function () { o.remove() };
+  (D.body || D.documentElement).appendChild(o); setTimeout(function () { try { y.focus() } catch (e) {} }, 30);
+}
+/* P3 a forgotten PIN: the Play app holds the sample class only, so a new PIN is made at once */
+D.addEventListener('click', function (e) {
+  var t = e.target && e.target.closest && e.target.closest('#siFg'); if (!t) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  sheet('🗝️ Gumawa ng bagong PIN?', 'Make a new PIN?', 'Sample class lamang ang nasa Play app.', 'The Play app holds the sample class only.',
+        '✅ Yes, New PIN', 'Oo, bagong PIN', function () {
+    try { localStorage.removeItem('KORTEX_TPINH') } catch (x) {}
+    /* the hub's own code is closed to other scripts: its own keys show the Teacher door again (Back, then Teacher) */
+    try { var bk = D.getElementById('siBk'); if (bk) bk.click(); setTimeout(function () { var t2 = D.getElementById('siTeach'); if (t2) t2.click() }, 150) } catch (x) {}
+  });
+}, true);
+/* P4 the family code: the sample class's own code stands in the box; the Teacher's update (a file) is not taken in here */
+function code() {
+  var A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a = new Uint8Array(8), s = '', j;
+  try { crypto.getRandomValues(a) } catch (e) { for (j = 0; j < 8; j++) a[j] = Math.floor(Math.random() * 256) }
+  for (j = 0; j < 8; j++) { s += A.charAt(a[j] & 31); if (j === 3) s += '-' }
+  return s;
+}
+function fam() {
+  var I = D.getElementById('pcI'); if (!I || I.__kxp) return; I.__kxp = 1;
+  try {
+    var w = I.closest('.si-w') || D, h = w.querySelector('h3.si-q'), t = h && h.firstChild ? String(h.firstChild.textContent || '') : '';
+    var nm = t.replace(/^\s*Para sa Pamilya ni\s+/, '').trim();
+    /* the sample class of the copy (CFG.roster): each child gets a family code on this device, kept where the hub reads it */
+    var RO = (typeof CFG === 'object' && CFG && CFG.roster) || [], r = null;
+    for (var k = 0; k < RO.length; k++) if (RO[k] && RO[k].name === nm) { r = RO[k]; break }
+    if (r && r.id) {
+      var C = {}; try { C = JSON.parse(localStorage.getItem('KORTEX_FAMCODES') || '{}') || {} } catch (x) { C = {} }
+      if (!C[r.id]) { C[r.id] = code(); try { localStorage.setItem('KORTEX_FAMCODES', JSON.stringify(C)) } catch (x) {} }
+      I.value = C[r.id]; I.readOnly = true;
+      var n = w.querySelector('p.si-pnote');
+      if (n) { n.textContent = 'Nakasulat na ang sample na family code. I-tap ang Open Progress.'; var e2 = D.createElement('i'); e2.textContent = 'The sample family code is filled in. Tap Open Progress.'; n.appendChild(e2) }
+    }
+    var u = D.getElementById('pcU'); if (u && u.parentNode) u.parentNode.style.display = 'none';
+  } catch (x) {}
+}
+/* P2 P5 the first screen of a level: 🔁 Change Grade (back to the seven banners) and ❓ FAQ */
+function keys() {
+  var w = D.querySelector('#signin .si-w'); if (!w || !w.querySelector('.si-doors') || w.querySelector('.kxp-keys')) return;
+  css(); var d = D.createElement('div'); d.className = 'kxp-keys';
+  d.innerHTML = '<a class="kxp-lv" href="' + UP + 'levels.html?play=1&amp;door=1">🔁 Change Grade<i>Palitan ang Grade</i></a>' +
+                '<a class="kxp-faq" href="' + UP + 'faq.html">❓ FAQ<i>Mga Tanong</i></a>' +
+                (typeof W.KXGUIDE === 'string' ? '<a class="kxp-guide" href="' + UP + 'watch.html?v=' + encodeURIComponent(W.KXGUIDE) + '">📘 User Guide<i>Gabay sa Paggamit</i></a>' : '');      /* (P8) its film, when it is in */
+  w.appendChild(d);
+}
+var busy = 0;
+function look() { if (busy) return; busy = 1; setTimeout(function () { busy = 0; try { keys(); fam() } catch (e) {} }, 60) }
+function watch() { try { new MutationObserver(look).observe(D.body, { childList: true, subtree: true }); look() } catch (e) {} }
+if (D.body) watch(); else D.addEventListener('DOMContentLoaded', watch);
+})();</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>KORTEX — Piliin ang grade · Choose your grade</title>
+<meta name="description" content="KORTEX, The Launchpad for Engineered Brilliance: Kindergarten to Grade 6.">
+<meta name="theme-color" content="#0b1530"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{--navy:#0b1530;--navy2:#14284b;--cream:#f6f0e0;--gold:#f1d27a;--ink2:#c9d3e6}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:radial-gradient(120% 80% at 50% 0%,#1d3766 0%,var(--navy2) 38%,var(--navy) 100%);color:var(--cream);
+ font:16px/1.45 "Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:max(18px,env(safe-area-inset-top)) 16px max(22px,env(safe-area-inset-bottom))}
+main{max-width:980px;margin:0 auto}
+header{text-align:center;padding:8px 0 6px}
+header img{width:112px;height:112px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+h1{margin:6px 0 0;font:800 40px/1.05 "Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.16em;color:#fff}
+.tag{margin:6px 0 0;color:var(--gold);font-style:italic;font-size:16px;letter-spacing:.02em}
+.ask{margin:22px 0 14px;text-align:center;font-weight:700;font-size:18px}.ask i{display:block;font-weight:400;color:var(--ink2);font-size:15px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:620px){.grid{grid-template-columns:1fr 1fr}}@media (min-width:900px){.grid{grid-template-columns:1fr 1fr 1fr}}
+a.lv{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 10px 12px;border-radius:18px;text-decoration:none;color:var(--cream);
+ background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(241,210,122,.22);box-shadow:0 10px 26px rgba(0,0,0,.28);
+ transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+a.lv:hover,a.lv:focus-visible{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 14px 32px rgba(0,0,0,.38);outline:none}
+a.lv img{width:100%;max-width:340px;height:auto;aspect-ratio:2088/980}
+a.lv span{font-weight:700;letter-spacing:.04em}
+a.lv.last{border-color:var(--gold);box-shadow:0 0 0 2px rgba(241,210,122,.45),0 14px 32px rgba(0,0,0,.38)}
+a.lv .last{display:none;position:absolute;top:10px;left:12px;background:var(--gold);color:var(--navy);font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px}
+a.lv.last .last{display:block}
+footer{margin:22px 0 0;text-align:center;color:var(--ink2);font-size:13px}
+.keys{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0 0}
+a.key{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;min-height:48px;padding:10px 18px;border-radius:14px;text-decoration:none;color:var(--cream);font-weight:700;background:rgba(255,255,255,.07);border:1px solid rgba(241,210,122,.45)}
+a.key i{font-weight:400;font-size:13px;color:var(--ink2)}a.key:hover,a.key:focus-visible{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(241,210,122,.35)}
+@media (min-width:1600px){body{font-size:20px}main{max-width:1440px}header img{width:150px;height:150px}h1{font-size:56px}.tag{font-size:22px}.ask{font-size:26px}.ask i{font-size:20px}a.lv span{font-size:22px}a.lv img{max-width:440px}a.key{font-size:20px;min-width:210px;min-height:60px}a.key i{font-size:17px}}
+</style></head>
+<body><main>
+<header><img src="logo.png" alt="KORTEX"><h1>KORTEX</h1><p class="tag">The Launchpad for Engineered Brilliance</p></header>
+<p class="ask">Piliin ang iyong grade<i>Choose your grade</i></p>
+<nav class="grid"><a class="lv" href="kk/" data-lv="KK"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_KK.webp" alt="Kindergarten"><span>Kindergarten</span></a><a class="lv" href="index.html" data-lv="K1" data-play="k1/"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K1.webp" alt="Grade 1"><span>Grade 1</span></a><a class="lv" href="k2/" data-lv="K2"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K2.webp" alt="Grade 2"><span>Grade 2</span></a><a class="lv" href="k3/" data-lv="K3"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K3.webp" alt="Grade 3"><span>Grade 3</span></a><a class="lv" href="k4/" data-lv="K4"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K4.webp" alt="Grade 4"><span>Grade 4</span></a><a class="lv" href="k5/" data-lv="K5"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K5.webp" alt="Grade 5"><span>Grade 5</span></a><a class="lv" href="k6/" data-lv="K6"><b class="last">Huling binuksan · Last opened</b><img src="levels/banner_K6.webp" alt="Grade 6"><span>Grade 6</span></a></nav>
+<nav class="keys"><a class="key" href="faq.html">❓ FAQ<i>Mga Tanong</i></a></nav>
+<footer>© 2026 Venice D. Rodriguez · Capayas Elementary School · Coron, Palawan</footer>
+</main>
+<script>
+(function(){var K="kortex-door-last",last=null;try{last=localStorage.getItem(K)}catch(e){}
+/* (23 Nov, notes/PLAN_PLAY.md P1) in the Play app every banner keeps ?play=1 (a level keeps its records in its own room, where the
+   mark of this tab is not seen), and the grade chosen last opens at once — ?door=1 (🔁 Change Grade) shows the seven banners */
+var P=window.__KXPLAY===true,Q=/(^|[?&])door=1(&|$)/.test((location.search||"").slice(1));
+document.querySelectorAll("a.lv").forEach(function(a){if(P){var h=a.getAttribute("data-play")||a.getAttribute("href");a.setAttribute("href",h+(h.indexOf("?")<0?"?":"&")+"play=1")}
+ if(last&&a.dataset.lv===last)a.classList.add("last");
+ a.addEventListener("click",function(){try{localStorage.setItem(K,a.dataset.lv)}catch(e){}})});
+if(P&&last&&!Q){var g=document.querySelector('a.lv[data-lv="'+last+'"]');if(g){location.replace(g.getAttribute("href"));return}}
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register("sw.js").catch(function(){})}})();
+</script>
+</body></html>

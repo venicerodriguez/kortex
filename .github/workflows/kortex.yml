@@ -1,0 +1,44 @@
+name: KORTEX Site
+# Upload KORTEX-*.zip files to the top of the repository (Add file > Upload files).
+# This unzips them into place, removes the zips, and publishes the site.
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: kortex-site
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip KORTEX update files
+        run: |
+          shopt -s nullglob
+          zips=(KORTEX-*.zip)
+          if [ ${#zips[@]} -gt 0 ]; then
+            for z in "${zips[@]}"; do
+              echo "Unzipping $z"
+              unzip -o -q "$z" -d .
+              git rm -q "$z"
+            done
+            git config user.name "kortex-update"
+            git config user.email "kortex-update@users.noreply.github.com"
+            git add -A
+            git commit -q -m "Unzip KORTEX update"
+            git pull -q --rebase
+            git push -q
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4
