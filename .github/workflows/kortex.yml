@@ -11,12 +11,10 @@ permissions:
 concurrency:
   group: kortex-site
   cancel-in-progress: false
+# The site is packed in one job and published in the next one, so the packed copy is always there when the publishing step asks for it.
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Unzip KORTEX update files
@@ -40,5 +38,12 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v4
