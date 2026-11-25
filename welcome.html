@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>KORTEX · Welcome, Testers</title>
+<meta name="description" content="KORTEX: the testers' page. Join, open and play, and send your notes to Teacher Venice.">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b1530"><link rel="icon" href="icons/favicon.png">
+<style>
+:root{--navy:#0b1530;--navy2:#14284b;--cream:#f6f0e0;--gold:#f1d27a;--ink2:#c9d3e6}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}html{background:var(--navy)}
+body{background:radial-gradient(120% 900px at 50% 0%,#1d3766 0%,var(--navy2) 45%,var(--navy) 100%) no-repeat var(--navy);color:var(--cream);
+ font:17px/1.5 "Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:max(18px,env(safe-area-inset-top)) 16px max(26px,env(safe-area-inset-bottom))}
+main{max-width:640px;margin:0 auto}
+header{text-align:center;padding:4px 0 6px}header img{width:76px;height:76px}
+h1{margin:4px 0 0;font:800 30px/1.1 "Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.06em;color:#fff}
+h1 i{display:block;font-style:normal;font-weight:400;font-size:18px;color:var(--ink2);letter-spacing:0;margin-top:4px}
+.who{margin:14px 0 0;text-align:center}.who label{display:block;font-size:15px;color:var(--ink2);margin-bottom:6px}
+select{width:100%;max-width:360px;min-height:50px;border-radius:14px;border:1px solid var(--gold);background:#0b1530;color:#fff;font:600 17px/1.2 inherit;padding:0 14px}
+.card{margin:16px 0 0;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(241,210,122,.3);padding:18px 16px}
+h2{margin:0 0 12px;font:800 14px/1.2 "Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 50px}ol.steps li:last-child{padding-bottom:4px}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);font:800 18px/36px "Segoe UI",Roboto,Arial,sans-serif;text-align:center}
+ol.steps li.done::before{content:"✓";background:#8fd6a4}
+ol.steps li::after{content:"";position:absolute;left:17px;top:42px;bottom:2px;width:2px;background:rgba(241,210,122,.35)}ol.steps li:last-child::after{display:none}
+ol.steps b.t{display:block;font-size:19px;color:#fff;margin:4px 0 6px}
+ol.steps p{margin:6px 0 0;color:var(--ink2);font-size:16px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--gold);background:transparent;color:var(--gold);
+ font:800 18px/1.2 "Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.03em;text-decoration:none;text-align:center;padding:10px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn.gold{background:var(--gold);color:var(--navy);box-shadow:0 6px 22px rgba(241,210,122,.28)}
+.btn:focus-visible,select:focus-visible,summary:focus-visible,textarea:focus-visible,.dev button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+li.next .btn.gold{animation:glow 1.8s ease-in-out infinite}@keyframes glow{50%{box-shadow:0 6px 30px rgba(241,210,122,.6)}}
+@media (prefers-reduced-motion:reduce){li.next .btn.gold{animation:none}}
+.try{margin:14px 0 0;border-radius:14px;background:rgba(241,210,122,.12);border:1px dashed var(--gold);padding:12px 14px}
+.try b{color:#fff}.try ul{margin:8px 0 0;padding-left:20px;color:var(--ink2);font-size:16px}.try li{margin:4px 0}
+.dev{margin:14px 0 0;font-size:15px;color:var(--ink2);text-align:center}.dev span{display:block}.dev div{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.iab{margin:14px 0 0;border-radius:14px;background:rgba(241,210,122,.14);border:1px solid var(--gold);padding:12px 14px;font-size:16px}.iab a{margin:10px 0 6px}.iab i{font-style:normal;color:var(--ink2);font-size:15px}
+.dev button{background:none;border:0;color:var(--gold);font:600 15px/1.2 inherit;text-decoration:underline;min-height:46px;padding:12px 8px;cursor:pointer}
+.dev button[aria-pressed=true]{color:#fff;text-decoration:none}
+.letter{background:var(--cream);color:#1b2540;border:0;border-top:6px solid var(--gold);padding:22px 20px}
+.letter h2{color:#7a5a12}.letter p{margin:0 0 14px}.letter .date{color:#5a6478;font-size:15px}.letter .greet{font:700 20px/1.3 Georgia,"Times New Roman",serif;color:var(--navy2)}
+.letter b{color:var(--navy2)}.letter .close{margin:20px 0 4px}.letter .sig{font:700 22px/1.2 Georgia,"Times New Roman",serif;color:var(--navy2);margin:0 0 2px}
+.letter .pos{font-size:15px;color:#3b4763;margin:0}
+textarea{display:block;width:100%;min-height:150px;border-radius:14px;border:1px solid rgba(241,210,122,.5);background:#0b1530;color:#fff;font:16px/1.45 inherit;padding:12px 14px;margin:10px 0 12px;resize:vertical}
+textarea::placeholder{color:#8794b0}
+.note{margin:0;color:var(--ink2);font-size:16px}#sent{min-height:24px;margin:10px 0 0;color:#8fd6a4;font-weight:600;text-align:center}
+a.film{display:flex;align-items:center;gap:12px;min-height:54px;margin:8px 0 0;border-radius:14px;background:rgba(255,255,255,.07);color:#fff;text-decoration:none;padding:8px 14px;font-weight:700}
+a.film::before{content:"▶";flex:0 0 36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:14px;line-height:36px;text-align:center}
+a.film i{font-style:normal;font-weight:400;color:var(--ink2);font-size:14px;margin-left:auto}
+details{margin:8px 0 0;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(241,210,122,.25)}details[open]{border-color:var(--gold)}
+summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:700;min-height:48px}summary::-webkit-details-marker{display:none}
+summary::before{content:"＋";color:var(--gold);margin-right:10px}details[open] summary::before{content:"－"}
+details p{margin:0;padding:0 16px 14px 40px;color:var(--ink2)}details p b{color:#fff}
+footer{margin:22px 0 0;text-align:center;color:var(--ink2);font-size:14px}
+[hidden]{display:none!important}
+</style></head><body><main>
+<header><img src="logo.png" alt="KORTEX" width="76" height="76"><h1>KORTEX<i id="hello">Welcome, Tester</i></h1></header>
+<div class="iab" id="iab" hidden>This page opened inside another app. Signing in to Google is easier in Safari.<a class="btn" id="saf" href="#">Open this page in Safari</a><i>If that key does nothing, tap ⋯ at the top and choose Open in external browser.</i></div>
+<div class="who" id="who" hidden><label for="nm">Find your name</label><select id="nm"><option value="">Tap here</option></select></div>
+
+<section class="card" aria-labelledby="h-start"><h2 id="h-start">Start here</h2>
+<ol class="steps">
+<li id="s1"><a class="btn gold" id="join" href="https://play.google.com/apps/testing/io.github.venicerodriguez.kortex.app" target="_blank" rel="noopener">Become a tester</a><p id="acct">Sign in with the Google account I invited.</p></li>
+<li id="s2"><a class="btn gold" id="go" href="https://play.google.com/store/apps/details?id=io.github.venicerodriguez.kortex.app" target="_blank" rel="noopener">Install KORTEX</a><p id="gonote"></p></li>
+<li id="s3"><b class="t">Play</b><p id="playnote"></p></li>
+</ol>
+<div class="try" id="try" hidden></div>
+<div class="dev"><span>Using another device?</span><div><button type="button" data-d="a">Android</button><button type="button" data-d="i">iPhone or iPad</button><button type="button" data-d="d">Laptop</button></div></div>
+<noscript><p class="note">On an iPhone, an iPad or a laptop, open KORTEX here: <a href="levels.html" style="color:#f1d27a">levels.html</a></p></noscript>
+</section>
+
+<section class="card letter" aria-labelledby="h-letter"><h2 id="h-letter">A letter from Teacher Venice</h2>
+<p class="date">25 November 2026</p><p class="greet" id="dear">Dear KORTEX Tester,</p>
+<p>Thank you for agreeing to test <b>KORTEX</b>, my learning hub for Kindergarten to Grade 6.</p>
+<p>Joining takes one tap, and every tester counts: Google will release KORTEX to everyone only after at least twelve testers have joined and stayed for fourteen days. Kindly join today and stay in the test.</p>
+<p>You are a tester, so please write down everything you notice: a mistake, an unclear word, anything slow or confusing. Every note you send means one less mistake when KORTEX reaches the Play Store.</p>
+<p>The test is free. Week 1 of every subject is open, and anything marked 🔒 belongs to the full KORTEX. To protect the stories and lessons inside, screenshots and screen recordings are not allowed.</p>
+<p class="close">With sincere thanks,</p><p class="sig">Venice D. Rodriguez</p><p class="pos">Master Teacher II, Capayas Elementary School<br>Coron Coastal District, SDO Palawan</p></section>
+
+<section class="card" aria-labelledby="h-notes"><h2 id="h-notes">What I noticed</h2>
+<p class="note">Write everything you notice: the grade level, the game and what happened. Your notes stay on this device until you send them.</p>
+<textarea id="notes" aria-labelledby="h-notes" placeholder="Example: Grade 3, GAUNTLET, Week 1. The second question was hard to read."></textarea>
+<button type="button" class="btn" id="send">Send my notes to Teacher Venice</button><p id="sent" role="status" aria-live="polite"></p></section>
+
+<section class="card" aria-labelledby="h-films"><h2 id="h-films">Watch</h2>
+<a class="film" href="https://drive.google.com/file/d/1rmuYu7yA5vhMGz8ZTUQNFzb0GnSKeTMW/view" target="_blank" rel="noopener">How to join<i>video, in Filipino</i></a><a class="film" href="https://drive.google.com/file/d/18Nkac5_v9TtP0j1ryjjFhzhhY81Ps9jy/view" target="_blank" rel="noopener">How to play<i>video, in Filipino</i></a><a class="film" href="https://drive.google.com/file/d/1lrO7c2sTwrmHyOlnEdZ6eJ2hKEVhFF30/view" target="_blank" rel="noopener">The Learner door<i>video, in Filipino</i></a><a class="film" href="https://drive.google.com/file/d/1d6z-f8lVy-KWvpkSBLjP4VI1RF9LD9Ku/view" target="_blank" rel="noopener">The Parent door<i>video, in Filipino</i></a></section>
+
+<section class="card" aria-labelledby="h-qa"><h2 id="h-qa">Questions</h2>
+<details><summary>Play Store says the app is not available.</summary><p>Tap <b>Become a tester</b> first, with the Google account I invited. If your phone uses another Google account, send me that address and I will add it.</p></details><details><summary>It asks for a PIN.</summary><p>As Teacher you create your own PIN, and it stays on your phone. After an app update you may be asked to create it again. Forgot it? Tap <b>Forgot PIN?</b>, then <b>Yes, New PIN</b>.</p></details><details><summary>Why do some items show 🔒?</summary><p>The test opens Week 1 of every subject. The rest comes with the full KORTEX.</p></details><details><summary>Why can I not take a screenshot?</summary><p>The stories, lessons and designs inside are protected work.</p></details><details><summary>Does the test cost anything?</summary><p>No. It is free.</p></details><details><summary>Is KORTEX from DepEd?</summary><p>No. KORTEX is the personal work of Teacher Venice D. Rodriguez. It is not an official DepEd product.</p></details></section>
+
+<footer>© Venice D. Rodriguez · KORTEX</footer>
+</main>
+<script>
+(function(){
+var D=document,$=function(i){return D.getElementById(i)},st={},KEY='kxwelcome';
+try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){st={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+var ua=navigator.userAgent||'';
+var auto=/Android/i.test(ua)?'a':((/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1))?'i':'d');
+var PKG='io.github.venicerodriguez.kortex.app',JOIN='https://play.google.com/apps/testing/io.github.venicerodriguez.kortex.app',STORE='https://play.google.com/store/apps/details?id=io.github.venicerodriguez.kortex.app',WEB='levels.html',PLAY="Choose a grade level, then a door: Teacher, Learner or Parent. As Teacher, create your own 4-digit PIN. Choose a game and tap <b>Play</b>. Then choose a Subject, a Term and <b>Week 1</b>.",TIP={"T": "As Teacher, create any 4-digit PIN at the first tap. The class inside is a sample class, so there is nothing to type.", "L": "As Learner, choose any name in the sample class.", "P": "As Parent, choose a child. The sample family code is already filled in: just tap Open Progress.", "CG": "Use Change Grade to move to another level.", "OFF": "Please also try this: open KORTEX once with internet, then open it again in airplane mode."},BOX={"iv": "t8f_Z02GUitaRvkb", "ct": "VddLYNOK9gRDgwYYAB92GUVfzknXTBg8DHasy9eSnAAO42cuCdBjSjBliGsNma9C7YOw5yOO8f70JcKOhFhQPXQwnfJRj9FqEw1a-IYlbv3g0gXtMGJFOBIjfD8NB0CuAorbo3ONavyeOqORxIwSOXkfPFsj3OKvOEC7v_07p_r_agoTY-2O5NcMbV9y-7blTEGSxwF4mZCrS-CzhgOhVNgzPXVQkQdSmZqN70A-gABsJPbi1G10btNn2VkSVs5PAaBoPLf67y26oru_CYuxUhp4tAAUzJiRx0ZZMQSL_5vKLub91cbqIw20mtJX1ztbocAzLr-mPprk_abCUmjW3RLcjnRsdQardOmX0hr0JQq8RZEpRLq0VeDNPiN-XIaeeZQrahHytR7oI9wJXQUsK6Ij0tR5f04qwSI7yQkcrCZDZ-gvIJZ5Ga_p69TxYc5mSFtrddwolNjg7OfBrMaQ1zR9WXVfEU_sNVa45au1KdNeFd_OtuxVj-k2KjdHmleycFApoSU3t3ZYGWjR1rtS-jW_ozkSwD0UQx978Ntaef7Vjc07H6YqZZ5kFUQTsiDejTpSUNwmlfw0B6PgIm2RPDM9Z5Yi2v_TRU3fR6anul74LbBzSQ2l6MD8cxcMod7ZoUYDxVytzpiYuxODc5AB4WbmX92Cjr-Z-zbiTPR7heqN2dSDC4gavUDLmrE52AUycvHwjYDOD00E6fcg48GY6QiGbiG9VBqqEj3n4VS2xSbF9c79RXalvU1h0xtwpIjKWwwqSvASnlwTpqFGL9lGRmI6hZzBhzyH-FZcWIOqgFlVsXq1QFcsIXZVrjhk7q1kpMPD98yMtvwP247TI8zyYam2qLdMo6TCT0sodbwYmC05Xz-FKCooqJvXh_XMz8aRZDSnrEYvjDFisIWKb7tB2vUhxt9_ZeCberAi54-I-jY8eX2qApQRhp2NmUg6rfWIlxUEgSNWozmGGHUkZNSLMcgbkhiU7qvFGiFcuMlt_s1D6BB9FrYxeYkIIBLleXRAwAJVVCZn_b7urUpgJRUz5sir_ABH0dwSFL5QPC_Eq-SioxzN9E7dSXnvJ-3sz4k99keEBgmdGXHMiy-1mZ5q-4br3iX4U1e2hjdZPb3LEfQMH7ykg1LOu2jWEkn3RDv-QcC5c-OaQGWRUn-kHyQ2t11qYegvYyTpp2vWwLY3XK22mM2Hx_pcrI0wWKuPsK442iGNkr9BKgMqiw9YDWCEdrnDUTMIPlWwxuJJqY8Yhezk_JJEOkmIArZTAGsbIN_F3JBQIT6ZNrGr7W_jTR5_u4wqDEcYyOVTgfwrjczRKRevikFlqzKD1uLxdmTMTcyYQbl5CizWDHat6AzEUdhA0W5dpkkhZnlnlLRgCK2E_IcsWxDx2CfoqWTncJ1M2rPFcXPBlhLkB-dA-QBA4-mIO_lw4RKf6gK4-yc98bxPvN4t4NRHEAA8_CFv7jOJMeGrhM1i3aFyNIJVwc892oq9p7acb88EO5LF802_1tjWrWu3QRq6BlLz3NL04kWzbAQQSGlsK8Fmgs0vzO3wVYE9q7n72x-oUcDw5KOgVVSWWtIQl_XGvy6DCFGQIVmR1pPU7mlwNnACxoWDV4RTLetgHMEb2XqA0xsojLmgFiJwkci10aOJmThAkzm_w1jZobHUMb0rr0yCJ-4SvKRhFQh6Ct2cfhW67AVSjHFXi6CRa9qNvKBq0bqVIHkMgahy-RTHS8vppwe42Kwba1GFmT0kJvskZUSQPaKhUr6rOXaGKzpw-k2UPLaVTUnB_rjzmiPcRIfRms-Gz8ZytLQ-wZDa4TJdKuFrzZvA76r6psMzWVlCn2yWMEITQ4ynniTE8NXaPTiy2Ra6IctGNVpfcHLshI7TTfVjyRuGIj-tYcWI8AVyk3-V4XlQIO3vxp28lBgyZZzNgTnND03PCzjoTbQbcBDG2_D84XISDhDelOZ7ISSQCNS9pXxgDKkIFwZMZM8LLm6j69w6wldyc_AVOZkqmJpN7Pc9siluwDYWtfk1nqbME5_GNENYubfEcIK-sxbvywykrjhj_E-WuhRp87M7E16rFvmHAdHideS2HgqiCj-av-mx0anPxx-N94Bj2VreuQazptWtGgFDZKg6y1cAna4HCorDvIvcNwi9M7zD__CCKKK4baG7IIVFdnx2ZAtKrdL7UQd0i6GX_rIcpdKLdXnRkWVV7m6ccFUuHZ64_yXEAUbJ-UCeMRTczzZneKsmNI9m0Yaqil4jD_m0rPWyzbEmCXO1bNsykcglQKWHigkESkDMM27FpXx5bvVVvuBYeuyAmAgCgRLPlvmi3CN41odeEiQnRy-qdSh7Oe8BEyjPBAVItc6mC8eAkPThg1X7PHdd_queRztNUs5mCRQ0HeeoXW7Uu5EV0adnv1rMAIwatXrHMd9dOXvOiAE-NSkks_orsfkTSg08CoXoFefoUzq6zTMDMuZsfnHi0sjlm8UzYll7Kd8aUm9UNykDxpibH7xOQdXp9c3LmkT-HKv08jJxIuBwgFhbVyK6WcfDvG_eVuqPFzzoTKm8bDbfutwItFs-m0lKJ6AHd2UNgolDDNTnjsArr_X9t6_FpJwaMB_XHg3jzUbdQBw3syB6n3GqArw7hg-ujSmQxyHtySYSZDbG-nZV1sKz4o05qDbsCrh6829bvAZe4QNWdPwkbhYLkK7T3leTwmWKKIBNPV9VhBAdY1n3rW9lVJ3NlnVSj4eIKexpY72efncr749Cv9npMV7ZBkQQllaeuJqLz-qn4xbg5LLWFvrKhV9YQNpAN3OW7HllEu13qL2vEK86S5E0VzuozW6Dyo7-sqMc8wgvqQL6Md7pHnoXeygMb2LPS9YyPXu_-N0DWuTlVtb3Y4y9dAvot4HpL52MwswUpkXguTiwC-cNJ8wybeNyoqz2ut2A_8RIIK5P-fByoDy4GCnzdhcSI0biNcX2ahFuAJqvgeY0MFBMoex2Ht8aEofBrJoZ1WxNcChHMS44VjfN6WYrUrLdD0sixObRzBkjtbsGHRbqGrpxloJzXE51N333KBPjl2i9WDJgbzLF5LCyKpj80fDS_OS_0wfxb0DdP0OPYsWGaV0nynkgPLqVppgAg-xbS-k9oxphDZFMygxAWDapf06iRLkJGE44XcIyGEV_VesVvPEFSNXPRfhbiQNM8HVkK6Kndr87l8rlJjZXNmcsaFxLzRS-kLvqne7NUKBBs10kG1C_h7o2-W4ja3uPfDaGY9YMWfXbZzhTslJZ807QwXHaKJCgY49Tr5C2JOQ5vRL4grUbRe5ORtbk_TjRiO8gUET922cheYDJ4BgwgMdbv7dLGBbZMzq_a04iq4rbZ87YQ8pSFcG5R5HKD9Mru6gSZrhwnNrIy3UNC1B3UopF519mhz2Rz8Wd1YDSuHkSuT_FpZLiCY_ti_U0nU0OhmCBpqZENRHw9REhF_3Ab7I7EbeOjagX-dmQikzMtGERRHuXrFhrK-uBTvXzJlfUN1DffLxsDLFQ6G3gA3DRFrtaaWu3wOaETvrjbX_af6lpQYnjA8hiXpnYMqHrDzJD18y8-EA"};
+var T={a:{b:'Install KORTEX',h:STORE,n:'This opens KORTEX in the Play Store, so there is nothing to search for. If Install does not show yet, wait a minute and tap again.',j:'',p:'Open KORTEX. '},
+ i:{b:'Open KORTEX',h:WEB,n:'It opens in Safari. There is no app for an iPhone or an iPad.',j:' Nothing is installed on an iPhone or an iPad: this counts you as a tester.',p:''},
+ d:{b:'Open KORTEX',h:WEB,n:'It opens in your browser. There is no app for a laptop.',j:' Nothing is installed on a laptop: this counts you as a tester.',p:''}};
+var ACCT={D:'Sign in with your DepEd Google account (the address that ends in @deped.gov.ph): that is the one I invited.',G:'Sign in with your Gmail account: that is the one I invited.'};
+var own=/KORTEXApp/.test(ua),inA=auto==='a'&&!own&&/FBAN|FBAV|FB_IAB|Instagram|Line\/|MicroMessenger|; wv\)/.test(ua),inI=auto==='i'&&(/FBAN|FBAV|Instagram|Line\/|MicroMessenger/.test(ua)||!/Safari\//.test(ua));
+function out(u,pk,sch){return 'intent://'+u+'#Intent;scheme='+sch+';package='+pk+';S.browser_fallback_url='+encodeURIComponent(sch==='market'?STORE:'https://'+u)+';end'}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function draw(){
+ var d=st.dev||auto,t=T[d],me=st.me;
+ $('hello').textContent='Welcome, '+(me?me.hi:'Tester');
+ $('dear').textContent='Dear '+(me?me.hi:'KORTEX Tester')+',';
+ $('acct').textContent=(me?ACCT[me.a]:'Sign in with the Google account I invited.')+t.j;
+ var jh=JOIN,gh=t.h,ex=d==='a'&&inA;
+ if(ex){jh=out(JOIN.slice(8),'com.android.chrome','https');gh=out('details?id='+PKG,'com.android.vending','market')}
+ $('join').href=jh;$('go').textContent=t.b;$('go').href=gh;$('gonote').textContent=t.n;
+ [$('join'),$('go')].forEach(function(a){if(ex)a.removeAttribute('target');else a.setAttribute('target','_blank')});
+ $('playnote').innerHTML=t.p+PLAY;
+ $('s1').className=st.j?'done':'next';$('s2').className=st.g?'done':(st.j?'next':'');
+ var y=$('try');
+ if(me){y.hidden=false;y.innerHTML='<b>Teacher Venice asks you to try: '+esc(me.t)+'</b>'+(me.m?'<br>'+esc(me.m.charAt(0).toUpperCase()+me.m.slice(1))+'.':'')+
+  (me.tips&&me.tips.length?'<ul>'+me.tips.map(function(k){return '<li>'+esc(TIP[k])+'</li>'}).join('')+'</ul>':'')}
+ else y.hidden=true;
+ [].forEach.call(D.querySelectorAll('.dev button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-d')===d?'true':'false')});
+}
+$('join').addEventListener('click',function(){st.j=1;save();setTimeout(draw,400)});
+$('go').addEventListener('click',function(){st.g=1;save();setTimeout(draw,400)});
+[].forEach.call(D.querySelectorAll('.dev button'),function(b){b.addEventListener('click',function(){st.dev=b.getAttribute('data-d');save();draw()})});
+var N=$('notes'),tm;N.value=st.notes||'';
+N.addEventListener('input',function(){st.notes=N.value;clearTimeout(tm);tm=setTimeout(save,300)});
+function say(s){$('sent').textContent=s}
+$('send').addEventListener('click',function(){
+ var txt=(N.value||'').trim();if(!txt){say('Write a note first.');N.focus();return}
+ var msg='KORTEX test notes from '+(st.me?st.me.n:'a tester')+'\n\n'+txt;
+ function copy(){
+  function done(){say('Copied. Paste it in a message to Teacher Venice.')}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){N.focus();N.select();say('Copy your notes and send them to Teacher Venice.')})}
+  else{N.focus();N.select();try{D.execCommand('copy');done()}catch(e){say('Copy your notes and send them to Teacher Venice.')}}
+ }
+ if(navigator.share){navigator.share({text:msg}).then(function(){say('Thank you. Choose Teacher Venice to send it.')},function(e){if(!e||e.name!=='AbortError')copy()})}else copy();
+});
+function b64(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function fill(L){
+ var S=$('nm');L.forEach(function(p,i){var o=D.createElement('option');o.value=i;o.textContent=p.n;if(st.me&&st.me.n===p.n)o.selected=true;S.appendChild(o)});
+ $('who').hidden=false;
+ S.addEventListener('change',function(){st.me=S.value===''?null:L[+S.value];save();draw()});
+}
+var m=/[#&]k=([A-Za-z0-9_-]{20,})/.exec(location.hash||''),k=m?m[1]:null;
+try{if(k){localStorage.setItem(KEY+'k',k);if(history.replaceState)history.replaceState(null,'',location.pathname+location.search)}else k=localStorage.getItem(KEY+'k')}catch(e){}
+if(k&&window.crypto&&crypto.subtle&&window.TextDecoder){
+ crypto.subtle.digest('SHA-256',b64(k)).then(function(h){return crypto.subtle.importKey('raw',h,{name:'AES-GCM'},false,['decrypt'])})
+ .then(function(c){return crypto.subtle.decrypt({name:'AES-GCM',iv:b64(BOX.iv)},c,b64(BOX.ct))})
+ .then(function(p){fill(JSON.parse(new TextDecoder().decode(p)))})['catch'](function(){});
+}
+if(inI){$('iab').hidden=false;$('saf').href='x-safari-'+location.origin+location.pathname+(k?'#k='+k:'')}
+draw();
+})();
+</script></body></html>
