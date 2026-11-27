@@ -7,12 +7,8 @@ RIGHTS: © 2026 Venice D. Rodriguez. All rights reserved.
 FORMAT: complete standalone HTML; works offline once saved; no server needed.
 -->
 <html lang="fil"><head><meta charset="utf-8"><script>/* KORTEX: this level keeps its own saved data (one website, seven levels: the record room of kxroom.js) */(function(){var R=null;try{R=Storage.prototype.getItem.call(sessionStorage,"KX_LV")}catch(e){}if(!(R&&/^@U-K[K1-6]@$/.test(R)))R="";window.__KXLV=R?R.slice(3,5).toLowerCase():"";(function KXROOM(PRE){
-/* KORTEX · the record room of a one-file edition (11 Nov 2026).
-   A browser keeps one record store for every page opened as a file from the disk, so two KORTEX files on one computer would
-   read and write the same records. With a room, everything this file saves on the device — the class list, the PIN, the
-   scores, the settings, the pictures kept on the device — is kept under the room's own name, in every page the file opens,
-   and a file of another room does not see it. The pages themselves are not changed: this stands before any other code of
-   a page and puts the room's name in front of every item name; it passes itself on to each page opened inside a page. */
+
+
   "use strict";
   if(!PRE)return;
   var SP=null;try{SP=window.Storage&&window.Storage.prototype}catch(e){}
@@ -30,15 +26,15 @@ FORMAT: complete standalone HTML; works offline once saved; no server needed.
   SP.key=function(i){var a=names(this);i=i>>>0;return i<a.length?a[i]:null};
   Object.defineProperty(SP,"length",{configurable:true,enumerable:true,get:function(){return names(this).length}});
   Object.defineProperty(SP,"__kxroom",{value:PRE});
-  /* a list of the item names (Object.keys of the store) is the room's list */
+   
   var LS=null,SS=null;try{LS=window.localStorage}catch(e){}try{SS=window.sessionStorage}catch(e){}
   var OK=Object.keys;Object.keys=function(o){return(o!==null&&o!==undefined&&(o===LS||o===SS))?names(o).slice():OK.apply(this,arguments)};
-  /* the pictures and sounds kept on the device (IndexedDB) */
+   
   try{var IF=window.IDBFactory&&window.IDBFactory.prototype;if(IF){var io=IF.open,idl=IF.deleteDatabase,ids=IF.databases;
     IF.open=function(){return io.apply(this,args(arguments))};
     IF.deleteDatabase=function(){return idl.apply(this,args(arguments))};
     if(ids)IF.databases=function(){return ids.call(this).then(function(L){var o=[];L.forEach(function(d){var n=String(d.name);if(n.indexOf(PRE)===0)o.push({name:n.slice(PRE.length),version:d.version})});return o})}}}catch(e){}
-  /* "something was saved in another window": only this room's news is passed on, under the item's own name */
+   
   var AE=window.addEventListener,RE=window.removeEventListener,WM=typeof WeakMap==="function"?new WeakMap():null;
   function wrap(fn){var w=WM&&WM.get(fn);if(w)return w;
     w=function(e){try{if(e&&e.type==="storage"&&!e.__kxr){var k=e.key;if(k!==null&&k!==undefined){k=String(k);if(k.indexOf(PRE)!==0)return;Object.defineProperty(e,"key",{configurable:true,value:k.slice(PRE.length)})}Object.defineProperty(e,"__kxr",{value:1})}}catch(x){}
@@ -46,18 +42,15 @@ FORMAT: complete standalone HTML; works offline once saved; no server needed.
     if(WM)WM.set(fn,w);return w}
   window.addEventListener=function(t,fn){if(t==="storage"&&fn&&(typeof fn==="function"||typeof fn==="object")){var a=[].slice.call(arguments);a[1]=wrap(fn);return AE.apply(this||window,a)}return AE.apply(this||window,arguments)};
   window.removeEventListener=function(t,fn){if(t==="storage"&&fn&&WM&&WM.get(fn)){var a=[].slice.call(arguments);a[1]=WM.get(fn);return RE.apply(this||window,a)}return RE.apply(this||window,arguments)};
-  /* every page opened inside this page starts with the same room */
+   
   var SRC="("+KXROOM.toString()+")("+JSON.stringify(PRE)+")";
   function inject(h){h=String(h);if(!h)return h;var tag="<script>"+SRC+"<\/script>",m=/^\s*<!doctype[^>]*>/i.exec(h);return m?h.slice(0,m[0].length)+tag+h.slice(m[0].length):tag+h}
   try{var D=Object.getOwnPropertyDescriptor(window.HTMLIFrameElement.prototype,"srcdoc");
     if(D&&D.set)Object.defineProperty(window.HTMLIFrameElement.prototype,"srcdoc",{configurable:true,enumerable:D.enumerable,get:D.get,set:function(v){return D.set.call(this,inject(v))}})}catch(e){}
-  /* a page of the file's own tools that opens from its own address: it starts with the room if it keeps anything on the device */
+   
   window.KXROOMIN=function(u,ty){if(!/html/i.test(String(ty||"")))return u;try{var t=new TextDecoder("utf-8").decode(u);return /localStorage|sessionStorage|indexedDB/.test(t)?inject(t):u}catch(e){return u}};
   window.__KXROOM=PRE;
 })(R)})();</script><script>/* KORTEX PLAY: in the Play app nothing about a child is typed or loaded (R174) */(function KXPLAYLOCK(){
-/* KORTEX PLAY (R174 ②): in the Google Play app nothing about a child is typed or loaded — no name, LRN, score, roster or record;
-   the Teacher sees the sample class only. On only when the page is opened by the Play app: ?play=1 on the start page (the app's
-   start URL), kept for the tab in sessionStorage "KX_PLAY", or an android-app:// referrer. The website itself stays as it is. */
 var W = window, D = document, on = false, SS = null;
 try { SS = W.sessionStorage } catch (e) {}
 function get(k) { try { return SS ? Storage.prototype.getItem.call(SS, k) : null } catch (e) { return null } }
@@ -65,25 +58,12 @@ function set(k, v) { try { if (SS) Storage.prototype.setItem.call(SS, k, v) } ca
 try {
   var q = /(^|[?&])play=1(&|$)/.test((location.search || '').slice(1)), tq = false;
   try { tq = /(^|[?&])play=1(&|$)/.test((W.top.location.search || '').slice(1)) } catch (e) {}
-  /* (24 Nov 15:10, Fable) the referrer of the Play app ITSELF only: a class link tapped in Gmail or another Android app also comes with an
-     android-app:// referrer, and her own class would have met the sample-class lock on Grade 1's own site */
   on = q || tq || get('KX_PLAY') === '1' || /^android-app:\/\/io\.github\.venicerodriguez\.kortex\.app(\/|$)/.test(D.referrer || '');
 } catch (e) {}
-/* (24 Nov 15:10, Fable; her words 14:27 "IBINIGAY MO NANG LIBRE LAHAT") THE SEVEN LEVEL FOLDERS (kk/, k1/ … k6/) ARE THE PLAY APP'S TRIAL
-   WHEREVER THEY ARE OPENED: before, the lock stood only with ?play=1, so the same pages typed into a browser were wide open (every tool,
-   every editor). A level's page is locked always; a side of a game (a frame) follows the page around it; the tab's mark (KX_PLAY) is still
-   written by the Play app only, so Grade 1's own site (her class) stays as it is in a browser. */
 var APP = on, LVX = /\/(?:kk|k[1-6])\//;
 try { if (!on && W.parent !== W && W.parent.__KXPLAY === true) on = true } catch (e) {}
 try { if (!on && W.top !== W && W.top.__KXPLAY === true) on = true } catch (e) {}
 try { if (!on && ((typeof W.__KXLV === 'string' && W.__KXLV) || LVX.test(location.pathname || ''))) on = true } catch (e) {}
-/* (24 Nov 22:00, Fable; her words 21:44 "Bakit week 1 din lang ang para sa klase ko? Pang playstore ito." — Blueprint R207) HER OWN CLASS HAS
-   THE WHOLE GRADE 1 WHEREVER ITS LINK OPENS — ALSO INSIDE THE PLAY APP. On a phone that has the KORTEX app, Android hands every link of this site
-   to the app, so her Class Link came with the app's own referrer and the lines below sent her class to the Week-1 folder (k1/). The pages of her
-   class's site (the hub at the main link and Grade 1's own games) are sealed: such a page stands here only because her class key opened it — the
-   opener leaves its mark (window.__KXT4, and "KX_T4" for the tab). With that mark the page and every side inside it are her class's site as in
-   a browser: no Play lock, no sending to k1/, nothing kept for the tab. A stranger has no key, so a stranger never has the mark on such a page;
-   the seven level folders are the trial for everyone, mark or no mark. */
 var CLS = false;
 try {
   var tp0 = ''; try { tp0 = W.top.location.pathname || '' } catch (e) { tp0 = location.pathname || '' }
@@ -94,13 +74,6 @@ try {
   CLS = cp0 && mk0;
 } catch (e) {}
 if (CLS) { on = false; APP = false }
-/* 0. (24 Nov 18:45, Fable; her words 17:15 "NEVER MAPIPRINT O MASISAVE NINUMAN ANG GAWA KO. SA PUBLIC AT PLAYSTORE. O KUNG ANONG WAY PARA
-   MAREPRODUCE" · 17:28 "Ang aether sa playstore???" — Blueprint R200 ④, R203 ①) NOTHING OF HERS IS COPIED OUT OF A PAGE: in a level's folder,
-   in the Play app, and in the online library (the first pages of her stories) however it is opened — no selecting, no copy or cut, no
-   dragging a picture out, no long-press or right-click menu (its "Download image", "Copy image", "Save as"), no printing (the page prints
-   blank), and the keys Ctrl or ⌘ with S, P, U, A, and F12 closed. A box that is typed in (a PIN, a search, a game's own answer) keeps its
-   caret and its own selection. Grade 1's own class site (her class) is as it was. What this does NOT stop: a screenshot (the app's own
-   secure screen will, R201), and a programmer who reads the page's file — which is why a level here holds Week 1 only (R181). */
 var NC = on; try { if (!NC && /\/library\//.test(location.pathname || '')) NC = true } catch (e) {}
 try { if (!NC && W.parent !== W && W.parent.__KXNOCOPY === true) NC = true } catch (e) {}
 if (NC && W.__KXNOCOPY !== true) {
@@ -134,7 +107,6 @@ if (NC && W.__KXNOCOPY !== true) {
 if (!on) return;
 if (APP) set('KX_PLAY', '1');
 W.__KXPLAY = true;
-/* in the Play app Grade 1 is its Week 1 folder (k1/): the whole Grade 1 of her class (the site's own hub and games) is never shown there */
 try {
   if (APP && W === W.top && !(typeof W.__KXLV === 'string' && W.__KXLV) && !LVX.test(location.pathname || '')) {
     var pn0 = location.pathname || '', gm0 = /\/games\/([a-z0-9]+)\/combined\.html$/.exec(pn0);
@@ -142,10 +114,8 @@ try {
     if (/\/(?:index\.html)?$/.test(pn0) && !/\/(?:library|levels|media|icons)\/(?:index\.html)?$/.test(pn0)) { location.replace('k1/?play=1'); return }
   }
 } catch (e) {}
-/* a whole-year folder (<level>f/, Google Play Billing, R182 — not there yet) keeps every week: 3c below is for the trial */
 var FULL = false; try { FULL = /\/(?:kk|k[1-6])f\//.test(W.top.location.pathname || '') } catch (e) { try { FULL = /\/(?:kk|k[1-6])f\//.test(location.pathname || '') } catch (e2) {} }
 var GAME = /\/games\//.test(location.pathname || '');
-/* (24 Nov 15:00) a game's Teacher and Learner sides stand in frames of the game's page (their address is not /games/): they are the game too */
 try { if (!GAME && W.parent !== W) GAME = /\/games\//.test(W.parent.location.pathname || '') } catch (e) {}
 var NOTE = 'Sa Play app, sample class lamang: walang pangalan, LRN, marka o record na maitatype o maipapasok. · ' +
            'In the Play app the class is the sample class only: no name, LRN, score or record can be typed or loaded.';
@@ -156,8 +126,6 @@ function note() {
     var b = D.getElementById('kxPlayNote');
     if (!b) {
       b = D.createElement('div'); b.id = 'kxPlayNote'; b.setAttribute('role', 'status');
-      /* (24 Nov 10:40, R191) the note spans the phone's width at its foot and lets every tap through: on a phone the old one stood
-         tall and narrow over ✨ Sign In for 4 seconds after a tap on the Name box, so the tap on Sign In did nothing */
       b.style.cssText = 'position:fixed;left:12px;right:12px;bottom:18px;margin:0 auto;z-index:2147483647;max-width:560px;pointer-events:none;' +
         'background:#0b1530;color:#fff;border:1px solid #f5c542;border-radius:14px;padding:12px 16px;font:600 14px/1.4 system-ui,sans-serif;' +
         'box-shadow:0 8px 28px rgba(0,0,0,.45);text-align:center';
@@ -167,8 +135,6 @@ function note() {
     clearTimeout(b._t); b._t = setTimeout(function () { b.style.display = 'none' }, 4200);
   } catch (e) {}
 }
-/* what may still be typed: a PIN box (it opens the Teacher's side; it is not about a child), and in a game the answer
-   boxes of the play itself — never a box for a name, a team, an LRN, a score, a roster, a record or a teacher's own items */
 var CHILD = /name|pangalan|\blrn\b|learner|mag-?aaral|team|koponan|score|marka|roster|klase|\bclass\b|section|seksiyon|record|talaan|teacher|guro|title|pamagat|question|tanong|\bitem|story|kuwento|e-?mail|phone|address|tirahan|birth|kaarawan|parent|magulang/i;
 function label(el) {
   var s = [el.id, el.name, el.getAttribute('placeholder'), el.getAttribute('aria-label'), el.getAttribute('title'), el.className].join(' ');
@@ -189,14 +155,11 @@ function allowed(el) {
   var ty = (el.getAttribute('type') || 'text').toLowerCase();
   if (ty === 'file') return false;
   if (ty === 'password' || el.id === 'siP' || el.id === 'siP2' || el.getAttribute('data-kx-pin') !== null) return true;
-  /* (24 Nov 14:45; her words 14:27 "NAIEDIT PA") no game draws a box for a typed answer (every answer is a tap): a box in a game is an
-     editor, a setting, a name, a note or a code — closed like every other box. Only a PIN box and a search box take words. */
   if (searchy(el)) return true;
   return false;
 }
 function searchy(el) { var x = [el.getAttribute('type'), el.getAttribute('placeholder'), el.getAttribute('aria-label'), el.getAttribute('oninput'), el.className, el.id].join(' '); return /\bsearch\b|srch|hanapin|\uD83D\uDD0E|\uD83D\uDD0D/i.test(x) }
 function stop(e) { e.preventDefault(); e.stopImmediatePropagation(); note(); return false }
-/* 1. no file is loaded: no chooser opens, no file is dropped or pasted in */
 var pc = HTMLInputElement.prototype.click;
 HTMLInputElement.prototype.click = function () { if ((this.type || '').toLowerCase() === 'file') { note(); return } return pc.apply(this, arguments) };
 try { var sp = HTMLInputElement.prototype.showPicker; if (sp) HTMLInputElement.prototype.showPicker = function () { if ((this.type || '').toLowerCase() === 'file') { note(); return } return sp.apply(this, arguments) } } catch (e) {}
@@ -209,9 +172,7 @@ D.addEventListener('click', function (e) {
 D.addEventListener('change', function (e) { var t = e.target; if (t && t.tagName === 'INPUT' && (t.type || '').toLowerCase() === 'file') { try { t.value = '' } catch (x) {} return stop(e) } }, true);
 ['dragover', 'drop'].forEach(function (n) { D.addEventListener(n, function (e) { var dt = e.dataTransfer; if (dt && (dt.files && dt.files.length || [].indexOf.call(dt.types || [], 'Files') >= 0)) stop(e) }, true) });
 try { var FR = FileReader.prototype; ['readAsText', 'readAsArrayBuffer', 'readAsDataURL', 'readAsBinaryString'].forEach(function (k) { if (FR[k]) FR[k] = function () { note() } }) } catch (e) {}
-/* (24 Nov 15:45, Fable) nor read from the clipboard: a game's Accept sheet takes a learner's scores by 📥 Paste Code */
 try { var ncb = navigator.clipboard; if (ncb) { ['readText', 'read'].forEach(function (k) { if (ncb[k]) ncb[k] = function () { note(); return Promise.reject(new Error('KORTEX Play')) } }) } } catch (e) {}
-/* 2. nothing is typed where a child's data would go */
 function guard(e) { var t = e.target; if (t && typable(t) && !allowed(t)) return stop(e) }
 ['beforeinput', 'paste', 'drop', 'keypress'].forEach(function (n) { D.addEventListener(n, guard, true) });
 D.addEventListener('keydown', function (e) {
@@ -221,9 +182,8 @@ D.addEventListener('keydown', function (e) {
 D.addEventListener('focusin', function (e) {
   var t = e.target; if (!t || !typable(t) || allowed(t)) return;
   try { if (t.isContentEditable) t.setAttribute('contenteditable', 'false'); else t.readOnly = true } catch (x) {}
-  if (t.id !== 'pcI') note();      /* (P4) the family code box is filled by the lock itself: no note when the hub puts the cursor there */
+  if (t.id !== 'pcI') note();
 }, true);
-/* 3. no box of the browser asks for a word; KORTEX's own sheet asks only for a PIN */
 W.prompt = function () { note(); return null };
 function wrapKXD() {
   var K = W.KXD; if (!K || K.__play || typeof K.prompt !== 'function') return !!(K && K.__play);
@@ -235,17 +195,13 @@ function wrapKXD() {
   K.__play = true; return true;
 }
 if (!wrapKXD()) { var n = 0, iv = setInterval(function () { if (wrapKXD() || ++n > 200) clearInterval(iv) }, 50) }
-/* 3b. (23 Nov, Blueprint R181) THE TRIAL BUILD: only Week 1 of every subject in each term is in the files; the other weeks stand under
-   labels that begin with 🔒 — in every page of the Play app (games too) such a week cannot be chosen, and one line says why */
 var WNOTE = 'Week 1 ng bawat subject kada term lang ang bukas sa Play app. · Only Week 1 of every subject in each term is open in the Play app.';
 function wnote() { var keep = NOTE; NOTE = WNOTE; last = 0; note(); NOTE = keep }
 function locked(el) {
   if (!el || el.nodeType !== 1) return false;
   var x = el.tagName === 'OPTION' ? el.text : (el.textContent || '');
-  return x.length < 240 && x.indexOf('\uD83D\uDD12\u2060') >= 0;      /* 🔒 + the unseen word joiner of the trial's labels (kx/lvq.py LOCK) */
+  return x.length < 240 && x.indexOf('\uD83D\uDD12\u2060') >= 0;
 }
-/* (24 Nov 16:00, Fable) a tap is judged by what the key SAYS AND CALLS at that moment, marked or not yet: a screen that draws itself again
-   (ARENA redraws with its clock) shows its keys for a blink before the mark is back on them, and a tap in that blink went through */
 function wkey(b) {
   try {
     if (FULL) return false;
@@ -266,12 +222,6 @@ D.addEventListener('change', function (e) {
   var o = s.options && s.options[s.selectedIndex];
   if (o && (locked(o) || wkey(o))) { e.stopImmediatePropagation(); var ok = [].filter.call(s.options, function (x) { return !locked(x) && !wkey(x) })[0]; if (ok) s.value = ok.value; wnote() }
 }, true);
-/* 3c. (24 Nov 14:25; her words 14:16 "Term2 week 7 open sa grade 5 play store" · "Ayusin mo lahat sa playstore" · 14:17 "Hanapin mo lahat!!!!
-   … Huwag lang grade 5") EVERY WEEK OF EVERY PAGE OF EVERY LEVEL: the pickers a game or the hub draws in its own code ("Week 7", "Wk 7",
-   "Linggo 7", a bare 7 under a Week label, a link that sets a week) carried no trial mark, so Week 7 could be chosen and opened. Here every
-   week after Week 1 carries the mark (🔒 and the unseen joiner) and cannot be chosen, whoever is signed in; a page standing on such a week
-   moves to Week 1 (its own onchange runs); a week number box keeps 1; the School Calendar locks no term in the Play app (Week 1 of every
-   term is the trial) and a week after Week 1 answers with the line of 3b. */
 var LK = '\uD83D\uDD12\u2060', WKX = /^\s*(?:\uD83D\uDD12[\u2060\s]*)*(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})(?!\d)/i, NUMX = /^\s*(?:\uD83D\uDD12[\u2060\s]*)*(\d{1,2})\s*$/,
     SETW = /(?:^|[^A-Za-z0-9_$.])(?:S|st|N|HP|MAN|v\.o)\.(?:w|wk)\s*=\s*(\d{1,2})(?!\d)/,
     HWX = /^(?:(?:Term|Termino)\s*\d+\s*[·:,|–—-]\s*)?(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})(?!\d)/i,
@@ -279,12 +229,10 @@ var LK = '\uD83D\uDD12\u2060', WKX = /^\s*(?:\uD83D\uDD12[\u2060\s]*)*(?:Week|Wk
     W14X = /(?:Weeks?|Linggo)\s*1\s*(?:to|hanggang|–|—|-)\s*4(?!\d)/i,
     PSX = /(PlaySphere\s+Week\s+)(?:[2-9]|\d\d)(\s+of\b)/i,
     WLX = /^(?:\uD83D\uDD12[\u2060\s]*)*(?:(?:Term|Termino)\s*\d+\s*[·:,|•–—-]\s*)?(?:Linggo\s*\/\s*)?(?:Week|Wk|Linggo)\s*\.?\s*(\d{1,2})$/i;
-/* (24 Nov 16:25, Fable; found by the walk: MONTAGE) the week a key opens BY WHAT IT CALLS: a state it sets (S.w=7), an episode it opens
-   (openEp('MATHEMATICS',1,7)), a screen it goes to with a week ({t:1,w:7}) — a box with such a call (a ticket) is a key like any other */
 var OCWX = [SETW, /\bopenEp\(\s*['"][^'"]*['"]\s*,\s*\d+\s*,\s*(\d{1,2})\s*\)/, /\bgo\([^)]*\{[^}]*\b(?:w|wk|week)\s*:\s*(\d{1,2})\b/];
 function ocweek(oc) { var n = 0; if (!oc) return 0; for (var i = 0; i < OCWX.length; i++) { var m = OCWX[i].exec(oc); if (m && +m[1] > n) n = +m[1] } return n }
 function owntext(el) { var t = '', c = el.firstChild; while (c) { if (c.nodeType === 3) t += c.nodeValue; c = c.nextSibling } return t.replace(/\s+/g, ' ').trim() }
-function wlabels(root) {      /* every element whose own words are the label of a week gets data-kxwl = its number */
+function wlabels(root) {
   try {
     var els = root.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th,td,div,span,b,strong,small,p,li,label');
     for (var i = 0; i < els.length; i++) {
@@ -294,7 +242,7 @@ function wlabels(root) {      /* every element whose own words are the label of 
     }
   } catch (e) {}
 }
-function wcard(t) {      /* the week of the card a tap lands in: the nearest box around the tap that holds the label of ONE week */
+function wcard(t) {
   try {
     var a = t, d = 0, top = t; for (var k = 0; k < 5 && top.parentElement && top.parentElement !== D.documentElement; k++) top = top.parentElement;
     wlabels(top);
@@ -307,8 +255,6 @@ function wcard(t) {      /* the week of the card a tap lands in: the nearest box
   } catch (e) {}
   return 0;
 }
-/* (Fable 15:35) these five are the Play app's for good: the calendar lock of a game (kxcallock.js, R195, the last script of its bundle) sets
-   its own under the same names — here a later hand cannot change them, so in the Play app Week 1 is the open week whatever the calendar says */
 function pin(k, fn) { try { Object.defineProperty(W, k, { configurable: true, enumerable: true, get: function () { return fn }, set: function () {} }) } catch (e) { try { W[k] = fn } catch (e2) {} } }
 if (!FULL) {
 pin('KXLKQ', function () { return false }); pin('KXLK', function () { return false });
@@ -348,7 +294,7 @@ function weeks() {
     if (m > n) n = m;
     if (n < 2 || t.length > 160 || t.indexOf(LK) >= 0) return;
     b.insertBefore(D.createTextNode(LK), b.firstChild); b.setAttribute('aria-disabled', 'true');
-    if (/(^|\s)(on|active|sel|selected|y)(\s|$)/.test(b.className || '') && !m && (b.__kxw || 0) < 2) {      /* standing on a locked week: Week 1 of the same row */
+    if (/(^|\s)(on|active|sel|selected|y)(\s|$)/.test(b.className || '') && !m && (b.__kxw || 0) < 2) {
       var row = b.parentElement, w1 = row && [].filter.call(row.querySelectorAll('button,a,[role=button]'), function (x) { return wnum((x.textContent || '').replace(/^\s+/, ''), false) === 1 })[0];
       b.__kxw = (b.__kxw || 0) + 1; if (w1) setTimeout(function () { try { w1.click() } catch (e) {} }, 0);
     }
@@ -357,10 +303,6 @@ function weeks() {
     if (!wlab(i)) return; i.min = '1'; i.max = '1';
     if (i.value !== '1') { i.value = '1'; try { i.dispatchEvent(new Event('input', { bubbles: true })) } catch (e) {} }
   });
-  /* (24 Nov 15:45, Fable; found by the walk of every key, kx/play/t_crawl.py) (1) A LIST OF THE YEAR'S WEEKS (PED. BLUEPRINTS's Year Plan: a
-     card for every week with each subject's focus) showed every week's lines: a heading of a week after Week 1 carries the mark and
-     what stands under it is not shown. (2) THE TESTS OVER MANY WEEKS (ARENA, WHIZ CUP: Summative 2 — Weeks 5 to 8 — and the Term Exam) are
-     not Week 1: their keys carry the mark and do not open; Summative 1 plays Week 1's items (all the trial holds) and says "Week 1". */
   [].forEach.call(D.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th'), function (h) {
     if (h.__kxh) return; var t = (h.textContent || '').replace(/^\s+/, ''); if (t.length > 70) return;
     var m = HWX.exec(t); if (!m || +m[1] < 2) return;
@@ -369,15 +311,13 @@ function weeks() {
     if (box.querySelectorAll('h2,h3,h4,h5,summary,legend,dt,th').length === 1) { [].forEach.call(box.children, function (c) { if (c !== h) c.style.display = 'none' }); return }
     var n = h.nextElementSibling; while (n && !/^(?:H[2-5]|SUMMARY|LEGEND|DT|TH)$/.test(n.tagName)) { n.style.display = 'none'; n = n.nextElementSibling }
   });
-  /* (24 Nov 16:10, Fable; found by the walk: MONTAGE's tickets "LINGGO / WEEK 2 … 8") A WEEK'S LABEL IN ANY TAG, AND THE CARD AROUND IT: a box
-     that holds the label of one week after Week 1 (a ticket, a card, a row) carries the mark, shows only its label and takes no tap. */
   wlabels(D.body);
   [].forEach.call(D.querySelectorAll('[data-kxwl]'), function (l) {
     if (l.__kxw2 || +l.getAttribute('data-kxwl') < 2) return; l.__kxw2 = 1;
     if ((l.textContent || '').indexOf(LK) < 0) l.insertBefore(D.createTextNode(LK), l.firstChild);
     var box = l.parentElement; if (!box || box === D.body || box === D.documentElement) return;
     var ls = box.querySelectorAll('[data-kxwl]'), n0 = l.getAttribute('data-kxwl');
-    for (var i = 0; i < ls.length; i++) if (ls[i].getAttribute('data-kxwl') !== n0) return;      /* a box of many weeks (a table's header row): only the mark */
+    for (var i = 0; i < ls.length; i++) if (ls[i].getAttribute('data-kxwl') !== n0) return;
     if (box.querySelectorAll('*').length > 60) return;
     [].forEach.call(box.children, function (c) { if (c !== l && !c.contains(l)) c.style.display = 'none' });
     box.setAttribute('aria-disabled', 'true'); box.style.opacity = '.6';
@@ -391,7 +331,6 @@ function weeks() {
     try {
       var tw = D.createTreeWalker(D.body, 4, null), nd, hit = [];
       while ((nd = tw.nextNode())) { if (nd.nodeValue.length < 200 && (W14X.test(nd.nodeValue) || PSX.test(nd.nodeValue))) hit.push(nd) }
-      /* (PlaySphere's own line counted the school's week — "PlaySphere Week 7 of 10" — while the trial plays its Week 1) */
       hit.forEach(function (x) { var pe = x.parentElement; if (pe && !/^(?:SCRIPT|STYLE|TEXTAREA|OPTION)$/.test(pe.tagName)) x.nodeValue = x.nodeValue.replace(W14X, 'Week 1').replace(PSX, '$11$2') });
     } catch (e) {}
   }
@@ -403,24 +342,15 @@ function wscan() {
 }
 function wwatch() { try { new MutationObserver(wscan).observe(D.body, { childList: true, subtree: true }); wscan() } catch (e) {} }
 if (D.body) wwatch(); else D.addEventListener('DOMContentLoaded', wwatch);
-/* 3d. (24 Nov 14:50; her words 14:27, with a tester's screens of 365 SMARTY's question editor: "IBINIGAY MO NANG LIBRE LAHAT. NAIEDIT PA.")
-   IN THE PLAY APP ONLY THE GAMES ARE OPEN (their Week 1), whoever is signed in: (1) no box takes a word but a PIN box and a search box
-   (above); (2) no file leaves the app — no download, no Save As, no Share of a file, no print; (3) in the hub, the Tools that edit, print
-   or hand out her work carry 🔒 and answer with one line (they are in the full KORTEX); (4) in a game, its own tools, set-up, questions
-   editor, settings and teacher corner carry 🔒 and answer the same — playing stays open. */
 var TNOTE = 'Sa Play app, ang mga laro (Week 1) lang ang bukas. Nasa buong KORTEX ito. · In the Play app only the games (Week 1) are open. This is in the full KORTEX.',
     FNOTE = 'Walang file na lumalabas sa Play app: walang download, print o share. · No file leaves the Play app: no download, print or share.';
 function say(t) { var keep = NOTE; NOTE = t; last = 0; note(); NOTE = keep }
 function block(e, t) { e.preventDefault(); e.stopImmediatePropagation(); say(t); return false }
-/* (2) no file leaves */
 var ac = HTMLAnchorElement.prototype.click;
 HTMLAnchorElement.prototype.click = function () { if (this.hasAttribute('download') || /^(blob|data):/i.test(this.getAttribute('href') || '')) { say(FNOTE); return } return ac.apply(this, arguments) };
 W.print = function () { say(FNOTE) };
 try { var nsh = navigator.share; if (nsh) navigator.share = function (d) { if (d && d.files && d.files.length) { say(FNOTE); return Promise.reject(new Error('KORTEX Play')) } return nsh.apply(navigator, arguments) } } catch (e) {}
 try { var ncs = navigator.canShare; if (ncs) navigator.canShare = function (d) { if (d && d.files) return false; return ncs.apply(navigator, arguments) } } catch (e) {}
-/* (24 Nov 15:30, Fable) a print asked of a frame or of a new window (fr.contentWindow.print() in ARENA and WHIZ CUP, a sheet written into a
-   new window) went past the line above: every frame's window and every window opened here answers a print with the same line; a click sent
-   to a download link by code is stopped like a tap; the browser's own Save and Open pickers stay shut */
 function noprint(w) { try { if (w && w !== W && !w.__KXPLAY && !w.__kxpp) { w.print = function () { say(FNOTE) }; w.__kxpp = 1 } } catch (e) {} return w }
 try {
   var cwd = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'contentWindow');
@@ -441,37 +371,29 @@ D.addEventListener('click', function (e) {
   var t = e.target; if (!t || !t.closest) return;
   if (t.closest('a[download],a[href^="blob:"],a[href^="data:"],#kxsv [data-f]')) return block(e, FNOTE);
 }, true);
-/* (3) the hub's Tools that edit, print or hand out her work */
 var LOCKT = {tWs: 1, tPx: 1, tQa2: 1, tPc: 1, tCq: 1, tPt: 1, tJy: 1, tGoal: 1, tLead: 1, tSg: 1, tGx: 1, tSfx: 1, tTct: 1, tBf: 1, tPf: 1, tPr: 1, tSy: 1,
              tCl: 1, tAvt: 1, tCur: 1, tCp: 1, tBn: 1, tTg: 1, tBkP: 1, tBin: 1, tTc: 1, tRz: 1, tCLb: 1, tRF: 1, cqEd: 1,
-             tQR: 1,      /* (Fable) 📱 Share KORTEX hands out the address of the website: the sample class has no one to give it to */
-             msnWs: 1, msnAs: 1, ftCQ: 1, cSY: 1};      /* (Fable 15:50) the same Tools from the home screen: This Week's Worksheets, Answer Sheets, the Calibrated Quiz's questions, the School Calendar */
-/* (24 Nov 15:50, Fable; found by opening every key of the home screen) THE SHEET, NOT ONLY ITS KEY: a Tool that is 🔒 in the Flight Deck opened
-   all the same from another key (the mission card's 📄 This Week's Worksheets and ✅ Answer Sheets, the Calibrated Quiz tile → its questions'
-   editor). A locked Tool is known by the title of its sheet: whatever key opens it, for the Teacher it closes at once and the line answers. */
+             tQR: 1,
+             msnWs: 1, msnAs: 1, ftCQ: 1, cSY: 1};
 var SHEETX = /Worksheets|Answer Sheets|Snap & Score|Question Nebula|Print Center|Calibrated Quiz Questions|Class Points|My (?:Grade \d+|Kinder\w*) Journey|Learner Goals|Leaderboard and Rewards|Signature Pad|E-Class Record|Records Bay|Summit Ledger|Form Foundry|Portfolio Pack|School and Teacher Profile|Vector State|School Year and Calendar|Entangled Pairs|Masterlist|Avatars|Subjects and Terms|Orbit Clock|Class Program|Spectrum Render|Customize Banner|Teacher Greeting|Teleport Drive|Backup and Restore|Event Horizon|Recycle Bin|Technical Certification|Class Link|Share KORTEX|^\s*\uD83D\uDCC5\s*SY\s*20/i;
 function sheets() {
   var o = D.getElementById('ov'); if (!o || !o.firstChild) return;
   var h = o.querySelector('h3'); if (!h) return;
   if (!SHEETX.test((h.textContent || '').replace(/\s+/g, ' '))) return;
-  var tea = true; try { var ss = getSess(); tea = !ss || ss.role === 'teacher' } catch (e) {}      /* a Learner's or a Parent's own sheet of the same name stays */
+  var tea = true; try { var ss = getSess(); tea = !ss || ss.role === 'teacher' } catch (e) {}
   if (!tea) return;
   try { closeOv() } catch (e) { try { o.innerHTML = '' } catch (e2) {} }
   say(TNOTE);
 }
 if (!GAME) { var sn = 0, si = setInterval(function () { var o = D.getElementById('ov'); if (o) { clearInterval(si); try { new MutationObserver(function () { try { sheets() } catch (e) {} }).observe(o, { childList: true, subtree: true }); sheets() } catch (e) {} } else if (++sn > 400) clearInterval(si) }, 25) }
-/* (4) a game's own tools: the first screen's Game Tools, the bar's tools key, and every key that opens a set-up, an editor, a setting */
 var TOOLRX = /(?:^|[^A-Za-z0-9_$.])(?:go\(\s*\{\s*s\s*:\s*['"](?:tools|qa|roster|prof|look|av|bak|sec|cert|tos|imp|collab)['"]|go\(\s*['"](?:setup|tools|qa|edit|bank|roster|print|collab|reports)['"]|gate\(\s*['"](?:setup|tools|board|reports)['"]|settings\(\)|tools\(\)|openGT\(|pSetup\(|needPin\(|pinGate\(|resetAsk\(|kxRDS\(|manSave|saveSet\()/,
-    /* (Fable 15:40) by its words a key is a tool only when the words can be nothing else: "Tools for cooking rice", "edit", "Questions, write
-       them!" are ANSWERS of the levels' own question sets (EPP, English) — a single word like Tools, Edit, Setup, Settings or Questions is
-       never read as a tool here; such a key is known by its id or by what it calls (TOOLRX) */
     TOOLTX = /(?:Game Tools|Mga Kagamitan ng Laro|Teacher Tools|Teacher Corner|Edit Questions|Question Bank|Restore Default Set|Clear Scores)(?![A-Za-z])/i;
 function toolish(b) {
   if (!b || !b.closest) return false;
   if (b.closest('#kxPlayNote,#kxpSheet,#signin')) return false;
   if (b.id && LOCKT[b.id]) return true;
   if (!GAME) return false;
-  if (b.id === 'kxs3G' || b.id === 'kxfsTG' || b.getAttribute('data-kx') === 'tls') return true;      /* the first screen's 🔧 Game Tools (kxfirst, kxshell) and the bar's tools key */
+  if (b.id === 'kxs3G' || b.id === 'kxfsTG' || b.getAttribute('data-kx') === 'tls') return true;
   var oc = b.getAttribute('onclick') || '';
   if (oc && TOOLRX.test(oc)) return true;
   var t = (b.textContent || '').replace(/^[\s🔒⁠]+/, '');
@@ -484,9 +406,6 @@ D.addEventListener('click', function (e) {
 var tk = 0, tki = setInterval(function () {
   try { if (W.KXS3 && !W.KXS3.__play) { W.KXS3.tools = function () { say(TNOTE) }; W.KXS3.__play = 1 } } catch (e) {}
   try { if (W.KXSHELLAPI && !W.KXSHELLAPI.__play) { W.KXSHELLAPI.open = function () { say(TNOTE) }; W.KXSHELLAPI.__play = 1 } } catch (e) {}
-  /* (Fable 16:25) a game's own way to another week that no key names (MONTAGE: the Next key at the end of a show, 🎲 Surprise Me): its go()
-     and its openEp() asked for a week after Week 1 open Week 1, and the line says why. Only an episode's own call is touched ({sub, t, w}:
-     of the 14 games MONTAGE alone passes a week this way) — a "w" that is not a week is never changed. */
   try {
     if (GAME && !FULL && typeof W.go === 'function' && !W.go.__play) {
       var g0 = W.go, g1 = function () {
@@ -510,9 +429,6 @@ function tools() {
     if ((b.textContent || '').indexOf(LK) < 0) b.insertBefore(D.createTextNode('🔒 '), b.firstChild);
   });
 }
-/* 4. (23 Nov, notes/PLAN_PLAY.md P2–P5) THE PLAY APP MADE CLEAR, on the hub of every level (never inside a game):
-   the Teacher makes her own PIN at the first tap (nothing to look up); a forgotten PIN is made again; the parent finds the
-   sample family code already in its box; the first screen carries 🔁 Change Grade and ❓ FAQ. Short words only. */
 if (GAME) return;
 var UP = (typeof W.__KXLV === 'string' && W.__KXLV) ? '../' : '';
 function css() {
@@ -527,11 +443,9 @@ function css() {
     '.kxp-c{background:#0b1530;color:#f6f0e0;border:1px solid #f1d27a;border-radius:18px;max-width:440px;width:100%;padding:20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.45);font:16px/1.45 system-ui,sans-serif}' +
     '.kxp-c h3{margin:0 0 8px;font-size:20px}.kxp-c h3 i{display:block;font-weight:400;font-size:15px;opacity:.85}.kxp-c p{margin:0 0 14px}' +
     '.kxp-c .kxp-yn{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.kxp-c button.kxp-y{background:#f1d27a;color:#0b1530;border-color:#f1d27a}' +
-    /* (24 Nov, P6) a TV or a big screen: the keys and their words larger (16 px and more, read from across a room) */
     '@media (min-width:1600px){.kxp-keys a,.kxp-c button{font-size:17px}.kxp-keys a i,.kxp-c button i,.kxp-c p i{font-size:15px}.kxp-c{font-size:18px;max-width:520px}}';
   (D.head || D.documentElement).appendChild(c);
 }
-/* P3 the Teacher PIN: the starter PIN is set aside, so the first tap on Teacher asks her to make her own */
 var tn = 0, ti = setInterval(function () {
   try { if (typeof CFG === 'object' && CFG) { if (CFG.tpd) CFG.tpd = ''; clearInterval(ti); return } } catch (e) {}
   if (++tn > 400) clearInterval(ti);
@@ -548,18 +462,15 @@ function sheet(hf, he, pf, pe, yf, ye, yes) {
   o.querySelector('.kxp-n').onclick = function () { o.remove() };
   (D.body || D.documentElement).appendChild(o); setTimeout(function () { try { y.focus() } catch (e) {} }, 30);
 }
-/* P3 a forgotten PIN: the Play app holds the sample class only, so a new PIN is made at once */
 D.addEventListener('click', function (e) {
   var t = e.target && e.target.closest && e.target.closest('#siFg'); if (!t) return;
   e.preventDefault(); e.stopImmediatePropagation();
   sheet('🗝️ Gumawa ng bagong PIN?', 'Make a new PIN?', 'Sample class lamang ang nasa Play app.', 'The Play app holds the sample class only.',
         '✅ Yes, New PIN', 'Oo, bagong PIN', function () {
     try { localStorage.removeItem('KORTEX_TPINH') } catch (x) {}
-    /* the hub's own code is closed to other scripts: its own keys show the Teacher door again (Back, then Teacher) */
     try { var bk = D.getElementById('siBk'); if (bk) bk.click(); setTimeout(function () { var t2 = D.getElementById('siTeach'); if (t2) t2.click() }, 150) } catch (x) {}
   });
 }, true);
-/* P4 the family code: the sample class's own code stands in the box; the Teacher's update (a file) is not taken in here */
 function code() {
   var A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a = new Uint8Array(8), s = '', j;
   try { crypto.getRandomValues(a) } catch (e) { for (j = 0; j < 8; j++) a[j] = Math.floor(Math.random() * 256) }
@@ -571,7 +482,6 @@ function fam() {
   try {
     var w = I.closest('.si-w') || D, h = w.querySelector('h3.si-q'), t = h && h.firstChild ? String(h.firstChild.textContent || '') : '';
     var nm = t.replace(/^\s*Para sa Pamilya ni\s+/, '').trim();
-    /* the sample class of the copy (CFG.roster): each child gets a family code on this device, kept where the hub reads it */
     var RO = (typeof CFG === 'object' && CFG && CFG.roster) || [], r = null;
     for (var k = 0; k < RO.length; k++) if (RO[k] && RO[k].name === nm) { r = RO[k]; break }
     if (r && r.id) {
@@ -584,13 +494,12 @@ function fam() {
     var u = D.getElementById('pcU'); if (u && u.parentNode) u.parentNode.style.display = 'none';
   } catch (x) {}
 }
-/* P2 P5 the first screen of a level: 🔁 Change Grade (back to the seven banners) and ❓ FAQ */
 function keys() {
   var w = D.querySelector('#signin .si-w'); if (!w || !w.querySelector('.si-doors') || w.querySelector('.kxp-keys')) return;
   css(); var d = D.createElement('div'); d.className = 'kxp-keys';
   d.innerHTML = '<a class="kxp-lv" href="' + UP + 'levels.html?play=1&amp;door=1">🔁 Change Grade<i>Palitan ang Grade</i></a>' +
                 '<a class="kxp-faq" href="' + UP + 'faq.html">❓ FAQ<i>Mga Tanong</i></a>' +
-                (typeof W.KXGUIDE === 'string' ? '<a class="kxp-guide" href="' + UP + 'watch.html?v=' + encodeURIComponent(W.KXGUIDE) + '">📘 User Guide<i>Gabay sa Paggamit</i></a>' : '');      /* (P8) its film, when it is in */
+                (typeof W.KXGUIDE === 'string' ? '<a class="kxp-guide" href="' + UP + 'watch.html?v=' + encodeURIComponent(W.KXGUIDE) + '">📘 User Guide<i>Gabay sa Paggamit</i></a>' : '');
   w.appendChild(d);
 }
 var busy = 0;
@@ -606,7 +515,7 @@ if (D.body) watch(); else D.addEventListener('DOMContentLoaded', watch);
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%}
 body{background:radial-gradient(90% 50% at 85% 0%,color-mix(in srgb,var(--c) 22%,#fff),transparent 70%),radial-gradient(70% 45% at 0% 10%,#e3ecff,transparent 70%),var(--bg);color:var(--ink);font-family:var(--sans)}
 button,input,textarea,select{font:inherit;color:inherit}button{border:0;cursor:pointer;background:none}
-/* the top bar: Home on the left, Exit on the right, on every screen */
+ 
 .tb{position:sticky;top:0;z-index:15;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:#f6f8ffe8;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .tb .ttl{flex:1;min-width:0;text-align:center;font:700 .95rem var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--soft)}
 .nb{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:86px;height:68px;padding:4px 12px;border-radius:14px;font-weight:800;line-height:1.05;box-shadow:0 3px 10px #0000002e;cursor:pointer}.nb i{font-style:normal;font-size:1.4rem;line-height:1}
@@ -628,7 +537,7 @@ h1{font:800 clamp(1.9rem,5.4vw,3.2rem)/1.06 var(--sans);margin:.2em 0;color:var(
 .aw{display:inline-block;background:#fff4d6;color:#7a4b00;border:1px solid #f3d27a;border-radius:999px;padding:4px 12px;font-weight:800;font-size:.86rem;margin-top:8px}
 footer{text-align:center;color:#6b7499;font-size:.74rem;padding:26px 10px 6px}
 .edl{display:block;margin:18px auto 0;font-size:.8rem;color:#6b7499;text-decoration:underline}
-/* reader: the picture is the page */
+ 
 .art{position:relative;width:100%;height:clamp(200px,calc(100vh - 260px),calc((100vw - 32px) * .5625));border-radius:22px;overflow:hidden;background:#dfe6fb;box-shadow:0 0 0 4px #fff,0 16px 44px #1f2a5a29;cursor:zoom-in}.art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .art .bk{object-fit:cover;filter:blur(22px) saturate(1.1);transform:scale(1.12);opacity:.85}
 .tx{margin:16px auto 0;max-width:900px;padding:18px 20px;background:#fff;border:1px solid var(--line);border-radius:18px;text-align:center;box-shadow:0 6px 18px #1f2a5a0d}.k{color:var(--blue);font-weight:800;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 .5em}
@@ -640,7 +549,7 @@ footer{text-align:center;color:#6b7499;font-size:.74rem;padding:26px 10px 6px}
 .ib{min-width:48px;height:48px;border-radius:999px;background:#eef2ff;padding:0 13px;white-space:nowrap;font-weight:800;font-size:1.05rem}.ib:disabled{opacity:.35}.ib.on{background:var(--blue);color:#fff}.pg{min-width:62px;text-align:center;font-size:.85rem;color:var(--soft);font-weight:700}
 .pr{position:fixed;top:0;left:0;right:0;height:4px;background:#0000;z-index:16}.pr i{display:block;height:100%;width:0;background:var(--blue);transition:width .4s}
 #lb{position:fixed;inset:0;background:#0b1030f0;z-index:40;display:flex;align-items:center;justify-content:center}#lb[hidden]{display:none}#lb img{max-width:100%;max-height:100%}
-/* movie: full screen picture, words only when asked (Aa) */
+ 
 #mv{position:fixed;inset:0;z-index:30;background:#0d1330;color:#fff;overflow:hidden}#mv[hidden]{display:none}
 #mv .lay{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}#mv .lay.on{opacity:1}
 #mv .lay .b{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;filter:blur(26px) brightness(.7)}
@@ -654,7 +563,7 @@ footer{text-align:center;color:#6b7499;font-size:.74rem;padding:26px 10px 6px}
 #mv.idle .ctl,#mv.idle .mt{opacity:0}
 #mv .start{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#0b1030a6;text-align:center;padding:20px}#mv .start[hidden]{display:none}
 #mv .turn{display:none}#mv .start h2{font:800 clamp(1.6rem,5vw,3rem)/1.1 var(--sans);margin:0}#mv .start .big{align-items:center;font-size:1.25rem;padding:15px 30px}
-/* editor */
+ 
 .ed .row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px}
 .ed .row img{width:150px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block;background:#e9eefc}.ed label{display:block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin:8px 0 3px}
 .ed textarea,.ed input[type=text]{width:100%;border:2px solid var(--line);border-radius:10px;padding:8px 10px;background:#fbfcff;font-size:.98rem}.ed textarea{min-height:64px;resize:vertical}
@@ -668,7 +577,7 @@ footer{text-align:center;color:#6b7499;font-size:.74rem;padding:26px 10px 6px}
 @media (max-width:760px){.hero{grid-template-columns:1fr}.cta .big{flex:1}.ed .row{grid-template-columns:1fr}.ed .row img{width:100%}.nb{min-width:74px;height:62px;padding:3px 8px}.nb i{font-size:1.2rem}}
 @media (prefers-reduced-motion:reduce){#mv .lay.on .p{animation:none}}
 [hidden]{display:none!important}
-/* every screen fits the laptop, tablet or phone screen: pictures and words size themselves, nothing is cut */
+ 
 body.rdx .wrap{padding-top:10px!important;padding-bottom:6px!important}body.rdx .rb{margin-top:10px}body.rdx .tx{margin-top:10px;padding:12px 16px}
 body.rdx.side .wrap{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,36%);column-gap:18px;align-items:center}
 body.rdx.side .rcol{display:flex;flex-direction:column;justify-content:center;min-width:0}body.rdx.side .rb{margin:0 auto 12px}body.rdx.side .tx{margin:0;max-width:none}
@@ -677,7 +586,7 @@ body.pfit .wrap{padding-bottom:8px}body.pfit .info{padding:10px 16px;margin-top:
 @media (min-width:900px){.abx{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start}.abx>.info{grid-column:1/-1}}
 @media (orientation:landscape) and (min-width:700px){.terms{display:flex;flex-wrap:wrap;gap:0 16px}.wrap{max-width:1320px}.term{flex:0 1 calc(var(--n,1) * 150px);max-width:100%;min-width:130px}.term .grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}.dk div{padding:8px 10px}.dk b{font-size:.92rem}.dk small{font-size:.8rem}}
 .tb{background:linear-gradient(90deg,var(--kn1,#b83265),var(--kn2,#2c7a3a))!important;border-bottom:3px solid var(--kac,#ffd23a)!important}.tb .ttl{color:#fff!important;text-shadow:0 1px 2px #0006}.nb.home{color:var(--kn1,#b83265)!important}.nb.exit{background:var(--kxb,#8c2450)!important}#kxbub{position:fixed;left:50%;transform:translateX(-50%);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:40;display:flex;align-items:center;gap:8px;max-width:min(340px,90vw);padding:9px 14px;border-radius:16px;background:#fff;color:#1c2433;font:600 .92rem system-ui,sans-serif;box-shadow:0 8px 24px #0004;border:3px solid var(--kac,#ffd23a);pointer-events:none;animation:kxbi .35s ease}#kxbub b{font-size:1.5rem}@keyframes kxbi{from{opacity:0;transform:translate(-50%,-8px)}}
-/* a short screen (a phone held sideways, a small laptop): the top bar is slimmer so the page has more room */
+ 
 @media (max-height:520px){.tb{padding-top:calc(env(safe-area-inset-top,0px) + 4px)!important;padding-bottom:4px!important}.tb .nb,.tb button,.tb a.nb{height:48px!important;min-width:64px!important;padding:2px 8px!important}.tb .nb i,.tb button i{font-size:1rem!important}button>i:not([class]):not([aria-hidden]),.btn>i:not([class]):not([aria-hidden]){display:block;font-size:.82em;line-height:1.2;margin-top:1px}.tb .nb b,.tb button b{font-size:.84rem!important}.tb .nb small,.tb button small{font-size:.6rem!important}}
 .nb.back{background:#fff!important;color:var(--kn1,#b83265)!important}.hero .cov img,.lg,img{max-width:100%}
 </style><meta name="robots" content="noindex,nofollow"></head><body>
@@ -689,14 +598,11 @@ body.pfit .wrap{padding-bottom:8px}body.pfit .info{padding:10px 16px;margin-top:
 <script type="application/json" id="W-data">{"slug": "ang-bata-sa-buwan", "title": "Yng Mula Tung Bulan", "sub": "The Child from the Moon · Ang Bata sa Buwan", "short": "Yng Mula Tung Bulan", "kick": "Isang kuwento ni · A story by", "role": "May-akda · Author", "collection": "Lux Lit Compendium", "colkey": "lux", "code": "VDR-ANGBATASABUWAN-E7D390FB87EB", "main": "fil", "award": "Gawad Teodora Alonso — Regional Level Finalist", "lib": "index.html", "credits": {"story": "Venice D. Rodriguez", "trans": "", "ill": "Randy Valiente", "pub": "Chikiting Books · Vibal Group, Inc.", "pubinfo": "1253 G. Araneta Ave. cor. Ma. Clara St., Quezon City · www.vibalgroup.com\nPublisher/President: Gaspar A. Vibal · Chief Executive Officer: Kristine E. Mandigma\nStory Evaluators: Beatriz C. Alegre and Rosalia A. Eugenio · Copy Editor: Andrea L. Peterson\nProduction Editor: Abigail B. Tabuzo · Editorial Assistants: Anna Celina Deciderio and Shiloah Torrechiva\nLayout Artist: Kenneth A. Licaycay · Art Director: Paul David D. Arcos\nExecutive Managing Editor: Christopher A. Datol · Print Coordinators: Alex A. Biñas and Margaret B. Bacunawa", "date": "2020", "isbns": [["978-971-07-4980-5", "Chikiting Books, Vibal Group, Inc."]], "langs": "Filipino at English · Filipino and English", "copy": "Karapatang-ari © 2020 Vibal Group, Inc. at ni Venice D. Rodriguez · Copyright © 2020 Vibal Group, Inc. and Venice D. Rodriguez. Artworks belong solely to Randy Valiente.", "get": "Inilathala ng Chikiting Books (Vibal Group, Inc.). Hanapin ito sa mga tindahan ng aklat na may mga aklat ng Vibal o sa www.vibalgroup.com. · Published by Chikiting Books (Vibal Group, Inc.). Look for it in bookstores that carry Vibal titles, or at www.vibalgroup.com."}, "promo": "The full story is in the book.", "promo_fil": "Nasa aklat ang buong kuwento.", "about": [], "books": [{"title": "Yng Mula Tung Bulan", "label": "Ang Kuwento · The Story", "pages": [{"i": 0, "h": "", "f": "Yng Mula Tung Bulan\nKuwento ni Venice D. Rodriguez\n\nNasa aklat ang buong kuwento.\nInilathala ng Chikiting Books (Vibal Group, Inc.). Hanapin ito sa mga tindahan ng aklat na may mga aklat ng Vibal o sa www.vibalgroup.com.", "e": "Yng Mula Tung Bulan. Story by Venice D. Rodriguez. The full story is in the book. Published by Chikiting Books (Vibal Group, Inc.). Look for it in bookstores that carry Vibal titles, or at www.vibalgroup.com.", "x": []}]}], "lock": "KORTEX: this book is sold by its publisher (Chikiting Books, Vibal Group, Inc.); her private copies keep the whole book."}</script>
 <script type="application/json" id="I-data">["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"]</script>
 <script>
-/* the library wears a KORTEX theme (Theme Studio: Aether, Fable and Fiora; first choice The Secret Digital Garden) */
-const KXT=(()=>{const L=[{"id": 1, "n": "The Virtual Classroom", "m": "🦉", "mn": "Miss Penny the Owl", "home": ["🏠", "Classroom"], "exit": ["🚪", "Dismissed"], "send": ["📮", "Hand In"], "acc": ["🏅", "Get Badge"], "nav": ["#2f5d46", "#1d3f2f"], "ac": "#ffd23f", "xb": "#b71c1c", "back": ["⬅️", "Last Desk"], "nxt": ["📖", "Next Page"], "note": ["📝", "Sticky Note"], "clk": ["⏳", "Class Clock"], "rdd": ["📚", "Story Hour"]}, {"id": 2, "n": "The Sandbox Playground", "m": "🐒", "mn": "Milo the Monkey", "home": ["🏰", "Sandbox"], "exit": ["🏡", "Go Home"], "send": ["🪣", "Toss In"], "acc": ["⭐️", "See Stars"], "nav": ["#1f5f94", "#174a75"], "ac": "#f6b93b", "xb": "#b4531a", "back": ["⬅️", "Slide Back"], "nxt": ["🏃", "Next Game"], "note": ["📝", "Sand Scribble"], "clk": ["⏳", "Sand Timer"], "rdd": ["📚", "Story Dig"]}, {"id": 3, "n": "School Bus Road Trip", "m": "🚌", "mn": "Buster the Bus", "home": ["🏁", "Bus Stop"], "exit": ["🛑", "Park"], "send": ["🎫", "Hand Ticket"], "acc": ["🗺️", "Fill Map"], "nav": ["#3a3f47", "#262a31"], "ac": "#f7b500", "xb": "#c62020", "back": ["⬅️", "Back Up"], "nxt": ["🛣️", "Next Stop"], "note": ["📝", "Trip Diary"], "clk": ["⏳", "Trip Meter"], "rdd": ["📚", "Road Story"]}, {"id": 4, "n": "The Deep Jungle Safari", "m": "🦁", "mn": "Leo the Lion Cub", "home": ["🌴", "Basecamp"], "exit": ["⛺", "Rest"], "send": ["📦", "Mail Box"], "acc": ["👑", "Be King"], "nav": ["#1f6b3a", "#154d29"], "ac": "#f7b24f", "xb": "#9c4a0b", "back": ["⬅️", "Retrack"], "nxt": ["🐾", "Walk On"], "note": ["📝", "Explorer's Notes"], "clk": ["⏳", "Sun Shadow"], "rdd": ["📚", "Campfire Tale"]}, {"id": 5, "n": "Cozy Forest Treehouse", "m": "🐿️", "mn": "Nutty the Squirrel", "home": ["🌳", "Treehouse"], "exit": ["🕳️", "Burrow"], "send": ["🪵", "Drop Log"], "acc": ["🌰", "Keep Acorn"], "nav": ["#6b3f1c", "#4a2b12"], "ac": "#e5c15d", "xb": "#8a3b12", "back": ["⬅️", "Step Back"], "nxt": ["🌿", "Climb Up"], "note": ["📝", "Bark Scribble"], "clk": ["⏳", "Tree Rings"], "rdd": ["📚", "Hollow Tale"]}, {"id": 6, "n": "Deep Blue Ocean Reef", "m": "🐬", "mn": "Finley the Dolphin", "home": ["🪸", "The Reef"], "exit": ["🏝️", "Surface"], "send": ["🫧", "Pop Bubble"], "acc": ["💎", "Shiny Pearl"], "nav": ["#0b5f9e", "#084a7c"], "ac": "#4fe0cc", "xb": "#b53a52", "back": ["⬅️", "Swim Back"], "nxt": ["🐠", "Swim On"], "note": ["📝", "Bubble Note"], "clk": ["⏳", "Tide Clock"], "rdd": ["📚", "Deep Read"]}, {"id": 7, "n": "Outer Space Mission", "m": "👽", "mn": "Zog the Alien", "home": ["🚀", "Mothership"], "exit": ["🌍", "Land"], "send": ["📡", "Beam Up"], "acc": ["🏅", "Win Medal"], "nav": ["#0b1440", "#2a1670"], "ac": "#ffd93d", "xb": "#7b2fe0", "back": ["⬅️", "Orbit"], "nxt": ["🪐", "Next Planet"], "note": ["📝", "Space Memo"], "clk": ["⏳", "Mission Clock"], "rdd": ["📚", "Star Log"]}, {"id": 8, "n": "Dino Island Archaeology", "m": "🦖", "mn": "Toby the T-Rex", "home": ["🦖", "Dino Valley"], "exit": ["🚪", "Pack Up"], "send": ["🥚", "Pack Egg"], "acc": ["🦴", "Find Bone"], "nav": ["#3a6a2c", "#294a1f"], "ac": "#ffbe7a", "xb": "#a93a0c", "back": ["⬅️", "Dig Back"], "nxt": ["🧭", "Walk Forward"], "note": ["📝", "Bone Notes"], "clk": ["⏳", "Fossil Clock"], "rdd": ["📚", "Fossil Tale"]}, {"id": 9, "n": "Sky High Cloud Kingdom", "m": "☁️", "mn": "Nimbus the Cloud", "home": ["🏰", "Castle"], "exit": ["🌈", "Land"], "send": ["⚡", "Send Zap"], "acc": ["👑", "Crown Me"], "nav": ["#3f63ad", "#6a4fb5"], "ac": "#ffc2dc", "xb": "#a8417f", "back": ["⬅️", "Float Back"], "nxt": ["🌈", "Ride Rainbow"], "note": ["📝", "Breeze Note"], "clk": ["⏳", "Sun Arc"], "rdd": ["📚", "Cloud Tale"]}, {"id": 10, "n": "Candy Land Sugar Rush", "m": "🧸", "mn": "Gummy the Bear", "home": ["🍭", "Sweet Shop"], "exit": ["🍫", "All Done"], "send": ["🍭", "Drop Candy"], "acc": ["🍬", "Sweet Prize"], "nav": ["#b0155a", "#8a1048"], "ac": "#ffe45c", "xb": "#6e3a1c", "back": ["⬅️", "Unpeel"], "nxt": ["🍫", "Next Treat"], "note": ["📝", "Wrapper Note"], "clk": ["⏳", "Sugar Timer"], "rdd": ["📚", "Sweet Page"]}, {"id": 11, "n": "Theme Park Carnival", "m": "🍿", "mn": "Pip the Popcorn", "home": ["🎡", "Main Gate"], "exit": ["🎟️", "Leave Park"], "send": ["🎟️", "Drop Ticket"], "acc": ["🧸", "Win Toy"], "nav": ["#1f3fa8", "#162d7c"], "ac": "#ffd54a", "xb": "#c62828", "back": ["⬅️", "Rewind"], "nxt": ["🎪", "Next Tent"], "note": ["📝", "Prize Tag"], "clk": ["⏳", "Ride Timer"], "rdd": ["📚", "Side Show"]}, {"id": 12, "n": "Toy Box Arcade", "m": "🤖", "mn": "Blocks the Robot", "home": ["🧸", "Toy Box"], "exit": ["🚪", "Close Box"], "send": ["🪙", "Insert Coin"], "acc": ["👾", "High Score"], "nav": ["#1565c0", "#0d47a1"], "ac": "#ffd600", "xb": "#c62828", "back": ["⬅️", "Undo"], "nxt": ["🎮", "Next Level"], "note": ["📝", "Memory Card"], "clk": ["⏳", "Play Clock"], "rdd": ["📚", "Story Cartridge"]}, {"id": 13, "n": "Magic Storybook Kingdom", "m": "🐉", "mn": "Glimmer the Dragon", "home": ["📖", "Cover"], "exit": ["👋", "The End"], "send": ["📜", "Cast Spell"], "acc": ["🏆", "Get Trophy"], "nav": ["#4a2c8a", "#321a66"], "ac": "#f0c040", "xb": "#8c1c3a", "back": ["⬅️", "Flip Page"], "nxt": ["📖", "Turn Page"], "note": ["📝", "Margin Note"], "clk": ["⏳", "Hourglass"], "rdd": ["📚", "Open Tome"]}, {"id": 14, "n": "Under the Sea Atlantis", "m": "🧜‍♀️", "mn": "Pearl the Mermaid Cat", "home": ["🐚", "Palace"], "exit": ["⚓", "Anchor"], "send": ["🐚", "Send Conch"], "acc": ["👑", "Royal Crown"], "nav": ["#0d6f78", "#5a4a9c"], "ac": "#8ff0e0", "xb": "#74479e", "back": ["⬅️", "Drift"], "nxt": ["🌊", "Sail Next"], "note": ["📝", "Sea Glass Note"], "clk": ["⏳", "Moon Tide"], "rdd": ["📚", "Conch Tale"]}, {"id": 15, "n": "The Secret Digital Garden", "m": "🦋", "mn": "Bella the Butterfly", "home": ["🌸", "Garden"], "exit": ["🚪", "Rest"], "send": ["🍯", "Give Honey"], "acc": ["🌸", "Grow Flower"], "nav": ["#b83265", "#2c7a3a"], "ac": "#ffd23a", "xb": "#8c2450", "back": ["⬅️", "Fly Back"], "nxt": ["🚶", "Walk Path"], "note": ["📝", "Seed Note"], "clk": ["⏳", "Bloom Clock"], "rdd": ["📚", "Petal Page"]}, {"id": 16, "n": "KORTEX Launchpad", "m": "☄️", "mn": "Kip the Comet", "home": ["🛡️", "Home Base"], "exit": ["🌙", "Sign Off"], "send": ["📡", "Beam Up"], "acc": ["🛰️", "Dock In"], "nav": ["#14284b", "#2f5d3f"], "ac": "#d4a84b", "xb": "#0b1530", "back": ["⬅️", "Rewind"], "nxt": ["🚀", "Lift Off"], "note": ["📝", "Flight Notes"], "clk": ["⏳", "Time in Orbit"], "rdd": ["📚", "Launch Read"]}, {"id": 17, "n": "The Lantern Lighthouse", "m": "✨", "mn": "Lumi the Firefly", "home": ["🏮", "Lantern Room"], "exit": ["🌙", "Lights Down"], "send": ["🕊️", "Send a Glow"], "acc": ["🌟", "Catch the Light"], "nav": ["#12305a", "#0b1f3d"], "ac": "#f2b84b", "xb": "#b3261e", "back": ["⬅️", "Last Glow"], "nxt": ["🔆", "Light the Next"], "note": ["📝", "Lantern Note"], "clk": ["⏳", "Lantern Hours"], "rdd": ["📖", "Lantern Read"]}, {"id": 18, "n": "The Dreamer's Canvas", "m": "🐦", "mn": "Maya the Dream Sparrow", "home": ["🎨", "Easel"], "exit": ["🌙", "Rest the Brush"], "send": ["🖼️", "Hang It Up"], "acc": ["🏅", "Frame It"], "nav": ["#3b3a8f", "#26255e"], "ac": "#ff8a65", "xb": "#c2410c", "back": ["⬅️", "Brush Back"], "nxt": ["🖌️", "Next Stroke"], "note": ["📝", "Sketch Note"], "clk": ["⏳", "Studio Hours"], "rdd": ["📖", "Canvas Read"]}, {"id": 19, "n": "The Keyholder's Haven", "m": "🗝️", "mn": "Tiko the Tarsier", "home": ["🗝️", "The Haven"], "exit": ["🚪", "Lock the Haven"], "send": ["📜", "Seal and Send"], "acc": ["🏅", "Claim the Key"], "nav": ["#3a2152", "#24132f"], "ac": "#c9a227", "xb": "#8e1b3a", "back": ["⬅️", "Last Lock"], "nxt": ["🔓", "Next Chest"], "note": ["📝", "Keyholder's Note"], "clk": ["⏳", "Candle Time"], "rdd": ["📖", "Treasury Read"]}, {"id": 20, "n": "The Precision Workshop", "m": "🦎", "mn": "Cali the Chameleon", "home": ["🛠️", "Workbench"], "exit": ["🧰", "Tools Down"], "send": ["📤", "Ship the Reading"], "acc": ["📥", "Log the Reading"], "nav": ["#1f4e79", "#143450"], "ac": "#ff8f1f", "xb": "#c0392b", "back": ["⬅️", "Dial Back"], "nxt": ["➡️", "Next Notch"], "note": ["📝", "Bench Note"], "clk": ["⏳", "Bench Time"], "rdd": ["📖", "Bench Read"]}];/*KXCOLTH*//* (21 Nov 2026, 8.4) this story wears its collection's theme (lux, #17) */let id=17;try{const p=JSON.parse(localStorage.getItem("KORTEX_THEMES")||"{}");if(+p.lux>=1&&+p.lux<=L.length)id=+p.lux}catch(e){}return L.find(t=>t.id===id)||L.find(t=>t.id===15)||L[0]})();
+ 
+const KXT=(()=>{const L=[{"id": 1, "n": "The Virtual Classroom", "m": "🦉", "mn": "Miss Penny the Owl", "home": ["🏠", "Classroom"], "exit": ["🚪", "Dismissed"], "send": ["📮", "Hand In"], "acc": ["🏅", "Get Badge"], "nav": ["#2f5d46", "#1d3f2f"], "ac": "#ffd23f", "xb": "#b71c1c", "back": ["⬅️", "Last Desk"], "nxt": ["📖", "Next Page"], "note": ["📝", "Sticky Note"], "clk": ["⏳", "Class Clock"], "rdd": ["📚", "Story Hour"]}, {"id": 2, "n": "The Sandbox Playground", "m": "🐒", "mn": "Milo the Monkey", "home": ["🏰", "Sandbox"], "exit": ["🏡", "Go Home"], "send": ["🪣", "Toss In"], "acc": ["⭐️", "See Stars"], "nav": ["#1f5f94", "#174a75"], "ac": "#f6b93b", "xb": "#b4531a", "back": ["⬅️", "Slide Back"], "nxt": ["🏃", "Next Game"], "note": ["📝", "Sand Scribble"], "clk": ["⏳", "Sand Timer"], "rdd": ["📚", "Story Dig"]}, {"id": 3, "n": "School Bus Road Trip", "m": "🚌", "mn": "Buster the Bus", "home": ["🏁", "Bus Stop"], "exit": ["🛑", "Park"], "send": ["🎫", "Hand Ticket"], "acc": ["🗺️", "Fill Map"], "nav": ["#3a3f47", "#262a31"], "ac": "#f7b500", "xb": "#c62020", "back": ["⬅️", "Back Up"], "nxt": ["🛣️", "Next Stop"], "note": ["📝", "Trip Diary"], "clk": ["⏳", "Trip Meter"], "rdd": ["📚", "Road Story"]}, {"id": 4, "n": "The Deep Jungle Safari", "m": "🦁", "mn": "Leo the Lion Cub", "home": ["🌴", "Basecamp"], "exit": ["⛺", "Rest"], "send": ["📦", "Mail Box"], "acc": ["👑", "Be King"], "nav": ["#1f6b3a", "#154d29"], "ac": "#f7b24f", "xb": "#9c4a0b", "back": ["⬅️", "Retrack"], "nxt": ["🐾", "Walk On"], "note": ["📝", "Explorer's Notes"], "clk": ["⏳", "Sun Shadow"], "rdd": ["📚", "Campfire Tale"]}, {"id": 5, "n": "Cozy Forest Treehouse", "m": "🐿️", "mn": "Nutty the Squirrel", "home": ["🌳", "Treehouse"], "exit": ["🕳️", "Burrow"], "send": ["🪵", "Drop Log"], "acc": ["🌰", "Keep Acorn"], "nav": ["#6b3f1c", "#4a2b12"], "ac": "#e5c15d", "xb": "#8a3b12", "back": ["⬅️", "Step Back"], "nxt": ["🌿", "Climb Up"], "note": ["📝", "Bark Scribble"], "clk": ["⏳", "Tree Rings"], "rdd": ["📚", "Hollow Tale"]}, {"id": 6, "n": "Deep Blue Ocean Reef", "m": "🐬", "mn": "Finley the Dolphin", "home": ["🪸", "The Reef"], "exit": ["🏝️", "Surface"], "send": ["🫧", "Pop Bubble"], "acc": ["💎", "Shiny Pearl"], "nav": ["#0b5f9e", "#084a7c"], "ac": "#4fe0cc", "xb": "#b53a52", "back": ["⬅️", "Swim Back"], "nxt": ["🐠", "Swim On"], "note": ["📝", "Bubble Note"], "clk": ["⏳", "Tide Clock"], "rdd": ["📚", "Deep Read"]}, {"id": 7, "n": "Outer Space Mission", "m": "👽", "mn": "Zog the Alien", "home": ["🚀", "Mothership"], "exit": ["🌍", "Land"], "send": ["📡", "Beam Up"], "acc": ["🏅", "Win Medal"], "nav": ["#0b1440", "#2a1670"], "ac": "#ffd93d", "xb": "#7b2fe0", "back": ["⬅️", "Orbit"], "nxt": ["🪐", "Next Planet"], "note": ["📝", "Space Memo"], "clk": ["⏳", "Mission Clock"], "rdd": ["📚", "Star Log"]}, {"id": 8, "n": "Dino Island Archaeology", "m": "🦖", "mn": "Toby the T-Rex", "home": ["🦖", "Dino Valley"], "exit": ["🚪", "Pack Up"], "send": ["🥚", "Pack Egg"], "acc": ["🦴", "Find Bone"], "nav": ["#3a6a2c", "#294a1f"], "ac": "#ffbe7a", "xb": "#a93a0c", "back": ["⬅️", "Dig Back"], "nxt": ["🧭", "Walk Forward"], "note": ["📝", "Bone Notes"], "clk": ["⏳", "Fossil Clock"], "rdd": ["📚", "Fossil Tale"]}, {"id": 9, "n": "Sky High Cloud Kingdom", "m": "☁️", "mn": "Nimbus the Cloud", "home": ["🏰", "Castle"], "exit": ["🌈", "Land"], "send": ["⚡", "Send Zap"], "acc": ["👑", "Crown Me"], "nav": ["#3f63ad", "#6a4fb5"], "ac": "#ffc2dc", "xb": "#a8417f", "back": ["⬅️", "Float Back"], "nxt": ["🌈", "Ride Rainbow"], "note": ["📝", "Breeze Note"], "clk": ["⏳", "Sun Arc"], "rdd": ["📚", "Cloud Tale"]}, {"id": 10, "n": "Candy Land Sugar Rush", "m": "🧸", "mn": "Gummy the Bear", "home": ["🍭", "Sweet Shop"], "exit": ["🍫", "All Done"], "send": ["🍭", "Drop Candy"], "acc": ["🍬", "Sweet Prize"], "nav": ["#b0155a", "#8a1048"], "ac": "#ffe45c", "xb": "#6e3a1c", "back": ["⬅️", "Unpeel"], "nxt": ["🍫", "Next Treat"], "note": ["📝", "Wrapper Note"], "clk": ["⏳", "Sugar Timer"], "rdd": ["📚", "Sweet Page"]}, {"id": 11, "n": "Theme Park Carnival", "m": "🍿", "mn": "Pip the Popcorn", "home": ["🎡", "Main Gate"], "exit": ["🎟️", "Leave Park"], "send": ["🎟️", "Drop Ticket"], "acc": ["🧸", "Win Toy"], "nav": ["#1f3fa8", "#162d7c"], "ac": "#ffd54a", "xb": "#c62828", "back": ["⬅️", "Rewind"], "nxt": ["🎪", "Next Tent"], "note": ["📝", "Prize Tag"], "clk": ["⏳", "Ride Timer"], "rdd": ["📚", "Side Show"]}, {"id": 12, "n": "Toy Box Arcade", "m": "🤖", "mn": "Blocks the Robot", "home": ["🧸", "Toy Box"], "exit": ["🚪", "Close Box"], "send": ["🪙", "Insert Coin"], "acc": ["👾", "High Score"], "nav": ["#1565c0", "#0d47a1"], "ac": "#ffd600", "xb": "#c62828", "back": ["⬅️", "Undo"], "nxt": ["🎮", "Next Level"], "note": ["📝", "Memory Card"], "clk": ["⏳", "Play Clock"], "rdd": ["📚", "Story Cartridge"]}, {"id": 13, "n": "Magic Storybook Kingdom", "m": "🐉", "mn": "Glimmer the Dragon", "home": ["📖", "Cover"], "exit": ["👋", "The End"], "send": ["📜", "Cast Spell"], "acc": ["🏆", "Get Trophy"], "nav": ["#4a2c8a", "#321a66"], "ac": "#f0c040", "xb": "#8c1c3a", "back": ["⬅️", "Flip Page"], "nxt": ["📖", "Turn Page"], "note": ["📝", "Margin Note"], "clk": ["⏳", "Hourglass"], "rdd": ["📚", "Open Tome"]}, {"id": 14, "n": "Under the Sea Atlantis", "m": "🧜‍♀️", "mn": "Pearl the Mermaid Cat", "home": ["🐚", "Palace"], "exit": ["⚓", "Anchor"], "send": ["🐚", "Send Conch"], "acc": ["👑", "Royal Crown"], "nav": ["#0d6f78", "#5a4a9c"], "ac": "#8ff0e0", "xb": "#74479e", "back": ["⬅️", "Drift"], "nxt": ["🌊", "Sail Next"], "note": ["📝", "Sea Glass Note"], "clk": ["⏳", "Moon Tide"], "rdd": ["📚", "Conch Tale"]}, {"id": 15, "n": "The Secret Digital Garden", "m": "🦋", "mn": "Bella the Butterfly", "home": ["🌸", "Garden"], "exit": ["🚪", "Rest"], "send": ["🍯", "Give Honey"], "acc": ["🌸", "Grow Flower"], "nav": ["#b83265", "#2c7a3a"], "ac": "#ffd23a", "xb": "#8c2450", "back": ["⬅️", "Fly Back"], "nxt": ["🚶", "Walk Path"], "note": ["📝", "Seed Note"], "clk": ["⏳", "Bloom Clock"], "rdd": ["📚", "Petal Page"]}, {"id": 16, "n": "KORTEX Launchpad", "m": "☄️", "mn": "Kip the Comet", "home": ["🛡️", "Home Base"], "exit": ["🌙", "Sign Off"], "send": ["📡", "Beam Up"], "acc": ["🛰️", "Dock In"], "nav": ["#14284b", "#2f5d3f"], "ac": "#d4a84b", "xb": "#0b1530", "back": ["⬅️", "Rewind"], "nxt": ["🚀", "Lift Off"], "note": ["📝", "Flight Notes"], "clk": ["⏳", "Time in Orbit"], "rdd": ["📚", "Launch Read"]}, {"id": 17, "n": "The Lantern Lighthouse", "m": "✨", "mn": "Lumi the Firefly", "home": ["🏮", "Lantern Room"], "exit": ["🌙", "Lights Down"], "send": ["🕊️", "Send a Glow"], "acc": ["🌟", "Catch the Light"], "nav": ["#12305a", "#0b1f3d"], "ac": "#f2b84b", "xb": "#b3261e", "back": ["⬅️", "Last Glow"], "nxt": ["🔆", "Light the Next"], "note": ["📝", "Lantern Note"], "clk": ["⏳", "Lantern Hours"], "rdd": ["📖", "Lantern Read"]}, {"id": 18, "n": "The Dreamer's Canvas", "m": "🐦", "mn": "Maya the Dream Sparrow", "home": ["🎨", "Easel"], "exit": ["🌙", "Rest the Brush"], "send": ["🖼️", "Hang It Up"], "acc": ["🏅", "Frame It"], "nav": ["#3b3a8f", "#26255e"], "ac": "#ff8a65", "xb": "#c2410c", "back": ["⬅️", "Brush Back"], "nxt": ["🖌️", "Next Stroke"], "note": ["📝", "Sketch Note"], "clk": ["⏳", "Studio Hours"], "rdd": ["📖", "Canvas Read"]}, {"id": 19, "n": "The Keyholder's Haven", "m": "🗝️", "mn": "Tiko the Tarsier", "home": ["🗝️", "The Haven"], "exit": ["🚪", "Lock the Haven"], "send": ["📜", "Seal and Send"], "acc": ["🏅", "Claim the Key"], "nav": ["#3a2152", "#24132f"], "ac": "#c9a227", "xb": "#8e1b3a", "back": ["⬅️", "Last Lock"], "nxt": ["🔓", "Next Chest"], "note": ["📝", "Keyholder's Note"], "clk": ["⏳", "Candle Time"], "rdd": ["📖", "Treasury Read"]}, {"id": 20, "n": "The Precision Workshop", "m": "🦎", "mn": "Cali the Chameleon", "home": ["🛠️", "Workbench"], "exit": ["🧰", "Tools Down"], "send": ["📤", "Ship the Reading"], "acc": ["📥", "Log the Reading"], "nav": ["#1f4e79", "#143450"], "ac": "#ff8f1f", "xb": "#c0392b", "back": ["⬅️", "Dial Back"], "nxt": ["➡️", "Next Notch"], "note": ["📝", "Bench Note"], "clk": ["⏳", "Bench Time"], "rdd": ["📖", "Bench Read"]}];/*KXCOLTH*/ let id=17;try{const p=JSON.parse(localStorage.getItem("KORTEX_THEMES")||"{}");if(+p.lux>=1&&+p.lux<=L.length)id=+p.lux}catch(e){}return L.find(t=>t.id===id)||L.find(t=>t.id===15)||L[0]})();
 (()=>{const r=document.documentElement.style;r.setProperty("--kn1",KXT.nav[0]);r.setProperty("--kn2",KXT.nav[1]);r.setProperty("--kac",KXT.ac);r.setProperty("--kxb",KXT.xb)})();
-/* ---------- v3.5: 📤 Send · 📥 Accept in the story library, the same pair every KORTEX game has.
-   Send: the reading time so far is saved to the Reading Log (the clock started when the story was opened from KORTEX),
-   then the same scores file as the KORTEX home Send is shared or saved (every game, the quiz, reading and check-ins).
-   Accept: the teacher takes in learners' files here; KORTEX puts them in Reports the next time it opens.
-   Shown only inside KORTEX (the library folder of KORTEX, or a one-file KORTEX). ---------- */
+
+
 const KXS=(()=>{
  const HK=/^(bb_codex_.*_v3$|atn1_|gg1_|lg1_|cn1_|psq1_hq_|bpp(ML)?$|bprime(L)?$|arena2$|olympians$|KORTEX_CQ_LOG$|CDX_MONTAGE_V1_|KORTEX_READ$)/;
  const g=k=>{try{return localStorage.getItem(k)}catch(e){return null}},p=(k,v)=>{try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}};
@@ -711,7 +617,7 @@ const KXS=(()=>{
  function readOpen(){const o=J("KORTEX_READ_OPEN",null);if(!o||!o.ts||!o.who||o.who.role!=="learner")return 0;const age=Date.now()-o.ts;return age>=45000&&age<=6*3600000?age:0}
  function dirty(){if(!isL())return false;if(readOpen())return true;const o=J("KORTEX_SENT",{});return!!(o&&o.hub&&o.hub.sig!==sig())}
  function where(){const d=new Date(),h=d.getHours(),w=d.getDay();return(w>=1&&w<=5&&h>=7&&h<16)?"c":"h"}
- /* the minutes read so far go into the Reading Log, and the clock starts again (coming back to KORTEX logs only the rest) */
+  
  function flush(title){const age=readOpen();if(!age)return 0;const o=J("KORTEX_READ_OPEN",null),m=Math.max(1,Math.min(30,Math.round(age/60000))),now=Date.now();let a=J("KORTEX_READ",[]);if(!Array.isArray(a))a=[];
   a.push({id:o.who.id,n:o.who.name,d:day(new Date()),ts:now,t:title||"Aether, Fable and Fiora",m:m,f:"🙂",w:where(),a:1});if(a.length>12000)a=a.slice(-12000);P("KORTEX_READ",a);o.ts=now;P("KORTEX_READ_OPEN",o);return m}
  function checkin(){const s=sess();if(!s||s.role!=="learner")return null;const A=J("KORTEX_ATT",{})||{},e=[];Object.keys(A).sort().forEach(d=>{const m=A[d]&&A[d][s.id];if(m&&m.by!=="teacher")e.push({date:d,time:m.t,iso:m.iso,id:s.id,name:s.name,lrn:s.lrn||"",status:m.s})});return e.length?{entries:e,device:g("KORTEX_DEV")||""}:null}
@@ -719,14 +625,14 @@ const KXS=(()=>{
  function fname(){const d=new Date();return"KORTEX-SCORES-KORTEX-"+d.getFullYear()+two(d.getMonth()+1)+two(d.getDate())+"-"+two(d.getHours())+two(d.getMinutes())+".kxr.json"}
  function mark(){const o=J("KORTEX_SENT",{})||{};o.hub={sig:sig(),ts:Date.now()};P("KORTEX_SENT",o);badges()}
  function inq(){const q=J("KORTEX_INQ",[]);return Array.isArray(q)?q:[]}
- /* a file or code a learner sent: the same kinds KORTEX Accept takes */
+  
  function parse(t){t=String(t||"").trim();let o=null;try{o=JSON.parse(t)}catch(e){try{o=JSON.parse(decodeURIComponent(escape(atob(t.replace(/\s+/g,"")))))}catch(e2){}}if(!o||typeof o!=="object")return null;
   if(o.kortex===1&&o.keys)return o;
   if(o.kortexCheckin===1&&Array.isArray(o.entries))return{kortex:1,kind:"checkin",game:"check-in",from:(o.learner&&o.learner.name)||"",saved:o.made||"",keys:{},checkin:{entries:o.entries,device:o.device||""}};
   const bp=String(o.build||"").slice(0,3),map={GGW:"gg1_rv",LGM:"lg1_rv",CNR:"cn1_rv",BDS:"atn1_rv",PBP:"pbp1_rv"};if((o.log||o.calls)&&map[bp]){const k={};k[map[bp]]=JSON.stringify({log:o.log||[],calls:o.calls||[]});return{kortex:1,kind:"results",game:bp,from:"",saved:o.when||"",keys:k}}
   return null}
  function queue(o){const q=inq(),id=[o.game,o.from,o.saved].join("|");if(q.some(x=>x.id===id))return 0;q.push({id:id,t:Date.now(),o:o});while(q.length>1&&JSON.stringify(q).length>4000000)q.shift();P("KORTEX_INQ",q);return 1}
- /* ---- look ---- */
+  
  const CSS='.nb.kxs{position:relative;color:#fff;border:3px solid #12804a;background:#12804a}.nb.kxa{position:relative;color:#1c2433;border:3px solid #ffb703;background:#ffb703}'
   +'.nb .kxb{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 5px;border-radius:99px;background:#e11d48;color:#fff;font:800 12px/22px system-ui,sans-serif;border:2px solid #fff;font-style:normal}'
   +'@media (max-width:620px){.tb.kx4{gap:6px;padding-left:8px;padding-right:8px;align-items:stretch}.tb.kx4 .ttl{display:none}.tb.kx4 .nb{flex:1 1 0;min-width:0;height:auto;min-height:62px;padding:3px 4px}.tb.kx4 .nb b{font-size:.84rem;text-align:center;white-space:normal;line-height:1.05}.tb.kx4 .nb i{font-size:1.2rem}}'
@@ -736,7 +642,7 @@ const KXS=(()=>{
   +'#kxsm .r button{flex:1 1 140px;min-height:48px;border:0;border-radius:12px;font:700 15px system-ui,sans-serif;cursor:pointer;background:#14284b;color:#fff}#kxsm .r button.g{background:#e5e7eb;color:#1c2433}#kxsm .r button.s{background:#12804a}'
   +'#kxsm textarea{width:100%;box-sizing:border-box;min-height:84px;margin-top:8px;font:13px ui-monospace,Menlo,monospace}#kxsm .m{min-height:1.2em;font-weight:700;color:#12804a}#kxsm .m.bad{color:#b91c1c}';
  function css(){if(document.getElementById("kxscss"))return;const s=document.createElement("style");s.id="kxscss";s.textContent=CSS;document.head.appendChild(s)}
- /* the signed-in learner's avatar from KORTEX (Venice, 31 Oct 2026: the library is part of everything) */
+  
  function avc(){try{var se=JSON.parse(localStorage.getItem("KORTEX_SESS")||"null");if(!se||se.role!=="learner")return"";var a=(JSON.parse(localStorage.getItem("KORTEX_AVATARS")||"{}")||{})[se.name]||{e:se.emoji||"⭐",b:"#ffd166",a:""};
   return'<span class="kxav" title="'+X(se.name)+'" style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;flex:none;font-size:21px;line-height:1;background:'+X(a.b||"#ffd166")+'">'+X(a.e||"⭐")+(a.a?'<span style="position:absolute;top:-9px;right:-5px;font-size:15px">'+X(a.a)+'</span>':'')+'</span>'}catch(e){return""}}
  function btns(inkx){if(!inkx)return avc();return avc()+'<button class="nb kxs" id="tbS" aria-label="Send"><i aria-hidden="true">'+X(SW[0])+'</i><b>'+X(SW[1])+'</b><small>Send</small><em class="kxb" hidden>!</em></button>'
@@ -745,7 +651,7 @@ const KXS=(()=>{
   if(a){const b=a.querySelector(".kxb"),n=inq().length;b.hidden=!n;b.textContent=n>9?"9+":String(n);a.title="Accept Scores: take in the files learners sent"+(n?" ("+n+" waiting for KORTEX)":"")}}
  function modal(h){const old=document.getElementById("kxsm");if(old)old.remove();const o=document.createElement("div");o.id="kxsm";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.innerHTML='<div class="c">'+h+'</div>';o.addEventListener("click",e=>{if(e.target===o)o.remove()});document.body.appendChild(o);return o}
  function stopVoice(){try{if(typeof stopMovie==="function")stopMovie(true)}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
- /* ---- 📤 Send ---- */
+  
  function send(title){stopVoice();const m=flush(title),t=JSON.stringify(payload()),nm=fname();badges();
   const head='<h3>'+X(SW[0])+' Send Scores <small style="font-size:.7em;opacity:.75">· '+X(SW[1])+'</small></h3>'+(m?'<p>📖 Naitala ang <b>'+m+' minuto</b> ng pagbasa mo. <i>Your '+m+' minute'+(m>1?"s":"")+' of reading '+(m>1?"are":"is")+' saved.</i></p>':'');
   const menu=()=>{const o=modal(head+'<p>I-save ang file o i-copy ang code, saka ipadala kay Teacher. <i>Save the file or copy the code, then send it to your teacher.</i></p><div class="r"><button type="button" class="s" data-a="f">⬇ Save File</button><button type="button" data-a="c">📋 Copy Code</button><button type="button" class="g" data-a="x">Close</button></div><p class="m" role="status"></p>'),M=(x,bad)=>{const e=o.querySelector(".m");e.className="m"+(bad?" bad":"");e.textContent=x};
@@ -754,7 +660,7 @@ const KXS=(()=>{
    o.querySelector('[data-a="x"]').onclick=()=>o.remove()};
   try{const f=new File([t],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:nm}).then(()=>{mark();modal(head+'<p>✅ Naipadala na. Salamat! <i>Sent. Thank you!</i></p><div class="r"><button type="button" class="g" data-a="x">Close</button></div>').querySelector('[data-a="x"]').onclick=()=>{const o=document.getElementById("kxsm");if(o)o.remove()}},menu);return}}catch(e){}
   menu()}
- /* ---- 📥 Accept ---- */
+  
  function accept(){stopVoice();const last=J("KORTEX_ACCEPTED",null),w=inq().length;
   const o=modal('<h3>'+X(AW[0])+' Accept Scores <small style="font-size:.7em;opacity:.75">· '+X(AW[1])+'</small></h3><p>Tanggapin dito ang file o code na ipinadala ng mga bata. Papasok ito sa KORTEX Reports pagbalik mo sa KORTEX. <i>Take in the files learners sent. They go to KORTEX Reports when you go back to KORTEX.</i></p>'
    +'<div class="r"><button type="button" data-a="f">📂 Choose Files</button><button type="button" data-a="p">📋 Paste Code</button><button type="button" class="g" data-a="x">Close</button></div>'
@@ -774,7 +680,7 @@ const KXS=(()=>{
  return{btns:btns,wire:wire,send:send,accept:accept,badges:badges,flush:flush,parse:parse}
 })();
 
-/* KORTEX storage safety in the story library too: the browser is asked to keep the data; a save that fails because the storage is full shows a red notice */
+ 
 (function(){if(window.__kxStore)return;window.__kxStore=1;
  try{if(navigator.storage&&navigator.storage.persisted)navigator.storage.persisted().then(function(p){if(!p&&navigator.storage.persist)return navigator.storage.persist()}).catch(function(){})}catch(e){}
  function full(e){return!!e&&(e.name==="QuotaExceededError"||e.name==="NS_ERROR_DOM_QUOTA_REACHED"||e.code===22||e.code===1014||/quota/i.test(String(e.message||"")))}
@@ -784,9 +690,9 @@ const KXS=(()=>{
 
 
 "use strict";
-const RAW="<!DOCTYPE html>\n"+document.documentElement.outerHTML;   /* the page as shipped: "Save As File" writes a copy of it with the edits inside */
+const RAW="<!DOCTYPE html>\n"+document.documentElement.outerHTML;    
 let W=JSON.parse(document.getElementById("W-data").textContent),IMG=JSON.parse(document.getElementById("I-data").textContent);
-/* R24 ③ public copies (R10): the author's stories stay locked; a teacher makes and edits her own (own:true) */
+ 
 const PUBX=!!window.KXPUB;let OWNNEW=false;const BLANKIMG="UklGRlwFAABXRUJQVlA4IFAFAACwQACdASrgASwBPp1Opk0lpCQiIxaISLATiWlu4XAff3l9RHY3rMrKbhm7dN5zyGX7fjSF99p92AyggffJTVBDz3eGeSBsBmaxjxGkjHiNJGPEaSWxzqGnvkNPfIae+Q098hp71lL8GygZPvZkjnUNPfIae+QuYmkjHiNJGPEaSMeI0ktjnUNPfIae+Q098hp75DT3rKX4Nk/sCL1wpRUD2Gzopdj2aadsq78UzTSeVDY8ALYRYN7YpzUNPfHQu+qDg7QcJ7pZ81DQQDJfUByukGGLxtG7jekV4456BsPqFE0cttlUrdKtJeaXCMoPlQjNYx4j4cJTz3cM/QUEBia/fvz2/5RlfvaX4yz3rKX4Nk/1cow8rQIfTaBGTpyy4e3QBWWVV/+EH8DZQMbPZkjnSYnajqDsy+xpGSmLhQFIBbQP9KRbD2BvketafVBwi6YiBvUIzAKjQdikZFN/LKIh189ELLcxvsgT/y1jHiNJGPCZEtopShDOXpuOTYt3d7VxVgvFWCrwSsk3To6RxqBwtAWosdh+xNI7Npx9YoE10QB0Oj+hTA8rz/V9yX6XHifYlHQZr1s/g2UDJ08txnCj1K/fIae3r/nChX7PT72ZI51DT3yGnvkNPfIae9UbyvNWsY8RpIx4jSRjz6oOEXUkhxzqGnvkNPfIae9ZS/BsoGT72ZI51DT3yGnvkHwAAP79us/T2LEzBcU7xACeYJwpgA34AA7FAAqJQQAG5edI/KH9dbRcDh87v79vG5xUGhzEKo1Y4v2Z8p8YB6Ymx6KfrXtvRbKbs66XX5CfdhbILR4n5pB7LeUMAeUytyKlxA8zLtjKIVMiYuNUlklkbAun60LibabJaF728frrlqfHu0PyGysH89aEPuoL9d4OK3OgwA+85j+x6YDVPfP36hbz/n/a3JA9KTXM+iw1Ufzb8V145BofqaBbMo/FO/kkTZMvghpo6Tenoqbf/5/0T1Y6Yp8XxPFz5J5/FR8CerQm07DwXHMB9AWEale9/6ir473GO9Mgi9VlghTNL09FnJKouAiUBWKlAJ4WFR4TDD38f8Tz2Z0rQBjiV+wN2cWPY8rp77wvfvnTRL8PYXdQauKzO4LhNZ41xOEwgP+Rbyd5XOCDvv99HbewBYcH7wk1n1xU3GPK2G/cQLG6IXgRpFUfy9rn0rrZ2HbNQXVFSLup7JtkHz1nJMJikrfZn/pGDuJIC4SRERfNINjxwgV7sRmDwKhHqNt08cRxZHgzH1zs/AjFUzraM8+sGCdYV09p9Hs3BdZsOuSY873qM1p99Sf9xVz2WHoB5qLZ+VfZnLtd3Upi4JtX0ZJ5JOmpVItgPoz4S54HJWW6lWBcU/arz2HZMRhFWZ78vQBropeivhSTMZLY+wAdCneARH1sYWcCdiguNk+WtgZTHjlUJBnKSfdFGnpwk7OnpOFr9bUWZ99JQ63X4fnN62/AMW8VW1eRn8MIqO1KWIV5351tteUJOCYfZCWDKN4emm4UbqTrGutX2K9UP7JbO7DeJV8JBwSqSYfs5ETtq8/eaQXyyk5ExpT6JUWsEL7w1cXwfUc+YM84UYhsz63EarxIAlqrlyny1vbtyWPqfgk6/NJMbKuDa7Z6fW6rKZK5aywP3pS9bvzXcJ/yMKSnUdlD0ORCq49jNs2zbNs2zdy6W0qSkMngGwfd81623ZDKGqSHPVDQyBuRyF0fd3vrDO3Wv34Vh6Dc7lDlZDQqN4nOJGhgOQn93b8QCKCRG+rTvUb7hHsRsaAxd/fIKDgUDt3e2DPAgAAAAEXgAArzgAhbawQAI0AAAAAA";
 function lockedStory(){return PUBX&&!W.own}
 function slugOf(t){return"aking-"+(String(t||"kuwento").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)||"kuwento")}
@@ -796,14 +702,14 @@ const $=x=>document.getElementById(x),E=s=>String(s==null?"":s).replace(/[&<>"]/
 const src=n=>{const s=IMG[n]||"";return s.startsWith("data:")?s:"data:image/webp;base64,"+s};
 const EN=()=>W.main==="en";
 let B=null,I=0,SCR="home";
-/* ---------- where Home and Exit go ---------- */
+ 
 const INKX=/[/]library[/][^/]*$/.test(location.pathname);
 function libHome(){return W.lib||"index.html"}
 function goHome(){stopMovie(true);try{speechSynthesis.cancel()}catch(e){}if(INKX){let h=window.__KXLV?"../"+window.__KXLV+"/index.html":"../index.html";try{h=sessionStorage.getItem("KX_HUB")||h}catch(e){}location.href=h}else location.href=libHome()}
 function goShelf(){stopMovie(true);try{speechSynthesis.cancel()}catch(e){}location.href=libHome()+(W.colkey?"#"+W.colkey:"")}
 function topbar(title,exit){return'<div class="tb"><button class="nb back" id="tbB" aria-label="Back"><i aria-hidden="true">⬅️</i><b>Back</b><small>Bumalik</small></button><button class="nb home" id="tbH" aria-label="Home"><i aria-hidden="true">'+KXT.home[0]+'</i><b>'+E(KXT.home[1])+'</b><small>Home</small></button><span class="ttl">'+E(title)+'</span>'+KXS.btns(INKX)+'<button class="nb exit" id="tbX" aria-label="Exit"><i aria-hidden="true">'+KXT.exit[0]+'</i><b>'+E(KXT.exit[1])+'</b><small>Exit</small></button></div>'}
 function wireTop(exit){$("tbB").onclick=()=>{if(SCR==="read"||SCR==="about")home();else goShelf()};$("tbH").onclick=goHome;$("tbX").onclick=exit;KXS.wire(()=>W.title)}
-/* ---------- voice: English narration on every page ---------- */
+ 
 const VK="vdr-voice";let VL=(()=>{try{return localStorage.getItem(VK)}catch(e){return null}})()==="off"?"off":"en";
 function voice(){const vs=speechSynthesis.getVoices?speechSynthesis.getVoices():[];return vs.find(v=>/^en-PH/i.test(v.lang))||vs.find(v=>/^en-(US|GB)/i.test(v.lang)&&/female|samantha|zira|google/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null}
 function say(p){return (p&&p.e)||""}
@@ -811,11 +717,11 @@ function speak(t,done){try{speechSynthesis.cancel()}catch(e){}if(!t||VL==="off"|
  const u=new SpeechSynthesisUtterance(t.replace(/\n+/g,". "));const v=voice();if(v)u.voice=v;u.lang=v?v.lang:"en-US";u.rate=.88;u.pitch=1.05;let ok=false;
  u.onend=()=>{if(!ok){ok=true;done&&done(true)}};u.onerror=()=>{if(!ok){ok=true;done&&done(false)}};speechSynthesis.speak(u);
  setTimeout(()=>{if(!ok){ok=true;done&&done(true)}},Math.max(5000,t.length*95))}
-/* pictures fill the frame when their shape is close to it (no side bars); very different shapes are shown whole */
+ 
 function fitPic(t){const box=t.parentElement;if(!box||!t.naturalWidth||!box.clientHeight)return;const r=Math.log((t.naturalWidth/t.naturalHeight)/(box.clientWidth/box.clientHeight));t.style.objectFit=Math.abs(r)<.13?"cover":"contain"}
 document.addEventListener("load",e=>{const t=e.target;if(t&&t.tagName==="IMG"&&t.matches(".art img:not(.bk),#mv .lay .p")){if(t.closest(".art")&&typeof fitRead==="function")fitRead();fitPic(t)}},true);
 addEventListener("resize",()=>document.querySelectorAll(".art img:not(.bk),#mv .lay .p").forEach(fitPic));
-/* the whole screen shows at once on a laptop, tablet or phone: the picture takes the room that is left, the words get smaller only when needed */
+ 
 function fitMode(){const b=document.body;b.classList.toggle("rdx",SCR==="read");b.classList.toggle("pfit",SCR==="home"||SCR==="about");if(SCR!=="read")b.classList.remove("side")}
 function fitRead(){try{fitMode();if(SCR!=="read")return;const w=document.querySelector("#app .wrap"),a=$("art"),rb=document.querySelector("#app .rb"),rc=document.querySelector("#app .rcol"),tx=document.querySelector("#app .tx"),bd=document.body;if(!w||!a||!rb||!rc)return;
  const ps=tx?[...tx.querySelectorAll("p")]:[];ps.forEach(p=>p.style.fontSize="");if(tx){tx.style.maxHeight="";tx.style.overflowY=""}a.style.height="";w.style.gridTemplateColumns="";bd.classList.remove("side");
@@ -827,7 +733,7 @@ function fitRead(){try{fitMode();if(SCR!=="read")return;const w=document.querySe
   if(!ok()){bd.classList.remove("side");w.style.gridTemplateColumns="";a.style.height="";const used=()=>rc.getBoundingClientRect().height+10;shrink(()=>avail-used()>=100,.72);
    if(avail-used()>=100){a.style.height=Math.round(Math.min(avail-used(),a.getBoundingClientRect().width*r))+"px";return}
    bd.classList.add("side");w.style.gridTemplateColumns="minmax(0,1fr) minmax(280px,56%)";fitA();shrink(ok,.62);
-   /* a very long page on a small screen: the words scroll inside their own box, the picture and the buttons stay */
+    
    if(!ok()&&tx){tx.style.maxHeight=Math.max(80,avail-rb.getBoundingClientRect().height-14)+"px";tx.style.overflowY="auto"}}}
  else{const used=()=>rc.getBoundingClientRect().height+10;if(avail-used()<170)shrink(()=>avail-used()>=170,.75);if(avail-used()<150&&tx){tx.style.maxHeight=Math.max(80,avail-150-rb.getBoundingClientRect().height-24)+"px";tx.style.overflowY="auto"}a.style.height=Math.round(Math.max(150,Math.min(avail-used(),a.getBoundingClientRect().width*r)))+"px"}}catch(e){}}
 function fitHome(){try{fitMode();if(SCR!=="home"&&SCR!=="about")return;const de=document.documentElement,R=de.style,wr=document.querySelector("#app .wrap");if(wr)wr.style.zoom="";R.removeProperty("--covh");R.removeProperty("--dkh");const h1=document.querySelector("#app h1");if(h1)h1.style.fontSize="";
@@ -840,13 +746,13 @@ function fitHome(){try{fitMode();if(SCR!=="home"&&SCR!=="about")return;const de=
   else if(ax&&af>a0*.74){af*=.95;ax.style.fontSize=af+"px"}else break}
  if(over()&&wr){const t=wr.getBoundingClientRect().top,hh=wr.getBoundingClientRect().height,fl=innerWidth>innerHeight?(innerHeight<450?.55:.6):.82,z=(innerHeight-t-6)/hh;if(hh>0&&z>=fl-.001)wr.style.zoom=Math.min(1,z);else if(hh>0&&innerWidth>innerHeight)wr.style.zoom=fl}}catch(e){}}
 let FTT=0;addEventListener("resize",()=>{clearTimeout(FTT);FTT=setTimeout(()=>{if(SCR==="read")fitRead();else fitHome()},120)});try{document.fonts.ready.then(()=>{if(SCR==="read")fitRead();else fitHome()})}catch(e){}
-/* is a paragraph English? (count common English vs Filipino words) */
+ 
 function isEn(t){const w=String(t||"").toLowerCase().match(/[a-zñ']+/g)||[];let e=0,f=0;w.forEach(x=>{if(/^(the|and|of|to|is|a|her|his|she|he|with|for|in|on|was|are|from|that|this|it)$/.test(x))e++;else if(/^(ang|ng|sa|mga|na|si|ay|at|kung|niya|siya|nang|ni|ito|kaniyang|isang)$/.test(x))f++});return e>f}
-/* a two-language value "Filipino · English": the second language always in italics */
+ 
 function BI(t){t=String(t||"");const p=t.split(" · ");return p.length==2?E(p[0])+' <i>· '+E(p[1])+'</i>':E(t)}
-/* the words of a page: main language big, the other in italics, extra languages under them */
+ 
 function words(p){const a=EN()?p.e:p.f,b=EN()?p.f:p.e;return(a?'<p class="f">'+E(a)+'</p>':'')+(p.x||[]).filter(x=>x&&x[1]).map(x=>'<p class="x"><b>'+E(x[0])+'</b>'+E(x[1])+'</p>').join("")+(b?'<p class="e">'+E(b)+'</p>':'')}
-/* ---------- story home ---------- */
+ 
 function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}catch(e){}$("bar").hidden=true;$("pr").firstChild.style.width="0";scrollTo(0,0);
  const c0=W.books[0].pages[0].i;let h=topbar(W.collection)+'<div class="wrap">';
  h+='<div class="hero"><div class="cov"><img alt="" src="'+src(c0)+'"></div><div><div class="kick">'+BI(W.kick||"")+'</div><h1>'+E(W.title)+'</h1>'+(W.sub?W.sub.split(" · ").map(x=>'<p class="sub"><i>'+E(x)+'</i></p>').join(""):'')+'<p class="by">VENICE D. RODRIGUEZ<small>'+BI(W.role||"")+'</small></p>'
@@ -858,7 +764,7 @@ function home(){B=null;SCR="home";stopMovie(true);try{speechSynthesis.cancel()}c
  $("app").querySelectorAll(".dk").forEach(b=>b.onclick=()=>pick(+b.dataset.k));fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
 function pick(k){$("lb").innerHTML='<div class="info" style="max-width:440px;margin:16px;text-align:center"><p style="text-align:center;font-weight:800;font-size:1.15rem">'+E(W.books[k].title)+'</p><div class="cta" style="justify-content:center"><button class="big" id="pw">▶ Panoorin<small>Watch</small></button><button class="big o" id="pr2">📖 Basahin<small>Read</small></button></div></div>';$("lb").hidden=false;
  $("pw").onclick=e=>{e.stopPropagation();$("lb").hidden=true;movie(k,0)};$("pr2").onclick=e=>{e.stopPropagation();$("lb").hidden=true;B=k;I=0;show()}}
-/* ---------- about ---------- */
+ 
 function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=topbar("Tungkol sa Aklat · About This Book")+'<div class="wrap"><div class="kick">'+E(W.collection)+'</div><h1 style="font-size:clamp(1.6rem,5vw,2.5rem)">'+E(W.title)+'</h1>'+(W.sub?'<p class="sub">'+E(W.sub)+'</p>':'')+'<div class="abx"><div>';
  if(W.promo||W.promo_fil||(W.about||[]).length)h+='<div class="info">'+(EN()?(W.promo?'<p><b>'+E(W.promo)+'</b></p>':'')+(W.promo_fil?'<p><i>'+E(W.promo_fil)+'</i></p>':''):(W.promo_fil?'<p><b>'+E(W.promo_fil)+'</b></p>':'')+(W.promo?'<p><i>'+E(W.promo)+'</i></p>':''))+(W.about||[]).map(x=>isEn(x)!==EN()?'<p><i>'+E(x)+'</i></p>':'<p>'+E(x)+'</p>').join("")+'</div>';
  const R=(fil,en,v,c)=>v?'<div class="kv'+(c?' '+c:'')+'"><dt>'+fil+' <i>· '+en+'</i></dt><dd>'+v+'</dd></div>':'';
@@ -868,7 +774,7 @@ function about(){SCR="about";$("bar").hidden=true;const C=W.credits||{};let h=to
   +R('Koleksiyon','Collection',E(W.collection)+' <small>· Aether, Fable and Fiora</small>')+R('Karapatang-ari','Copyright',BI(C.copy||''),(C.copy||'').length>90?'wide':'')+((C.isbns||[]).length?R('Digital na Code','Digital Code',E(W.code)):'')+'</dl></div>';const Dd=D;
  const G=C.get?'<div class="info"><dt style="margin-top:0">📚 Paano Magkaroon ng Kopya <i>· Get A Copy</i></dt><p>'+BI(C.get)+'</p></div>':'';h+='</div><div>'+G+'</div>'+Dd+'</div>';
  h+='<footer>'+(W.own?E(C.copy||""):'© 2026 Venice D. Rodriguez. All rights reserved.')+'</footer></div>';$("app").innerHTML=h;scrollTo(0,0);wireTop(home);fitHome();setTimeout(fitHome,450);setTimeout(fitHome,1400)}
-/* ---------- reader ---------- */
+ 
 function show(){SCR="read";try{const r=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){const q=(r.requestFullscreen||r.webkitRequestFullscreen||function(){}).call(r);if(q&&q.catch)q.catch(()=>{})}}catch(e){}const b=W.books[B],p=b.pages[I],L=b.pages.length;try{speechSynthesis.cancel()}catch(e){}
  $("app").innerHTML=topbar(b.title)+'<div class="wrap" style="padding-top:12px;padding-bottom:40px"><div class="art" id="art"><img class="bk" alt="" src="'+src(p.i)+'"><img alt="" src="'+src(p.i)+'"></div>'
   +'<div class="rcol"><div class="rb"><button class="ib" id="pv" aria-label="Previous">‹</button><span class="pg">'+(I+1)+' / '+L+'</span><button class="ib" id="sp" aria-label="Read aloud">🔊</button><button class="ib" id="nx" aria-label="Next">›</button></div>'
@@ -879,7 +785,7 @@ function show(){SCR="read";try{const r=document.documentElement;if(!document.ful
  $("pr").firstChild.style.width=((I+1)/L*100)+"%";scrollTo(0,0);fitRead();setTimeout(fitRead,450);setTimeout(fitRead,1400)}
 function go(n){if(B===null)return;const m=I+n;if(m>=0&&m<W.books[B].pages.length){I=m;show()}}
 $("lb").onclick=()=>{$("lb").hidden=true};
-/* ---------- movie: full screen pictures that turn by themselves while the story is read aloud ---------- */
+ 
 const M={on:0,b:0,i:0,play:1,t:0,lay:0,music:0,ac:null,g:null,tx:0};
 function movie(b,i){M.on=1;M.b=b;M.i=i;M.play=1;SCR="movie";fitMode();$("bar").hidden=true;try{speechSynthesis.cancel()}catch(e){}
  const mv=$("mv");mv.hidden=false;mv.innerHTML='<div class="lay" id="l0"></div><div class="lay" id="l1"></div><div class="cap off" id="cap"></div>'
@@ -914,7 +820,7 @@ function music(){try{if(!M.ac){const A=new(window.AudioContext||window.webkitAud
 document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;if(M.on){if(e.key==="Escape")stopMovie();if(e.key===" "){e.preventDefault();togglePlay()}if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1);return}
  if(SCR==="read"){if(e.key==="ArrowRight")go(1);if(e.key==="ArrowLeft")go(-1);if(e.key==="Escape")home()}});
 let x0=0;document.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});document.addEventListener("touchend",e=>{if(SCR==="edit")return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)<70)return;if(M.on)step(d<0?1:-1);else if(SCR==="read")go(d<0?1:-1)});
-/* ---------- ✏️ editor: only with the Teacher PIN; edits stay on this device until saved as a file ---------- */
+ 
 const SALT="KORTEX-CODEX-ARCHIVE-";
 function hh(s){let a=0xdeadbeef,b=0x41c6ce57;for(let i=0,c;i<s.length;i++){c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^a>>>16,2246822507)^Math.imul(b^b>>>13,3266489909);b=Math.imul(b^b>>>16,2246822507)^Math.imul(a^a>>>13,3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)}
 function lsg(k){try{return localStorage.getItem(k)}catch(e){return null}}function lss(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -930,7 +836,7 @@ function pinGate(cb){if(PINOK)return cb();let se=null;try{se=JSON.parse(lsg("KOR
   else if(hh(SALT+p)!==th){n++;m.textContent="Mali ang PIN · Wrong PIN";i1.value="";if(n>=5){i1.disabled=true;setTimeout(()=>{i1.disabled=false;n=0},30000)}return}
   PINOK=true;d.remove();cb()};
  d.querySelector("#pok").onclick=ok;d.querySelector("#pno").onclick=()=>d.remove();[i1,i2].forEach(x=>{if(x){x.oninput=function(){this.value=this.value.replace(/\D/g,"").slice(0,8)};x.onkeydown=e=>{if(e.key==="Enter")ok()}}});setTimeout(()=>i1.focus(),50)}
-/* device storage (IndexedDB) */
+ 
 const DBN="aff-edits",KEY="story:"+W.code;
 function db(){return new Promise((res,rej)=>{try{const r=indexedDB.open(DBN,1);r.onupgradeneeded=()=>r.result.createObjectStore("kv");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
 async function dbGet(k){const d=await db();return new Promise(r=>{const q=d.transaction("kv").objectStore("kv").get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)})}
@@ -982,24 +888,18 @@ function saveFile(){const w=clone(DRAFT.W),used=[],map={};w.books.forEach(b=>b.p
  out=out.replace(/<title>[\s\S]*?<\/title>/,"<title>"+E(w.title)+(w.own?(w.credits&&w.credits.story?" · "+E(w.credits.story):""):" · Venice D. Rodriguez")+"</title>");
  if(w.own&&OWNNEW){w.slug=slugOf(w.title)}const bl=new Blob([out],{type:"text/html"}),a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download=(w.slug||"story")+".html";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);
  $("em").textContent="Na-download: "+a.download+" · Downloaded"}
-/* edits saved on this device open in place of the shipped story */
+ 
 (async()=>{try{const s=await dbGet(KEY);if(s&&s.W&&s.IMG&&!lockedStory()){W=s.W;IMG=s.IMG}}catch(e){}home();if(location.hash==="#read"){history.replaceState(null,"",location.pathname);B=0;I=0;show()}else if(location.hash==="#watch"){history.replaceState(null,"",location.pathname);movie(0,0)}})();
 try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
-</script><script>/* ================= 🔍 Zoom — fit the screen to the phone (R22, 7 Nov 17:34) =================
-   Her call: on the phone she had to scroll up and down just to read a question and its choices. A 🔍 sits on the top bar
-   beside ⛶ (KORTEX, every game, the library, every story). Tap it: [ − ] 90% [ + ] — every tap shrinks or grows the whole
-   screen at once; tap the % to go back to 100%. Every game and screen family keeps its own size (WHIZ CUP at 80% stays 80%;
-   the others do not move). Every device (her 17:39 call): on the laptop and the class TV it also grows to 150% for the room.
-   R24 ② (7 Nov 21:49): it wears its theme's own name on all 16 — 14 games, the library and every story, the hub — with the plain
-   word Zoom as its second line (like Home, Send, Exit); Liit and Laki ride the strip's own buttons: [ − Liit ] 100% [ + Laki ].
-   The name follows the theme (Theme Studio changes it with the theme); in a game bar it is a full tile like the others. */
+</script><script>
+
 (function(){if(window.__KXZOOM)return;window.__KXZOOM=1;
 var STEPS=[0.6,0.7,0.8,0.9,1,1.1,1.25,1.5];
-/* theme id -> [emoji, themed name] (kxthemes.js ids) */
+ 
 var ZM={1:["🔍","Magnifier"],2:["🐞","Bug Lens"],3:["📷","Trip Camera"],4:["🦅","Eagle Eye"],5:["👀","Lookout"],6:["🤿","Diving Mask"],7:["🛸","UFO Beam"],8:["🦕","Dino Size"],
  9:["🌬️","Cloud Puff"],10:["🫧","Bubble Gum"],11:["🪞","Fun Mirror"],12:["🧱","Block Size"],13:["✨","Size Spell"],14:["🦪","Pearl Lens"],15:["💧","Dewdrop"],16:["🔭","Star Scope"],17:["🔆", "Glow Glass"],18:["🔍", "Big Canvas"],19:["🔍", "Relic Lens"],20:["🔍", "Fine Focus"]};
 function top(){try{return window.parent===window||!window.parent.__KXS}catch(e){return true}}
-if(!top())return;   /* the inner page of a game shell: the shell's own 🔍 sizes the whole page, the inner page follows */
+if(!top())return;    
 function scope(){try{var C=window.__KXS;if(C&&C.g)return"g_"+C.g}catch(e){}try{if(window.__KXSURF==="lib"||window.__KXSURF==="story")return window.__KXSURF}catch(e){}var p=location.pathname;
  if(/\/library\/(index\.html)?$/.test(p))return"lib";if(/\/library\/[^\/]+\.html$/.test(p))return"story";return"hub"}
 var K="KX_ZOOM_"+scope();
@@ -1010,7 +910,7 @@ function get(){var z=1;try{z=+localStorage.getItem(K)||1}catch(e){}return STEPS.
 function put(z){try{if(z===1)localStorage.removeItem(K);else localStorage.setItem(K,String(z))}catch(e){}}
 function apply(z){var el=document.documentElement;if(!el)return;var on=z!==1;if(on)el.style.zoom=String(z);else el.style.removeProperty("zoom");
  var b=document.getElementById("kxzm");if(b)b.setAttribute("data-z",Math.round(z*100)+"%");
- var o=document.getElementById("kxzs");if(o){o.style.zoom=on?String(1/z):"";var p=o.querySelector(".p");if(p)p.textContent=Math.round(z*100)+"%"}}   /* the strip keeps its own size whatever the page's zoom */
+ var o=document.getElementById("kxzs");if(o){o.style.zoom=on?String(1/z):"";var p=o.querySelector(".p");if(p)p.textContent=Math.round(z*100)+"%"}}    
 function css(){if(document.getElementById("kxzmcss"))return;var st=document.createElement("style");st.id="kxzmcss";
  st.textContent="#kxzs{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:2147483612;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:var(--kx-n1,#14284b);box-shadow:0 0 0 2px var(--kx-a,#d4a84b),0 10px 26px rgba(0,0,0,.4);font:800 15px/1 system-ui,'Segoe UI',sans-serif}"
   +"#kxzs button{min-width:52px;height:48px;border-radius:999px;border:0;background:#fff;color:#14284b;font:900 22px/1 system-ui,sans-serif;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 10px}"
@@ -1029,8 +929,8 @@ function strip(btn){css();var o=document.getElementById("kxzs");if(o){o.remove()
  [].forEach.call(o.querySelectorAll("button"),function(b){b.onclick=function(ev){ev.stopPropagation();var d=+b.getAttribute("data-d"),z=get(),i=STEPS.indexOf(z);
   z=d===0?1:STEPS[Math.max(0,Math.min(STEPS.length-1,i+d))];put(z);apply(z);place();bump()}});
  setTimeout(function(){document.addEventListener("click",function off(ev){if(!o.isConnected){document.removeEventListener("click",off,true);return}if(!o.contains(ev.target)&&ev.target!==btn){o.remove();document.removeEventListener("click",off,true)}},true)},0)}
-/* the 🔍 rides the top bar beside ⛶ — KORTEX (#bFs), a game (#kxmt-f), the library and its stories (before Exit) */
-function anchor(){var zs=document.getElementById("kxnZ");if(zs)return[zs,"in","kn kxzmk"];   /* (21 Nov, 8.2) the game bar's own place for it, after Next */
+ 
+function anchor(){var zs=document.getElementById("kxnZ");if(zs)return[zs,"in","kn kxzmk"];    
  var f=document.getElementById("kxmt-f");if(f&&f.tagName==="BUTTON")return[f,"after",f.className];
  var h=document.getElementById("bFs");if(h)return[h,"after",h.className];
  var x=document.getElementById("tbX");if(x&&x.closest(".tb"))return[x,"before","nb kxzmn"];
@@ -1053,26 +953,23 @@ function mount(){if(!document.body)return;var b=document.getElementById("kxzm");
 apply(get());
 function go(){apply(get());mount()}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
-setInterval(mount,1200);   /* bars that redraw (every story page turn) get their 🔍 back */
+setInterval(mount,1200);    
 addEventListener("resize",function(){apply(get())});
 window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply(z)},key:K,steps:STEPS,word:word,names:ZM};
 })();
-/* R82 — her §4 R18 and the themed-name rule, enforced on the screen instead of by hand.
-   A button says its THEME'S OWN name on top and the plain meaning in italics underneath. The hub speaks KORTEX Launchpad,
-   each game speaks its own of the sixteen, so the same control is 🎛️ Flight Deck here and 🧰 Dig Kit on Dino Island.
-   Nothing stands bare (an icon with no name) and nothing stands plain (a word with no theme).
-   Loaded after kxthemes.js and kxskin.js, and re-run whenever a screen is drawn. */
+
+
 (function () {
   var W = typeof window !== 'undefined' ? window : {}; if (W.KXLBL) return;
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] }) }
-  /* the button found by its id: [theme word key, the plain meaning in italics underneath ('' = keep what the button already says)] */
+   
   var BYID = {
     bSnd: ['snd', 'Sound'], bFs: ['fs', 'Full Screen'], bCur: ['cur', 'Pointer'], cSY: ['yr', ''],
     bTools: ['tls', 'Tools'], bAbout: ['abt', ''], bInst: ['ins', 'Install'],
     msnWs: ['wks', "This Week's Worksheets"], msnAs: ['ans', 'Answer Sheets'], bRead: ['rdd', 'I Read Today'],
     msnP: ['back', 'Back'], msnF: ['nxt', 'Next']
   };
-  /* the button found by the words it already says, when it has no id of its own */
+   
   var BYWORD = [
     [/^tools$/i, 'tls', 'Tools'], [/^install$/i, 'ins', 'Install'], [/^full screen$/i, 'fs', 'Full Screen'],
     [/^(cursor|pointer|mouse pointer)$/i, 'cur', 'Pointer'], [/^sound$/i, 'snd', 'Sound'],
@@ -1080,7 +977,7 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     [/^answer sheets$/i, 'ans', 'Answer Sheets'], [/worksheets$/i, 'wks', "This Week's Worksheets"],
     [/^sound (on|off)$/i, 'snd', ''], [/^sign off\b/i, 'exit', 'Log Out'], [/^hq$/i, 'home', 'HQ'], [/^log ?out$/i, 'exit', 'Log Out']
   ];
-  /* R18's other half: a button with no theme word of its own says its English on top and the Filipino in italics underneath */
+   
   var FIL = {
     'teacher': 'Guro', 'learner': 'Mag-aaral', 'parent': 'Magulang', 'save and reports': 'I-save at Ulat',
     'copy': 'Kopyahin', 'clear': 'Burahin', 'new round': 'Bagong Ikot', 'class grid': 'Talaan ng Klase',
@@ -1089,7 +986,7 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     'edit': 'Baguhin', 'add': 'Magdagdag', 'search': 'Hanapin', 'yes': 'Oo', 'no': 'Hindi', 'done': 'Tapos na',
     'send': 'Ipadala', 'accept': 'Tanggapin', 'back': 'Bumalik', 'next': 'Susunod', 'hide': 'Itago', 'show': 'Ipakita', 'exit': 'Lumabas', 'home': 'Tahanan', 'look': 'Tema', 'scan qr': 'I-scan ang Card ng Learner',
     'trigger node': 'Pick the Next Learner', 'full screen': 'Buong Tabing', 'sound': 'Tunog', 'pointer': 'Panturo',
-    /* R85: the words the deep label scan found standing alone inside Tools */
+     
     'whole class': 'Buong Klase', 'log reading': 'Itala ang Pagbasa', 'class analytics': 'Pagsusuri ng Klase',
     'general scoreboard': 'Pangkalahatang Talaan ng Marka', 'kortex usage': 'Paggamit ng KORTEX', 'learner progress': 'Pag-unlad ng Mag-aaral',
     'assessment blueprint': 'Plano ng Pagtatasa', 'item analysis': 'Pagsusuri ng Aytem', 'competency mastery': 'Kahusayan sa mga Kasanayan',
@@ -1100,11 +997,11 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     'deped orders': 'Mga Kautusang Pangkagawaran', 'deped memoranda': 'Mga Memorandum ng DepEd', 'remove': 'Alisin',
     'participation': 'Paglahok', 'helping others': 'Pagtulong sa Iba', 'kindness': 'Kabaitan', 'good listening': 'Mahusay na Pakikinig',
     'rescue': 'Pagsagip', 'needs a reminder': 'Kailangang Paalalahanan',
-    /* (A2) the sign-in door */
+     
     'sign in': 'Mag-sign In', 'forgot pin': 'Nakalimutan ang PIN', 'use fingerprint': 'Gamitin ang Fingerprint', 'sign in again': 'Pumasok Muli'
   };
-  /* R86 (review #3): the words a button says in plain English, and the key of the theme's own name for it (kxthemes.js XV, sixteen voices).
-     The theme's name goes on top; the button's own English words become the plain meaning in italics underneath (R82). First match wins. */
+  
+
   var ACT = [
     [/^(print save pdf|save pdf|save week pdf|save sf \d+ pdf|save selected pdf)\b/, 'pdf'], [/^print code cards\b/, 'cards'],
     [/^(save|i save)\b/, 'save'], [/^print\b/, 'print'], [/^(open|buksan)\b/, 'open'], [/^close\b/, 'close'], [/^cancel\b/, 'cancel'],
@@ -1125,15 +1022,15 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
   ];
   function actFor(pl) { var k = String(pl || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); if (!k) return null;
     for (var i = 0; i < ACT.length; i++) if (ACT[i][0].test(k)) return ACT[i][1]; return null }
-  /* the first line of a button that already carries a second line */
+   
   function firstLine(b, had) { var c = b.cloneNode(true), x = c.querySelectorAll('small,i:not(.ic):not(.kxbd):not(.em),em,.kxt-c,br,span.f,span.d'); for (var i = 0; i < x.length; i++) x[i].remove(); return (c.textContent || '').replace(/\s+/g, ' ').trim() }
-  /*HUBLEX-BEGIN*/
+   
   var HUBLEX = {"deped updates":["📡","Signal Relay"],"attendance alerts":["🔔","Absence Beacon"],"mark a day":["📋","Roll Call Log"],"class goals":["🎯","Mission Targets"],"mark all present":["✅","All Hands on Deck"],"profile":["🪪","Crew File"],"guide lines":["📏","Flight Lines"],"worksheet questions":["✏️","Quest Forge"],"worksheet answer key":["💾","Quest Pack"],"new test":["➕","New Probe"],"calibrated quiz questions":["✏️","Calibration Forge"],"blank answer sheet":["🔵","Signal Grid"],"open answer sheet":["🔵","Open Signal Grid"],"lesson plan":["📄","Flight Plan"],"lesson plan no annotation":["📄","Clean Flight Plan"],"lesson plan with annotation":["📝","Annotated Flight Plan"],"cot files":["📎","Evidence Bay"],"intervention remedial action plan":["📋","Rescue Protocol"],"parental commitment forms":["🤝","Home Crew Pact"],"progress logs":["📅","Recovery Log"],"lesson presentation library":["🎞️","Briefing Reels"],"cot classroom observations":["🔭","Observation Runs"],"home reading sheet":["💾","Home Orbit Sheet"],"whole class":["👥","Full Crew"],"log reading":["📖","Log the Voyage"],"reports catalog":["🗂️","Report Hangar"],"charts and filters":["📈","Telemetry"],"view log":["📜","Flight Recorder"],"class analytics":["📊","Command Overview"],"kortex usage":["🛰️","Orbit Traffic"],"learner progress":["📈","Ascent Tracks"],"assessment blueprint":["🧭","Probe Blueprint"],"item analysis":["🔎","Deep Scan"],"competency mastery":["🎯","Mastery Radar"],"bow spread":["🗺️","Course Map"],"learner updates":["🧒","Crew Dispatch"],"goal certificates":["🎓","Target Medals"],"reading log":["📖","Voyage Log"],"learner notes":["🗒️","Crew Notes"],"parent consent":["📝","Launch Consent"],"family update":["📮","Home Transmission"],"family code slips":["🔑","Access Slips"],"this learner s file":["💾","Cadet Capsule"],"learner qr cards":["🪪","Boarding Cards"],"stars by game":["⭐","Star Map"],"difficulty by game":["🎚️","Thrust Levels"],"mark read":["✔️","Signal Received"],"who needs help":["🤝","Rescue Radar"],"attendance":["📋","Roll Call"],"worksheets":["🖨️","Quest Sheets"],"portfolio pack":["🗂️","Proof Vault"],"my grade 1 journey":["🌱","Voyage Keepsake"],"share kortex":["📱","Boarding Pass"],"technical certification":["🏅","Flight Clearance"],"read my lis sf 1":["📥","Dock the LIS Register"],"read my class records":["📥","Dock the Class Records"],"use all suggestions":["✅","Accept the Autopilot"],"all learners zip":["⬇️","Fleet Archive"],"class link":["🔗","Boarding Link"],"my profile":["🪪","My Crew File"],"school ns report":["🏫","Fleet Health Report"],"official workbook":["⬇️","Flight Workbook"],"vault backup":["📦","Vault Capsule"],"restore":["⤴","Re-Entry"],"school calendar":["🗓️","Orbit Calendar"],"roster template":["📋","Crew Manifest"],"checked":["✅","Systems Go"],"presenter view":["🎤","Briefing Console"],"presenter s guide":["🖨️","Briefing Notes"],"12 hour clock am pm":["🕰️","Twelve-Hour Orbit"],"default text":["↺","Original Signal"],"all":["🌌","Full Sky"],"what it is":["☄️","The Mission"],"14 games":["🎮","The Fleet"],"matatag bow":["🗺️","Course Chart"],"data privacy":["🛡️","Shield Code"],"how it works":["⚙️","Engine Room"],"authorship record":["📜","Planck Ledger"]};
   var THEMED = {"snap score":1,"ascent ladder":1,"climb the ladder":1,"travel clearance deck":1,"form foundry":1,"theme studio":1,"lift off":1,"dock in accept scores":1,"beam up send scores":1,"lesson plan studio":1,"pick your dux vitae":1,"change dux vitae":1,"pick your ad astra":1,"change ad astra":1,"change your ad astra":1,"constellation studio":1,"question nebula":1,"records bay":1,"summit ledger":1,"observatory deck":1,"gravity check":1,"signal relay":1,"planck ledger":1,"crypto shield":1,"teleport drive":1,"event horizon":1,"zero state":1,"absolute freeze":1,"coherence check":1,"mission briefing":1,"spectrum render":1,"phase shift":1,"orbit clock":1,"entangled pairs":1,"vector state":1,"ground state":1,"launch dossier":1,"masterfile vault":1,"quantum lattice":1,"superposition data":1,"qubit registry":1,"wander map":1,"e class record":1};
-  /*HUBLEX-END*/
+   
   function norm(t) { return String(t || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim() }
-  /* R86: each game's own controls, named once in that game's own voice (its identity does not change with the mascot theme); the
-     plain meaning rides in italics. [emoji, name, plain] — or ['@key', plain] for one of the sixteen-voice words of the screen's theme. */
+  
+
   var GID = ''; try { GID = (W.__KXS && W.__KXS.g) || '' } catch (e) { }
   var GAMELEX = {
     '*': { 'all present': ['✅', 'All Hands on Deck'], 'mark all here': ['✅', 'All Hands on Deck'] },
@@ -1166,19 +1063,19 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
   };
   function gameLex(T, k) { var e = (GAMELEX[GID] || {})[k] || GAMELEX['*'][k]; if (!e) return null;
     if (e[0].charAt(0) === '@') { var tw = T[e[0].slice(1)]; return tw ? [tw[0], tw[1], e[1]] : null } return e }
-  /* the theme's own name for what a button says: the sixteen-voice action table first, then KORTEX's own names for its panels */
+   
   function lexFor(T, text, b) { var k = norm(text); if (!k) return null;
-    try { if (W.__kxRuleFor && W.__kxRuleFor(String(text || '').replace(/\s+/g, ' ').trim(), b)) return null } catch (e) { }   /* this game names it itself (its own Tools voice) */
+    try { if (W.__kxRuleFor && W.__kxRuleFor(String(text || '').replace(/\s+/g, ' ').trim(), b)) return null } catch (e) { }    
     var ge = gameLex(T, k); if (ge) return ge;
     var a = actFor(k); if (a && T[a]) return T[a];
     if (HUBLEX[k]) return HUBLEX[k];
     for (var j = 0; j < BYWORD.length; j++) if (BYWORD[j][0].test(k) && T[BYWORD[j][1]]) return T[BYWORD[j][1]];
     return null }
-  /* §4 Values and Names (R83 · R86): a chip whose face is the value it sets, and a tile that is the name of a thing, are not renamed */
+   
   var VALSEL = '[data-kxval],[data-v],[data-cur],[data-per],.pd-f>button,.kxsb,.rd-m,.rd-f,.tcy,.tcn,.drawn,.tps';
   var NAMESEL = '[data-kxname],.tt,.tile,.cvb,.ft-c,.ks-c,.affm,.rd-c';
   var OFFICIAL = /^(sf \d|deped (orders|memoranda)\b)/;
-  /* does KORTEX know this top line as one of its own names? (a theme word of the screen, a panel name, an official form) */
+   
   function known(text) { var k = norm(text); if (!k) return false; if (THEMED[k] || OFFICIAL.test(k)) return true;
     var T = theme() || {}, x; for (x in T) if (T[x] && T[x].length === 2 && typeof T[x][1] === 'string' && norm(T[x][1]) === k) return true;
     for (x in HUBLEX) if (norm(HUBLEX[x][1]) === k) return true;
@@ -1186,7 +1083,7 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     try { var TH = (W.__KXS && W.__KXS.th) || {}; for (x in TH) if (TH[x] && TH[x].l && norm(String(TH[x].l).replace(/^[^A-Za-z0-9]+/, '')) === k) return true } catch (e) { }
     return false }
   function WRAP(top, plain) { return '<span class="kxt-w"><span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span><\/span>' }
-  /* a button that carries a picture or a badge keeps it: only its word is exchanged for the two lines */
+   
   function swapText(b, top, plain, keepRest) {
     var tw = document.createTreeWalker(b, NodeFilter.SHOW_TEXT, null), tn, hit = null, rest = [];
     while ((tn = tw.nextNode())) { var p = tn.parentNode; if (p && p.closest && p.closest('small,i,em,.kxt-c,.kxl2,.kxt-w,.kxbd,span.f,span.d')) continue;
@@ -1195,7 +1092,7 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     var sp = document.createElement('span'); sp.className = 'kxt-w'; sp.innerHTML = '<span class="kxt-l">' + esc(top) + '<\/span><span class="kxt-c">' + esc(plain) + '<\/span>';
     hit.parentNode.replaceChild(sp, hit); if (!keepRest) for (var i = 0; i < rest.length; i++) rest[i].nodeValue = ''; return true;
   }
-  /* a tile that says only a game's name wears that game's own line underneath it */
+   
   var GAMES = {
     'ABC SPRINT': 'Trace. Link. Build.', 'MONTAGE': 'Revue. Tapestry. Vanguard.', '365 SMARTY': 'Brain. Bold. Best.',
     'PEDAGOGICAL BLUEPRINTS': 'Orchestrate. Configure. Codify.', 'BALANGAY SIKHAY': 'Decode. Track. Fluent.',
@@ -1205,12 +1102,12 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     'CRYPTO CORE': 'Prompt. Isolate. Activate.',
     'PlaySphere': 'Outsmart. Outplay. Outlast.', 'PED. BLUEPRINTS': 'Orchestrate. Configure. Codify.'
   };
-  /* a button that is nothing but a symbol: the symbol says which control it is, the theme says what to call it */
+   
   var GLYPH = { '\u26f6': ['fs', 'Full Screen'], '\u2922': ['fs', 'Full Screen'], '\u{1f50a}': ['snd', 'Sound'], '\u{1f507}': ['snd', 'Sound'],
                 '\u{1f509}': ['snd', 'Sound'], '\u{1f3e0}': ['home', 'Home'], '\u{1f5b1}\ufe0f': ['cur', 'Pointer'], '\u{1f5b1}': ['cur', 'Pointer'],
                 '\u00a9': ['auth', 'Authorship'], '\u{1f3b2}': ['rnd', 'Random pick'], '\u23f9': ['stop', 'Stop'], '\u{1f4fa}': ['live', 'On the big screen'],
                 '\u23ee': ['prev', 'Previous'], '\u23f8': ['pause', 'Pause'], '\u23ed': ['nxt', 'Next'], '\u{1f3b5}': ['music', 'Music'], 'Aa': ['textsize', 'Text size'] };
-  /* a character portrait is not a labeled control: the mascot keeps its face and says its name on tap */
+   
   function portrait(b) { return !!(b.className && /kxmasc|kxh-|avc/.test(b.className)) }
   function theme() { try { return W.__KXT || (W.KXTH && W.KXTH.cur && W.KXTH.cur()) || null } catch (e) { return null } }
   function words(b) { return (b.innerText || '').replace(/\s+/g, ' ').trim() }
@@ -1227,12 +1124,12 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     var els = (root || document).querySelectorAll('button,a.btn,[role=button],label.btn');
     for (var i = 0; i < els.length; i++) {
       var b = els[i]; if (b.getAttribute('data-kxl') === b.innerHTML) continue;
-      if (b.closest && b.closest('[data-kxlskip]')) continue;   /* a layer that draws its own two lines (Screen 3) is read by the label scan as it stands */
-      if (portrait(b)) continue;                       /* §4 Portraits: a face, not a word */
-      if (b.hasAttribute('data-v') || b.closest('.kxh-sw')) continue;   /* a color swatch is a color */
-      if (b.matches(NAMESEL)) continue;                                 /* a name tile is its name */
-      var isVal = b.matches(VALSEL);                                    /* a value chip is its value: never renamed */
-      /* a button that already wears a second line is right as it stands: the stylesheet puts it in italics */
+      if (b.closest && b.closest('[data-kxlskip]')) continue;    
+      if (portrait(b)) continue;                        
+      if (b.hasAttribute('data-v') || b.closest('.kxh-sw')) continue;    
+      if (b.matches(NAMESEL)) continue;                                  
+      var isVal = b.matches(VALSEL);                                     
+       
       var had = null, hs = b.querySelectorAll('small,i:not(.ic):not(.kxbd):not(.em),em,.kxt-c,span.f');
       for (var hi = 0; hi < hs.length && !had; hi++) if ((hs[hi].textContent || '').trim()) had = hs[hi];
       if (had && (had.textContent || '').trim()) {
@@ -1243,21 +1140,21 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
         var aw = lexFor(T, fl, b);
         if (!aw) continue;
         var pm = aw[2] || fl.replace(/^[^A-Za-z0-9]+/, '').replace(/\s+/g, ' ').trim(), sec = (had.textContent || '').replace(/\s+/g, ' ').trim();
-        if (/^print save pdf$/.test(norm(pm))) { pm = 'Save PDF'; sec = 'I-save ang PDF' }   /* R19: a tool saves; the Print Center prints */
+        if (/^print save pdf$/.test(norm(pm))) { pm = 'Save PDF'; sec = 'I-save ang PDF' }    
         if (aw === T.pdf && /^i-?print/i.test(sec)) sec = 'I-save ang PDF';
         var tbw = b.querySelector('.tbw'), tbi = b.querySelector('.tbi');
-        if (tbw && had.classList.contains('tbf')) {   /* a tab bar that draws icon, word and line in its own three parts keeps them */
+        if (tbw && had.classList.contains('tbf')) {    
           tbw.textContent = aw[1]; if (tbi) tbi.textContent = aw[0]; had.textContent = pm + (sec && norm(sec) !== norm(pm) ? ' \u00b7 ' + sec : '');
           b.title = aw[1] + ' \u00b7 ' + pm; b.setAttribute('data-kxth', '1'); b.setAttribute('data-kxl', b.innerHTML); n++; continue }
         var pic = b.querySelector('img,svg,.kxbd,[data-keep],input'), shortTr = sec.length <= 30 && !/[.!?,]/.test(sec);
         if (pic) {
           if (!swapText(b, aw[1], pm + (shortTr && norm(sec) !== norm(pm) ? ' · ' + sec : ''), true)) continue;
-          if (shortTr && had.parentNode) had.parentNode.removeChild(had);   /* a short translation rides in the plain line; a description stays where it stands */
+          if (shortTr && had.parentNode) had.parentNode.removeChild(had);    
         } else b.innerHTML = WRAP((aw[0] ? aw[0] + ' ' : '') + aw[1], pm + (sec && norm(sec) !== norm(pm) ? ' · ' + sec : ''));
         b.title = aw[1] + ' · ' + pm; b.setAttribute('data-kxth', '1'); b.setAttribute('data-kxl', b.innerHTML); n++; continue;
       }
       var actw = null, said = words(b), pl = plainOf(b), ar = (b.getAttribute('aria-label') || b.title || '');
-      /* a control this game names in its own Tools voice (her per-game list) is left to the game's skin, whatever it shows now: a word, or a bare symbol with a name */
+       
       try { if (!isVal && W.__kxRuleFor && W.__kxRuleFor(pl || ar.split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim(), b)) continue } catch (e) { }
       var top = said, plain = '', w = null;
       var spec = isVal ? null : BYID[b.id];
@@ -1268,32 +1165,32 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
           spec = [BYWORD[j][1], BYWORD[j][2]];
       if (spec) { w = T[spec[0]]; plain = spec[1] || pl; if (!w) continue; top = (w[0] ? w[0] + ' ' : '') + w[1]; }
       else if (GAMES[said]) { plain = GAMES[said]; }
-      else if (!isVal && !pl && lexFor(T, (b.getAttribute('aria-label') || b.title || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0], b)) {   /* a bare symbol whose name is known: the theme's word, the name in italics */
+      else if (!isVal && !pl && lexFor(T, (b.getAttribute('aria-label') || b.title || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0], b)) {    
         var nm0 = (b.getAttribute('aria-label') || b.title || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim(); w = lexFor(T, nm0, b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = nm0; actw = w; }
       else if (!isVal && pl && lexFor(T, pl, b) && !b.querySelector('input,select')) { w = lexFor(T, pl, b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = w[2] || said.replace(/^[^A-Za-z0-9]+/, '').trim() || pl; actw = w;
-        if (/^print save pdf$/.test(norm(plain))) plain = 'Save PDF';                       /* R19: a tool saves; the Print Center prints */
-        var fk = FIL[norm(pl)] || FIL[pl.toLowerCase()]; if (fk) plain += ' \u00b7 ' + fk; }   /* her Filipino line rides along */
-      else if (!isVal && said.indexOf(' \u00b7 ') > 0 && !b.children.length && lexFor(T, said.slice(0, said.indexOf(' \u00b7 ')), b)) {   /* "Name · what it is" on one line */
+        if (/^print save pdf$/.test(norm(plain))) plain = 'Save PDF';                        
+        var fk = FIL[norm(pl)] || FIL[pl.toLowerCase()]; if (fk) plain += ' \u00b7 ' + fk; }    
+      else if (!isVal && said.indexOf(' \u00b7 ') > 0 && !b.children.length && lexFor(T, said.slice(0, said.indexOf(' \u00b7 ')), b)) {    
         w = lexFor(T, said.slice(0, said.indexOf(' \u00b7 ')), b); top = (w[0] ? w[0] + ' ' : '') + w[1]; plain = said.replace(/^[^A-Za-z0-9]+/, '').trim(); actw = w; }
       else {
         var k = (pl || ar.split('\u00b7')[0]).toLowerCase().replace(/[!?.]+$/, '').trim();
         plain = FIL[k] || '';
-        if (!pl) {   /* R85: a bare symbol whose name is known (its title or aria-label) says the symbol and the name on top, the Filipino underneath */
+        if (!pl) {    
           var nm = (b.title || ar || '').split(' (')[0].split(' \u00b7 ')[0].split(' for ')[0].trim();
           if (nm && FIL[nm.toLowerCase()]) { top = said + ' ' + nm; plain = FIL[nm.toLowerCase()]; } else plain = '';
         }
-        if (!plain && !b.children.length && said.indexOf(' \u2022 ') > 0) {   /* "Name • what it is": the name on top, the rest in italics */
+        if (!plain && !b.children.length && said.indexOf(' \u2022 ') > 0) {    
           var cb = said.indexOf(' \u2022 '); top = said.slice(0, cb); plain = said.slice(cb + 3);
           var wb = lexFor(T, top, b); if (wb) { w = wb; top = (wb[0] ? wb[0] + ' ' : '') + wb[1]; plain = (wb[2] || said.slice(0, cb).replace(/^[^A-Za-z0-9]+/, '')) + ' \u2022 ' + plain; actw = wb }
         }
-        if (!plain && !b.children.length && said.indexOf(' \u00b7 ') > 0) {   /* R85: a plain "Name · what it is" on one line: the name on top, the rest in italics underneath */
+        if (!plain && !b.children.length && said.indexOf(' \u00b7 ') > 0) {    
           var cut = said.indexOf(' \u00b7 '); top = said.slice(0, cut); plain = said.slice(cut + 3);
         }
         if (!plain) continue;
       }
-      /* a button that carries a picture or a badge keeps it: the second line is added beneath, never over it */
+       
       if (b.querySelector('img,svg,.kxbd,[data-keep],input')) {
-        if (actw) { if (!swapText(b, actw[1], plain)) continue }   /* a pictured button: the picture stays, its word becomes the theme's two lines */
+        if (actw) { if (!swapText(b, actw[1], plain)) continue }    
         else { var sm = document.createElement('small'); sm.className = 'kxl2'; sm.textContent = plain; b.appendChild(sm) }
       } else if (actw) {
         b.innerHTML = WRAP(top, plain);
@@ -1307,7 +1204,7 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
     }
     return n;
   }
-  /* every second line a button wears is italic, whoever drew it (R18: the plain meaning sits in italics underneath) */
+   
   function style() {
     if (document.getElementById('kxlblcss')) return;
     var st = document.createElement('style'); st.id = 'kxlblcss';
@@ -1318,8 +1215,8 @@ window.KXZOOM={get:get,set:function(z){if(STEPS.indexOf(z)<0)return;put(z);apply
       + '.kxt-w .kxt-l{display:block;font-style:normal;white-space:normal}.kxt-w .kxt-c{display:block;font-style:italic;font-size:.72em;font-weight:600;opacity:.9;margin-top:1px;white-space:normal;text-transform:none;letter-spacing:0}'
       + 'button.kxt,a.btn.kxt{flex-direction:column!important}'
       + 'button:has(>.kxt-l),a.btn:has(>.kxt-l),[role=button]:has(>.kxt-l),#kxzm{flex-direction:column!important}'
-      /* a chip that carries a picture, a game's name and that game's own line (🎯 Today's Mission — Play This Week): the line sits UNDER the name, the picture beside both */
-      + '.msn-p button:has(>.kxl2),.msn-w button:has(>.kxl2){display:inline-grid!important;grid-template-columns:auto auto;column-gap:6px;row-gap:0;align-items:center;justify-items:start;text-align:left}.msn-p button:has(>.kxl2)>img,.msn-w button:has(>.kxl2)>img{grid-row:1 / span 2}.msn-p button>.kxl2,.msn-w button>.kxl2{grid-column:2;display:block}'   /* the plain line sits UNDER its name in a bar that lays its keys out in a row, too */
+       
+      + '.msn-p button:has(>.kxl2),.msn-w button:has(>.kxl2){display:inline-grid!important;grid-template-columns:auto auto;column-gap:6px;row-gap:0;align-items:center;justify-items:start;text-align:left}.msn-p button:has(>.kxl2)>img,.msn-w button:has(>.kxl2)>img{grid-row:1 / span 2}.msn-p button>.kxl2,.msn-w button>.kxl2{grid-column:2;display:block}'    
       + 'button[data-kxl="1"]{line-height:1.1}';
     (document.head || document.documentElement).appendChild(st);
   }
