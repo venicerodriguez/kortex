@@ -7,5 +7,5 @@ self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||e.request.url.ind
 /* the pages are kept for offline use one at a time, after the first page has had the line to itself (kx/play/swfix.py) */
 let kxBusy=false;const kxWait=ms=>new Promise(r=>setTimeout(r,ms));
 async function kxFill(d){if(kxBusy)return;kxBusy=true;try{await kxWait(d);const c=await caches.open(C);for(const u of G){if(await c.match(u,{ignoreSearch:true}))continue;try{const r=await fetch(u);if(r&&r.ok)await c.put(u,r)}catch(e){return}await kxWait(1200)}for(const p of H){let h=await c.match(p[0]);if(!h){h=await c.match(p[0],{ignoreSearch:true});if(!h){try{const r=await fetch(p[0]);if(r&&r.ok)h=r}catch(e){}}if(h)await c.put(p[0],h.clone())}if(h&&p[1]&&!(await c.match(p[1])))await c.put(p[1],h.clone())}}catch(e){}finally{kxBusy=false}}
-self.addEventListener('activate',e=>{e.waitUntil(kxFill(25000))});
+self.addEventListener('activate',e=>{kxFill(25000)});
 self.addEventListener('fetch',e=>{if(e.request.method==='GET')e.waitUntil(kxFill(8000))});
