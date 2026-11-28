@@ -65,6 +65,7 @@ try {
 } catch (e) {}
 var FULL = false; try { FULL = /\/(?:kk|k[1-6])f\//.test(W.top.location.pathname || '') } catch (e) { try { FULL = /\/(?:kk|k[1-6])f\//.test(location.pathname || '') } catch (e2) {} }
 var GAME = /\/games\//.test(location.pathname || '');
+if (!FULL) W.__KXWK1 = true;
 try { if (!GAME && W.parent !== W) GAME = /\/games\//.test(W.parent.location.pathname || '') } catch (e) {}
 var NOTE = 'Sa Play app, sample class lamang: walang pangalan, LRN, marka o record na maitatype o maipapasok. · ' +
            'In the Play app the class is the sample class only: no name, LRN, score or record can be typed or loaded.';
@@ -337,6 +338,18 @@ function sheets() {
 if (!GAME) { var sn = 0, si = setInterval(function () { var o = D.getElementById('ov'); if (o) { clearInterval(si); try { new MutationObserver(function () { try { sheets() } catch (e) {} }).observe(o, { childList: true, subtree: true }); sheets() } catch (e) {} } else if (++sn > 400) clearInterval(si) }, 25) }
 var TOOLRX = /(?:^|[^A-Za-z0-9_$.])(?:go\(\s*\{\s*s\s*:\s*['"](?:tools|qa|roster|prof|look|av|bak|sec|cert|tos|imp|collab)['"]|go\(\s*['"](?:setup|tools|qa|edit|bank|roster|print|collab|reports)['"]|gate\(\s*['"](?:setup|tools|board|reports)['"]|settings\(\)|tools\(\)|openGT\(|pSetup\(|needPin\(|pinGate\(|resetAsk\(|kxRDS\(|manSave|saveSet\()/,
     TOOLTX = /(?:Game Tools|Mga Kagamitan ng Laro|Teacher Tools|Teacher Corner|Edit Questions|Question Bank|Restore Default Set|Clear Scores)(?![A-Za-z])/i;
+var FILETX = /(?:PDF|\bPrint|Download|I-download|Export|Backup|Back Up|I-backup|Save File|Save Picture|Save the (?:Letter|Photos)|Portfolio Pack|Worksheet|Log It|Dev Log|Authorship|Pagkamay-akda|Flight Record|CSV|Excel|Share|Ibahagi)/i,
+    FILESX = /Save (?:as )?PDF|Print \/ Save|Print or Save|I-print|I-download|Dev Log|Authorship|Flight Record|Log It|My Worksheets|Print Center|Print Exercises/i,
+    SIGNX = /^[\u2190-\u2BFF\uD83C-\uD83E]/;
+function fileish(b) {
+  if (!b || !b.closest || b.closest('#kxPlayNote,#kxpSheet')) return false;
+  var t = (b.textContent || '').replace(/^(?:\s|\uD83D\uDD12|\u2060)+/, '').replace(/\s+/g, ' ');
+  return t.length < 90 && FILETX.test(t) && (SIGNX.test(t) || FILESX.test(t));
+}
+D.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest && e.target.closest('button,a,[role=button],[data-kx]');
+  if (b && !toolish(b) && fileish(b)) return block(e, FNOTE);
+}, true);
 function toolish(b) {
   if (!b || !b.closest) return false;
   if (b.closest('#kxPlayNote,#kxpSheet,#signin')) return false;
@@ -374,7 +387,7 @@ var tk = 0, tki = setInterval(function () {
 }, 50);
 function tools() {
   [].forEach.call(D.querySelectorAll('button,a,[role=button],[data-kx]'), function (b) {
-    if (b.__kxt || !toolish(b)) return; b.__kxt = 1; b.setAttribute('aria-disabled', 'true'); b.style.opacity = '.55';
+    if (b.__kxt || !(toolish(b) || fileish(b))) return; b.__kxt = 1; b.setAttribute('aria-disabled', 'true'); b.style.opacity = '.55';
     if ((b.textContent || '').indexOf(LK) < 0) b.insertBefore(D.createTextNode('🔒 '), b.firstChild);
   });
 }
